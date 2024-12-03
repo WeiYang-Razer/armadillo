@@ -840,7 +840,7 @@ pow(const T1& A, const typename T1::elem_type::value_type exponent)
   
   typedef typename T1::elem_type eT;
   
-  return eOp<T1, eop_pow>(A.get_ref(), eT(exponent));
+  return eOp<T1, eop_pow>(A, eT(exponent));
   }
 
 
@@ -849,11 +849,11 @@ template<typename T1>
 arma_warn_unused
 arma_inline
 const eOpCube<T1, eop_pow>
-pow(const BaseCube<typename T1::elem_type,T1>& A, const typename T1::elem_type::value_type exponent)
+pow(const BaseCube<std::complex<typename T1::pod_type>,T1>& A, const typename T1::elem_type::value_type exponent)
   {
   arma_debug_sigprint();
   
-  typedef typename T1::elem_type eT;
+  typedef std::complex<typename T1::pod_type> eT;
   
   return eOpCube<T1, eop_pow>(A.get_ref(), eT(exponent));
   }
