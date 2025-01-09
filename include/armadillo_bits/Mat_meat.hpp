@@ -5242,7 +5242,14 @@ Mat<eT>::operator+=(const eOp<T1, eop_type>& X)
   
   if(bad_alias)  { const Mat<eT> tmp(X); return (*this).operator+=(tmp); }
   
-  eop_type::apply_inplace_plus(*this, X);
+  if( (is_same_type<eop_type, eop_pow>::value) && (X.aux == eT(2)) )
+    {
+    eop_square::apply_inplace_plus(*this, reinterpret_cast< const eOp<T1, eop_square>& >(X));
+    }
+  else
+    {
+    eop_type::apply_inplace_plus(*this, X);
+    }
   
   return *this;
   }
@@ -5263,7 +5270,14 @@ Mat<eT>::operator-=(const eOp<T1, eop_type>& X)
   
   if(bad_alias)  { const Mat<eT> tmp(X); return (*this).operator-=(tmp); }
   
-  eop_type::apply_inplace_minus(*this, X);
+  if( (is_same_type<eop_type, eop_pow>::value) && (X.aux == eT(2)) )
+    {
+    eop_square::apply_inplace_minus(*this, reinterpret_cast< const eOp<T1, eop_square>& >(X));
+    }
+  else
+    {
+    eop_type::apply_inplace_minus(*this, X);
+    }
   
   return *this;
   }
@@ -5301,7 +5315,14 @@ Mat<eT>::operator%=(const eOp<T1, eop_type>& X)
   
   if(bad_alias)  { const Mat<eT> tmp(X); return (*this).operator%=(tmp); }
   
-  eop_type::apply_inplace_schur(*this, X);
+  if( (is_same_type<eop_type, eop_pow>::value) && (X.aux == eT(2)) )
+    {
+    eop_square::apply_inplace_schur(*this, reinterpret_cast< const eOp<T1, eop_square>& >(X));
+    }
+  else
+    {
+    eop_type::apply_inplace_schur(*this, X);
+    }
   
   return *this;
   }
@@ -5322,7 +5343,14 @@ Mat<eT>::operator/=(const eOp<T1, eop_type>& X)
   
   if(bad_alias)  { const Mat<eT> tmp(X); return (*this).operator/=(tmp); }
   
-  eop_type::apply_inplace_div(*this, X);
+  if( (is_same_type<eop_type, eop_pow>::value) && (X.aux == eT(2)) )
+    {
+    eop_square::apply(*this, reinterpret_cast< const eOp<T1, eop_square>& >(X));
+    }
+  else
+    {
+    eop_type::apply_inplace_div(*this, X);
+    }
   
   return *this;
   }
