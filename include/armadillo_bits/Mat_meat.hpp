@@ -5187,9 +5187,7 @@ Mat<eT>::Mat(const eOp<T1, eop_type>& X)
   
   if( (is_same_type<eop_type, eop_pow>::value) && (X.aux == eT(2)) )
     {
-    const eOp<T1, eop_square>& XX = reinterpret_cast< const eOp<T1, eop_square>& >(X);
-    
-    eop_square::apply(*this, XX);
+    eop_square::apply(*this, reinterpret_cast< const eOp<T1, eop_square>& >(X));
     }
   else
     {
@@ -5218,9 +5216,7 @@ Mat<eT>::operator=(const eOp<T1, eop_type>& X)
   
   if( (is_same_type<eop_type, eop_pow>::value) && (X.aux == eT(2)) )
     {
-    const eOp<T1, eop_square>& XX = reinterpret_cast< const eOp<T1, eop_square>& >(X);
-    
-    eop_square::apply(*this, XX);
+    eop_square::apply(*this, reinterpret_cast< const eOp<T1, eop_square>& >(X));
     }
   else
     {
