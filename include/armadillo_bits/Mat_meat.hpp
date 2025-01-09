@@ -5345,7 +5345,7 @@ Mat<eT>::operator/=(const eOp<T1, eop_type>& X)
   
   if( (is_same_type<eop_type, eop_pow>::value) && (X.aux == eT(2)) )
     {
-    eop_square::apply(*this, reinterpret_cast< const eOp<T1, eop_square>& >(X));
+    eop_square::apply_inplace_div(*this, reinterpret_cast< const eOp<T1, eop_square>& >(X));
     }
   else
     {
