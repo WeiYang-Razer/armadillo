@@ -631,7 +631,7 @@ eop_core<eop_type>::apply(Cube<typename T1::elem_type>& out, const eOpCube<T1, e
   const eT  k       = x.aux;
         eT* out_mem = out.memptr();
   
-  const bool use_mp = (arma_config::openmp) && (eOpCube<T1, eop_type>::use_mp || (is_same_type<eop_type, eop_pow>::value && (is_cx<eT>::yes || x.aux != eT(2))));
+  constexpr bool use_mp = (arma_config::openmp) && (eOpCube<T1, eop_type>::use_mp);
   
   if(ProxyCube<T1>::use_at == false)
     {
@@ -710,7 +710,7 @@ eop_core<eop_type>::apply_inplace_plus(Cube<typename T1::elem_type>& out, const 
   const eT  k       = x.aux;
         eT* out_mem = out.memptr();
   
-  const bool use_mp = (arma_config::openmp) && (eOpCube<T1, eop_type>::use_mp || (is_same_type<eop_type, eop_pow>::value && (is_cx<eT>::yes || x.aux != eT(2))));
+  constexpr bool use_mp = (arma_config::openmp) && (eOpCube<T1, eop_type>::use_mp);
   
   if(ProxyCube<T1>::use_at == false)
     {
@@ -785,7 +785,7 @@ eop_core<eop_type>::apply_inplace_minus(Cube<typename T1::elem_type>& out, const
   const eT  k       = x.aux;
         eT* out_mem = out.memptr();
   
-  const bool use_mp = (arma_config::openmp) && (eOpCube<T1, eop_type>::use_mp || (is_same_type<eop_type, eop_pow>::value && (is_cx<eT>::yes || x.aux != eT(2))));
+  constexpr bool use_mp = (arma_config::openmp) && (eOpCube<T1, eop_type>::use_mp);
   
   if(ProxyCube<T1>::use_at == false)
     {
@@ -860,7 +860,7 @@ eop_core<eop_type>::apply_inplace_schur(Cube<typename T1::elem_type>& out, const
   const eT  k       = x.aux;
         eT* out_mem = out.memptr();
   
-  const bool use_mp = (arma_config::openmp) && (eOpCube<T1, eop_type>::use_mp || (is_same_type<eop_type, eop_pow>::value && (is_cx<eT>::yes || x.aux != eT(2))));
+  constexpr bool use_mp = (arma_config::openmp) && (eOpCube<T1, eop_type>::use_mp);
   
   if(ProxyCube<T1>::use_at == false)
     {
@@ -935,7 +935,7 @@ eop_core<eop_type>::apply_inplace_div(Cube<typename T1::elem_type>& out, const e
   const eT  k       = x.aux;
         eT* out_mem = out.memptr();
   
-  const bool use_mp = (arma_config::openmp) && (eOpCube<T1, eop_type>::use_mp || (is_same_type<eop_type, eop_pow>::value && (is_cx<eT>::yes || x.aux != eT(2))));
+  constexpr bool use_mp = (arma_config::openmp) && (eOpCube<T1, eop_type>::use_mp);
   
   if(ProxyCube<T1>::use_at == false)
     {
