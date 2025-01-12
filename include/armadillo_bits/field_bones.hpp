@@ -21,13 +21,6 @@
 
 
 
-struct field_prealloc_n_elem
-  {
-  static constexpr uword val = 16;
-  };
-
-
-
 //! A lightweight 1D/2D/3D container for arbitrary objects
 //! (the objects must have a copy constructor)
 
@@ -46,8 +39,7 @@ class field
   
   private:
   
-  arma_aligned oT** mem;                                     //!< pointers to stored objects
-  arma_aligned oT*  mem_local[ field_prealloc_n_elem::val ]; //!< local storage, for small fields
+  arma_aligned oT** mem;  //!< pointers to stored objects
   
   
   public:

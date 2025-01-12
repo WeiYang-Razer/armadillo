@@ -28,7 +28,7 @@ field<oT>::~field()
   
   delete_objects();
   
-  if(n_elem > field_prealloc_n_elem::val)  { delete [] mem; }
+  if(n_elem > 0)  { delete [] mem; }
   
   // try to expose buggy user code that accesses deleted objects
   mem = nullptr;
@@ -279,6 +279,7 @@ field<oT>::field(const std::vector<oT>& x)
   , n_cols  (0)
   , n_slices(0)
   , n_elem  (0)
+  , mem     (nullptr)
   {
   arma_debug_sigprint_this(this);
   
@@ -312,6 +313,7 @@ field<oT>::field(const std::initializer_list<oT>& list)
   , n_cols  (0)
   , n_slices(0)
   , n_elem  (0)
+  , mem     (nullptr)
   {
   arma_debug_sigprint_this(this);
   
@@ -347,6 +349,7 @@ field<oT>::field(const std::initializer_list< std::initializer_list<oT> >& list)
   , n_cols  (0)
   , n_slices(0)
   , n_elem  (0)
+  , mem     (nullptr)
   {
   arma_debug_sigprint_this(this);
   
@@ -412,18 +415,9 @@ field<oT>::field(field<oT>&& X)
   , n_cols  (X.n_cols  )
   , n_slices(X.n_slices)
   , n_elem  (X.n_elem  )
+  , mem     (X.mem     )
   {
   arma_debug_sigprint(arma_str::format("this: %x; X: %x") % this % &X);
-  
-  if(n_elem > field_prealloc_n_elem::val)
-    {
-    mem = X.mem;
-    }
-  else
-    {
-    arrayops::copy(&mem_local[0], &X.mem_local[0], n_elem);
-    mem = mem_local;
-    }
   
   access::rw(X.n_rows  ) = 0;
   access::rw(X.n_cols  ) = 0;
@@ -450,15 +444,7 @@ field<oT>::operator=(field<oT>&& X)
   access::rw(n_slices) = X.n_slices;
   access::rw(n_elem  ) = X.n_elem;
   
-  if(n_elem > field_prealloc_n_elem::val)
-    {
-    mem = X.mem;
-    }
-  else
-    {
-    arrayops::copy(&mem_local[0], &X.mem_local[0], n_elem);
-    mem = mem_local;
-    }
+  mem = X.mem;
   
   access::rw(X.n_rows  ) = 0;
   access::rw(X.n_cols  ) = 0;
@@ -531,7 +517,7 @@ field<oT>::at(const uword i) const
 
 
 
-//! linear element accessor (treats the field as a vector); bounds checking not done when ARMA_NO_DEBUG is defined
+//! linear element accessor (treats the field as a vector); bounds checking not done when ARMA_DONT_CHECK_CONFORMANCE is defined
 template<typename oT>
 arma_inline
 oT&
@@ -544,7 +530,7 @@ field<oT>::operator() (const uword i)
 
 
 
-//! linear element accessor (treats the field as a vector); bounds checking not done when ARMA_NO_DEBUG is defined
+//! linear element accessor (treats the field as a vector); bounds checking not done when ARMA_DONT_CHECK_CONFORMANCE is defined
 template<typename oT>
 arma_inline
 const oT&
@@ -557,7 +543,7 @@ field<oT>::operator() (const uword i) const
 
 
 
-//! element accessor; bounds checking not done when ARMA_NO_DEBUG is defined
+//! element accessor; bounds checking not done when ARMA_DONT_CHECK_CONFORMANCE is defined
 template<typename oT>
 arma_inline
 oT&
@@ -570,7 +556,7 @@ field<oT>::operator() (const uword in_row, const uword in_col)
 
 
 
-//! element accessor; bounds checking not done when ARMA_NO_DEBUG is defined
+//! element accessor; bounds checking not done when ARMA_DONT_CHECK_CONFORMANCE is defined
 template<typename oT>
 arma_inline
 const oT&
@@ -583,7 +569,7 @@ field<oT>::operator() (const uword in_row, const uword in_col) const
 
 
 
-//! element accessor; bounds checking not done when ARMA_NO_DEBUG is defined
+//! element accessor; bounds checking not done when ARMA_DONT_CHECK_CONFORMANCE is defined
 template<typename oT>
 arma_inline
 oT&
@@ -596,7 +582,7 @@ field<oT>::operator() (const uword in_row, const uword in_col, const uword in_sl
 
 
 
-//! element accessor; bounds checking not done when ARMA_NO_DEBUG is defined
+//! element accessor; bounds checking not done when ARMA_DONT_CHECK_CONFORMANCE is defined
 template<typename oT>
 arma_inline
 const oT&
@@ -1967,32 +1953,31 @@ field<oT>::init(const field<oT>& x)
   {
   arma_debug_sigprint();
   
-  if(this != &x)
+  if(this == &x)  { return; }
+  
+  const uword x_n_rows   = x.n_rows;
+  const uword x_n_cols   = x.n_cols;
+  const uword x_n_slices = x.n_slices;
+  
+  init(x_n_rows, x_n_cols, x_n_slices);
+  
+  field& t = *this;
+  
+  if(x_n_slices == 1)
     {
-    const uword x_n_rows   = x.n_rows;
-    const uword x_n_cols   = x.n_cols;
-    const uword x_n_slices = x.n_slices;
-    
-    init(x_n_rows, x_n_cols, x_n_slices);
-    
-    field& t = *this;
-    
-    if(x_n_slices == 1)
+    for(uword ucol=0; ucol < x_n_cols; ++ucol)
+    for(uword urow=0; urow < x_n_rows; ++urow)
       {
-      for(uword ucol=0; ucol < x_n_cols; ++ucol)
-      for(uword urow=0; urow < x_n_rows; ++urow)
-        {
-        t.at(urow,ucol) = x.at(urow,ucol);
-        }
+      t.at(urow,ucol) = x.at(urow,ucol);
       }
-    else
+    }
+  else
+    {
+    for(uword uslice=0; uslice < x_n_slices; ++uslice)
+    for(uword ucol=0;   ucol   < x_n_cols;   ++ucol  )
+    for(uword urow=0;   urow   < x_n_rows;   ++urow  )
       {
-      for(uword uslice=0; uslice < x_n_slices; ++uslice)
-      for(uword ucol=0;   ucol   < x_n_cols;   ++ucol  )
-      for(uword urow=0;   urow   < x_n_rows;   ++urow  )
-        {
-        t.at(urow,ucol,uslice) = x.at(urow,ucol,uslice);
-        }
+      t.at(urow,ucol,uslice) = x.at(urow,ucol,uslice);
       }
     }
   }
@@ -2046,13 +2031,11 @@ field<oT>::init(const uword n_rows_in, const uword n_cols_in, const uword n_slic
     {
     delete_objects();
     
-    if(n_elem > field_prealloc_n_elem::val)  { delete [] mem; }
+    if(n_elem > 0)  { delete [] mem; }
     
-    if(n_elem_new <= field_prealloc_n_elem::val)
-      {
-      mem = (n_elem_new == 0) ? nullptr : mem_local;
-      }
-    else
+    mem = nullptr;
+    
+    if(n_elem_new > 0)
       {
       mem = new(std::nothrow) oT* [n_elem_new];
       
@@ -2079,11 +2062,7 @@ field<oT>::delete_objects()
   
   for(uword i=0; i<n_elem; ++i)
     {
-    if(mem[i] != nullptr)
-      {
-      delete mem[i];
-      mem[i] = nullptr;
-      }
+    if(mem[i] != nullptr)  { delete mem[i]; mem[i] = nullptr; }
     }
   }
 
