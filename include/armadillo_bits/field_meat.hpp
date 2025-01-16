@@ -2122,31 +2122,13 @@ field<oT>::init(const field<oT>& x)
   
   if(this == &x)  { return; }
   
-  const uword x_n_rows   = x.n_rows;
-  const uword x_n_cols   = x.n_cols;
-  const uword x_n_slices = x.n_slices;
+  field& t = (*this);
   
-  init(x_n_rows, x_n_cols, x_n_slices);
+  t.init(x.n_rows, x.n_cols, x.n_slices);
   
-  field& t = *this;
+  const uword t_n_elem = t.n_elem;
   
-  if(x_n_slices == 1)
-    {
-    for(uword ucol=0; ucol < x_n_cols; ++ucol)
-    for(uword urow=0; urow < x_n_rows; ++urow)
-      {
-      t.at(urow,ucol) = x.at(urow,ucol);
-      }
-    }
-  else
-    {
-    for(uword uslice=0; uslice < x_n_slices; ++uslice)
-    for(uword ucol=0;   ucol   < x_n_cols;   ++ucol  )
-    for(uword urow=0;   urow   < x_n_rows;   ++urow  )
-      {
-      t.at(urow,ucol,uslice) = x.at(urow,ucol,uslice);
-      }
-    }
+  for(uword i=0; i < t_n_elem; ++i)  { t.at(i) = x.at(i); }
   }
 
 
