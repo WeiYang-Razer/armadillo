@@ -274,6 +274,173 @@ field<oT>::set_size(const SizeCube& s)
 
 template<typename oT>
 inline
+field<oT>&
+field<oT>::reshape(const uword n_elem_in)
+  {
+  arma_debug_sigprint();
+  
+  return (*this).reshape(n_elem_in, 1, 1);
+  }
+
+
+
+template<typename oT>
+inline
+field<oT>&
+field<oT>::reshape(const uword n_rows_in, const uword n_cols_in)
+  {
+  arma_debug_sigprint();
+  
+  return (*this).reshape(n_rows_in, n_cols_in, 1);
+  }
+
+
+
+template<typename oT>
+inline
+field<oT>&
+field<oT>::reshape(const uword n_rows_in, const uword n_cols_in, const uword n_slices_in)
+  {
+  arma_debug_sigprint(arma_str::format("n_rows_in: %u; n_cols_in: %u; n_slices_in: %u") % n_rows_in % n_cols_in % n_slices_in);
+  
+  if((n_rows == n_rows_in) && (n_cols == n_cols_in) && (n_slices == n_slices_in))
+    {
+    // do nothing
+    }
+  else
+  if((n_elem == 0) || ((n_rows == n_cols_in) && (n_cols == n_rows_in) && (n_slices == n_slices_in)))
+    {
+    init(n_rows_in, n_cols_in, n_slices_in);
+    }
+  else
+    {
+    field<oT> tmp(n_rows_in, n_cols_in, n_slices_in);
+    
+    const uword n_elem_to_copy = (std::min)((*this).n_elem, tmp.n_elem);
+    
+    for(uword i=0; i < n_elem_to_copy; ++i)  { tmp.at(i) = std::move((*this).at(i)); }
+    
+    (*this) = std::move(tmp);
+    }
+  
+  return *this;
+  }
+
+
+
+template<typename oT>
+inline
+field<oT>&
+field<oT>::reshape(const SizeMat& s)
+  {
+  arma_debug_sigprint();
+  
+  return (*this).reshape(s.n_rows, s.n_cols, 1);
+  }
+
+
+
+template<typename oT>
+inline
+field<oT>&
+field<oT>::reshape(const SizeCube& s)
+  {
+  arma_debug_sigprint();
+  
+  return (*this).reshape(s.n_rows, s.n_cols, s.n_slices);
+  }
+
+
+
+template<typename oT>
+inline
+field<oT>&
+field<oT>::resize(const uword n_elem_in)
+  {
+  arma_debug_sigprint();
+  
+  return (*this).resize(n_elem_in, 1, 1);
+  }
+
+
+
+template<typename oT>
+inline
+field<oT>&
+field<oT>::resize(const uword n_rows_in, const uword n_cols_in)
+  {
+  arma_debug_sigprint();
+  
+  return (*this).resize(n_rows_in, n_cols_in, 1);
+  }
+
+
+
+template<typename oT>
+inline
+field<oT>&
+field<oT>::resize(const uword n_rows_in, const uword n_cols_in, const uword n_slices_in)
+  {
+  arma_debug_sigprint(arma_str::format("n_rows_in: %u; n_cols_in: %u; n_slices_in: %u") % n_rows_in % n_cols_in % n_slices_in);
+  
+  if((n_rows == n_rows_in) && (n_cols == n_cols_in) && (n_slices == n_slices_in))
+    {
+    // do nothing
+    }
+  else
+  if(n_elem == 0)
+    {
+    (*this).set_size(n_rows_in, n_cols_in, n_slices_in);
+    }
+  else
+    {
+    // better-than-nothing implementation
+    
+    field<oT> tmp(n_rows_in, n_cols_in, n_slices_in);
+    
+    if(tmp.n_elem > 0)
+      {
+      const uword end_row   = (std::min)(n_rows_in,   n_rows  ) - 1;
+      const uword end_col   = (std::min)(n_cols_in,   n_cols  ) - 1;
+      const uword end_slice = (std::min)(n_slices_in, n_slices) - 1;
+      
+      tmp.subfield(0, 0, 0, end_row, end_col, end_slice) = (*this).subfield(0, 0, 0, end_row, end_col, end_slice);
+      }
+    
+    (*this) = std::move(tmp);
+    }
+  
+  return *this;
+  }
+
+
+
+template<typename oT>
+inline
+field<oT>&
+field<oT>::resize(const SizeMat& s)
+  {
+  arma_debug_sigprint();
+  
+  return (*this).resize(s.n_rows, s.n_cols, 1);
+  }
+
+
+
+template<typename oT>
+inline
+field<oT>&
+field<oT>::resize(const SizeCube& s)
+  {
+  arma_debug_sigprint();
+  
+  return (*this).resize(s.n_rows, s.n_cols, s.n_slices);
+  }
+
+
+
+template<typename oT>
+inline
 field<oT>::field(const std::vector<oT>& x)
   : n_rows  (0)
   , n_cols  (0)

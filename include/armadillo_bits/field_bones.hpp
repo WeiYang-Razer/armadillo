@@ -59,11 +59,23 @@ class field
   inline explicit field(const SizeMat&  s);
   inline explicit field(const SizeCube& s);
   
-  inline field& set_size(const uword n_obj_in);
+  inline field& set_size(const uword n_elem_in);
   inline field& set_size(const uword n_rows_in, const uword n_cols_in);
   inline field& set_size(const uword n_rows_in, const uword n_cols_in, const uword n_slices_in);
   inline field& set_size(const SizeMat&  s);
   inline field& set_size(const SizeCube& s);
+  
+  inline field& reshape(const uword n_elem_in);
+  inline field& reshape(const uword n_rows_in, const uword n_cols_in);
+  inline field& reshape(const uword n_rows_in, const uword n_cols_in, const uword n_slices_in);
+  inline field& reshape(const SizeMat&  s);
+  inline field& reshape(const SizeCube& s);
+  
+  inline field& resize(const uword n_elem_in);
+  inline field& resize(const uword n_rows_in, const uword n_cols_in);
+  inline field& resize(const uword n_rows_in, const uword n_cols_in, const uword n_slices_in);
+  inline field& resize(const SizeMat&  s);
+  inline field& resize(const SizeCube& s);
   
   inline            field(const std::vector<oT>& x);
   inline field& operator=(const std::vector<oT>& x);
