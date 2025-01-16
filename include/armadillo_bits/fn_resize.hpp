@@ -111,7 +111,7 @@ resize(const field<oT>& A, const uword in_n_rows, const uword in_n_cols, const u
   
   field<oT> B(in_n_rows, in_n_cols, in_n_slices);
   
-  if(B.n_elem > 0)
+  if((B.n_elem > 0) && (A.n_elem > 0))
     {
     const uword end_row   = (std::min)(in_n_rows,   A.n_rows  ) - 1;
     const uword end_col   = (std::min)(in_n_cols,   A.n_cols  ) - 1;
