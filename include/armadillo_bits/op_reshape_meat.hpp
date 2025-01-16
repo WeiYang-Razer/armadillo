@@ -81,12 +81,12 @@ op_reshape::apply_mat_inplace(Mat<eT>& A, const uword new_n_rows, const uword ne
   {
   arma_debug_sigprint();
   
+  if( (A.n_rows == new_n_rows) && (A.n_cols == new_n_cols) )  { return; }
+  
   arma_conform_check( (A.vec_state == 1) && (new_n_cols != 1), "reshape(): requested size is not compatible with column vector layout" );
   arma_conform_check( (A.vec_state == 2) && (new_n_rows != 1), "reshape(): requested size is not compatible with row vector layout"    );
   
-  const uword new_n_elem = new_n_rows * new_n_cols;
-  
-  if(A.n_elem == new_n_elem)  { A.set_size(new_n_rows, new_n_cols); return; }
+  if( (A.n_elem == 0) || ((A.n_rows == new_n_cols) && (A.n_cols == new_n_rows)) )  { A.set_size(new_n_rows, new_n_cols); return; }
   
   Mat<eT> B;
   
