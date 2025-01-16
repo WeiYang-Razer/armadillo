@@ -3410,7 +3410,7 @@ v.set_size(100);        // or:  vec v(100, fill::none);
       <td style="vertical-align: top;"><br>
       </td>
       <td>&nbsp;</td>
-      <td style="vertical-align: top;">(member function of <i>Mat</i> and <i>SpMat</i>)
+      <td style="vertical-align: top;">(member function of <i>Mat</i>, <i>SpMat</i>, <i>field</i>)
       </td>
     </tr>
     <tr>
@@ -3418,7 +3418,7 @@ v.set_size(100);        // or:  vec v(100, fill::none);
       <td style="vertical-align: top;"><br>
       </td>
       <td>&nbsp;</td>
-      <td style="vertical-align: top;">(member function of <i>Cube</i>)
+      <td style="vertical-align: top;">(member function of <i>Cube</i>, <i>field</i>)
       </td>
     </tr>
     <tr>
@@ -3426,7 +3426,7 @@ v.set_size(100);        // or:  vec v(100, fill::none);
       <td style="vertical-align: top;"><br>
       </td>
       <td>&nbsp;</td>
-      <td style="vertical-align: top;">(member function of <i>Mat</i>, <i>Cube</i>, <i>SpMat</i>)
+      <td style="vertical-align: top;">(member function of <i>Mat</i>, <i>Cube</i>, <i>SpMat</i>, <i>field</i>)
       </td>
     </tr>
   </tbody>
@@ -3512,7 +3512,7 @@ A.reshape(5,4);
       <td style="vertical-align: top;"><br>
       </td>
       <td>&nbsp;</td>
-      <td style="vertical-align: top;">(member function of <i>Mat</i> and <i>SpMat</i>)
+      <td style="vertical-align: top;">(member function of <i>Mat</i>, <i>SpMat</i>, <i>field</i>)
       </td>
     </tr>
     <tr>
@@ -3520,7 +3520,7 @@ A.reshape(5,4);
       <td style="vertical-align: top;"><br>
       </td>
       <td>&nbsp;</td>
-      <td style="vertical-align: top;">(member function of <i>Cube</i>)
+      <td style="vertical-align: top;">(member function of <i>Cube</i>, <i>field</i>)
       </td>
     </tr>
     <tr>
@@ -3528,7 +3528,7 @@ A.reshape(5,4);
       <td style="vertical-align: top;"><br>
       </td>
       <td>&nbsp;</td>
-      <td style="vertical-align: top;">(member function of <i>Mat</i>, <i>Col</i>, <i>Row</i>, <i>Cube</i>, <i>SpMat</i>)
+      <td style="vertical-align: top;">(member function of <i>Mat</i>, <i>Col</i>, <i>Row</i>, <i>Cube</i>, <i>SpMat</i>, <i>field</i>)
       </td>
     </tr>
   </tbody>
@@ -20128,6 +20128,7 @@ List of additions and changes for each version:
 <li>Version 14.4:
 <ul>
 <li>faster handling of <a href="#pow">pow()</a> when the exponent is 2</li>
+<li>expanded the <a href="#field">field class</a> with <a href="#reshape_member">.reshape()</a> and <a href="#resize_member">.resize()</a>
 <li>(... under development ...)</li>
 </ul>
 </li>
