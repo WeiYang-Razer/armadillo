@@ -85,7 +85,7 @@ op_reshape::apply_mat_inplace(Mat<eT>& A, const uword new_n_rows, const uword ne
   
   const bool is_into_colvec = ( (new_n_cols == uword(1)) && (new_n_rows == A.n_elem) );
   const bool is_into_rowvec = ( (new_n_rows == uword(1)) && (new_n_cols == A.n_elem) );
-  const bool is_rowcol_swap = ( (A.n_rows == new_n_cols) && (A.n_cols == new_n_rows) );
+  const bool is_rowcol_swap = ( (new_n_cols == A.n_rows) && (new_n_rows == A.n_cols) );
   
   if(is_into_colvec || is_into_rowvec || is_rowcol_swap)  { A.set_size(new_n_rows, new_n_cols); return; }
   
@@ -213,9 +213,9 @@ op_reshape::apply_cube_inplace(Cube<eT>& A, const uword new_n_rows, const uword 
   
   if(A.is_empty())  { A.zeros(new_n_rows, new_n_cols, new_n_slices); return; }
   
-  const bool is_into_colvec = ( (new_n_cols == uword(1)) && (new_n_rows == A.n_elem) && (new_n_slices == uword(1)    );
-  const bool is_into_rowvec = ( (new_n_rows == uword(1)) && (new_n_cols == A.n_elem) && (new_n_slices == uword(1)    );
-  const bool is_rowcol_swap = ( (A.n_rows == new_n_cols) && (A.n_cols == new_n_rows) && (A.n_slices == new_n_slices) );
+  const bool is_into_colvec = ( (new_n_cols == uword(1)) && (new_n_rows == A.n_elem) && (new_n_slices == uword(1)  ) );
+  const bool is_into_rowvec = ( (new_n_rows == uword(1)) && (new_n_cols == A.n_elem) && (new_n_slices == uword(1)  ) );
+  const bool is_rowcol_swap = ( (new_n_cols == A.n_rows) && (new_n_rows == A.n_cols) && (new_n_slices == A.n_slices) );
   
   if(is_into_colvec || is_into_rowvec || is_rowcol_swap)  { A.set_size(new_n_rows, new_n_cols, new_n_slices); return; }
   
