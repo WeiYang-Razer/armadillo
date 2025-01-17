@@ -63,7 +63,7 @@ op_resize::apply_mat_inplace(Mat<eT>& A, const uword new_n_rows, const uword new
   
   if(A.is_empty())  { A.zeros(new_n_rows, new_n_cols); return; }
   
-  Mat<eT> B;
+  Mat<eT> B(new_n_rows, new_n_cols, arma_nozeros_indicator());
   
   op_resize::apply_mat_noalias(B, A, new_n_rows, new_n_cols);
   
@@ -137,7 +137,7 @@ op_resize::apply_cube_inplace(Cube<eT>& A, const uword new_n_rows, const uword n
   
   if(A.is_empty())  { A.zeros(new_n_rows, new_n_cols, new_n_slices); return; }
   
-  Cube<eT> B;
+  Cube<eT> B(new_n_rows, new_n_cols, new_n_slices, arma_nozeros_indicator());
   
   op_resize::apply_cube_noalias(B, A, new_n_rows, new_n_cols, new_n_slices);
   
