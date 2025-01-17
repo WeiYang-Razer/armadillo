@@ -85,7 +85,7 @@ op_reshape::apply_mat_inplace(Mat<eT>& A, const uword new_n_rows, const uword ne
   
   if((A.n_rows == new_n_cols) && (A.n_cols == new_n_rows))  { A.set_size(new_n_rows, new_n_cols); return; }
   
-  Mat<eT> B;
+  Mat<eT> B(new_n_rows, new_n_cols);
   
   op_reshape::apply_mat_noalias(B, A, new_n_rows, new_n_cols);
   
@@ -209,7 +209,7 @@ op_reshape::apply_cube_inplace(Cube<eT>& A, const uword new_n_rows, const uword 
   
   if(A.is_empty())  { A.zeros(new_n_rows, new_n_cols, new_n_slices); return; }
   
-  Cube<eT> B;
+  Cube<eT> B(new_n_rows, new_n_cols, new_n_slices);
   
   op_reshape::apply_cube_noalias(B, A, new_n_rows, new_n_cols, new_n_slices);
   
