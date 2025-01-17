@@ -4524,7 +4524,7 @@ Mat<eT>::shed_rows(const Base<uword, T1>& indices)
   {
   arma_debug_sigprint();
   
-  const quasi_unwrap<T1> U(indices.get_ref());
+  const unwrap_check_mixed<T1> U(indices.get_ref(), *this);
   const Mat<uword>& tmp1 = U.M;
   
   arma_conform_check( ((tmp1.is_vec() == false) && (tmp1.is_empty() == false)), "Mat::shed_rows(): list of indices must be a vector" );
@@ -4594,7 +4594,7 @@ Mat<eT>::shed_cols(const Base<uword, T1>& indices)
   {
   arma_debug_sigprint();
   
-  const quasi_unwrap<T1>   U(indices.get_ref());
+  const unwrap_check_mixed<T1> U(indices.get_ref(), *this);
   const Mat<uword>& tmp1 = U.M;
   
   arma_conform_check( ((tmp1.is_vec() == false) && (tmp1.is_empty() == false)), "Mat::shed_cols(): list of indices must be a vector" );
