@@ -83,7 +83,7 @@ op_reshape::apply_mat_inplace(Mat<eT>& A, const uword new_n_rows, const uword ne
   
   if(A.is_empty())  { A.zeros(new_n_rows, new_n_cols); return; }
   
-  if((A.n_rows == new_n_cols) && (A.n_cols == new_n_rows))  { A.set_size(new_n_rows, new_n_cols); return; }
+  if( (A.n_rows == new_n_cols) && (A.n_cols == new_n_rows) )  { A.set_size(new_n_rows, new_n_cols); return; }
   
   Mat<eT> B(new_n_rows, new_n_cols);
   
@@ -208,6 +208,8 @@ op_reshape::apply_cube_inplace(Cube<eT>& A, const uword new_n_rows, const uword 
   if( (A.n_rows == new_n_rows) && (A.n_cols == new_n_cols) && (A.n_slices == new_n_slices) )  { return; }
   
   if(A.is_empty())  { A.zeros(new_n_rows, new_n_cols, new_n_slices); return; }
+  
+  if( (A.n_rows == new_n_cols) && (A.n_cols == new_n_rows) && (A.n_slices == new_n_slices) )  { A.set_size(new_n_rows, new_n_cols, new_n_slices); return; }
   
   Cube<eT> B(new_n_rows, new_n_cols, new_n_slices);
   
