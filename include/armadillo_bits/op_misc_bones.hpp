@@ -44,7 +44,13 @@ class op_imag
   inline static void apply( Mat<typename T1::pod_type>& out, const mtOp<typename T1::pod_type, T1, op_imag>& X);
   
   template<typename T1>
+  inline static void apply_noalias(Mat<typename T1::pod_type>& out, const Proxy<T1>& P);
+
+  template<typename T1>
   inline static void apply( Cube<typename T1::pod_type>& out, const mtOpCube<typename T1::pod_type, T1, op_imag>& X);
+  
+  template<typename T1>
+  inline static void apply_noalias(Cube<typename T1::pod_type>& out, const ProxyCube<T1>& P);
   };
 
 

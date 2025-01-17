@@ -120,6 +120,31 @@ op_imag::apply( Mat<typename T1::pod_type>& out, const mtOp<typename T1::pod_typ
   
   const Proxy<T1> P(X.m);
   
+  if(P.is_alias(out))
+    {
+    Mat<T> tmp;
+    
+    op_imag::apply_noalias(tmp, P);
+    
+    out.steal_mem(tmp);
+    }
+  else
+    {
+    op_imag::apply_noalias(out, P);
+    }
+  }
+
+
+
+template<typename T1>
+inline
+void
+op_imag::apply_noalias(Mat<typename T1::pod_type>& out, const Proxy<T1>& P)
+  {
+  arma_debug_sigprint();
+  
+  typedef typename T1::pod_type T;
+  
   const uword n_rows = P.get_n_rows();
   const uword n_cols = P.get_n_cols();
     
@@ -136,7 +161,7 @@ op_imag::apply( Mat<typename T1::pod_type>& out, const mtOp<typename T1::pod_typ
     
     for(uword i=0; i < n_elem; ++i)
       {
-      out_mem[i] = std::imag( A[i] );
+      out_mem[i] = access::tmp_imag( A[i] );
       }
     }
   else
@@ -144,7 +169,7 @@ op_imag::apply( Mat<typename T1::pod_type>& out, const mtOp<typename T1::pod_typ
     for(uword col=0; col < n_cols; ++col)
     for(uword row=0; row < n_rows; ++row)
       {
-      *out_mem = std::imag( P.at(row,col) );
+      *out_mem = access::tmp_imag( P.at(row,col) );
       out_mem++;
       }
     }
@@ -163,6 +188,31 @@ op_imag::apply( Cube<typename T1::pod_type>& out, const mtOpCube<typename T1::po
   
   const ProxyCube<T1> P(X.m);
   
+  if(P.is_alias(out))
+    {
+    Cube<T> tmp;
+    
+    op_imag::apply_noalias(tmp, P);
+    
+    out.steal_mem(tmp);
+    }
+  else
+    {
+    op_imag::apply_noalias(out, P);
+    }
+  }
+
+
+
+template<typename T1>
+inline
+void
+op_imag::apply_noalias(Cube<typename T1::pod_type>& out, const ProxyCube<T1>& P)
+  {
+  arma_debug_sigprint();
+  
+  typedef typename T1::pod_type T;
+  
   const uword n_rows   = P.get_n_rows();
   const uword n_cols   = P.get_n_cols();
   const uword n_slices = P.get_n_slices();
@@ -180,7 +230,7 @@ op_imag::apply( Cube<typename T1::pod_type>& out, const mtOpCube<typename T1::po
     
     for(uword i=0; i < n_elem; ++i)
       {
-      out_mem[i] = std::imag( A[i] );
+      out_mem[i] = access::tmp_imag( A[i] );
       }
     }
   else
@@ -189,7 +239,7 @@ op_imag::apply( Cube<typename T1::pod_type>& out, const mtOpCube<typename T1::po
     for(uword col=0;   col   < n_cols;   ++col  )
     for(uword row=0;   row   < n_rows;   ++row  )
       {
-      *out_mem = std::imag( P.at(row,col,slice) );
+      *out_mem = access::tmp_imag( P.at(row,col,slice) );
       out_mem++;
       }
     }

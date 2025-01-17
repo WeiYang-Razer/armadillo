@@ -107,14 +107,12 @@ real(const SpBase<std::complex<typename T1::pod_type>,T1>& A)
 template<typename T1>
 arma_warn_unused
 inline
-const Gen< Mat<typename T1::pod_type>, gen_zeros >
-imag(const Base<typename T1::pod_type,T1>& X)
+typename enable_if2< is_arma_type<T1>::value, const mtOp<typename T1::pod_type, T1, op_imag> >::result
+imag(const T1& X)
   {
   arma_debug_sigprint();
   
-  const Proxy<T1> A(X.get_ref());
-  
-  return Gen< Mat<typename T1::pod_type>, gen_zeros>(A.get_n_rows(), A.get_n_cols());
+  return mtOp<typename T1::pod_type, T1, op_imag>( X );
   }
 
 
@@ -122,14 +120,12 @@ imag(const Base<typename T1::pod_type,T1>& X)
 template<typename T1>
 arma_warn_unused
 inline
-const GenCube<typename T1::pod_type, gen_zeros>
-imag(const BaseCube<typename T1::pod_type,T1>& X)
+const mtOpCube<typename T1::pod_type, T1, op_imag>
+imag(const BaseCube<typename T1::elem_type,T1>& X)
   {
   arma_debug_sigprint();
   
-  const ProxyCube<T1> A(X.get_ref());
-  
-  return GenCube<typename T1::pod_type, gen_zeros>(A.get_n_rows(), A.get_n_cols(), A.get_n_slices());
+  return mtOpCube<typename T1::pod_type, T1, op_imag>( X.get_ref() );
   }
 
 
@@ -145,32 +141,6 @@ imag(const SpBase<typename T1::pod_type,T1>& A)
   const SpProxy<T1> P(A.get_ref());
   
   return SpMat<typename T1::pod_type>(P.get_n_rows(), P.get_n_cols());
-  }
-
-
-
-template<typename T1>
-arma_warn_unused
-inline
-typename enable_if2< (is_arma_type<T1>::value && is_cx<typename T1::elem_type>::yes), const mtOp<typename T1::pod_type, T1, op_imag> >::result
-imag(const T1& X)
-  {
-  arma_debug_sigprint();
-  
-  return mtOp<typename T1::pod_type, T1, op_imag>( X );
-  }
-
-
-
-template<typename T1>
-arma_warn_unused
-inline
-const mtOpCube<typename T1::pod_type, T1, op_imag>
-imag(const BaseCube<std::complex<typename T1::pod_type>,T1>& X)
-  {
-  arma_debug_sigprint();
-  
-  return mtOpCube<typename T1::pod_type, T1, op_imag>( X.get_ref() );
   }
 
 
@@ -725,12 +695,12 @@ cbrt(const SpBase<typename T1::elem_type,T1>& A)
 template<typename T1>
 arma_warn_unused
 arma_inline
-const T1&
-conj(const Base<typename T1::pod_type,T1>& A)
+typename enable_if2< (is_arma_type<T1>::value && is_cx<typename T1::elem_type>::no), const T1& >::result
+conj(const T1& X)
   {
   arma_debug_sigprint();
   
-  return A.get_ref();
+  return X;
   }
 
 
