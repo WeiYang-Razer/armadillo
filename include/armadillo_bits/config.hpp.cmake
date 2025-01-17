@@ -360,6 +360,8 @@
   #undef ARMA_CRIPPLED_LAPACK
 #endif
 
+// WARNING: option ARMA_CRIPPLED_LAPACK will be removed
+
 #if defined(ARMA_CRIPPLED_LAPACK)
   #pragma message ("option ARMA_CRIPPLED_LAPACK is deprecated and will be removed")
 #endif
