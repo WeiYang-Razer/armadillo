@@ -83,7 +83,11 @@ op_reshape::apply_mat_inplace(Mat<eT>& A, const uword new_n_rows, const uword ne
   
   if(A.is_empty())  { A.zeros(new_n_rows, new_n_cols); return; }
   
-  if( (A.n_rows == new_n_cols) && (A.n_cols == new_n_rows) )  { A.set_size(new_n_rows, new_n_cols); return; }
+  const bool is_into_colvec = ( (new_n_cols == uword(1)) && (new_n_rows == A.n_elem) );
+  const bool is_into_rowvec = ( (new_n_rows == uword(1)) && (new_n_cols == A.n_elem) );
+  const bool is_rowcol_swap = ( (A.n_rows == new_n_cols) && (A.n_cols == new_n_rows) );
+  
+  if(is_into_colvec || is_into_rowvec || is_rowcol_swap)  { A.set_size(new_n_rows, new_n_cols); return; }
   
   Mat<eT> B(new_n_rows, new_n_cols, arma_nozeros_indicator());
   
