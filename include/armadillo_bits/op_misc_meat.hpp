@@ -123,30 +123,7 @@ op_imag::apply( Mat<typename T1::pod_type>& out, const mtOp<typename T1::pod_typ
   
   if(is_cx<eT>::no)  { out.zeros(P.get_n_rows(), P.get_n_cols()); return; }
   
-  if(P.is_alias(out))
-    {
-    Mat<T> tmp;
-    
-    op_imag::apply_noalias(tmp, P);
-    
-    out.steal_mem(tmp);
-    }
-  else
-    {
-    op_imag::apply_noalias(out, P);
-    }
-  }
-
-
-
-template<typename T1>
-inline
-void
-op_imag::apply_noalias(Mat<typename T1::pod_type>& out, const Proxy<T1>& P)
-  {
-  arma_debug_sigprint();
-  
-  typedef typename T1::pod_type T;
+  // aliasing not possible at this point, as eT must be std::complex
   
   const uword n_rows = P.get_n_rows();
   const uword n_cols = P.get_n_cols();
@@ -194,30 +171,7 @@ op_imag::apply( Cube<typename T1::pod_type>& out, const mtOpCube<typename T1::po
   
   if(is_cx<eT>::no)  { out.zeros(P.get_n_rows(), P.get_n_cols(), P.get_n_slices()); return; }
   
-  if(P.is_alias(out))
-    {
-    Cube<T> tmp;
-    
-    op_imag::apply_noalias(tmp, P);
-    
-    out.steal_mem(tmp);
-    }
-  else
-    {
-    op_imag::apply_noalias(out, P);
-    }
-  }
-
-
-
-template<typename T1>
-inline
-void
-op_imag::apply_noalias(Cube<typename T1::pod_type>& out, const ProxyCube<T1>& P)
-  {
-  arma_debug_sigprint();
-  
-  typedef typename T1::pod_type T;
+  // aliasing not possible at this point, as eT must be std::complex
   
   const uword n_rows   = P.get_n_rows();
   const uword n_cols   = P.get_n_cols();
