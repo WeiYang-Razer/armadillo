@@ -116,9 +116,12 @@ op_imag::apply( Mat<typename T1::pod_type>& out, const mtOp<typename T1::pod_typ
   {
   arma_debug_sigprint();
   
-  typedef typename T1::pod_type T;
+  typedef typename T1::elem_type eT;
+  typedef typename T1::pod_type   T;
   
   const Proxy<T1> P(X.m);
+  
+  if(is_cx<eT>::no)  { out.zeros(P.get_n_rows(), P.get_n_cols()); return; }
   
   if(P.is_alias(out))
     {
@@ -184,9 +187,12 @@ op_imag::apply( Cube<typename T1::pod_type>& out, const mtOpCube<typename T1::po
   {
   arma_debug_sigprint();
   
-  typedef typename T1::pod_type T;
+  typedef typename T1::elem_type eT;
+  typedef typename T1::pod_type   T;
   
   const ProxyCube<T1> P(X.m);
+  
+  if(is_cx<eT>::no)  { out.zeros(P.get_n_rows(), P.get_n_cols(), P.get_n_slices()); return; }
   
   if(P.is_alias(out))
     {
