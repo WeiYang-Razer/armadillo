@@ -393,7 +393,7 @@ op_strans::apply_direct(Mat<typename T1::elem_type>& out, const T1& X)
     op_strans::apply_mat(out, U.M);
     }
   else
-  if((is_Mat<typename Proxy<T1>::stored_type>::value) || (arma_config::openmp && Proxy<T1>::use_mp))
+  if((is_Mat<typename Proxy<T1>::stored_type>::value) || (is_subview_col<T1>::value) || (arma_config::openmp && Proxy<T1>::use_mp))
     {
     const quasi_unwrap<T1> U(X);
     
