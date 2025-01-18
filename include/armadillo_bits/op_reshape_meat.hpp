@@ -34,7 +34,7 @@ op_reshape::apply(Mat<typename T1::elem_type>& out, const Op<T1,op_reshape>& in)
   const uword new_n_rows = in.aux_uword_a;
   const uword new_n_cols = in.aux_uword_b;
   
-  if((is_Mat<T1>::value) || (is_Mat<typename Proxy<T1>::stored_type>::value) || (arma_config::openmp && Proxy<T1>::use_mp))
+  if(is_Mat<T1>::value)
     {
     const unwrap<T1>   U(in.m);
     const Mat<eT>& A = U.M;
@@ -46,6 +46,24 @@ op_reshape::apply(Mat<typename T1::elem_type>& out, const Op<T1,op_reshape>& in)
     else
       {
       op_reshape::apply_mat_noalias(out, A, new_n_rows, new_n_cols);
+      }
+    }
+  else
+  if((is_Mat<typename Proxy<T1>::stored_type>::value) || (arma_config::openmp && Proxy<T1>::use_mp))
+    {
+    const quasi_unwrap<T1> U(in.m);
+    
+    if(U.is_alias(out))
+      {
+      Mat<eT> tmp;
+      
+      op_reshape::apply_mat_noalias(tmp, U.M, new_n_rows, new_n_cols);
+      
+      out.steal_mem(tmp);
+      }
+    else
+      {
+      op_reshape::apply_mat_noalias(out, U.M, new_n_rows, new_n_cols);
       }
     }
   else
