@@ -31,59 +31,53 @@ op_sum::apply(Mat<typename T1::elem_type>& out, const Op<T1,op_sum>& in)
   typedef typename T1::elem_type eT;
   
   const uword dim = in.aux_uword_a;
+  
   arma_conform_check( (dim > 1), "sum(): parameter 'dim' must be 0 or 1" );
   
-  const Proxy<T1> P(in.m);
-  
-  if(P.is_alias(out) == false)
+  if((is_Mat<T1>::value) || (is_Mat<typename Proxy<T1>::stored_type>::value) || (arma_config::openmp && Proxy<T1>::use_mp))
     {
-    op_sum::apply_noalias(out, P, dim);
+    const quasi_unwrap<T1> U(in.m);
+    
+    if(U.is_alias(out))
+      {
+      Mat<eT> tmp;
+      
+      op_sum::apply_mat_noalias(tmp, U.M, dim);
+      
+      out.steal_mem(tmp);
+      }
+    else
+      {
+      op_sum::apply_mat_noalias(out, U.M, dim);
+      }
     }
   else
     {
-    Mat<eT> tmp;
+    const Proxy<T1> P(in.m);
     
-    op_sum::apply_noalias(tmp, P, dim);
-    
-    out.steal_mem(tmp);
+    if(P.is_alias(out))
+      {
+      Mat<eT> tmp;
+      
+      op_sum::apply_proxy_noalias(tmp, P, dim);
+      
+      out.steal_mem(tmp);
+      }
+    else
+      {
+      op_sum::apply_proxy_noalias(out, P, dim);
+      }
     }
   }
 
 
 
-template<typename T1>
+template<typename eT>
 inline
 void
-op_sum::apply_noalias(Mat<typename T1::elem_type>& out, const Proxy<T1>& P, const uword dim)
+op_sum::apply_mat_noalias(Mat<eT>& out, const Mat<eT>& X, const uword dim)
   {
   arma_debug_sigprint();
-  
-  if(is_Mat<typename Proxy<T1>::stored_type>::value || (arma_config::openmp && Proxy<T1>::use_mp))
-    {
-    op_sum::apply_noalias_unwrap(out, P, dim);
-    }
-  else
-    {
-    op_sum::apply_noalias_proxy(out, P, dim);
-    }
-  }
-
-
-
-template<typename T1>
-inline
-void
-op_sum::apply_noalias_unwrap(Mat<typename T1::elem_type>& out, const Proxy<T1>& P, const uword dim)
-  {
-  arma_debug_sigprint();
-  
-  typedef typename T1::elem_type eT;
-  
-  typedef typename Proxy<T1>::stored_type P_stored_type;
-  
-  const unwrap<P_stored_type> tmp(P.Q);
-  
-  const typename unwrap<P_stored_type>::stored_type& X = tmp.M;
   
   const uword X_n_rows = X.n_rows;
   const uword X_n_cols = X.n_cols;
@@ -127,7 +121,7 @@ op_sum::apply_noalias_unwrap(Mat<typename T1::elem_type>& out, const Proxy<T1>& 
 template<typename T1>
 inline
 void
-op_sum::apply_noalias_proxy(Mat<typename T1::elem_type>& out, const Proxy<T1>& P, const uword dim)
+op_sum::apply_proxy_noalias(Mat<typename T1::elem_type>& out, const Proxy<T1>& P, const uword dim)
   {
   arma_debug_sigprint();
   
@@ -244,59 +238,53 @@ op_sum::apply(Cube<typename T1::elem_type>& out, const OpCube<T1,op_sum>& in)
   typedef typename T1::elem_type eT;
   
   const uword dim = in.aux_uword_a;
+  
   arma_conform_check( (dim > 2), "sum(): parameter 'dim' must be 0 or 1 or 2" );
   
-  const ProxyCube<T1> P(in.m);
-  
-  if(P.is_alias(out) == false)
+  if((is_Cube<T1>::value) || (is_Cube<typename ProxyCube<T1>::stored_type>::value) || (arma_config::openmp && ProxyCube<T1>::use_mp))
     {
-    op_sum::apply_noalias(out, P, dim);
+    const unwrap_cube<T1> U(in.m);
+    
+    if(U.is_alias(out))
+      {
+      Cube<eT> tmp;
+      
+      op_sum::apply_cube_noalias(tmp, U.M, dim);
+      
+      out.steal_mem(tmp);
+      }
+    else
+      {
+      op_sum::apply_cube_noalias(out, U.M, dim);
+      }
     }
   else
     {
-    Cube<eT> tmp;
+    const ProxyCube<T1> P(in.m);
     
-    op_sum::apply_noalias(tmp, P, dim);
-    
-    out.steal_mem(tmp);
+    if(P.is_alias(out))
+      {
+      Cube<eT> tmp;
+      
+      op_sum::apply_proxy_noalias(tmp, P, dim);
+      
+      out.steal_mem(tmp);
+      }
+    else
+      {
+      op_sum::apply_proxy_noalias(out, P, dim);
+      }
     }
   }
 
 
 
-template<typename T1>
+template<typename eT>
 inline
 void
-op_sum::apply_noalias(Cube<typename T1::elem_type>& out, const ProxyCube<T1>& P, const uword dim)
+op_sum::apply_cube_noalias(Cube<eT>& out, const Cube<eT>& X, const uword dim)
   {
   arma_debug_sigprint();
-  
-  if(is_Cube<typename ProxyCube<T1>::stored_type>::value || (arma_config::openmp && ProxyCube<T1>::use_mp))
-    {
-    op_sum::apply_noalias_unwrap(out, P, dim);
-    }
-  else
-    {
-    op_sum::apply_noalias_proxy(out, P, dim);
-    }
-  }
-
-
-
-template<typename T1>
-inline
-void
-op_sum::apply_noalias_unwrap(Cube<typename T1::elem_type>& out, const ProxyCube<T1>& P, const uword dim)
-  {
-  arma_debug_sigprint();
-  
-  typedef typename T1::elem_type eT;
-  
-  typedef typename ProxyCube<T1>::stored_type P_stored_type;
-  
-  const unwrap_cube<P_stored_type> tmp(P.Q);
-  
-  const Cube<eT>& X = tmp.M;
   
   const uword X_n_rows   = X.n_rows;
   const uword X_n_cols   = X.n_cols;
@@ -350,7 +338,7 @@ op_sum::apply_noalias_unwrap(Cube<typename T1::elem_type>& out, const ProxyCube<
 template<typename T1>
 inline
 void
-op_sum::apply_noalias_proxy(Cube<typename T1::elem_type>& out, const ProxyCube<T1>& P, const uword dim)
+op_sum::apply_proxy_noalias(Cube<typename T1::elem_type>& out, const ProxyCube<T1>& P, const uword dim)
   {
   arma_debug_sigprint();
   
