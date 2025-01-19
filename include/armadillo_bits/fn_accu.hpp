@@ -258,14 +258,14 @@ accu(const T1& X)
   {
   arma_debug_sigprint();
   
-  const Proxy<T1> P(X);
-  
-  if(is_Mat<typename Proxy<T1>::stored_type>::value || is_subview_col<typename Proxy<T1>::stored_type>::value)
+  if((is_Mat<T1>::value) || (is_subview_col<T1>::value) || (is_Mat<typename Proxy<T1>::stored_type>::value))
     {
-    const quasi_unwrap<typename Proxy<T1>::stored_type> tmp(P.Q);
+    const quasi_unwrap<T1> U(X);
     
-    return arrayops::accumulate(tmp.M.memptr(), tmp.M.n_elem);
+    return arrayops::accumulate(U.M.memptr(), U.M.n_elem);
     }
+  
+  const Proxy<T1> P(X);
   
   return (Proxy<T1>::use_at) ? accu_proxy_at(P) : accu_proxy_linear(P);
   }
@@ -836,14 +836,14 @@ accu(const BaseCube<typename T1::elem_type,T1>& X)
   {
   arma_debug_sigprint();
   
-  const ProxyCube<T1> P(X.get_ref());
-  
-  if(is_Cube<typename ProxyCube<T1>::stored_type>::value)
+  if((is_Cube<T1>::value) || (is_Cube<typename ProxyCube<T1>::stored_type>::value))
     {
-    unwrap_cube<typename ProxyCube<T1>::stored_type> tmp(P.Q);
+    const unwrap_cube<T1> U(X.get_ref());
     
-    return arrayops::accumulate(tmp.M.memptr(), tmp.M.n_elem);
+    return arrayops::accumulate(U.M.memptr(), U.M.n_elem);
     }
+  
+  const ProxyCube<T1> P(X.get_ref());
   
   return (ProxyCube<T1>::use_at) ? accu_cube_proxy_at(P) : accu_cube_proxy_linear(P);
   }
