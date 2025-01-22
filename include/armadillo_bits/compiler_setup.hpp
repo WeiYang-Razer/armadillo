@@ -477,7 +477,13 @@
 #undef major
 
 
-// disabling deprecation messages is counter-productive
+// WARNING: option 'ARMA_IGNORE_DEPRECATED_MARKER' will be removed
+// WARNING: disabling deprecation messages is counter-productive
+
 #if defined(ARMA_IGNORE_DEPRECATED_MARKER)
-  #pragma message("NOTE: support for ARMA_IGNORE_DEPRECATED_MARKER has been removed")
+  #undef  arma_deprecated
+  #define arma_deprecated
+
+  #undef  arma_frown
+  #define arma_frown(msg)
 #endif

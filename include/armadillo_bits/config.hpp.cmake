@@ -333,6 +333,10 @@
   #undef ARMA_CHECK_NONFINITE
 #endif
 
+#if defined(ARMA_DONT_IGNORE_DEPRECATED_MARKER)
+  #undef ARMA_IGNORE_DEPRECATED_MARKER
+#endif
+
 #if defined(ARMA_NO_DEBUG)
   #undef ARMA_DEBUG
   #undef ARMA_EXTRA_DEBUG
@@ -350,6 +354,8 @@
   
   #undef  ARMA_WARN_LEVEL
   #define ARMA_WARN_LEVEL 3
+  
+  #undef  ARMA_IGNORE_DEPRECATED_MARKER
 #endif
 
 #if defined(ARMA_DONT_PRINT_EXCEPTIONS)
@@ -360,10 +366,13 @@
   #undef ARMA_CRIPPLED_LAPACK
 #endif
 
-// WARNING: option ARMA_CRIPPLED_LAPACK will be removed
+// WARNING: option ARMA_IGNORE_DEPRECATED_MARKER will be removed
+// WARNING: option ARMA_CRIPPLED_LAPACK          will be removed
 
 #if defined(ARMA_CRIPPLED_LAPACK)
-  #pragma message ("option ARMA_CRIPPLED_LAPACK is deprecated and will be removed")
+  #if (!defined(ARMA_IGNORE_DEPRECATED_MARKER))
+    #pragma message ("option ARMA_CRIPPLED_LAPACK is deprecated and will be removed")
+  #endif
 #endif
 
 
