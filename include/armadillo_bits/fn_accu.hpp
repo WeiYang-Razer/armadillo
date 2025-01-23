@@ -891,6 +891,10 @@ accu(const BaseCube<typename T1::elem_type,T1>& X)
 
 
 
+// TODO: accu(const eOpCube<T1,eop_pow>& expr)
+
+
+
 //! explicit handling of multiply-and-accumulate (cube version)
 template<typename T1, typename T2>
 arma_warn_unused
