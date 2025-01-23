@@ -272,6 +272,47 @@ accu(const T1& X)
 
 
 
+template<typename T1>
+arma_warn_unused
+inline
+typename T1::elem_type
+accu(const eOp<T1,eop_pow>& expr)
+  {
+  arma_debug_sigprint();
+  
+  typedef eOp<T1,eop_pow> expr_type;
+  
+  typedef typename T1::elem_type eT;
+  
+  if(expr.aux == eT(2))
+    {
+    typedef typename expr_type::proxy_type::stored_type expr_P_stored_type;
+    
+    if((is_Mat<expr_P_stored_type>::value) || (is_subview_col<expr_P_stored_type>::value))
+      {
+      const quasi_unwrap<T1> U(expr.P.Q);
+      
+      const eT* X_mem = U.M.memptr();
+      
+      return op_dot::direct_dot(U.M.n_elem, X_mem, X_mem);
+      }
+    else
+      {
+      typedef eOp<T1,eop_square> modified_expr_type;
+      
+      const Proxy<modified_expr_type> P( reinterpret_cast< const modified_expr_type& >(expr) );
+      
+      return (Proxy<modified_expr_type>::use_at) ? accu_proxy_at(P) : accu_proxy_linear(P);
+      }
+    }
+  
+  const Proxy<expr_type> P(expr);
+  
+  return (Proxy<expr_type>::use_at) ? accu_proxy_at(P) : accu_proxy_linear(P);
+  }
+
+
+
 //! explicit handling of multiply-and-accumulate
 template<typename T1, typename T2>
 arma_warn_unused
