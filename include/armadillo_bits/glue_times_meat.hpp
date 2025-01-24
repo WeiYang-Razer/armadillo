@@ -330,25 +330,21 @@ glue_times_redirect3_helper<true>::apply(Mat<typename T1::elem_type>& out, const
       return;
       }
     
-    const partial_unwrap<T1> tmp1(X.A.A);
+    const partial_unwrap_check<T1> tmp1(X.A.A, out);
     
-    const typename partial_unwrap<T1>::stored_type& A = tmp1.M;
+    const typename partial_unwrap_check<T1>::stored_type& A = tmp1.M;
     
-    constexpr bool use_alpha = partial_unwrap<T1>::do_times;
+    constexpr bool use_alpha = partial_unwrap_check<T1>::do_times;
     const     eT       alpha = use_alpha ? tmp1.get_val() : eT(0);
     
-    if(tmp1.is_alias(out) == false)
-      {
-      glue_times::apply<eT, partial_unwrap<T1>::do_trans, false, partial_unwrap<T1>::do_times >(out, A, solve_result, alpha);
-      }
-    else
-      {
-      Mat<eT> tmp_out;
-      
-      glue_times::apply<eT, partial_unwrap<T1>::do_trans, false, partial_unwrap<T1>::do_times >(tmp_out, A, solve_result, alpha);
-      
-      out.steal_mem(tmp_out);
-      }
+    glue_times::apply
+      <
+      eT,
+      partial_unwrap_check<T1>::do_trans,
+      false,
+      partial_unwrap_check<T1>::do_times
+      >
+      (out, A, solve_result, alpha);
     
     return;
     }
@@ -530,7 +526,7 @@ glue_times::apply_inplace(Mat<typename T1::elem_type>& out, const T1& X)
 template<typename T1, typename T2>
 inline
 void
-glue_times::apply_inplace_plus(Mat<typename T1::elem_type>& actual_out, const Glue<T1, T2, glue_times>& X, const sword sign)
+glue_times::apply_inplace_plus(Mat<typename T1::elem_type>& out, const Glue<T1, T2, glue_times>& X, const sword sign)
   {
   arma_debug_sigprint();
   
@@ -543,24 +539,24 @@ glue_times::apply_inplace_plus(Mat<typename T1::elem_type>& actual_out, const Gl
     
     const Mat<eT> tmp(X);
     
-    if(sign > sword(0))  { actual_out += tmp; }  else  { actual_out -= tmp; }
+    if(sign > sword(0))  { out += tmp; }  else  { out -= tmp; }
     
     return;
     }
   
-  const partial_unwrap<T1> tmp1(X.A);
-  const partial_unwrap<T2> tmp2(X.B);
+  const partial_unwrap_check<T1> tmp1(X.A, out);
+  const partial_unwrap_check<T2> tmp2(X.B, out);
   
-  typedef typename partial_unwrap<T1>::stored_type TA;
-  typedef typename partial_unwrap<T2>::stored_type TB;
+  typedef typename partial_unwrap_check<T1>::stored_type TA;
+  typedef typename partial_unwrap_check<T2>::stored_type TB;
   
   const TA& A = tmp1.M;
   const TB& B = tmp2.M;
   
-  constexpr bool do_trans_A = partial_unwrap<T1>::do_trans;
-  constexpr bool do_trans_B = partial_unwrap<T2>::do_trans;
+  constexpr bool do_trans_A = partial_unwrap_check<T1>::do_trans;
+  constexpr bool do_trans_B = partial_unwrap_check<T2>::do_trans;
   
-  const bool use_alpha = partial_unwrap<T1>::do_times || partial_unwrap<T2>::do_times || (sign < sword(0));
+  const bool use_alpha = partial_unwrap_check<T1>::do_times || partial_unwrap_check<T2>::do_times || (sign < sword(0));
   
   const eT       alpha = use_alpha ? ( tmp1.get_val() * tmp2.get_val() * ( (sign > sword(0)) ? eT(1) : eT(-1) ) ) : eT(0);
   
@@ -569,17 +565,9 @@ glue_times::apply_inplace_plus(Mat<typename T1::elem_type>& actual_out, const Gl
   const uword result_n_rows = (do_trans_A == false) ? (TA::is_row ? 1 : A.n_rows) : (TA::is_col ? 1 : A.n_cols);
   const uword result_n_cols = (do_trans_B == false) ? (TB::is_col ? 1 : B.n_cols) : (TB::is_row ? 1 : B.n_rows);
   
-  arma_conform_assert_same_size(actual_out.n_rows, actual_out.n_cols, result_n_rows, result_n_cols, ( (sign > sword(0)) ? "addition" : "subtraction" ) );
+  arma_conform_assert_same_size(out.n_rows, out.n_cols, result_n_rows, result_n_cols, ( (sign > sword(0)) ? "addition" : "subtraction" ) );
   
-  if(actual_out.n_elem == 0)  { return; }
-  
-  const bool is_alias = (tmp1.is_alias(actual_out) || tmp2.is_alias(actual_out));
-  
-  Mat<eT>* out_ptr = &actual_out;
-  
-  if(is_alias)  { out_ptr = new Mat<eT>(actual_out); }  // in case of aliasing the copy is required, as we're doing an inplace operation
-  
-  Mat<eT>& out = (*out_ptr);
+  if(out.n_elem == 0)  { return; }
   
   if( (do_trans_A == false) && (do_trans_B == false) && (use_alpha == false) )
     {
@@ -642,8 +630,6 @@ glue_times::apply_inplace_plus(Mat<typename T1::elem_type>& actual_out, const Gl
     else if( ((B.n_rows == 1) || (TB::is_row)) && (is_cx<eT>::no) )  { gemv<true,       true, true>::apply(out.memptr(), A, B.memptr(), alpha, eT(1)); }
     else                                                             { gemm<true, true, true, true>::apply(out,          A, B,          alpha, eT(1)); }
     }
-
-  if(is_alias)  { actual_out.steal_mem(out);  delete out_ptr; }
   }
 
 
