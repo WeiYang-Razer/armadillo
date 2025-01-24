@@ -891,7 +891,44 @@ accu(const BaseCube<typename T1::elem_type,T1>& X)
 
 
 
-// TODO: accu(const eOpCube<T1,eop_pow>& expr)
+template<typename T1>
+arma_warn_unused
+inline
+typename T1::elem_type
+accu(const eOpCube<T1,eop_pow>& expr)
+  {
+  arma_debug_sigprint();
+  
+  typedef eOpCube<T1,eop_pow> expr_type;
+  
+  typedef typename T1::elem_type eT;
+  
+  if(expr.aux == eT(2))
+    {
+    typedef typename ProxyCube<T1>::stored_type expr_P_stored_type;
+    
+    if(is_Cube<expr_P_stored_type>::value)
+      {
+      const unwrap_cube<expr_P_stored_type> U(expr.P.Q);
+      
+      const eT* X_mem = U.M.memptr();
+      
+      return op_dot::direct_dot(U.M.n_elem, X_mem, X_mem);
+      }
+    else
+      {
+      typedef eOpCube<T1,eop_square> modified_expr_type;
+      
+      const ProxyCube<modified_expr_type> P( reinterpret_cast< const modified_expr_type& >(expr) );
+      
+      return (ProxyCube<modified_expr_type>::use_at) ? accu_cube_proxy_at(P) : accu_cube_proxy_linear(P);
+      }
+    }
+  
+  const ProxyCube<expr_type> P(expr);
+  
+  return (ProxyCube<expr_type>::use_at) ? accu_cube_proxy_at(P) : accu_cube_proxy_linear(P);
+  }
 
 
 
