@@ -27,6 +27,8 @@ class eGlueCube : public BaseCube< typename T1::elem_type, eGlueCube<T1, T2, egl
   
   typedef typename T1::elem_type                   elem_type;
   typedef typename get_pod_type<elem_type>::result pod_type;
+  typedef          ProxyCube<T1>                   proxy1_type;
+  typedef          ProxyCube<T2>                   proxy2_type;
   
   static constexpr bool use_at      = (ProxyCube<T1>::use_at      || ProxyCube<T2>::use_at     );
   static constexpr bool use_mp      = (ProxyCube<T1>::use_mp      || ProxyCube<T2>::use_mp     );

@@ -905,7 +905,7 @@ accu(const eOpCube<T1,eop_pow>& expr)
   
   if(expr.aux == eT(2))
     {
-    typedef typename ProxyCube<T1>::stored_type expr_P_stored_type;
+    typedef typename expr_type::proxy_type::stored_type expr_P_stored_type;
     
     if(is_Cube<expr_P_stored_type>::value)
       {
@@ -943,8 +943,8 @@ accu(const eGlueCube<T1,T2,eglue_schur>& expr)
   
   typedef eGlueCube<T1,T2,eglue_schur> expr_type;
   
-  typedef typename ProxyCube<T1>::stored_type P1_stored_type;
-  typedef typename ProxyCube<T2>::stored_type P2_stored_type;
+  typedef typename expr_type::proxy_type::stored_type P1_stored_type;
+  typedef typename expr_type::proxy_type::stored_type P2_stored_type;
   
   if(is_Cube<P1_stored_type>::value && is_Cube<P2_stored_type>::value)
     {
