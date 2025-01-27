@@ -1163,6 +1163,30 @@ accu(const SpOp<T1, spop_type>& expr)
   
   if(is_vectorise)  { return accu(expr.m); }
   
+  if(is_same_type<spop_type, spop_square>::yes)
+    {
+    const SpProxy<T1> P(expr.m);
+    
+    const uword N = P.get_n_nonzero();
+    
+    if(N == 0)  { return eT(0); }
+    
+    if(SpProxy<T1>::use_iterator == false)
+      {
+      return op_dot::direct_dot(N, P.get_values(), P.get_values());
+      }
+    else
+      {
+      typename SpProxy<T1>::const_iterator_type it = P.begin();
+      
+      eT val = eT(0);
+      
+      for(uword i=0; i < N; ++i)  { const eT tmp = (*it); ++it; val += tmp*tmp; }
+      
+      return val;
+      }
+    }
+  
   const SpMat<eT> tmp = expr;
   
   return accu(tmp);
