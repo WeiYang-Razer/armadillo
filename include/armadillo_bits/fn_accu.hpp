@@ -276,34 +276,49 @@ template<typename T1>
 arma_warn_unused
 inline
 typename T1::elem_type
+accu(const eOp<T1,eop_square>& expr)
+  {
+  arma_debug_sigprint();
+  
+  typedef typename T1::elem_type eT;
+    
+  typedef eOp<T1,eop_square> expr_type;
+  
+  typedef typename expr_type::proxy_type::stored_type expr_P_stored_type;
+  
+  if((is_Mat<expr_P_stored_type>::value) || (is_subview_col<expr_P_stored_type>::value))
+    {
+    const quasi_unwrap<T1> U(expr.P.Q);
+    
+    const eT* X_mem = U.M.memptr();
+    
+    return op_dot::direct_dot(U.M.n_elem, X_mem, X_mem);
+    }
+  
+  const Proxy<expr_type> P(expr);
+  
+  return (Proxy<expr_type>::use_at) ? accu_proxy_at(P) : accu_proxy_linear(P);
+  }
+
+
+
+template<typename T1>
+arma_warn_unused
+inline
+typename T1::elem_type
 accu(const eOp<T1,eop_pow>& expr)
   {
   arma_debug_sigprint();
   
-  typedef eOp<T1,eop_pow> expr_type;
-  
   typedef typename T1::elem_type eT;
+  
+  typedef eOp<T1,eop_pow> expr_type;
   
   if(expr.aux == eT(2))
     {
-    typedef typename expr_type::proxy_type::stored_type expr_P_stored_type;
+    typedef eOp<T1,eop_square> modified_expr_type;
     
-    if((is_Mat<expr_P_stored_type>::value) || (is_subview_col<expr_P_stored_type>::value))
-      {
-      const quasi_unwrap<T1> U(expr.P.Q);
-      
-      const eT* X_mem = U.M.memptr();
-      
-      return op_dot::direct_dot(U.M.n_elem, X_mem, X_mem);
-      }
-    else
-      {
-      typedef eOp<T1,eop_square> modified_expr_type;
-      
-      const Proxy<modified_expr_type> P( reinterpret_cast< const modified_expr_type& >(expr) );
-      
-      return (Proxy<modified_expr_type>::use_at) ? accu_proxy_at(P) : accu_proxy_linear(P);
-      }
+    return accu( reinterpret_cast< const modified_expr_type& >(expr) );
     }
   
   const Proxy<expr_type> P(expr);
@@ -895,34 +910,49 @@ template<typename T1>
 arma_warn_unused
 inline
 typename T1::elem_type
+accu(const eOpCube<T1,eop_square>& expr)
+  {
+  arma_debug_sigprint();
+  
+  typedef typename T1::elem_type eT;
+  
+  typedef eOpCube<T1,eop_square> expr_type;
+  
+  typedef typename expr_type::proxy_type::stored_type expr_P_stored_type;
+  
+  if(is_Cube<expr_P_stored_type>::value)
+    {
+    const unwrap_cube<expr_P_stored_type> U(expr.P.Q);
+    
+    const eT* X_mem = U.M.memptr();
+    
+    return op_dot::direct_dot(U.M.n_elem, X_mem, X_mem);
+    }
+  
+  const ProxyCube<expr_type> P(expr);
+  
+  return (ProxyCube<expr_type>::use_at) ? accu_cube_proxy_at(P) : accu_cube_proxy_linear(P);
+  }
+
+
+
+template<typename T1>
+arma_warn_unused
+inline
+typename T1::elem_type
 accu(const eOpCube<T1,eop_pow>& expr)
   {
   arma_debug_sigprint();
   
-  typedef eOpCube<T1,eop_pow> expr_type;
-  
   typedef typename T1::elem_type eT;
+  
+  typedef eOpCube<T1,eop_pow> expr_type;
   
   if(expr.aux == eT(2))
     {
-    typedef typename expr_type::proxy_type::stored_type expr_P_stored_type;
+    typedef eOpCube<T1,eop_square> modified_expr_type;
     
-    if(is_Cube<expr_P_stored_type>::value)
-      {
-      const unwrap_cube<expr_P_stored_type> U(expr.P.Q);
-      
-      const eT* X_mem = U.M.memptr();
-      
-      return op_dot::direct_dot(U.M.n_elem, X_mem, X_mem);
-      }
-    else
-      {
-      typedef eOpCube<T1,eop_square> modified_expr_type;
-      
-      const ProxyCube<modified_expr_type> P( reinterpret_cast< const modified_expr_type& >(expr) );
-      
-      return (ProxyCube<modified_expr_type>::use_at) ? accu_cube_proxy_at(P) : accu_cube_proxy_linear(P);
-      }
+    return accu( reinterpret_cast< const modified_expr_type& >(expr) );
     }
   
   const ProxyCube<expr_type> P(expr);
