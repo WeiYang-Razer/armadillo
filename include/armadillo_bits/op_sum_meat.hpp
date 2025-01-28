@@ -72,6 +72,103 @@ op_sum::apply(Mat<typename T1::elem_type>& out, const Op<T1,op_sum>& in)
 
 
 
+template<typename T1>
+inline
+void
+op_sum::apply(Mat<typename T1::elem_type>& out, const Op< eOp<T1,eop_square>, op_sum >& in)
+  {
+  arma_debug_sigprint();
+  
+  typedef typename T1::elem_type eT;
+  
+  typedef eOp<T1,eop_square> inner_expr_type;
+  
+  typedef typename inner_expr_type::proxy_type::stored_type inner_expr_P_stored_type;
+  
+  const uword dim = in.aux_uword_a;
+  
+  arma_conform_check( (dim > 1), "sum(): parameter 'dim' must be 0 or 1" );
+  
+  if(is_Mat<inner_expr_P_stored_type>::value)
+    {
+    const quasi_unwrap<inner_expr_P_stored_type> U(in.m.P.Q);
+    
+    if(U.is_alias(out))
+      {
+      Mat<eT> tmp;
+      
+      op_sum::apply_mat_square_noalias(tmp, U.M, dim);
+      
+      out.steal_mem(tmp);
+      }
+    else
+      {
+      op_sum::apply_mat_square_noalias(out, U.M, dim);
+      }
+    }
+  else
+    {
+    const Proxy<inner_expr_type> P(in.m);
+    
+    if(P.is_alias(out))
+      {
+      Mat<eT> tmp;
+      
+      op_sum::apply_proxy_noalias(tmp, P, dim);
+      
+      out.steal_mem(tmp);
+      }
+    else
+      {
+      op_sum::apply_proxy_noalias(out, P, dim);
+      }
+    }
+  }
+
+
+
+template<typename T1>
+inline
+void
+op_sum::apply(Mat<typename T1::elem_type>& out, const Op< eOp<T1,eop_pow>, op_sum >& in)
+  {
+  arma_debug_sigprint();
+  
+  typedef typename T1::elem_type eT;
+  
+  if(in.m.aux == eT(2))
+    {
+    typedef Op< eOp<T1,eop_square>, op_sum > modified_whole_expr_type;
+    
+    op_sum::apply(out, reinterpret_cast<const modified_whole_expr_type& >(in) );
+    }
+  else
+    {
+    const uword dim = in.aux_uword_a;
+    
+    arma_conform_check( (dim > 1), "sum(): parameter 'dim' must be 0 or 1" );
+  
+    typedef eOp<T1,eop_pow> inner_expr_type;
+    
+    const Proxy<inner_expr_type> P(in.m);
+    
+    if(P.is_alias(out))
+      {
+      Mat<eT> tmp;
+      
+      op_sum::apply_proxy_noalias(tmp, P, dim);
+      
+      out.steal_mem(tmp);
+      }
+    else
+      {
+      op_sum::apply_proxy_noalias(out, P, dim);
+      }
+    }
+  }
+
+
+
 template<typename eT>
 inline
 void
@@ -110,6 +207,52 @@ op_sum::apply_mat_noalias(Mat<eT>& out, const Mat<eT>& X, const uword dim)
     for(uword col=1; col < X_n_cols; ++col)
       {
       arrayops::inplace_plus( out_mem, X_colptr, X_n_rows );
+      
+      X_colptr += X_n_rows;
+      }
+    }
+  }
+
+
+
+template<typename eT>
+inline
+void
+op_sum::apply_mat_square_noalias(Mat<eT>& out, const Mat<eT>& X, const uword dim)
+  {
+  arma_debug_sigprint();
+  
+  const uword X_n_rows = X.n_rows;
+  const uword X_n_cols = X.n_cols;
+  
+  const uword out_n_rows = (dim == 0) ? uword(1) : X_n_rows;
+  const uword out_n_cols = (dim == 0) ? X_n_cols : uword(1);
+  
+  out.set_size(out_n_rows, out_n_cols);
+  
+  if(X.n_elem == 0)  { out.zeros(); return; }
+  
+  const eT* X_colptr =   X.memptr();
+        eT* out_mem  = out.memptr();
+  
+  if(dim == 0)
+    {
+    for(uword col=0; col < X_n_cols; ++col)
+      {
+      out_mem[col] = op_dot::direct_dot(X_n_rows, X_colptr, X_colptr);
+      
+      X_colptr += X_n_rows;
+      }
+    }
+  else
+    {
+    for(uword row=0; row < X_n_rows; ++row)  { const eT tmp = X_colptr[row]; out_mem[row] = tmp*tmp; }
+    
+    X_colptr += X_n_rows;
+    
+    for(uword col=1; col < X_n_cols; ++col)
+      {
+      for(uword row=0; row < X_n_rows; ++row)  { const eT tmp = X_colptr[row]; out_mem[row] += tmp*tmp; }
       
       X_colptr += X_n_rows;
       }
