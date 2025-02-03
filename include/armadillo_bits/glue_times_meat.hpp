@@ -537,9 +537,9 @@ glue_times::apply_inplace_plus(Mat<typename T1::elem_type>& out, const Glue<T1, 
   typedef typename T1::elem_type            eT;
   typedef typename get_pod_type<eT>::result  T;
   
-  if( (is_outer_product<T1>::value) || (has_op_inv_any<T1>::value) || (has_op_inv_any<T2>::value) )
+  if( (is_outer_product<T1>::value) || (has_op_inv_any<T1>::value) || (has_op_inv_any<T2>::value) || X.is_alias(out) )
     {
-    // partial workaround for corner cases
+    // partial workaround for corner cases; also handles aliasing
     
     const Mat<eT> tmp(X);
     
@@ -548,21 +548,21 @@ glue_times::apply_inplace_plus(Mat<typename T1::elem_type>& out, const Glue<T1, 
     return;
     }
   
-  const partial_unwrap_check<T1> tmp1(X.A, out);
-  const partial_unwrap_check<T2> tmp2(X.B, out);
+  const partial_unwrap<T1> U1(X.A);
+  const partial_unwrap<T2> U2(X.B);
   
-  typedef typename partial_unwrap_check<T1>::stored_type TA;
-  typedef typename partial_unwrap_check<T2>::stored_type TB;
+  typedef typename partial_unwrap<T1>::stored_type TA;
+  typedef typename partial_unwrap<T2>::stored_type TB;
   
-  const TA& A = tmp1.M;
-  const TB& B = tmp2.M;
+  const TA& A = U1.M;
+  const TB& B = U2.M;
   
-  constexpr bool do_trans_A = partial_unwrap_check<T1>::do_trans;
-  constexpr bool do_trans_B = partial_unwrap_check<T2>::do_trans;
+  constexpr bool do_trans_A = partial_unwrap<T1>::do_trans;
+  constexpr bool do_trans_B = partial_unwrap<T2>::do_trans;
   
-  const bool use_alpha = partial_unwrap_check<T1>::do_times || partial_unwrap_check<T2>::do_times || (sign < sword(0));
+  const bool use_alpha = partial_unwrap<T1>::do_times || partial_unwrap<T2>::do_times || (sign < sword(0));
   
-  const eT       alpha = use_alpha ? ( tmp1.get_val() * tmp2.get_val() * ( (sign > sword(0)) ? eT(1) : eT(-1) ) ) : eT(0);
+  const eT       alpha = use_alpha ? ( U1.get_val() * U2.get_val() * ( (sign > sword(0)) ? eT(1) : eT(-1) ) ) : eT(0);
   
   arma_conform_assert_mul_size(A, B, do_trans_A, do_trans_B, "matrix multiplication");
   
