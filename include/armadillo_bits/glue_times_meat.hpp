@@ -537,9 +537,9 @@ glue_times::apply_inplace_plus(Mat<typename T1::elem_type>& out, const Glue<T1, 
   typedef typename T1::elem_type            eT;
   typedef typename get_pod_type<eT>::result  T;
   
-  if( (is_outer_product<T1>::value) || (has_op_inv_any<T1>::value) || (has_op_inv_any<T2>::value) || X.is_alias(out) )
+  if( X.is_alias(out) || (is_glue_times<T1>::value) || (is_outer_product<T1>::value) || (has_op_inv_any<T1>::value) || (has_op_inv_any<T2>::value) )
     {
-    // partial workaround for corner cases; also handles aliasing
+    // handle aliasing and partial workaround for corner cases
     
     const Mat<eT> tmp(X);
     
