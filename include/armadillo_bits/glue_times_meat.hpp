@@ -252,14 +252,14 @@ glue_times_redirect3_helper<true>::apply(Mat<typename T1::elem_type>& out, const
     
     arma_conform_check( (A.is_square() == false), "inv(): given matrix must be square sized" );
     
-    const partial_unwrap<T2> tmp2(X.A.B);
-    const partial_unwrap<T3> tmp3(X.B  );
+    const partial_unwrap<T2> U2(X.A.B);
+    const partial_unwrap<T3> U3(X.B  );
     
-    const typename partial_unwrap<T2>::stored_type& B = tmp2.M;
-    const typename partial_unwrap<T3>::stored_type& C = tmp3.M;
+    const typename partial_unwrap<T2>::stored_type& B = U2.M;
+    const typename partial_unwrap<T3>::stored_type& C = U3.M;
     
     constexpr bool use_alpha = partial_unwrap<T2>::do_times || partial_unwrap<T3>::do_times;
-    const     eT       alpha = use_alpha ? (tmp2.get_val() * tmp3.get_val()) : eT(0);
+    const     eT       alpha = use_alpha ? (U2.get_val() * U3.get_val()) : eT(0);
     
     Mat<eT> BC;
     
@@ -306,8 +306,8 @@ glue_times_redirect3_helper<true>::apply(Mat<typename T1::elem_type>& out, const
     
     arma_conform_check( (B.is_square() == false), "inv(): given matrix must be square sized" );
     
-    const unwrap<T3> C_tmp(X.B);
-    const Mat<eT>& C = C_tmp.M;
+    const quasi_unwrap<T3> U3(X.B);
+    const Mat<eT>& C =     U3.M;
     
     arma_conform_assert_mul_size(B, C, "matrix multiplication");
     
@@ -330,21 +330,25 @@ glue_times_redirect3_helper<true>::apply(Mat<typename T1::elem_type>& out, const
       return;
       }
     
-    const partial_unwrap_check<T1> tmp1(X.A.A, out);
+    const partial_unwrap<T1> U1(X.A.A);
     
-    const typename partial_unwrap_check<T1>::stored_type& A = tmp1.M;
+    const typename partial_unwrap<T1>::stored_type& A = U1.M;
     
-    constexpr bool use_alpha = partial_unwrap_check<T1>::do_times;
-    const     eT       alpha = use_alpha ? tmp1.get_val() : eT(0);
+    constexpr bool use_alpha = partial_unwrap<T1>::do_times;
+    const     eT       alpha = use_alpha ? U1.get_val() : eT(0);
     
-    glue_times::apply
-      <
-      eT,
-      partial_unwrap_check<T1>::do_trans,
-      false,
-      partial_unwrap_check<T1>::do_times
-      >
-      (out, A, solve_result, alpha);
+    if(U1.is_alias(out))
+      {
+      Mat<eT> tmp;
+      
+      glue_times::apply<eT, partial_unwrap<T1>::do_trans, false, partial_unwrap<T1>::do_times>(tmp, A, solve_result, alpha);
+      
+      out.steal_mem(tmp);
+      }
+    else
+      {
+      glue_times::apply<eT, partial_unwrap<T1>::do_trans, false, partial_unwrap<T1>::do_times>(out, A, solve_result, alpha);
+      }
     
     return;
     }
