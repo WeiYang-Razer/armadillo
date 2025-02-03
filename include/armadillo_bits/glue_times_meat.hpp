@@ -31,20 +31,20 @@ glue_times_redirect2_helper<do_inv_detect>::apply(Mat<typename T1::elem_type>& o
   
   typedef typename T1::elem_type eT;
   
-  const partial_unwrap<T1> tmp1(X.A);
-  const partial_unwrap<T2> tmp2(X.B);
+  const partial_unwrap<T1> U1(X.A);
+  const partial_unwrap<T2> U2(X.B);
   
-  const typename partial_unwrap<T1>::stored_type& A = tmp1.M;
-  const typename partial_unwrap<T2>::stored_type& B = tmp2.M;
+  const typename partial_unwrap<T1>::stored_type& A = U1.M;
+  const typename partial_unwrap<T2>::stored_type& B = U2.M;
   
   constexpr bool use_alpha = partial_unwrap<T1>::do_times || partial_unwrap<T2>::do_times;
-  const     eT       alpha = use_alpha ? (tmp1.get_val() * tmp2.get_val()) : eT(0);
+  const     eT       alpha = use_alpha ? (U1.get_val() * U2.get_val()) : eT(0);
   
   if( (is_cx<eT>::no) && (resolves_to_rowvector<T1>::value && resolves_to_colvector<T2>::value) )
     {
     arma_debug_print("glue_times: dot product optimisation");
     
-    arma_conform_assert_mul_size(A, B, tmp1.do_trans, tmp2.do_trans, "matrix multiplication");
+    arma_conform_assert_mul_size(A, B, U1.do_trans, U2.do_trans, "matrix multiplication");
     
     const eT val = op_dot::direct_dot(A.n_elem, A.memptr(), B.memptr());
     
@@ -55,7 +55,7 @@ glue_times_redirect2_helper<do_inv_detect>::apply(Mat<typename T1::elem_type>& o
     return;
     }
   
-  const bool alias = tmp1.is_alias(out) || tmp2.is_alias(out);
+  const bool alias = U1.is_alias(out) || U2.is_alias(out);
   
   if(alias == false)
     {
@@ -186,18 +186,18 @@ glue_times_redirect3_helper<do_inv_detect>::apply(Mat<typename T1::elem_type>& o
   // we have exactly 3 objects
   // hence we can safely expand X as X.A.A, X.A.B and X.B
   
-  const partial_unwrap<T1> tmp1(X.A.A);
-  const partial_unwrap<T2> tmp2(X.A.B);
-  const partial_unwrap<T3> tmp3(X.B  );
+  const partial_unwrap<T1> U1(X.A.A);
+  const partial_unwrap<T2> U2(X.A.B);
+  const partial_unwrap<T3> U3(X.B  );
   
-  const typename partial_unwrap<T1>::stored_type& A = tmp1.M;
-  const typename partial_unwrap<T2>::stored_type& B = tmp2.M;
-  const typename partial_unwrap<T3>::stored_type& C = tmp3.M;
+  const typename partial_unwrap<T1>::stored_type& A = U1.M;
+  const typename partial_unwrap<T2>::stored_type& B = U2.M;
+  const typename partial_unwrap<T3>::stored_type& C = U3.M;
   
   constexpr bool use_alpha = partial_unwrap<T1>::do_times || partial_unwrap<T2>::do_times || partial_unwrap<T3>::do_times;
-  const     eT       alpha = use_alpha ? (tmp1.get_val() * tmp2.get_val() * tmp3.get_val()) : eT(0);
+  const     eT       alpha = use_alpha ? (U1.get_val() * U2.get_val() * U3.get_val()) : eT(0);
   
-  const bool alias = tmp1.is_alias(out) || tmp2.is_alias(out) || tmp3.is_alias(out);
+  const bool alias = U1.is_alias(out) || U2.is_alias(out) || U3.is_alias(out);
   
   if(alias == false)
     {
@@ -369,16 +369,16 @@ glue_times_redirect<N>::apply(Mat<typename T1::elem_type>& out, const Glue<T1,T2
   
   typedef typename T1::elem_type eT;
   
-  const partial_unwrap<T1> tmp1(X.A);
-  const partial_unwrap<T2> tmp2(X.B);
+  const partial_unwrap<T1> U1(X.A);
+  const partial_unwrap<T2> U2(X.B);
   
-  const typename partial_unwrap<T1>::stored_type& A = tmp1.M;
-  const typename partial_unwrap<T2>::stored_type& B = tmp2.M;
+  const typename partial_unwrap<T1>::stored_type& A = U1.M;
+  const typename partial_unwrap<T2>::stored_type& B = U2.M;
   
   constexpr bool use_alpha = partial_unwrap<T1>::do_times || partial_unwrap<T2>::do_times;
-  const     eT       alpha = use_alpha ? (tmp1.get_val() * tmp2.get_val()) : eT(0);
+  const     eT       alpha = use_alpha ? (U1.get_val() * U2.get_val()) : eT(0);
   
-  const bool alias = tmp1.is_alias(out) || tmp2.is_alias(out);
+  const bool alias = U1.is_alias(out) || U2.is_alias(out);
   
   if(alias == false)
     {
@@ -450,20 +450,20 @@ glue_times_redirect<4>::apply(Mat<typename T1::elem_type>& out, const Glue< Glue
   // there is exactly 4 objects
   // hence we can safely expand X as X.A.A.A, X.A.A.B, X.A.B and X.B
   
-  const partial_unwrap<T1> tmp1(X.A.A.A);
-  const partial_unwrap<T2> tmp2(X.A.A.B);
-  const partial_unwrap<T3> tmp3(X.A.B  );
-  const partial_unwrap<T4> tmp4(X.B    );
+  const partial_unwrap<T1> U1(X.A.A.A);
+  const partial_unwrap<T2> U2(X.A.A.B);
+  const partial_unwrap<T3> U3(X.A.B  );
+  const partial_unwrap<T4> U4(X.B    );
   
-  const typename partial_unwrap<T1>::stored_type& A = tmp1.M;
-  const typename partial_unwrap<T2>::stored_type& B = tmp2.M;
-  const typename partial_unwrap<T3>::stored_type& C = tmp3.M;
-  const typename partial_unwrap<T4>::stored_type& D = tmp4.M;
+  const typename partial_unwrap<T1>::stored_type& A = U1.M;
+  const typename partial_unwrap<T2>::stored_type& B = U2.M;
+  const typename partial_unwrap<T3>::stored_type& C = U3.M;
+  const typename partial_unwrap<T4>::stored_type& D = U4.M;
   
   constexpr bool use_alpha = partial_unwrap<T1>::do_times || partial_unwrap<T2>::do_times || partial_unwrap<T3>::do_times || partial_unwrap<T4>::do_times;
-  const     eT       alpha = use_alpha ? (tmp1.get_val() * tmp2.get_val() * tmp3.get_val() * tmp4.get_val()) : eT(0);
+  const     eT       alpha = use_alpha ? (U1.get_val() * U2.get_val() * U3.get_val() * U4.get_val()) : eT(0);
   
-  const bool alias = tmp1.is_alias(out) || tmp2.is_alias(out) || tmp3.is_alias(out) || tmp4.is_alias(out);
+  const bool alias = U1.is_alias(out) || U2.is_alias(out) || U3.is_alias(out) || U4.is_alias(out);
   
   if(alias == false)
     {
