@@ -281,7 +281,7 @@ accu(const eOp<T1,eop_square>& expr)
   arma_debug_sigprint();
   
   typedef typename T1::elem_type eT;
-    
+  
   typedef eOp<T1,eop_square> expr_type;
   
   typedef typename expr_type::proxy_type::stored_type expr_P_stored_type;
