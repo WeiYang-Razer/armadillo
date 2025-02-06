@@ -289,7 +289,7 @@ namespace priv
   struct functor_imag
     {
     template<typename eT>
-    arma_inline eT operator()(const eT               val) const { return eT(0);      }
+    arma_inline eT operator()(const eT                  ) const { return eT(0);      }
     
     template<typename T>
     arma_inline  T operator()(const std::complex<T>& val) const { return val.imag(); }
