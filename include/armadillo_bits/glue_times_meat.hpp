@@ -64,7 +64,7 @@ glue_times_redirect2_helper<do_inv_detect>::apply(Mat<typename T1::elem_type>& o
       eT,
       partial_unwrap<T1>::do_trans,
       partial_unwrap<T2>::do_trans,
-      (partial_unwrap<T1>::do_times || partial_unwrap<T2>::do_times)
+      use_alpha
       >
       (out, A, B, alpha);
     }
@@ -77,7 +77,7 @@ glue_times_redirect2_helper<do_inv_detect>::apply(Mat<typename T1::elem_type>& o
       eT,
       partial_unwrap<T1>::do_trans,
       partial_unwrap<T2>::do_trans,
-      (partial_unwrap<T1>::do_times || partial_unwrap<T2>::do_times)
+      use_alpha
       >
       (tmp, A, B, alpha);
     
@@ -207,7 +207,7 @@ glue_times_redirect3_helper<do_inv_detect>::apply(Mat<typename T1::elem_type>& o
       partial_unwrap<T1>::do_trans,
       partial_unwrap<T2>::do_trans,
       partial_unwrap<T3>::do_trans,
-      (partial_unwrap<T1>::do_times || partial_unwrap<T2>::do_times || partial_unwrap<T3>::do_times)
+      use_alpha
       >
       (out, A, B, C, alpha);
     }
@@ -221,7 +221,7 @@ glue_times_redirect3_helper<do_inv_detect>::apply(Mat<typename T1::elem_type>& o
       partial_unwrap<T1>::do_trans,
       partial_unwrap<T2>::do_trans,
       partial_unwrap<T3>::do_trans,
-      (partial_unwrap<T1>::do_times || partial_unwrap<T2>::do_times || partial_unwrap<T3>::do_times)
+      use_alpha
       >
       (tmp, A, B, C, alpha);
     
@@ -268,7 +268,7 @@ glue_times_redirect3_helper<true>::apply(Mat<typename T1::elem_type>& out, const
       eT,
       partial_unwrap<T2>::do_trans,
       partial_unwrap<T3>::do_trans,
-      (partial_unwrap<T2>::do_times || partial_unwrap<T3>::do_times)
+      use_alpha
       >
       (BC, B, C, alpha);
     
@@ -341,13 +341,13 @@ glue_times_redirect3_helper<true>::apply(Mat<typename T1::elem_type>& out, const
       {
       Mat<eT> tmp;
       
-      glue_times::apply<eT, partial_unwrap<T1>::do_trans, false, partial_unwrap<T1>::do_times>(tmp, A, solve_result, alpha);
+      glue_times::apply<eT, partial_unwrap<T1>::do_trans, false, use_alpha>(tmp, A, solve_result, alpha);
       
       out.steal_mem(tmp);
       }
     else
       {
-      glue_times::apply<eT, partial_unwrap<T1>::do_trans, false, partial_unwrap<T1>::do_times>(out, A, solve_result, alpha);
+      glue_times::apply<eT, partial_unwrap<T1>::do_trans, false, use_alpha>(out, A, solve_result, alpha);
       }
     
     return;
@@ -387,7 +387,7 @@ glue_times_redirect<N>::apply(Mat<typename T1::elem_type>& out, const Glue<T1,T2
       eT,
       partial_unwrap<T1>::do_trans,
       partial_unwrap<T2>::do_trans,
-      (partial_unwrap<T1>::do_times || partial_unwrap<T2>::do_times)
+      use_alpha
       >
       (out, A, B, alpha);
     }
@@ -400,7 +400,7 @@ glue_times_redirect<N>::apply(Mat<typename T1::elem_type>& out, const Glue<T1,T2
       eT,
       partial_unwrap<T1>::do_trans,
       partial_unwrap<T2>::do_trans,
-      (partial_unwrap<T1>::do_times || partial_unwrap<T2>::do_times)
+      use_alpha
       >
       (tmp, A, B, alpha);
     
@@ -474,7 +474,7 @@ glue_times_redirect<4>::apply(Mat<typename T1::elem_type>& out, const Glue< Glue
       partial_unwrap<T2>::do_trans,
       partial_unwrap<T3>::do_trans,
       partial_unwrap<T4>::do_trans,
-      (partial_unwrap<T1>::do_times || partial_unwrap<T2>::do_times || partial_unwrap<T3>::do_times || partial_unwrap<T4>::do_times)
+      use_alpha
       >
       (out, A, B, C, D, alpha);
     }
@@ -489,7 +489,7 @@ glue_times_redirect<4>::apply(Mat<typename T1::elem_type>& out, const Glue< Glue
       partial_unwrap<T2>::do_trans,
       partial_unwrap<T3>::do_trans,
       partial_unwrap<T4>::do_trans,
-      (partial_unwrap<T1>::do_times || partial_unwrap<T2>::do_times || partial_unwrap<T3>::do_times || partial_unwrap<T4>::do_times)
+      use_alpha
       >
       (tmp, A, B, C, D, alpha);
     
