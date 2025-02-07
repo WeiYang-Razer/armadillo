@@ -5187,10 +5187,10 @@ Mat<eT>::Mat(const eOp<T1, eop_type>& X)
   
   if(is_same_type<eop_type, eop_pow>::value)
     {
-    constexpr bool eT_is_real = is_real< typename get_pod_type<eT>::result >::value;
+    constexpr bool eT_non_int = is_non_integral<eT>::value;
     
     if(               X.aux == eT(2)   )  { eop_square::apply(*this, reinterpret_cast< const eOp<T1, eop_square>& >(X)); return; }
-    if(eT_is_real && (X.aux == eT(0.5)))  {   eop_sqrt::apply(*this, reinterpret_cast< const eOp<T1, eop_sqrt  >& >(X)); return; }
+    if(eT_non_int && (X.aux == eT(0.5)))  {   eop_sqrt::apply(*this, reinterpret_cast< const eOp<T1, eop_sqrt  >& >(X)); return; }
     }
   
   eop_type::apply(*this, X);
@@ -5217,10 +5217,10 @@ Mat<eT>::operator=(const eOp<T1, eop_type>& X)
   
   if(is_same_type<eop_type, eop_pow>::value)
     {
-    constexpr bool eT_is_real = is_real< typename get_pod_type<eT>::result >::value;
+    constexpr bool eT_non_int = is_non_integral<eT>::value;
     
     if(               X.aux == eT(2)   )  { eop_square::apply(*this, reinterpret_cast< const eOp<T1, eop_square>& >(X)); return *this; }
-    if(eT_is_real && (X.aux == eT(0.5)))  {   eop_sqrt::apply(*this, reinterpret_cast< const eOp<T1, eop_sqrt  >& >(X)); return *this; }
+    if(eT_non_int && (X.aux == eT(0.5)))  {   eop_sqrt::apply(*this, reinterpret_cast< const eOp<T1, eop_sqrt  >& >(X)); return *this; }
     }
   
   eop_type::apply(*this, X);
@@ -5246,10 +5246,10 @@ Mat<eT>::operator+=(const eOp<T1, eop_type>& X)
   
   if(is_same_type<eop_type, eop_pow>::value)
     {
-    constexpr bool eT_is_real = is_real< typename get_pod_type<eT>::result >::value;
+    constexpr bool eT_non_int = is_non_integral<eT>::value;
     
     if(               X.aux == eT(2)   )  { eop_square::apply_inplace_plus(*this, reinterpret_cast< const eOp<T1, eop_square>& >(X)); return *this; }
-    if(eT_is_real && (X.aux == eT(0.5)))  {   eop_sqrt::apply_inplace_plus(*this, reinterpret_cast< const eOp<T1, eop_sqrt  >& >(X)); return *this; }
+    if(eT_non_int && (X.aux == eT(0.5)))  {   eop_sqrt::apply_inplace_plus(*this, reinterpret_cast< const eOp<T1, eop_sqrt  >& >(X)); return *this; }
     }
   
   eop_type::apply_inplace_plus(*this, X);
@@ -5275,10 +5275,10 @@ Mat<eT>::operator-=(const eOp<T1, eop_type>& X)
   
   if(is_same_type<eop_type, eop_pow>::value)
     {
-    constexpr bool eT_is_real = is_real< typename get_pod_type<eT>::result >::value;
+    constexpr bool eT_non_int = is_non_integral<eT>::value;
     
     if(               X.aux == eT(2)   )  { eop_square::apply_inplace_minus(*this, reinterpret_cast< const eOp<T1, eop_square>& >(X)); return *this; }
-    if(eT_is_real && (X.aux == eT(0.5)))  {   eop_sqrt::apply_inplace_minus(*this, reinterpret_cast< const eOp<T1, eop_sqrt  >& >(X)); return *this; }
+    if(eT_non_int && (X.aux == eT(0.5)))  {   eop_sqrt::apply_inplace_minus(*this, reinterpret_cast< const eOp<T1, eop_sqrt  >& >(X)); return *this; }
     }
   
   eop_type::apply_inplace_minus(*this, X);
@@ -5321,10 +5321,10 @@ Mat<eT>::operator%=(const eOp<T1, eop_type>& X)
   
   if(is_same_type<eop_type, eop_pow>::value)
     {
-    constexpr bool eT_is_real = is_real< typename get_pod_type<eT>::result >::value;
+    constexpr bool eT_non_int = is_non_integral<eT>::value;
     
     if(               X.aux == eT(2)   )  { eop_square::apply_inplace_schur(*this, reinterpret_cast< const eOp<T1, eop_square>& >(X)); return *this; }
-    if(eT_is_real && (X.aux == eT(0.5)))  {   eop_sqrt::apply_inplace_schur(*this, reinterpret_cast< const eOp<T1, eop_sqrt  >& >(X)); return *this; }
+    if(eT_non_int && (X.aux == eT(0.5)))  {   eop_sqrt::apply_inplace_schur(*this, reinterpret_cast< const eOp<T1, eop_sqrt  >& >(X)); return *this; }
     }
   
   eop_type::apply_inplace_schur(*this, X);
@@ -5350,10 +5350,10 @@ Mat<eT>::operator/=(const eOp<T1, eop_type>& X)
   
   if(is_same_type<eop_type, eop_pow>::value)
     {
-    constexpr bool eT_is_real = is_real< typename get_pod_type<eT>::result >::value;
+    constexpr bool eT_non_int = is_non_integral<eT>::value;
     
     if(               X.aux == eT(2)   )  { eop_square::apply_inplace_div(*this, reinterpret_cast< const eOp<T1, eop_square>& >(X)); return *this; }
-    if(eT_is_real && (X.aux == eT(0.5)))  {   eop_sqrt::apply_inplace_div(*this, reinterpret_cast< const eOp<T1, eop_sqrt  >& >(X)); return *this; }
+    if(eT_non_int && (X.aux == eT(0.5)))  {   eop_sqrt::apply_inplace_div(*this, reinterpret_cast< const eOp<T1, eop_sqrt  >& >(X)); return *this; }
     }
   
   eop_type::apply_inplace_div(*this, X);
