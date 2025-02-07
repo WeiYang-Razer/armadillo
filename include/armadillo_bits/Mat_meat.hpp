@@ -5185,14 +5185,15 @@ Mat<eT>::Mat(const eOp<T1, eop_type>& X)
   
   init_cold();
   
-  if( (is_same_type<eop_type, eop_pow>::value) && (X.aux == eT(2)) )
+  if(is_same_type<eop_type, eop_pow>::value)
     {
-    eop_square::apply(*this, reinterpret_cast< const eOp<T1, eop_square>& >(X));
+    constexpr bool eT_is_real = is_real< typename get_pod_type<eT>::result >::value;
+    
+    if(               X.aux == eT(2)   )  { eop_square::apply(*this, reinterpret_cast< const eOp<T1, eop_square>& >(X)); return; }
+    if(eT_is_real && (X.aux == eT(0.5)))  {   eop_sqrt::apply(*this, reinterpret_cast< const eOp<T1, eop_sqrt  >& >(X)); return; }
     }
-  else
-    {
-    eop_type::apply(*this, X);
-    }
+  
+  eop_type::apply(*this, X);
   }
 
 
@@ -5214,14 +5215,15 @@ Mat<eT>::operator=(const eOp<T1, eop_type>& X)
   
   init_warm(X.get_n_rows(), X.get_n_cols());
   
-  if( (is_same_type<eop_type, eop_pow>::value) && (X.aux == eT(2)) )
+  if(is_same_type<eop_type, eop_pow>::value)
     {
-    eop_square::apply(*this, reinterpret_cast< const eOp<T1, eop_square>& >(X));
+    constexpr bool eT_is_real = is_real< typename get_pod_type<eT>::result >::value;
+    
+    if(               X.aux == eT(2)   )  { eop_square::apply(*this, reinterpret_cast< const eOp<T1, eop_square>& >(X)); return *this; }
+    if(eT_is_real && (X.aux == eT(0.5)))  {   eop_sqrt::apply(*this, reinterpret_cast< const eOp<T1, eop_sqrt  >& >(X)); return *this; }
     }
-  else
-    {
-    eop_type::apply(*this, X);
-    }
+  
+  eop_type::apply(*this, X);
   
   return *this;
   }
@@ -5242,14 +5244,15 @@ Mat<eT>::operator+=(const eOp<T1, eop_type>& X)
   
   if(bad_alias)  { const Mat<eT> tmp(X); return (*this).operator+=(tmp); }
   
-  if( (is_same_type<eop_type, eop_pow>::value) && (X.aux == eT(2)) )
+  if(is_same_type<eop_type, eop_pow>::value)
     {
-    eop_square::apply_inplace_plus(*this, reinterpret_cast< const eOp<T1, eop_square>& >(X));
+    constexpr bool eT_is_real = is_real< typename get_pod_type<eT>::result >::value;
+    
+    if(               X.aux == eT(2)   )  { eop_square::apply_inplace_plus(*this, reinterpret_cast< const eOp<T1, eop_square>& >(X)); return *this; }
+    if(eT_is_real && (X.aux == eT(0.5)))  {   eop_sqrt::apply_inplace_plus(*this, reinterpret_cast< const eOp<T1, eop_sqrt  >& >(X)); return *this; }
     }
-  else
-    {
-    eop_type::apply_inplace_plus(*this, X);
-    }
+  
+  eop_type::apply_inplace_plus(*this, X);
   
   return *this;
   }
@@ -5270,14 +5273,15 @@ Mat<eT>::operator-=(const eOp<T1, eop_type>& X)
   
   if(bad_alias)  { const Mat<eT> tmp(X); return (*this).operator-=(tmp); }
   
-  if( (is_same_type<eop_type, eop_pow>::value) && (X.aux == eT(2)) )
+  if(is_same_type<eop_type, eop_pow>::value)
     {
-    eop_square::apply_inplace_minus(*this, reinterpret_cast< const eOp<T1, eop_square>& >(X));
+    constexpr bool eT_is_real = is_real< typename get_pod_type<eT>::result >::value;
+    
+    if(               X.aux == eT(2)   )  { eop_square::apply_inplace_minus(*this, reinterpret_cast< const eOp<T1, eop_square>& >(X)); return *this; }
+    if(eT_is_real && (X.aux == eT(0.5)))  {   eop_sqrt::apply_inplace_minus(*this, reinterpret_cast< const eOp<T1, eop_sqrt  >& >(X)); return *this; }
     }
-  else
-    {
-    eop_type::apply_inplace_minus(*this, X);
-    }
+  
+  eop_type::apply_inplace_minus(*this, X);
   
   return *this;
   }
@@ -5315,14 +5319,15 @@ Mat<eT>::operator%=(const eOp<T1, eop_type>& X)
   
   if(bad_alias)  { const Mat<eT> tmp(X); return (*this).operator%=(tmp); }
   
-  if( (is_same_type<eop_type, eop_pow>::value) && (X.aux == eT(2)) )
+  if(is_same_type<eop_type, eop_pow>::value)
     {
-    eop_square::apply_inplace_schur(*this, reinterpret_cast< const eOp<T1, eop_square>& >(X));
+    constexpr bool eT_is_real = is_real< typename get_pod_type<eT>::result >::value;
+    
+    if(               X.aux == eT(2)   )  { eop_square::apply_inplace_schur(*this, reinterpret_cast< const eOp<T1, eop_square>& >(X)); return *this; }
+    if(eT_is_real && (X.aux == eT(0.5)))  {   eop_sqrt::apply_inplace_schur(*this, reinterpret_cast< const eOp<T1, eop_sqrt  >& >(X)); return *this; }
     }
-  else
-    {
-    eop_type::apply_inplace_schur(*this, X);
-    }
+  
+  eop_type::apply_inplace_schur(*this, X);
   
   return *this;
   }
@@ -5343,14 +5348,15 @@ Mat<eT>::operator/=(const eOp<T1, eop_type>& X)
   
   if(bad_alias)  { const Mat<eT> tmp(X); return (*this).operator/=(tmp); }
   
-  if( (is_same_type<eop_type, eop_pow>::value) && (X.aux == eT(2)) )
+  if(is_same_type<eop_type, eop_pow>::value)
     {
-    eop_square::apply_inplace_div(*this, reinterpret_cast< const eOp<T1, eop_square>& >(X));
+    constexpr bool eT_is_real = is_real< typename get_pod_type<eT>::result >::value;
+    
+    if(               X.aux == eT(2)   )  { eop_square::apply_inplace_div(*this, reinterpret_cast< const eOp<T1, eop_square>& >(X)); return *this; }
+    if(eT_is_real && (X.aux == eT(0.5)))  {   eop_sqrt::apply_inplace_div(*this, reinterpret_cast< const eOp<T1, eop_sqrt  >& >(X)); return *this; }
     }
-  else
-    {
-    eop_type::apply_inplace_div(*this, X);
-    }
+  
+  eop_type::apply_inplace_div(*this, X);
   
   return *this;
   }
