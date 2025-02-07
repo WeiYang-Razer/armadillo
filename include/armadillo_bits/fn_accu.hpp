@@ -321,6 +321,13 @@ accu(const eOp<T1,eop_pow>& expr)
     return accu( reinterpret_cast< const modified_expr_type& >(expr) );
     }
   
+  if((expr.aux == eT(0.5)) && is_non_integral<eT>::value)
+    {
+    typedef eOp<T1,eop_sqrt> modified_expr_type;
+    
+    return accu( reinterpret_cast< const modified_expr_type& >(expr) );
+    }
+  
   const Proxy<expr_type> P(expr);
   
   return (Proxy<expr_type>::use_at) ? accu_proxy_at(P) : accu_proxy_linear(P);
@@ -951,6 +958,13 @@ accu(const eOpCube<T1,eop_pow>& expr)
   if(expr.aux == eT(2))
     {
     typedef eOpCube<T1,eop_square> modified_expr_type;
+    
+    return accu( reinterpret_cast< const modified_expr_type& >(expr) );
+    }
+  
+  if((expr.aux == eT(0.5)) && is_non_integral<eT>::value)
+    {
+    typedef eOpCube<T1,eop_sqrt> modified_expr_type;
     
     return accu( reinterpret_cast< const modified_expr_type& >(expr) );
     }

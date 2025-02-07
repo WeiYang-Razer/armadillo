@@ -163,6 +163,15 @@ op_sum::apply(Mat<typename T1::elem_type>& out, const Op< eOp<T1,eop_pow>, op_su
     return;
     }
   
+  if((in.m.aux == eT(0.5)) && is_non_integral<eT>::value)
+    {
+    typedef Op< eOp<T1,eop_sqrt>, op_sum > modified_whole_expr_type;
+    
+    op_sum::apply(out, reinterpret_cast<const modified_whole_expr_type& >(in) );
+    
+    return;
+    }
+  
   typedef eOp<T1,eop_pow> inner_expr_type;
   
   typedef typename inner_expr_type::proxy_type::stored_type inner_expr_P_stored_type;
