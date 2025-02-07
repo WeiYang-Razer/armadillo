@@ -522,7 +522,11 @@ glue_times::apply_inplace(Mat<typename T1::elem_type>& out, const T1& X)
   {
   arma_debug_sigprint();
   
-  out = out * X;
+  typedef typename T1::elem_type eT;
+  
+  Mat<eT> tmp = out * X;
+  
+  out.steal_mem(tmp);
   }
 
 
