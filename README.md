@@ -78,8 +78,8 @@ Please cite the following papers if you use Armadillo in your research and/or so
 Citations are useful for the continued development and maintenance of the library.
 
   * Conrad Sanderson and Ryan Curtin.  
-    Armadillo: a template-based C++ library for linear algebra.  
-    Journal of Open Source Software, Vol. 1, No. 2, pp. 26, 2016.  
+    Armadillo: An Efficient Framework for Numerical Linear Algebra.  
+    arXiv:2502.03000, 2025.  
   
   * Conrad Sanderson and Ryan Curtin.  
     Practical Sparse Matrices in C++ with Hybrid Storage and Template-Based Expression Optimisation.  
