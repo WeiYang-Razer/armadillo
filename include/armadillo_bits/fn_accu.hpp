@@ -288,7 +288,7 @@ accu(const eOp<T1,eop_square>& expr)
   
   if((is_Mat<expr_P_stored_type>::value) || (is_subview_col<expr_P_stored_type>::value))
     {
-    const quasi_unwrap<T1> U(expr.P.Q);
+    const quasi_unwrap<expr_P_stored_type> U(expr.P.Q);
     
     const eT* X_mem = U.M.memptr();
     
