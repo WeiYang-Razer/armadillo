@@ -987,8 +987,8 @@ accu(const eGlueCube<T1,T2,eglue_schur>& expr)
   
   typedef eGlueCube<T1,T2,eglue_schur> expr_type;
   
-  typedef typename expr_type::proxy_type::stored_type P1_stored_type;
-  typedef typename expr_type::proxy_type::stored_type P2_stored_type;
+  typedef typename expr_type::proxy1_type::stored_type P1_stored_type;
+  typedef typename expr_type::proxy2_type::stored_type P2_stored_type;
   
   if(is_Cube<P1_stored_type>::value && is_Cube<P2_stored_type>::value)
     {
