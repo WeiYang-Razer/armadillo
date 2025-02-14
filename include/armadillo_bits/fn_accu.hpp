@@ -1211,7 +1211,7 @@ accu(const SpOp<T1, spop_type>& expr)
       
       eT val = eT(0);
       
-      for(uword i=0; i < N; ++i)  { const eT tmp = (*it); ++it; val += tmp*tmp; }
+      for(uword i=0; i < N; ++i)  { const eT tmp = (*it); val += (tmp*tmp); ++it; }
       
       return val;
       }
