@@ -603,20 +603,6 @@ sqrt(const T1& A)
 
 
 
-// workaround for old user code
-template<typename eT>
-arma_frown("use std::sqrt(arma::as_scalar(X)) instead")
-inline
-typename arma_scalar_only<eT>::result
-sqrt(const eT& A)
-  {
-  arma_debug_sigprint();
-  
-  return eop_aux::sqrt(A);
-  }
-
-
-
 template<typename T1>
 arma_warn_unused
 arma_inline
