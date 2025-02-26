@@ -5856,10 +5856,10 @@ If the matrix expression appears to be singular, the output matrix is reset and 
 <b>Caveats:</b>
 <ul>
 <li>
-if matrix <i>A</i> is know to be symmetric positive definite, <a href="#inv_sympd">inv_sympd()</a> is faster
+if the given matrix is know to be symmetric positive definite, <a href="#inv_sympd">inv_sympd()</a> is faster
 </li>
 <li>
-to solve a system of linear equations, such as <i>Z&nbsp;=&nbsp;inv(X)*Y</i>,
+to solve a system of linear equations, such as <i>X&nbsp;=&nbsp;A.i()&thinsp;*&thinsp;B</i>,
 <a href="#solve">solve()</a> can be faster and/or more accurate
 </li>
 </ul>
@@ -11327,7 +11327,6 @@ See also:
 <li><a href="#polyval">polyval()</a></li>
 <li><a href="#polyfit">polyfit()</a></li>
 <li><a href="#imag_real">real()</a></li>
-<li><a href="#solve">solve()</a></li>
 <li><a href="https://en.wikipedia.org/wiki/Zero_of_a_function">zero of a function in Wikipedia</a></li>
 </ul>
 </li>
@@ -13083,7 +13082,7 @@ If <i>A</i> is not square sized, a <i>std::logic_error</i> exception is thrown
 <li>if matrix <i>A</i> is know to be symmetric positive definite, <a href="#inv_sympd">inv_sympd()</a> is faster</li>
 <li>if matrix <i>A</i> is know to be diagonal, use <i>inv(&thinsp;diagmat(A)&thinsp;)</i></li>
 <li>if matrix <i>A</i> is know to be triangular, use <i>inv(&thinsp;trimatu(A)&thinsp;)</i> or <i>inv(&thinsp;trimatl(A)&thinsp;)</i></li>
-<li>to solve a system of linear equations, such as <i>Z&thinsp;=&thinsp;inv(X)*Y</i>, <a href="#solve">solve()</a> can be faster and/or more accurate</li>
+<li>to solve a system of linear equations, such as <i>Z&nbsp;=&nbsp;inv(X)&thinsp;*&thinsp;Y</i>, <a href="#solve">solve()</a> can be faster and/or more accurate</li>
 </ul>
 </li>
 <br>
@@ -13178,7 +13177,7 @@ If <i>A</i> is not square sized, a <i>std::logic_error</i> exception is thrown
 <br>
 <li>
 <b>Caveat:</b> 
-to solve a system of linear equations, such as <i>Z&nbsp;=&nbsp;inv(X)*Y</i>,
+to solve a system of linear equations, such as <i>Z&nbsp;=&nbsp;inv_sympd(X)&thinsp;*&thinsp;Y</i>,
 using <a href="#solve">solve()</a> can be faster and/or more accurate
 </li>
 <br>
@@ -13723,7 +13722,7 @@ See also:
 <br><b>solve( X, A, B, settings )</b>
 <ul>
 <li>Solve a <b>dense</b> system of linear equations, <i>A*X = B</i>, where <i>X</i> is unknown;
-similar functionality to the \ operator in Matlab/Octave, ie. <i>X&thinsp;=&thinsp;A&thinsp;\&thinsp;B</i>
+similar functionality to the \ operator in Matlab/Octave, ie. <i>X&nbsp;=&nbsp;A&thinsp;\&thinsp;B</i>
 </li>
 <br>
 <li><i>A</i> can be square sized (critically determined system), or non-square (under/over-determined system); <i>A</i> can be rank deficient
@@ -13835,7 +13834,6 @@ See also:
 <li><a href="#inv">inv()</a></li>
 <li><a href="#pinv">pinv()</a></li>
 <li><a href="#rcond">rcond()</a></li>
-<li><a href="#roots">roots()</a></li>
 <li><a href="#syl">syl()</a></li>
 <li><a href="#spsolve">spsolve()</a> - solve sparse system of linear equations</li>
 <li><a href="https://mathworld.wolfram.com/LinearSystemofEquations.html">linear system of equations in MathWorld</a></li>
