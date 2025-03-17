@@ -79,7 +79,7 @@ Citations are useful for the continued development and maintenance of the librar
 
   * Conrad Sanderson and Ryan Curtin.  
     Armadillo: An Efficient Framework for Numerical Linear Algebra.  
-    arXiv:2502.03000, 2025.  
+    International Conference on Computer and Automation Engineering, 2025.  
   
   * Conrad Sanderson and Ryan Curtin.  
     Practical Sparse Matrices in C++ with Hybrid Storage and Template-Based Expression Optimisation.  
