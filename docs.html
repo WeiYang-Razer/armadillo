@@ -10606,9 +10606,9 @@ For vector norm with <i>p&thinsp;=&thinsp;2</i> and matrix norm with <i>p&thinsp
 <li>
 <b>Caveats:</b>
 <ul>
-<li>matrix 2-norm (spectral norm) is based on SVD, which is computationally intensive; a faster alternative is <a href="#norm2est">norm2est()</a></li>
 <li>to obtain the vector norm of each row or column of a matrix, use <a href="#vecnorm">vecnorm()</a></li>
 <li>to obtain the zero/Hamming pseudo-norm (number of non-zero elements), use this expression: <code><a href="#accu">accu</a>(X&nbsp;!=&nbsp;0)</code></li>
+<li>matrix 2-norm (spectral norm) is based on SVD, which is computationally intensive; a faster alternative is <a href="#norm2est">norm2est()</a></li>
 </ul>
 </li>
 <br>
@@ -12165,7 +12165,11 @@ mat Y = unique(X);
 <br><b>vecnorm( X, p, dim )</b>
 <ul>
 <li>
-Compute the <i>p</i>-norm of each column vector <i>(dim&thinsp;=&thinsp;0)</i> or row vector <i>(dim&thinsp;=&thinsp;1)</i> of matrix <i>X</i>
+If <i>X</i> is a matrix, compute the <i>p</i>-norm of each column vector <i>(dim&thinsp;=&thinsp;0)</i> or row vector <i>(dim&thinsp;=&thinsp;1)</i>
+</li>
+<br>
+<li>
+If <i>X</i> is a vector and <i>dim</i> is not specified, the result is the same as <a href="#norm">norm()</a>
 </li>
 <br>
 <li>
