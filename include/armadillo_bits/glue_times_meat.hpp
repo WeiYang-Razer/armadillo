@@ -104,6 +104,36 @@ glue_times_redirect2_helper<true>::apply(Mat<typename T1::elem_type>& out, const
     
     const strip_inv<T1> A_strip(X.A);
     
+    if( (is_cx<eT>::no) && (strip_inv<T1>::do_inv_gen) && (is_Mat<typename strip_inv<T1>::stored_type>::value) && (is_Mat<T2>::value) )
+      {
+      const unwrap<typename strip_inv<T1>::stored_type> UA(A_strip.M);
+      const unwrap<T2>                                  UB(X.B);
+      
+      const typename unwrap<T1>::stored_type& A = UA.M;
+      const typename unwrap<T2>::stored_type& B = UB.M;
+      
+      const uword N = A.n_rows;
+      
+      if( (N > 0) && (N <= uword(3)) && (N == A.n_cols) && (N == B.n_rows) && (&out != &B) )
+        {
+        arma_debug_print("glue_times_redirect<2>::apply(): tiny matrix optimisation");
+        
+        Mat<eT> AA(N, N, arma_nozeros_indicator());
+        
+        arrayops::copy(AA.memptr(), A.memptr(), AA.n_elem);
+        
+        bool inv_status = false;
+        
+        if(N == 1)  { const eT a = AA[0]; AA[0] = eT(1) / a; inv_status = (a != eT(0)); }
+        if(N == 2)  { inv_status = op_inv_gen_full::apply_tiny_2x2(AA); }
+        if(N == 3)  { inv_status = op_inv_gen_full::apply_tiny_3x3(AA); }
+        
+        if(inv_status)  { glue_times::apply<eT,false,false,false>(out, AA, B, eT(0)); return; }
+        
+        // fallthrough if optimisation failed
+        }
+      }
+    
     Mat<eT> A = A_strip.M;
     
     arma_conform_check( (A.is_square() == false), "inv(): given matrix must be square sized" );
