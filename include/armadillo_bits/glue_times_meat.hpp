@@ -104,13 +104,15 @@ glue_times_redirect2_helper<true>::apply(Mat<typename T1::elem_type>& out, const
     
     const strip_inv<T1> A_strip(X.A);
     
-    if( (is_cx<eT>::no) && (strip_inv<T1>::do_inv_gen) && (is_Mat<typename strip_inv<T1>::stored_type>::value) && (is_Mat<T2>::value) )
+    typedef typename strip_inv<T1>::stored_type T1_stripped;
+    
+    if( (is_cx<eT>::no) && (strip_inv<T1>::do_inv_gen) && (is_Mat<T1_stripped>::value) && (is_Mat<T2>::value) )
       {
-      const unwrap<typename strip_inv<T1>::stored_type> UA(A_strip.M);
-      const unwrap<T2>                                  UB(X.B);
+      const unwrap<T1_stripped> UA(A_strip.M);
+      const unwrap<T2         > UB(X.B);
       
-      const typename unwrap<T1>::stored_type& A = UA.M;
-      const typename unwrap<T2>::stored_type& B = UB.M;
+      const typename unwrap<T1_stripped>::stored_type& A = UA.M;
+      const typename unwrap<T2         >::stored_type& B = UB.M;
       
       const uword N = A.n_rows;
       
