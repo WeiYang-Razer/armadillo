@@ -307,6 +307,14 @@
 #if defined(ARMA_BLAS_LONG) || defined(ARMA_BLAS_LONG_LONG)
   #undef  ARMA_BLAS_64BIT_INT
   #define ARMA_BLAS_64BIT_INT
+  
+  #pragma message ("options ARMA_BLAS_LONG and ARMA_BLAS_LONG_LONG are deprecated;")
+  #pragma message ("use ARMA_BLAS_64BIT_INT instead")
+#endif
+
+#if (defined(ARMA_BLAS_64BIT_INT) && defined(ARMA_USE_WRAPPER))
+  #pragma message ("define ARMA_DONT_USE_WRAPPER to use ARMA_BLAS_64BIT_INT")
+  #error "use of ARMA_BLAS_64BIT_INT in conjunction with ARMA_USE_WRAPPER is not supported"
 #endif
 
 #if defined(ARMA_DONT_OPTIMISE_BAND) || defined(ARMA_DONT_OPTIMISE_SOLVE_BAND)
