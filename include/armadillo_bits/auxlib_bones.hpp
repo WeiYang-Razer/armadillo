@@ -404,6 +404,13 @@ class auxlib
   inline static bool qz(Mat< std::complex<T> >& A, Mat< std::complex<T> >& B, Mat< std::complex<T> >& vsl, Mat< std::complex<T> >& vsr, const Base< std::complex<T>, T1 >& X_expr, const Base< std::complex<T>, T2 >& Y_expr, const char mode);
   
   
+  //
+  // matrix balance
+  
+  template<typename eT>
+  inline static bool balance(Col<typename get_pod_type<eT>::result>& D, Col<uword>& P, Mat<eT>& A, const bool calc_DP, const bool do_perm, const bool do_scal);
+  
+  
   // 
   // rcond
   

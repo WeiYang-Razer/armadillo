@@ -590,6 +590,7 @@ namespace arma
   #include "armadillo_bits/fn_powmat.hpp"
   #include "armadillo_bits/fn_powext.hpp"
   #include "armadillo_bits/fn_diags_spdiags.hpp"
+  #include "armadillo_bits/fn_balance.hpp"
   
   #include "armadillo_bits/fn_speye.hpp"
   #include "armadillo_bits/fn_spones.hpp"

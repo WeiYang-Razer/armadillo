@@ -6716,6 +6716,79 @@ auxlib::qz(Mat< std::complex<T> >& A, Mat< std::complex<T> >& B, Mat< std::compl
 
 template<typename eT>
 inline
+bool
+auxlib::balance(Col<typename get_pod_type<eT>::result>& D, Col<uword>& P, Mat<eT>& A, const bool calc_DP, const bool do_perm, const bool do_scal)
+  {
+  arma_debug_sigprint();
+  
+  #if defined(ARMA_USE_LAPACK)
+    {
+    typedef typename get_pod_type<eT>::result T;
+    
+    // assuming given matrix is square-sized
+    
+    if(A.n_elem == 0)  { D.reset(); P.reset(); return true; }
+    
+    const char job = (do_perm && do_scal) ? 'B' : ((do_perm) ? 'P' : ((do_scal) ? 'S' : 'N'));
+    
+    blas_int n    = blas_int(A.n_rows);
+    blas_int lda  = blas_int(A.n_rows);
+    blas_int ilo  = blas_int(0);
+    blas_int ihi  = blas_int(0);
+    blas_int info = blas_int(0);
+    
+    podarray<T> S(A.n_rows);  S.zeros();
+    
+    arma_debug_print("lapack::gebal()");
+    lapack::gebal(&job, &n, A.memptr(), &lda, &ilo, &ihi, S.memptr(), &info);
+    
+    if(info != blas_int(0))  { return false; }
+    
+    if(calc_DP == false)  { return true; }
+    
+    const uword N = A.n_rows;
+    
+    // sanity check
+    if( (ilo < 1) || (uword(ihi) > N) )
+      {
+      arma_debug_print("ilo and/or ihi out of bounds");
+      return false;
+      }
+    
+    D.zeros(N);
+    P.zeros(N);
+    
+              T* D_mem = D.memptr();
+          uword* P_mem = P.memptr();
+    const     T* S_mem = S.memptr();
+    
+    for(uword i = 0;            i < uword(ilo)-1; ++i)  { D_mem[i] = T(1);     }
+    for(uword i = uword(ilo)-1; i < uword(ihi);   ++i)  { D_mem[i] = S_mem[i]; }
+    for(uword i = uword(ihi);   i < N;            ++i)  { D_mem[i] = T(1);     }
+    
+    for(uword i=0; i < N; ++i)  { P_mem[i] = i; }
+    
+    for(uword i=N-1; i >= uword(ihi)  ; --i)  { const uword j = uword(S_mem[i]) - 1; std::swap(P_mem[i], P_mem[j]); }
+    for(uword i=0;   i <  uword(ilo)-1; ++i)  { const uword j = uword(S_mem[i]) - 1; std::swap(P_mem[i], P_mem[j]); }
+    
+    return true;
+    }
+  #else
+    {
+    arma_ignore(D);
+    arma_ignore(P);
+    arma_ignore(A);
+    arma_ignore(do_perm);
+    arma_ignore(do_scal);
+    return false;
+    }
+  #endif
+  }
+
+
+
+template<typename eT>
+inline
 eT
 auxlib::rcond(Mat<eT>& A)
   {
