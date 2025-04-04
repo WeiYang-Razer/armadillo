@@ -1383,6 +1383,28 @@ extern "C"
       arma_fortran_sans_prefix(arma_zhecon)(uplo, n, a, lda, ipiv, anorm, rcond, work, info);
       }
     
+    
+    
+    void arma_fortran_with_prefix(arma_sgebal)(const char* job, const blas_int* n,    float* a, const blas_int* lda, blas_int* ilo, blas_int* ihi,  float* scale, blas_int* info)
+      {
+      arma_fortran_sans_prefix(arma_sgebal)(job, n, a, lda, ilo, ihi, scale, info);
+      }
+    
+    void arma_fortran_with_prefix(arma_dgebal)(const char* job, const blas_int* n,   double* a, const blas_int* lda, blas_int* ilo, blas_int* ihi, double* scale, blas_int* info)
+      {
+      arma_fortran_sans_prefix(arma_dgebal)(job, n, a, lda, ilo, ihi, scale, info);
+      }
+    
+    void arma_fortran_with_prefix(arma_cgebal)(const char* job, const blas_int* n, blas_cxf* a, const blas_int* lda, blas_int* ilo, blas_int* ihi,  float* scale, blas_int* info)
+      {
+      arma_fortran_sans_prefix(arma_cgebal)(job, n, a, lda, ilo, ihi, scale, info);
+      }
+    
+    void arma_fortran_with_prefix(arma_zgebal)(const char* job, const blas_int* n, blas_cxd* a, const blas_int* lda, blas_int* ilo, blas_int* ihi, double* scale, blas_int* info)
+      {
+      arma_fortran_sans_prefix(arma_zgebal)(job, n, a, lda, ilo, ihi, scale, info);
+      }
+    
   #endif
   
   
