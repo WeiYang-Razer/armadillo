@@ -23,16 +23,16 @@
 
 template<typename T1>
 inline
-bool
-balance(Col<typename T1::pod_type>& D, Col<uword>& P, Mat<typename T1::elem_type>& B, const Base<typename T1::elem_type,T1>& A, const char* operation = "both")
+typename enable_if2< is_supported_blas_type<typename T1::elem_type>::value, bool >::result
+balance(Col<typename T1::pod_type>& D, Col<uword>& P, Mat<typename T1::elem_type>& B, const Base<typename T1::elem_type,T1>& A, const char* option = "both")
   {
   arma_debug_sigprint();
   
-  // TODO: check for aliasing between D and B
+  arma_conform_check( (void_ptr(&D)  == void_ptr(&B)), "eig_gen(): parameter 'D' is an alias of parameter 'B'" );
   
-  const char sig = (operation != nullptr) ? operation[0] : char(0);
+  const char sig = (option != nullptr) ? option[0] : char(0);
   
-  if( (sig != 'b') && (sig != 'p') && (sig != 's') )  { arma_stop_logic_error("balance(): unsupported operation"); }
+  if( (sig != 'b') && (sig != 'p') && (sig != 's') )  { arma_stop_logic_error("balance(): unsupported option"); }
   
   const bool do_perm  = (sig == 'b') || (sig == 'p');
   const bool do_scale = (sig == 'b') || (sig == 's');
@@ -52,7 +52,7 @@ balance(Col<typename T1::pod_type>& D, Col<uword>& P, Mat<typename T1::elem_type
   
   if(status == false)
     {
-    // TODO: emit warning
+    arma_warn(3, "balance(): transformation failed");
     D.soft_reset();
     P.soft_reset();
     B.soft_reset();
@@ -65,16 +65,16 @@ balance(Col<typename T1::pod_type>& D, Col<uword>& P, Mat<typename T1::elem_type
 
 template<typename T1>
 inline
-bool
-balance(Mat<typename T1::elem_type>& B, const Base<typename T1::elem_type,T1>& A, const char* operation = "both")
+typename enable_if2< is_supported_blas_type<typename T1::elem_type>::value, bool >::result
+balance(Mat<typename T1::elem_type>& B, const Base<typename T1::elem_type,T1>& A, const char* option = "both")
   {
   arma_debug_sigprint();
   
   typedef typename T1::pod_type T;
   
-  const char sig = (operation != nullptr) ? operation[0] : char(0);
+  const char sig = (option != nullptr) ? option[0] : char(0);
   
-  if( (sig != 'b') && (sig != 'p') && (sig != 's') )  { arma_stop_logic_error("balance(): unsupported operation"); }
+  if( (sig != 'b') && (sig != 'p') && (sig != 's') )  { arma_stop_logic_error("balance(): unsupported option"); }
   
   const bool do_perm  = (sig == 'b') || (sig == 'p');
   const bool do_scale = (sig == 'b') || (sig == 's');
@@ -96,10 +96,10 @@ balance(Mat<typename T1::elem_type>& B, const Base<typename T1::elem_type,T1>& A
   const bool status = auxlib::balance(D, P, B, calc_DP, do_perm, do_scale);
   
   if(status == false)
-     {
-     // TODO: emit warning
-     B.soft_reset();
-     }
+    {
+    arma_warn(3, "balance(): transformation failed");
+    B.soft_reset();
+    }
   
   return status;
   }
@@ -108,8 +108,8 @@ balance(Mat<typename T1::elem_type>& B, const Base<typename T1::elem_type,T1>& A
 
 template<typename T1>
 inline
-Mat<typename T1::elem_type>
-balance(const Base<typename T1::elem_type,T1>& A, const char* operation = "both")
+typename enable_if2< is_supported_blas_type<typename T1::elem_type>::value, Mat<typename T1::elem_type> >::result
+balance(const Base<typename T1::elem_type,T1>& A, const char* option = "both")
   {
   arma_debug_sigprint();
   
@@ -117,7 +117,7 @@ balance(const Base<typename T1::elem_type,T1>& A, const char* operation = "both"
   
   Mat<eT> B;
   
-  const bool status = balance(B, A, operation);
+  const bool status = balance(B, A, option);
   
   if(status == false)  { arma_stop_runtime_error("balance(): transformation failed"); }
   
