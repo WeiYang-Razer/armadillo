@@ -132,6 +132,8 @@ glue_times_redirect2_helper<true>::apply(Mat<typename T1::elem_type>& out, const
         
         if(inv_status)  { glue_times::apply<eT,false,false,false>(out, AA, B, eT(0)); return; }
         
+        arma_debug_print("glue_times_redirect<2>::apply(): tiny matrix optimisation failed");
+        
         // fallthrough if optimisation failed
         }
       }
