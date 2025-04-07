@@ -116,7 +116,7 @@ glue_times_redirect2_helper<true>::apply(Mat<typename T1::elem_type>& out, const
       
       const uword N = A.n_rows;
       
-      if( (N > 0) && (N <= uword(3)) && (N == A.n_cols) && (N == B.n_rows) && (&out != &B) )
+      if( (N > 0) && (N <= uword(3)) && (N == A.n_cols) && (N == B.n_rows) && (void_ptr(&out) != void_ptr(&B)) )
         {
         arma_debug_print("glue_times_redirect<2>::apply(): tiny matrix optimisation");
         
