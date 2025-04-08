@@ -378,12 +378,12 @@ Conrad Sanderson and Ryan Curtin.
 <tbody>
 <tr style="background-color: #F5F5F5;"><td><a href="#abs">abs</a></td><td>&nbsp;</td><td>obtain magnitude of each element</td></tr>
 <tr style="background-color: #F5F5F5;"><td><a href="#accu">accu</a></td><td>&nbsp;</td><td>accumulate (sum) all elements</td></tr>
-<tr style="background-color: #F5F5F5;"><td><a href="#affmul">affmul</a></td><td>&nbsp;</td><td>affine matrix multiplication</td></tr>
-<tr><td><a href="#all">all</a></td><td>&nbsp;</td><td>check whether all elements are non-zero, or satisfy a relational condition</td></tr>
+<tr style="background-color: #F5F5F5;"><td><a href="#all">all</a></td><td>&nbsp;</td><td>check whether all elements are non-zero, or satisfy a relational condition</td></tr>
 <tr><td><a href="#any">any</a></td><td>&nbsp;</td><td>check whether any element is non-zero, or satisfies a relational condition</td></tr>
 <tr><td><a href="#approx_equal">approx_equal</a></td><td>&nbsp;</td><td>approximate equality</td></tr>
-<tr style="background-color: #F5F5F5;"><td><a href="#arg">arg</a></td><td>&nbsp;</td><td>phase angle of each element</td></tr>
+<tr><td><a href="#arg">arg</a></td><td>&nbsp;</td><td>phase angle of each element</td></tr>
 <tr style="background-color: #F5F5F5;"><td><a href="#as_scalar">as_scalar</a></td><td>&nbsp;</td><td>convert 1x1 matrix to pure scalar</td></tr>
+<tr style="background-color: #F5F5F5;"><td><a href="#balance">balance</a></td><td>&nbsp;</td><td>balance matrix</td></tr>
 <tr style="background-color: #F5F5F5;"><td><a href="#clamp">clamp</a></td><td>&nbsp;</td><td>obtain clamped elements according to given limits</td></tr>
 <tr><td><a href="#cond">cond</a></td><td>&nbsp;</td><td>condition number of matrix</td></tr>
 <tr><td><a href="#conj">conj</a></td><td>&nbsp;</td><td>obtain complex conjugate of each element</td></tr>
@@ -508,6 +508,7 @@ Conrad Sanderson and Ryan Curtin.
 <ul>
 <table>
 <tbody>
+<tr style="background-color: #F5F5F5;"><td><a href="#affmul">affmul</a></td><td>&nbsp;</td><td>affine matrix multiplication</td></tr>
 <tr style="background-color: #F5F5F5;"><td><a href="#conv">conv</a></td><td>&nbsp;</td><td>1D convolution</td></tr>
 <tr style="background-color: #F5F5F5;"><td><a href="#conv2">conv2</a></td><td>&nbsp;</td><td>2D convolution</td></tr>
 <tr><td><a href="#fft">fft&nbsp;/&nbsp;ifft</a></td><td>&nbsp;</td><td>1D fast Fourier transform and its inverse</td></tr>
@@ -8341,53 +8342,6 @@ See also:
 </ul>
 
 <div class="pagebreak"></div><div class="noprint"><hr class="greyline"><br></div>
-<a name="affmul"></a>
-<b>affmul( A, B )</b>
-<ul>
-<li>Multiply matrix <i>A</i> by an automatically extended form of <i>B</i></li>
-<br>
-<li><i>A</i> is typically an affine transformation matrix</li>
-<br>
-<li><i>B</i> can be a vector or matrix, and is treated as having an additional row of ones</li>
-<br>
-<li>The number of columns in <i>A</i> must be equal to number of rows in the extended form of <i>B</i> (ie. A.n_cols = B.n_rows+1)</li>
-<br>
-<li>If <i>A</i> is 3x3 and <i>B</i> is 2x1, the equivalent matrix multiplication is:</li>
-<pre>
-&#9121; C<sub>0</sub> &#9124;   &#9121; A<sub>00</sub> A<sub>01</sub> A<sub>02</sub> &#9124;   &#9121; B<sub>0</sub> &#9124;
-&#9122; C<sub>1</sub> &#9125; = &#9122; A<sub>10</sub> A<sub>11</sub> A<sub>12</sub> &#9125; x &#9122; B<sub>1</sub> &#9125;
-&#9123; C<sub>2</sub> &#9126;   &#9123; A<sub>20</sub> A<sub>21</sub> A<sub>22</sub> &#9126;   &#9123; 1<sub> </sub> &#9126;
-</pre>
-<li>If <i>A</i> is 2x3 and <i>B</i> is 2x1, the equivalent matrix multiplication is:</li>
-<pre>
-&#9121; C<sub>0</sub> &#9124;   &#9121; A<sub>00</sub> A<sub>01</sub> A<sub>02</sub> &#9124;   &#9121; B<sub>0</sub> &#9124;
-&#9123; C<sub>1</sub> &#9126; = &#9123; A<sub>10</sub> A<sub>11</sub> A<sub>12</sub> &#9126; x &#9122; B<sub>1</sub> &#9125;
-                          &#9123; 1<sub> </sub> &#9126;
-</pre>
-<li>
-Examples:
-<ul>
-<pre>
-mat A(2, 3, fill::randu);
-vec B(2,    fill::randu);
-
-vec C = affmul(A,B);
-</pre>
-</ul>
-</li>
-<br>
-<li>
-See also:
-<ul>
-<li><a href="#operators">math operators</a></li>
-<li><a href="https://en.wikipedia.org/wiki/Affine_transformation">Affine transformation in Wikipedia</a></li>
-<li><a href="https://en.wikipedia.org/wiki/Transformation_matrix">Transformation matrix in Wikipedia</a></li>
-</ul>
-</li>
-<br>
-</ul>
-
-<div class="pagebreak"></div><div class="noprint"><hr class="greyline"><br></div>
 <a name="all"></a>
 <b>all( V )</b>
 <br><b>all( X )</b>
@@ -8669,6 +8623,37 @@ See also:
 <li><a href="#dot">dot()</a></li>
 <li><a href="#norm">norm()</a></li>
 <li><a href="#conv_to">conv_to()</a></li>
+</ul>
+</li>
+<br>
+</ul>
+
+<div class="pagebreak"></div><div class="noprint"><hr class="greyline"><br></div>
+<a name="balance"></a>
+<b>TODO: balance</b>
+<ul>
+<li>
+...
+</li>
+<br>
+<li>
+...
+</li>
+<br>
+<li>
+Examples:
+<ul>
+<pre>
+</pre>
+</ul>
+</li>
+<br>
+<li>
+See also:
+<ul>
+<li><a href="#norm">norm()</a></li>
+<li><a href="#vecnorm">vecnorm()</a></li>
+<li><a href="#eig_gen">eig_gen()</a></li>
 </ul>
 </li>
 <br>
@@ -14699,6 +14684,53 @@ See also:
 <br>
 
 
+
+<div class="pagebreak"></div><div class="noprint"><hr class="greyline"><br></div>
+<a name="affmul"></a>
+<b>affmul( A, B )</b>
+<ul>
+<li>Multiply matrix <i>A</i> by an automatically extended form of <i>B</i></li>
+<br>
+<li><i>A</i> is typically an affine transformation matrix</li>
+<br>
+<li><i>B</i> can be a vector or matrix, and is treated as having an additional row of ones</li>
+<br>
+<li>The number of columns in <i>A</i> must be equal to number of rows in the extended form of <i>B</i> (ie. A.n_cols = B.n_rows+1)</li>
+<br>
+<li>If <i>A</i> is 3x3 and <i>B</i> is 2x1, the equivalent matrix multiplication is:</li>
+<pre>
+&#9121; C<sub>0</sub> &#9124;   &#9121; A<sub>00</sub> A<sub>01</sub> A<sub>02</sub> &#9124;   &#9121; B<sub>0</sub> &#9124;
+&#9122; C<sub>1</sub> &#9125; = &#9122; A<sub>10</sub> A<sub>11</sub> A<sub>12</sub> &#9125; x &#9122; B<sub>1</sub> &#9125;
+&#9123; C<sub>2</sub> &#9126;   &#9123; A<sub>20</sub> A<sub>21</sub> A<sub>22</sub> &#9126;   &#9123; 1<sub> </sub> &#9126;
+</pre>
+<li>If <i>A</i> is 2x3 and <i>B</i> is 2x1, the equivalent matrix multiplication is:</li>
+<pre>
+&#9121; C<sub>0</sub> &#9124;   &#9121; A<sub>00</sub> A<sub>01</sub> A<sub>02</sub> &#9124;   &#9121; B<sub>0</sub> &#9124;
+&#9123; C<sub>1</sub> &#9126; = &#9123; A<sub>10</sub> A<sub>11</sub> A<sub>12</sub> &#9126; x &#9122; B<sub>1</sub> &#9125;
+                          &#9123; 1<sub> </sub> &#9126;
+</pre>
+<li>
+Examples:
+<ul>
+<pre>
+mat A(2, 3, fill::randu);
+vec B(2,    fill::randu);
+
+vec C = affmul(A,B);
+</pre>
+</ul>
+</li>
+<br>
+<li>
+See also:
+<ul>
+<li><a href="#operators">math operators</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Affine_transformation">Affine transformation in Wikipedia</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Transformation_matrix">Transformation matrix in Wikipedia</a></li>
+</ul>
+</li>
+<br>
+</ul>
 
 <div class="pagebreak"></div><div class="noprint"><hr class="greyline"><br></div>
 <a name="conv"></a>
