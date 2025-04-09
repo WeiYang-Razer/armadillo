@@ -8631,13 +8631,13 @@ See also:
 <div class="pagebreak"></div><div class="noprint"><hr class="greyline"><br></div>
 <a name="balance"></a>
 <b>B = balance( A )</b>
-<br><b>B = balance( A, opt )</b>
+<br><b>B = balance( A, method )</b>
 <br>
 <br><b>balance( B, A )</b>
-<br><b>balance( B, A, opt )</b>
+<br><b>balance( B, A, method )</b>
 <br>
 <br><b>balance( S, P, B, A )</b>
-<br><b>balance( S, P, B, A, opt )</b>
+<br><b>balance( S, P, B, A, method )</b>
 <ul>
 <li>
 Create a transformed version of square-sized matrix <i>A</i> so that its row and column norms are roughly the same
@@ -8651,7 +8651,7 @@ The scaling details are optionally provided in vector <i>S</i>
 The permutation details are optionally provided in vector <i>P</i>, which must have the type <a href="#Col">uvec</a>
 </li>
 <br>
-<li>The <i>opt</i> argument is optional and specifies the transformation; it is one of:
+<li>The <i>method</i> argument is optional and specifies the transformation; it is one of:
 <ul>
 <table>
 <tbody>
