@@ -6717,7 +6717,7 @@ auxlib::qz(Mat< std::complex<T> >& A, Mat< std::complex<T> >& B, Mat< std::compl
 template<typename eT>
 inline
 bool
-auxlib::balance(Col<typename get_pod_type<eT>::result>& D, Col<uword>& P, Mat<eT>& A, const bool calc_DP, const bool do_perm, const bool do_scal)
+auxlib::balance(Col<typename get_pod_type<eT>::result>& S, Col<uword>& P, Mat<eT>& A, const bool calc_SP, const bool do_scal, const bool do_perm)
   {
   arma_debug_sigprint();
   
@@ -6727,9 +6727,9 @@ auxlib::balance(Col<typename get_pod_type<eT>::result>& D, Col<uword>& P, Mat<eT
     
     // assuming given matrix is square-sized
     
-    if(A.n_elem == 0)  { D.reset(); P.reset(); return true; }
+    if(A.n_elem == 0)  { S.reset(); P.reset(); return true; }
     
-    const char job = (do_perm && do_scal) ? 'B' : ((do_perm) ? 'P' : ((do_scal) ? 'S' : 'N'));
+    const char job = (do_scal && do_perm) ? 'B' : ((do_scal) ? 'S' : ((do_perm) ? 'P' : 'N'));
     
     blas_int n    = blas_int(A.n_rows);
     blas_int lda  = blas_int(A.n_rows);
@@ -6737,49 +6737,46 @@ auxlib::balance(Col<typename get_pod_type<eT>::result>& D, Col<uword>& P, Mat<eT
     blas_int ihi  = blas_int(0);
     blas_int info = blas_int(0);
     
-    podarray<T> S(A.n_rows);  S.zeros();
+    podarray<T> scale(A.n_rows);  scale.zeros();
     
     arma_debug_print("lapack::gebal()");
-    lapack::gebal(&job, &n, A.memptr(), &lda, &ilo, &ihi, S.memptr(), &info);
+    lapack::gebal(&job, &n, A.memptr(), &lda, &ilo, &ihi, scale.memptr(), &info);
     
     if(info != blas_int(0))  { return false; }
     
-    if(calc_DP == false)  { return true; }
+    if(calc_SP == false)  { return true; }
     
     const uword N = A.n_rows;
     
     // sanity check
-    if( (ilo < 1) || (uword(ihi) > N) )
-      {
-      arma_debug_print("ilo and/or ihi out of bounds");
-      return false;
-      }
+    if( (ilo < 1) || (uword(ihi) > N) )  { arma_debug_print("ilo and/or ihi out of bounds"); return false; }
     
-    D.zeros(N);
+    S.zeros(N);
     P.zeros(N);
     
-              T* D_mem = D.memptr();
-          uword* P_mem = P.memptr();
-    const     T* S_mem = S.memptr();
+        T* S_mem = S.memptr();
+    uword* P_mem = P.memptr();
     
-    for(uword i = 0;            i < uword(ilo)-1; ++i)  { D_mem[i] = T(1);     }
-    for(uword i = uword(ilo)-1; i < uword(ihi);   ++i)  { D_mem[i] = S_mem[i]; }
-    for(uword i = uword(ihi);   i < N;            ++i)  { D_mem[i] = T(1);     }
+    const T* scale_mem = scale.memptr();
+    
+    for(uword i = 0;            i < uword(ilo)-1; ++i)  { S_mem[i] = T(1);         }
+    for(uword i = uword(ilo)-1; i < uword(ihi);   ++i)  { S_mem[i] = scale_mem[i]; }
+    for(uword i = uword(ihi);   i < N;            ++i)  { S_mem[i] = T(1);         }
     
     for(uword i=0; i < N; ++i)  { P_mem[i] = i; }
     
-    for(uword i=N-1; i >= uword(ihi)  ; --i)  { const uword j = uword(S_mem[i]) - 1; std::swap(P_mem[i], P_mem[j]); }
-    for(uword i=0;   i <  uword(ilo)-1; ++i)  { const uword j = uword(S_mem[i]) - 1; std::swap(P_mem[i], P_mem[j]); }
+    for(uword i=N-1; i >= uword(ihi)  ; --i)  { const uword j = uword(scale_mem[i]) - 1; std::swap(P_mem[i], P_mem[j]); }
+    for(uword i=0;   i <  uword(ilo)-1; ++i)  { const uword j = uword(scale_mem[i]) - 1; std::swap(P_mem[i], P_mem[j]); }
     
     return true;
     }
   #else
     {
-    arma_ignore(D);
+    arma_ignore(S);
     arma_ignore(P);
     arma_ignore(A);
-    arma_ignore(do_perm);
     arma_ignore(do_scal);
+    arma_ignore(do_perm);
     return false;
     }
   #endif

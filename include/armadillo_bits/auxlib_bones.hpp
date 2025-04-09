@@ -408,7 +408,7 @@ class auxlib
   // matrix balance
   
   template<typename eT>
-  inline static bool balance(Col<typename get_pod_type<eT>::result>& D, Col<uword>& P, Mat<eT>& A, const bool calc_DP, const bool do_perm, const bool do_scal);
+  inline static bool balance(Col<typename get_pod_type<eT>::result>& S, Col<uword>& P, Mat<eT>& A, const bool calc_SP, const bool do_scal, const bool do_perm);
   
   
   // 
