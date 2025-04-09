@@ -8636,15 +8636,15 @@ See also:
 <br><b>balance( B, A )</b>
 <br><b>balance( B, A, opt )</b>
 <br>
-<br><b>balance( D, P, B, A )</b>
-<br><b>balance( D, P, B, A, opt )</b>
+<br><b>balance( S, P, B, A )</b>
+<br><b>balance( S, P, B, A, opt )</b>
 <ul>
 <li>
 Create a transformed version of square-sized matrix <i>A</i> so that its row and column norms are roughly the same
 </li>
 <br>
 <li>
-The scaling details are optionally provided in vector <i>D</i>
+The scaling details are optionally provided in vector <i>S</i>
 </li>
 <br>
 <li>
@@ -8671,7 +8671,7 @@ If matrix <i>A</i> is not square sized, a <i>std::logic_error</i> exception is t
 <ul>
 <li><i>B = balance(A)</i> resets <i>B</i> and throws a <i>std::runtime_error</i> exception</li>
 <li><i>balance(B,A)</i> resets <i>B</i> and returns a bool set to <i>false</i> (exception is not thrown)</li>
-<li><i>balance(D,P,B,A)</i> resets <i>D</i>, <i>P</i>, <i>B</i>, and returns a bool set to <i>false</i> (exception is not thrown)</li>
+<li><i>balance(S,P,B,A)</i> resets <i>S</i>, <i>P</i>, <i>B</i>, and returns a bool set to <i>false</i> (exception is not thrown)</li>
 </ul>
 </li>
 <br>
@@ -8686,11 +8686,11 @@ mat A = { { 1     0.01 0.0001 },
 mat B = balance(A);
 
 
- vec D;
+ vec S;
 uvec P;
  mat BB;
 
-balance(D, P, BB, A);
+balance(S, P, BB, A);
 </pre>
 </ul>
 </li>
