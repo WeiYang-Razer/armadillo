@@ -8630,20 +8630,67 @@ See also:
 
 <div class="pagebreak"></div><div class="noprint"><hr class="greyline"><br></div>
 <a name="balance"></a>
-<b>TODO: balance</b>
+<b>B = balance( A )</b>
+<br><b>B = balance( A, opt )</b>
+<br>
+<br><b>balance( B, A )</b>
+<br><b>balance( B, A, opt )</b>
+<br>
+<br><b>balance( D, P, B, A )</b>
+<br><b>balance( D, P, B, A, opt )</b>
 <ul>
 <li>
-...
+Create a transformed version of square-sized matrix <i>A</i> so that its row and column norms are roughly the same
 </li>
 <br>
 <li>
-...
+The scaling details are optionally provided in vector <i>D</i>
+</li>
+<br>
+<li>
+The permutation details are optionally provided in vector <i>P</i>, which must have the type <a href="#Col">uvec</a>
+</li>
+<br>
+<li>The <i>opt</i> argument is optional and specifies the transformation; it is one of:
+<ul>
+<table>
+<tbody>
+<tr><td style="text-align: right;"><code>"scale"</code></td><td>&nbsp;=&nbsp;</td><td>apply only scaling</td></tr>
+<tr><td style="text-align: right;"><code>"permute"</code></td><td>&nbsp;=&nbsp;</td><td>apply only permutation</td></tr>
+<tr><td style="text-align: right;"><code>"both"</code></td><td>&nbsp;=&nbsp;</td><td>apply both scaling and permutation (default setting)</td></tr>
+</tbody>
+</table>
+</ul>
+</li>
+<br>
+<li>
+If matrix <i>A</i> is not square sized, a <i>std::logic_error</i> exception is thrown
+</li>
+<br>
+<li>If the decomposition fails:
+<ul>
+<li><i>B = balance(A)</i> resets <i>B</i> and throws a <i>std::runtime_error</i> exception</li>
+<li><i>balance(B,A)</i> resets <i>B</i> and returns a bool set to <i>false</i> (exception is not thrown)</li>
+<li><i>balance(D,P,B,A)</i> resets <i>D</i>, <i>P</i>, <i>B</i>, and returns a bool set to <i>false</i> (exception is not thrown)</li>
+</ul>
 </li>
 <br>
 <li>
 Examples:
 <ul>
 <pre>
+mat A = { { 1     0.01 0.0001 },
+          { 100   1    0.01   },
+          { 10000 100  1      } };
+          
+mat B = balance(A);
+
+
+ vec D;
+uvec P;
+ mat BB;
+
+balance(D, P, BB, A);
 </pre>
 </ul>
 </li>
@@ -8651,8 +8698,8 @@ Examples:
 <li>
 See also:
 <ul>
-<li><a href="#norm">norm()</a></li>
 <li><a href="#vecnorm">vecnorm()</a></li>
+<li><a href="#normalise">normalise()</a></li>
 <li><a href="#eig_gen">eig_gen()</a></li>
 </ul>
 </li>
@@ -10719,6 +10766,7 @@ See also:
 <ul>
 <li><a href="#norm">norm()</a></li>
 <li><a href="#vecnorm">vecnorm()</a></li>
+<li><a href="#balance">balance()</a></li>
 <li><a href="#dot">norm_dot()</a></li>
 <li><a href="https://mathworld.wolfram.com/NormalizedVector.html">Normalised vector in MathWorld</a>
 <li><a href="https://en.wikipedia.org/wiki/Unit_vector">Unit vector in Wikipedia</a>
@@ -12186,6 +12234,7 @@ See also:
 <ul>
 <li><a href="#norm">norm()</a></li>
 <li><a href="#normalise">normalise()</a></li>
+<li><a href="#balance">balance()</a></li>
 <li><a href="https://en.wikipedia.org/wiki/Norm_(mathematics)">vector norm in Wikipedia</a></li>
 <li><a href="https://mathworld.wolfram.com/VectorNorm.html">vector norm in MathWorld</a></li>
 </ul>
@@ -20160,6 +20209,7 @@ List of additions and changes for each version:
 <li>Version 14.6:
 <ul>
 <li>(under development)</li>
+<li>added <a href="#balance">balance()</a> for producing balanced matrices where column and row norms are roughly the same</li>
 <li>...</li>
 </ul>
 </li>
