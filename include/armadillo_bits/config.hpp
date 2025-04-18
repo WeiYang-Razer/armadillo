@@ -316,6 +316,10 @@
   #pragma message ("WARNING: use of ARMA_BLAS_64BIT_INT in conjunction with ARMA_USE_WRAPPER is not supported")
 #endif
 
+#if (defined(ARMA_SUPERLU_64BIT_INT) && defined(ARMA_USE_WRAPPER))
+  #pragma message ("WARNING: use of ARMA_SUPERLU_64BIT_INT in conjunction with ARMA_USE_WRAPPER is not supported")
+#endif
+
 #if defined(ARMA_DONT_OPTIMISE_BAND) || defined(ARMA_DONT_OPTIMISE_SOLVE_BAND)
   #undef ARMA_OPTIMISE_BAND
 #endif
