@@ -107,9 +107,18 @@ op_expmat::apply_direct(Mat<typename T1::elem_type>& out, const Base<typename T1
   // trace reduction
   
   const eT     diag_shift = arma::trace(A) / T(A.n_rows);
-  const  T abs_diag_shift = std::abs(diag_shift);
+  const eT exp_diag_shift = std::exp(diag_shift);
   
-  if(abs_diag_shift > T(0))  { A.diag() -= diag_shift; }
+  const bool do_trace_reduction = arma_isfinite(diag_shift) && arma_isfinite(exp_diag_shift) && (exp_diag_shift != eT(0)) && ( (is_cx<eT>::yes) ? (std::abs(diag_shift) > T(0)) : (access::tmp_real(diag_shift) > T(0)) );
+  
+  if(do_trace_reduction)
+    {
+    arma_debug_print("op_expmat: applying trace reduction");
+    arma_debug_print("op_expmat:     diag_shift: ",     diag_shift);
+    arma_debug_print("op_expmat: exp_diag_shift: ", exp_diag_shift);
+    
+    A.diag() -= diag_shift;
+    }
   
   const T norm_val = arma::norm(A, "inf");
   
@@ -156,7 +165,7 @@ op_expmat::apply_direct(Mat<typename T1::elem_type>& out, const Base<typename T1
   for(uword i=0; i < s; ++i)  { out = out * out; }
   
   // inverse trace reduction
-  if(abs_diag_shift > T(0))  { out *= std::exp(diag_shift); }
+  if(do_trace_reduction)  { out *= exp_diag_shift; }
   
   return true;
   }
