@@ -125,7 +125,7 @@ op_expmat::apply_direct(Mat<typename T1::elem_type>& out, const Base<typename T1
   
   bool positive = true;
   
-  const uword N = 6;
+  const uword N = 8;
   
   for(uword i = 2; i <= N; ++i)
     {
