@@ -132,7 +132,7 @@ op_expmat::apply_direct(Mat<typename T1::elem_type>& out, const Base<typename T1
   
   int exponent = int(0);  std::frexp(norm_val, &exponent);
   
-  const uword s = uword(exponent);
+  const uword s = (std::min)( uword( (std::max)(int(0), exponent) ), uword(1023) );
   
   A /= eT(eop_aux::pow(double(2), double(s)));
   
