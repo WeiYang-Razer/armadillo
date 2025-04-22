@@ -41,7 +41,7 @@
 ## NOTE: More details: https://arma.sourceforge.net/faq.html
 
 
-cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.10 FATAL_ERROR)
 
 if(POLICY CMP0025)
   # enable differentiation between vanilla Clang and AppleClang
