@@ -19898,7 +19898,7 @@ Use Intel MKL <i>mkl_malloc()</i> and <i>mkl_free()</i> instead of standard <i>m
 Use Intel MKL types for complex numbers.
 You will need to include appropriate MKL headers before the Armadillo header.
 You may also need to enable one or more of the following options:
-<code>ARMA_BLAS_LONG_LONG</code>, <code>ARMA_DONT_USE_FORTRAN_HIDDEN_ARGS</code>
+<code>ARMA_BLAS_64BIT_INT</code>, <code>ARMA_DONT_USE_FORTRAN_HIDDEN_ARGS</code>
     </td>
   </tr>
   <tr>
@@ -19924,9 +19924,8 @@ You may also need to enable one or more of the following options:
 Use 64 bit integers for matrix and vector sizes.
 Automatically enabled when using a 64-bit platform, except when using Armadillo in the R environment (via RcppArmadillo).
 Useful if matrices/vectors capable of holding more than 4 billion elements are required.
-<!-- Your machine and compiler must have support for 64 bit integers (eg. via "long" or "long&nbsp;long"). -->
 This can also be enabled by adding <code>#define&nbsp;ARMA_64BIT_WORD</code> before each instance of <code>#include&nbsp;&lt;armadillo&gt;</code>.
-<br>See also the <code>ARMA_BLAS_LONG_LONG</code> option.
+<br>See also the <code>ARMA_BLAS_64BIT_INT</code> option.
     </td>
   </tr>
   <tr>
