@@ -126,6 +126,8 @@ op_expmat::apply_direct(Mat<typename T1::elem_type>& out, const Base<typename T1
   
   const uword s = (std::min)( uword( (std::max)(int(0), exponent) ), uword(1023) );
   
+  arma_debug_print("op_expmat: s: ", s);
+  
   A /= eT(eop_aux::pow(double(2), double(s)));
   
   T c = T(0.5);
