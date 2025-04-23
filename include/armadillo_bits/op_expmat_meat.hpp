@@ -113,9 +113,7 @@ op_expmat::apply_direct(Mat<typename T1::elem_type>& out, const Base<typename T1
   
   if(do_trace_reduction)
     {
-    arma_debug_print("op_expmat: applying trace reduction");
-    arma_debug_print("op_expmat:     diag_shift: ",     diag_shift);
-    arma_debug_print("op_expmat: exp_diag_shift: ", exp_diag_shift);
+    arma_debug_print("op_expmat: diag_shift: ", diag_shift);
     
     A.diag() -= diag_shift;
     }
@@ -123,12 +121,6 @@ op_expmat::apply_direct(Mat<typename T1::elem_type>& out, const Base<typename T1
   const T norm_val = arma::norm(A, "inf");
   
   if(arma_isfinite(norm_val) == false)  { return false; }
-  
-  // const double log2_val = (norm_val > T(0)) ? double(eop_aux::log2(norm_val)) : double(0);
-  // 
-  // int exponent = int(0);  std::frexp(log2_val, &exponent);
-  // 
-  // const uword s = uword( (std::max)(int(0), exponent + int(1)) );
   
   int exponent = int(0);  std::frexp(norm_val, &exponent);
   
