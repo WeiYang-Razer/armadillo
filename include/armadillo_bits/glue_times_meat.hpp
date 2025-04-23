@@ -118,7 +118,7 @@ glue_times_redirect2_helper<true>::apply(Mat<typename T1::elem_type>& out, const
       
       if( (N > 0) && (N <= uword(3)) && (N == A.n_cols) && (N == B.n_rows) && (void_ptr(&out) != void_ptr(&B)) )
         {
-        arma_debug_print("glue_times_redirect<2>::apply(): tiny matrix optimisation");
+        arma_debug_print("glue_times_redirect<2>::apply(): inv tiny matrix optimisation");
         
         Mat<eT> AA(N, N, arma_nozeros_indicator());
         
@@ -132,7 +132,7 @@ glue_times_redirect2_helper<true>::apply(Mat<typename T1::elem_type>& out, const
         
         if(inv_status)  { glue_times::apply<eT,false,false,false>(out, AA, B, eT(0)); return; }
         
-        arma_debug_print("glue_times_redirect<2>::apply(): tiny matrix optimisation failed");
+        arma_debug_print("glue_times_redirect<2>::apply(): inv tiny matrix optimisation failed");
         
         // fallthrough if optimisation failed
         }
