@@ -20,6 +20,9 @@
 //! @{
 
 
+// TODO: deprecate syl() in favour of sylvester()
+
+
 //! find the solution of the Sylvester equation AX + XB = C
 template<typename T1, typename T2, typename T3>
 inline
