@@ -1195,6 +1195,21 @@ accu(const SpOp<T1, spop_type>& expr)
   
   if(is_same_type<spop_type, spop_square>::yes)
     {
+    if(is_SpSubview_col<T1>::value)
+      {
+      const SpSubview_col<eT>& svcol = reinterpret_cast<const SpSubview_col<eT>&>(expr.m);
+      
+      if(svcol.n_rows == svcol.m.n_rows)
+        {
+        const SpMat<eT>& m   = svcol.m;
+        const uword      col = svcol.aux_col1;
+        
+        const eT* ptr = &(m.values[ m.col_ptrs[col] ]);
+        
+        return op_dot::direct_dot(svcol.n_nonzero, ptr, ptr);
+        }
+      }
+    
     const SpProxy<T1> P(expr.m);
     
     const uword N = P.get_n_nonzero();
