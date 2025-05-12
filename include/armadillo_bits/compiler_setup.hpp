@@ -172,6 +172,10 @@
     #pragma message("INFO: support for GCC versions older than 8.1 is deprecated"
   #endif
   
+  #if (ARMA_GCC_VERSION >= 170000)
+    #undef ARMA_IGNORE_DEPRECATED_MARKER
+  #endif
+  
   #define ARMA_GOOD_COMPILER
   
   #undef  arma_hot
@@ -228,6 +232,12 @@
 #if defined(__clang__) && !defined(ARMA_DETECTED_FAKE_CLANG)
   
   // #pragma message ("using Clang extensions")
+  
+  #if defined(__clang_major__) && !defined(__apple_build_version__)
+    #if (__clang_major__ >= 24)
+      #undef ARMA_IGNORE_DEPRECATED_MARKER
+    #endif
+  #endif
   
   #define ARMA_GOOD_COMPILER
   
