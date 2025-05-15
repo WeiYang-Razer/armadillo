@@ -487,7 +487,7 @@
 #undef major
 
 
-// WARNING: option 'ARMA_IGNORE_DEPRECATED_MARKER' will be removed;
+// WARNING: option 'ARMA_IGNORE_DEPRECATED_MARKER' is not supported when compiling with gcc 17+ or clang 24+
 // WARNING: disabling deprecation messages is counter-productive
 
 #if defined(ARMA_IGNORE_DEPRECATED_MARKER)
