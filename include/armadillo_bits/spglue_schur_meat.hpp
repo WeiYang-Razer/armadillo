@@ -82,24 +82,19 @@ spglue_schur::apply_noalias(SpMat<eT>& out, const SpProxy<T1>& pa, const SpProxy
   
   while( (x_it != x_end) || (y_it != y_end) )
     {
+    eT out_val;
+    
     const uword x_it_row = x_it.row();
     const uword x_it_col = x_it.col();
     
     const uword y_it_row = y_it.row();
     const uword y_it_col = y_it.col();
     
+    bool use_y_loc = false;
+    
     if(x_it == y_it)
       {
-      const eT out_val = (*x_it) * (*y_it);
-      
-      if(out_val != eT(0))
-        {
-        access::rw(out.values[count]) = out_val;
-        
-        access::rw(out.row_indices[count]) = x_it_row;
-        access::rw(out.col_ptrs[x_it_col + 1])++;
-        ++count;
-        }
+      out_val = (*x_it) * (*y_it);
       
       ++x_it;
       ++y_it;
@@ -108,12 +103,30 @@ spglue_schur::apply_noalias(SpMat<eT>& out, const SpProxy<T1>& pa, const SpProxy
       {
       if((x_it_col < y_it_col) || ((x_it_col == y_it_col) && (x_it_row < y_it_row))) // if y is closer to the end
         {
+        out_val = (*x_it) * eT(0);  // in case (*x_it) is inf or nan
+        
         ++x_it;
         }
       else
         {
+        out_val = eT(0) * (*y_it);  // in case (*x_it) is inf or nan
+        
         ++y_it;
+        
+        use_y_loc = true;
         }
+      }
+    
+    if(out_val != eT(0))
+      {
+      access::rw(out.values[count]) = out_val;
+      
+      const uword out_row = (use_y_loc == false) ? x_it_row : y_it_row;
+      const uword out_col = (use_y_loc == false) ? x_it_col : y_it_col;
+      
+      access::rw(out.row_indices[count]) = out_row;
+      access::rw(out.col_ptrs[out_col + 1])++;
+      ++count;
       }
     
     arma_check( (count > max_n_nonzero), "internal error: spglue_schur::apply_noalias(): count > max_n_nonzero" );
