@@ -978,7 +978,7 @@ MapMat_val<eT>::operator*=(const eT in_val)
     }
   else
     {
-    const eT val = eT(0) * in_val;
+    const eT val = eT(0) * in_val;  // in case in_val is inf or nan
     
     if(val != eT(0))  { parent.set_val(index, val); }
     }
@@ -1008,7 +1008,7 @@ MapMat_val<eT>::operator/=(const eT in_val)
     }
   else
     {
-    const eT val = eT(0) / in_val;
+    const eT val = eT(0) / in_val;  // in case in_val is zero or nan
     
     if(val != eT(0))  { parent.set_val(index, val); }
     }
@@ -1490,7 +1490,7 @@ SpMat_MapMat_val<eT>::mul(const eT in_val)
       }
     else
       {
-      const eT result = eT(0) * in_val;
+      const eT result = eT(0) * in_val;  // in case in_val is inf or nan
       
       if(result != eT(0))
         {
@@ -1540,10 +1540,9 @@ SpMat_MapMat_val<eT>::div(const eT in_val)
       }
     else
       {
-      // element not found, ie. it's zero; zero divided by anything is zero, except for zero and nan
       if( (in_val == eT(0)) || (arma_isnan(in_val)) )
         {
-        const eT result = eT(0) / in_val;
+        const eT result = eT(0) / in_val;  // in case in_val is zero or nan
         
         if(result != eT(0))
           {

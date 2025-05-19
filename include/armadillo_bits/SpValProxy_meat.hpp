@@ -156,12 +156,9 @@ SpValProxy<T1>::operator*=(const eT rhs)
     }
   else
     {
-    const eT val = eT(0) * rhs;
+    const eT val = eT(0) * rhs;  // in case rhs is inf or nan
     
-    if(val != eT(0))
-      {
-      val_ptr = &parent.insert_element(row, col, val);
-      }
+    if(val != eT(0))  { val_ptr = &parent.insert_element(row, col, val); }
     }
   
   return *this;
@@ -182,12 +179,9 @@ SpValProxy<T1>::operator/=(const eT rhs)
     }
   else
     {
-    const eT val = eT(0) / rhs;
+    const eT val = eT(0) / rhs;  // in case rhs is zero or nan
     
-    if(val != eT(0))
-      {
-      val_ptr = &parent.insert_element(row, col, val);
-      }
+    if(val != eT(0)) { val_ptr = &parent.insert_element(row, col, val); }
     }
   
   return *this;
