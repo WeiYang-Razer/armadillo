@@ -1540,18 +1540,15 @@ SpMat_MapMat_val<eT>::div(const eT in_val)
       }
     else
       {
-      if( (in_val == eT(0)) || (arma_isnan(in_val)) )
+      const eT result = eT(0) / in_val;  // in case in_val is zero or nan
+      
+      if(result != eT(0))
         {
-        const eT result = eT(0) / in_val;  // in case in_val is zero or nan
+        m_parent.set_val(index, result);
         
-        if(result != eT(0))
-          {
-          m_parent.set_val(index, result);
-          
-          s_parent.sync_state = 1;
-          
-          access::rw(s_parent.n_nonzero) = m_parent.get_n_nonzero();
-          }
+        s_parent.sync_state = 1;
+        
+        access::rw(s_parent.n_nonzero) = m_parent.get_n_nonzero();
         }
       }
     }
