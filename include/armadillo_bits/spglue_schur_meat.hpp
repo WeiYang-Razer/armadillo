@@ -62,7 +62,11 @@ spglue_schur::apply_noalias(SpMat<eT>& out, const SpProxy<T1>& pa, const SpProxy
   
   if( (pa.get_n_nonzero() == 0) || (pb.get_n_nonzero() == 0) )
     {
-    out.zeros(pa.get_n_rows(), pa.get_n_cols());
+         if(pa.get_n_nonzero() == 0)  { out = pb.Q; }
+    else if(pb.get_n_nonzero() == 0)  { out = pa.Q; }
+    
+    out *= eT(0);  // in case out has inf or nan
+    
     return;
     }
   
