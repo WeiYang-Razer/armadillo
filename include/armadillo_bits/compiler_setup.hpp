@@ -158,14 +158,11 @@
   
   // #pragma message ("using GCC extensions")
   
-  #undef  ARMA_GCC_VERSION
-  #define ARMA_GCC_VERSION (__GNUC__ * 10000 + __GNUC_MINOR__ * 100 + __GNUC_PATCHLEVEL__)
-  
-  #if (ARMA_GCC_VERSION < 80100)
-    #error "*** newer compiler required; need gcc 8.1 or newer ***"
+  #if (__GNUC__ < 8)
+    #error "*** newer compiler required; need at least gcc 8.1 ***"
   #endif
   
-  #if (ARMA_GCC_VERSION >= 170000)
+  #if (__GNUC__ >= 17)
     #undef ARMA_IGNORE_DEPRECATED_MARKER
   #endif
   
@@ -452,7 +449,6 @@
 
 #undef ARMA_DETECTED_FAKE_GCC
 #undef ARMA_DETECTED_FAKE_CLANG
-#undef ARMA_GCC_VERSION
 #undef ARMA_PRINT_OPENMP_WARNING
 
 
