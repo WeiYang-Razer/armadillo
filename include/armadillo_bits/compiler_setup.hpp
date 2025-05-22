@@ -161,15 +161,8 @@
   #undef  ARMA_GCC_VERSION
   #define ARMA_GCC_VERSION (__GNUC__ * 10000 + __GNUC_MINOR__ * 100 + __GNUC_PATCHLEVEL__)
   
-  #if (ARMA_GCC_VERSION < 60100)
-    #error "*** newer compiler required; need gcc 6.1 or newer ***"
-  #endif
-  
-  // gcc 6.1 has proper C++14 support and fixes an OpenMP related bug:
-  // https://gcc.gnu.org/bugzilla/show_bug.cgi?id=57580
-  
   #if (ARMA_GCC_VERSION < 80100)
-    #pragma message("INFO: support for GCC versions older than 8.1 is deprecated"
+    #error "*** newer compiler required; need gcc 8.1 or newer ***"
   #endif
   
   #if (ARMA_GCC_VERSION >= 170000)
