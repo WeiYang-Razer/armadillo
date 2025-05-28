@@ -273,7 +273,7 @@ Conrad Sanderson and Ryan Curtin.
 <tr><td><a href="#imbue">.imbue</a></td><td>&nbsp;</td><td>imbue (fill) with values provided by functor or lambda function</td></tr>
 <tr><td><small><small>&nbsp;</small></small></td><td><small><small>&nbsp;</small></small></td><td><small><small>&nbsp;</small></small></td></tr>
 <tr><td><a href="#clean">.clean</a></td><td>&nbsp;</td><td>replace elements below a threshold with zeros</td></tr>
-<tr><td><a href="#replace">.replace</a></td><td>&nbsp;</td><td>replace specific elements with a new value</td></tr>
+<tr><td><a href="#replace_member">.replace</a></td><td>&nbsp;</td><td>replace specific elements with a new value</td></tr>
 <tr><td><a href="#clamp_member">.clamp</a></td><td>&nbsp;</td><td>clamp values to lower and upper limits</td></tr>
 <tr><td><small><small>&nbsp;</small></small></td><td><small><small>&nbsp;</small></small></td><td><small><small>&nbsp;</small></small></td></tr>
 <tr><td><a href="#transform">.transform</a></td><td>&nbsp;</td><td>transform each element via functor or lambda function</td></tr>
@@ -428,29 +428,30 @@ Conrad Sanderson and Ryan Curtin.
 <tr style="background-color: #F5F5F5;"><td><a href="#rank">rank</a></td><td>&nbsp;</td><td>rank of matrix</td></tr>
 <tr style="background-color: #F5F5F5;"><td><a href="#rcond">rcond</a></td><td>&nbsp;</td><td>reciprocal condition number</td></tr>
 <tr><td><a href="#repelem">repelem</a></td><td>&nbsp;</td><td>replicate elements</td></tr>
+<tr><td><a href="#replace_standalone">replace</a></td><td>&nbsp;</td><td>replace specific elements with a new value</td></tr>
 <tr><td><a href="#repmat">repmat</a></td><td>&nbsp;</td><td>replicate matrix in block-like fashion</td></tr>
-<tr><td><a href="#reshape">reshape</a></td><td>&nbsp;</td><td>change size while keeping elements</td></tr>
+<tr style="background-color: #F5F5F5;"><td><a href="#reshape">reshape</a></td><td>&nbsp;</td><td>change size while keeping elements</td></tr>
 <tr style="background-color: #F5F5F5;"><td><a href="#resize">resize</a></td><td>&nbsp;</td><td>change size while keeping elements and preserving layout</td></tr>
 <tr style="background-color: #F5F5F5;"><td><a href="#reverse">reverse</a></td><td>&nbsp;</td><td>reverse order of elements</td></tr>
-<tr style="background-color: #F5F5F5;"><td><a href="#roots">roots</a></td><td>&nbsp;</td><td>roots of polynomial</td></tr>
+<tr><td><a href="#roots">roots</a></td><td>&nbsp;</td><td>roots of polynomial</td></tr>
 <tr><td><a href="#shift">shift</a></td><td>&nbsp;</td><td>circular shift of elements</td></tr>
 <tr><td><a href="#shuffle">shuffle</a></td><td>&nbsp;</td><td>randomly shuffle elements</td></tr>
-<tr><td><a href="#size">size</a></td><td>&nbsp;</td><td>obtain dimensions of given object</td></tr>
+<tr style="background-color: #F5F5F5;"><td><a href="#size">size</a></td><td>&nbsp;</td><td>obtain dimensions of given object</td></tr>
 <tr style="background-color: #F5F5F5;"><td><a href="#sort">sort</a></td><td>&nbsp;</td><td>sort elements</td></tr>
 <tr style="background-color: #F5F5F5;"><td><a href="#sort_index">sort_index</a></td><td>&nbsp;</td><td>vector describing sorted order of elements</td></tr>
-<tr style="background-color: #F5F5F5;"><td><a href="#sqrtmat">sqrtmat</a></td><td>&nbsp;</td><td>square root of matrix</td></tr>
+<tr><td><a href="#sqrtmat">sqrtmat</a></td><td>&nbsp;</td><td>square root of matrix</td></tr>
 <tr><td><a href="#sqrtmat_sympd">sqrtmat_sympd</a></td><td>&nbsp;</td><td>square root of symmetric matrix</td></tr>
 <tr><td><a href="#sum">sum</a></td><td>&nbsp;</td><td>sum of elements</td></tr>
-<tr><td><a href="#sub2ind">sub2ind</a></td><td>&nbsp;</td><td>convert subscripts to linear index</td></tr>
+<tr style="background-color: #F5F5F5;"><td><a href="#sub2ind">sub2ind</a></td><td>&nbsp;</td><td>convert subscripts to linear index</td></tr>
 <tr style="background-color: #F5F5F5;"><td><a href="#symmat">symmatu&nbsp;/&nbsp;symmatl</a></td><td>&nbsp;</td><td>generate symmetric matrix from given matrix</td></tr>
 <tr style="background-color: #F5F5F5;"><td><a href="#trace">trace</a></td><td>&nbsp;</td><td>sum of diagonal elements</td></tr>
-<tr style="background-color: #F5F5F5;"><td><a href="#trans">trans</a></td><td>&nbsp;</td><td>transpose of matrix</td></tr>
+<tr><td><a href="#trans">trans</a></td><td>&nbsp;</td><td>transpose of matrix</td></tr>
 <tr><td><a href="#trapz">trapz</a></td><td>&nbsp;</td><td>trapezoidal numerical integration</td></tr>
 <tr><td><a href="#trimat">trimatu&nbsp;/&nbsp;trimatl</a></td><td>&nbsp;</td><td>copy upper/lower triangular part</td></tr>
-<tr><td><a href="#trimat_ind">trimatu_ind&nbsp;/&nbsp;trimatl_ind</a></td><td>&nbsp;</td><td>obtain indices of upper/lower triangular part</td></tr>
+<tr style="background-color: #F5F5F5;"><td><a href="#trimat_ind">trimatu_ind&nbsp;/&nbsp;trimatl_ind</a></td><td>&nbsp;</td><td>obtain indices of upper/lower triangular part</td></tr>
 <tr style="background-color: #F5F5F5;"><td><a href="#unique">unique</a></td><td>&nbsp;</td><td>return unique elements</td></tr>
 <tr style="background-color: #F5F5F5;"><td><a href="#vecnorm">vecnorm</a></td><td>&nbsp;</td><td>obtain vector norm of each row or column of a matrix</td></tr>
-<tr style="background-color: #F5F5F5;"><td><a href="#vectorise">vectorise</a></td><td>&nbsp;</td><td>flatten matrix into vector</td></tr>
+<tr><td><a href="#vectorise">vectorise</a></td><td>&nbsp;</td><td>flatten matrix into vector</td></tr>
 <tr><td><a href="#misc_fns">misc&nbsp;functions</a></td><td>&nbsp;</td><td>miscellaneous element-wise functions:&nbsp;exp,&nbsp;log,&nbsp;sqrt,&nbsp;round,&nbsp;sign,&nbsp;...</td></tr>
 <tr><td><a href="#trig_fns">trig&nbsp;functions</a></td><td>&nbsp;</td><td>trigonometric element-wise functions:&nbsp;cos,&nbsp;sin,&nbsp;tan,&nbsp;...</td></tr>
 </tbody>
@@ -2024,11 +2025,11 @@ The following subset of operations &amp; functions is available for sparse matri
 <li>element-wise functions: <a href="#abs">abs()</a>, <a href="#misc_fns">cbrt()</a>, <a href="#misc_fns">ceil()</a>, <a href="#conj">conj()</a>, <a href="#misc_fns">floor()</a>, <a href="#imag_real">imag()</a>, <a href="#imag_real">real()</a>, <a href="#misc_fns">round()</a>, <a href="#misc_fns">sign()</a>, <a href="#misc_fns">sqrt()</a>, <a href="#misc_fns">square()</a>, <a href="#misc_fns">trunc()</a></li>
 <li>scalar functions of matrices: <a href="#accu">accu()</a>, <a href="#as_scalar">as_scalar()</a>, <a href="#dot">dot()</a>, <a href="#norm">norm()</a>, <a href="#norm2est">norm2est()</a>, <a href="#trace">trace()</a></li>
 <li>vector valued functions of matrices: <a href="#diagvec">diagvec()</a>, <a href="#min_and_max">min()</a>, <a href="#min_and_max">max()</a>, <a href="#nonzeros">nonzeros()</a>, <a href="#sum">sum()</a>, <a href="#stats_fns">mean()</a>, <a href="#stats_fns">stddev()</a>, <a href="#stats_fns">var()</a>, <a href="#vecnorm">vecnorm()</a>, <a href="#vectorise">vectorise()</a></li>
-<li>matrix valued functions of matrices: <a href="#clamp">clamp()</a>, <a href="#diagmat">diagmat()</a>, <a href="#diags_spdiags">spdiags()</a>, <a href="#flip">flipud()/fliplr()</a>, <a href="#join">join_rows()</a>, <a href="#join">join_cols()</a>, <a href="#kron">kron()</a>, <a href="#normalise">normalise()</a>, <a href="#repelem">repelem()</a>, <a href="#repmat">repmat()</a>, <a href="#reshape">reshape()</a>, <a href="#resize">resize()</a>, <a href="#reverse">reverse()</a>, <a href="#shift">shift()</a>, <a href="#symmat">symmatu()/symmatl()</a>, <a href="#trimat">trimatu()/trimatl()</a>, <a href="#t_st_members">.t()</a>, <a href="#trans">trans()</a></li>
+<li>matrix valued functions of matrices: <a href="#clamp">clamp()</a>, <a href="#diagmat">diagmat()</a>, <a href="#diags_spdiags">spdiags()</a>, <a href="#flip">flipud()/fliplr()</a>, <a href="#join">join_rows()</a>, <a href="#join">join_cols()</a>, <a href="#kron">kron()</a>, <a href="#normalise">normalise()</a>, <a href="#repelem">repelem()</a>, <a href="#replace_standalone">replace()</a>, <a href="#repmat">repmat()</a>, <a href="#reshape">reshape()</a>, <a href="#resize">resize()</a>, <a href="#reverse">reverse()</a>, <a href="#shift">shift()</a>, <a href="#symmat">symmatu()/symmatl()</a>, <a href="#trimat">trimatu()/trimatl()</a>, <a href="#t_st_members">.t()</a>, <a href="#trans">trans()</a></li>
 <li>generated matrices: <a href="#speye">speye()</a>, <a href="#spones">spones()</a>, <a href="#sprandu_sprandn">sprandu()</a>, <a href="#sprandu_sprandn">sprandn()</a>, <a href="#zeros_standalone">zeros()</a></li>
 <li>eigen decompositions and SVD: <a href="#eigs_sym">eigs_sym()</a>, <a href="#eigs_gen">eigs_gen()</a>, <a href="#svds">svds()</a></li>
 <li>solution of sparse linear systems: <a href="#spsolve">spsolve()</a>
-<li>miscellaneous: <a href="#approx_equal">approx_equal()</a>, <a href="#element_access">element access</a>, <a href="#iterators_spmat">element iterators</a>, <a href="#as_col_row">.as_col()&nbsp;/&nbsp;.as_row()</a>, <a href="#as_dense">.as_dense()</a>, <a href="#for_each">.for_each()</a>, <a href="#print">.print()</a>, <a href="#clean">.clean()</a>, <a href="#replace">.replace()</a>, <a href="#transform">.transform()</a>, <a href="#is_finite">.is_finite()</a>, <a href="#is_symmetric">.is_symmetric()</a>, <a href="#is_hermitian">.is_hermitian()</a>, <a href="#is_trimat">.is_trimatu()</a>, <a href="#is_trimat">.is_trimatl()</a>, <a href="#is_diagmat">.is_diagmat()</a></li>
+<li>miscellaneous: <a href="#approx_equal">approx_equal()</a>, <a href="#element_access">element access</a>, <a href="#iterators_spmat">element iterators</a>, <a href="#as_col_row">.as_col()&nbsp;/&nbsp;.as_row()</a>, <a href="#as_dense">.as_dense()</a>, <a href="#for_each">.for_each()</a>, <a href="#print">.print()</a>, <a href="#clean">.clean()</a>, <a href="#replace_member">.replace()</a>, <a href="#transform">.transform()</a>, <a href="#is_finite">.is_finite()</a>, <a href="#is_symmetric">.is_symmetric()</a>, <a href="#is_hermitian">.is_hermitian()</a>, <a href="#is_trimat">.is_trimatu()</a>, <a href="#is_trimat">.is_trimatl()</a>, <a href="#is_diagmat">.is_diagmat()</a></li>
 </ul>
 </li>
 <br>
@@ -2271,7 +2272,7 @@ See also:
 <li><a href="#accu">accu()</a></li>
 <li><a href="#as_scalar">as_scalar()</a></li>
 <li><a href="#find">find()</a></li>
-<li><a href="#replace">.replace()</a></li>
+<li><a href="#replace_standalone">replace()</a></li>
 <li><a href="#transform">.transform()</a></li>
 <li><a href="#each_colrow">.each_col() &amp; .each_row()</a> &nbsp;&nbsp; (vector operations applied to each column or row)</li>
 <li><a href="#misc_fns">miscellaneous element-wise functions</a> &nbsp; (exp, log, sqrt, square, round, ...)</li>
@@ -3094,6 +3095,7 @@ See also:
 
 <div class="pagebreak"></div><div class="noprint"><hr class="greyline"><br></div>
 <a name="replace"></a>
+<a name="replace_member"></a>
 <b>.replace( old_value, new_value )</b>
 <ul>
 <li>
@@ -3129,6 +3131,7 @@ A.replace(datum::nan, 0);  // replace each NaN with 0
 <li>
 See also:
 <ul>
+<li><a href="#replace_standalone">replace()</a> (standalone function)</li>
 <li><a href="#transform">.transform()</a></li>
 <li><a href="#for_each">.for_each()</a></li>
 <li><a href="#clean">.clean()</a></li>
@@ -8740,7 +8743,7 @@ See also:
 <li><a href="#clamp_member">.clamp()</a> (member function)</li>
 <li><a href="#min_and_max_member">.min() &amp; .max()</a></li>
 <li><a href="#clean">.clean()</a></li>
-<li><a href="#replace">.replace()</a></li>
+<li><a href="#replace_standalone">replace()</a></li>
 <li><a href="#find">find()</a></li>
 </ul>
 </li>
@@ -9488,7 +9491,7 @@ See also:
 <b>Caveats:</b>
 <ul>
 <li>to clamp values to an interval, <a href="#clamp">clamp()</a> is more efficient</li>
-<li>to replace a specific value, <a href="#replace">.replace()</a> is more efficient</li>
+<li>to replace a specific value, <a href="#replace_standalone">replace()</a> is more efficient</li>
 </ul>
 </li>
 <br>
@@ -9574,8 +9577,8 @@ See also:
 <ul>
 <li><a href="#find">find()</a></li>
 <li><a href="#find_nan_nonnan">find_nan() / find_nonnan()</a></li>
+<li><a href="#replace_standalone">replace()</a></li>
 <li><a href="#is_finite">.is_finite()</a></li>
-<li><a href="#replace">.replace()</a></li>
 <li><a href="#has_inf">.has_inf()</a></li>
 <li><a href="#has_nan">.has_nan()</a></li>
 <li><a href="#submat">submatrix views</a></li>
@@ -9622,7 +9625,7 @@ uvec indices2 = find_nonnan(A);
 <br>
 <li>
 <b>Caveat:</b> to replace instances of NaN values,
-it is more efficient to use <a href="#replace">.replace()</a>
+it is more efficient to use <a href="#replace_standalone">replace()</a>
 </li>
 <br>
 <li>
@@ -9630,7 +9633,7 @@ See also:
 <ul>
 <li><a href="#find">find()</a></li>
 <li><a href="#find_finite_nonfinite">find_finite() / find_nonfinite()</a></li>
-<li><a href="#replace">.replace()</a></li>
+<li><a href="#replace_standalone">replace()</a></li>
 <li><a href="#has_nan">.has_nan()</a></li>
 <li><a href="#constants">constants (pi, nan, inf, ...)</a></li>
 <li><a href="https://en.wikipedia.org/wiki/NaN">NaN</a> in Wikipedia</li>
@@ -11058,6 +11061,51 @@ mat B = repelem(A, 4, 5);
 <li><a href="#kron">kron()</a></li>
 <li><a href="#reshape">reshape()</a></li>
 <li><a href="#resize">resize()</a></li>
+</ul>
+</li>
+<br>
+</ul>
+
+<div class="pagebreak"></div><div class="noprint"><hr class="greyline"><br></div>
+<a name="replace_standalone"></a>
+<b>replace( A, old_value, new_value )</b>
+<ul>
+<li>Generate a copy of <i>A</i> with all elements equal to <i>old_value</i> replaced by <i>new_value</i></li>
+<br>
+<li>The type of <i>old_value</i> and <i>new_value</i> must match the type of elements used by the container object (eg. for <i>mat</i> the type is <i>double</i>)
+</li>
+<br>
+<li>
+<b>Caveats:</b>
+<ul>
+<li>floating point numbers (<i>float</i> and <i>double</i>) are approximations due to their <a href="https://en.wikipedia.org/wiki/Floating-point_arithmetic">necessarily limited precision</a></li>
+<li>for sparse matrices (<i>SpMat</i>), replacement is not done when <i>old_value&thinsp;=&thinsp;0</i></li>
+</ul>
+</li>
+<br>
+<li>
+Examples:
+<ul>
+<pre>
+mat A(5, 6, fill::randu);
+
+A.diag().fill(datum::nan);
+
+mat B = replace(A, datum::nan, 0);  // replace each NaN with 0
+</pre>
+</ul>
+</li>
+<br>
+<li>
+See also:
+<ul>
+<li><a href="#replace_member">.replace()</a> (member function)</li>
+<li><a href="#clamp">clamp()</a></li>
+<li><a href="#find">find()</a></li>
+<li><a href="#has_nan">.has_nan()</a></li>
+<li><a href="#has_inf">.has_inf()</a></li>
+<li><a href="#operators">relational operators</a></li>
+<li><a href="#constants">constants (pi, nan, inf, ...)</a></li>
 </ul>
 </li>
 <br>
@@ -20192,6 +20240,7 @@ List of additions and changes for each version:
 <li>(under development)</li>
 <li>added <a href="#balance">balance()</a> for producing balanced matrices where column and row norms are roughly the same</li>
 <li>added <a href="#find_nan_nonnan">find_nonnan()</a> for finding indices of non-NaN elements</li>
+<li>added standalone <a href="#replace_standalone">replace()</a> function</li>
 <li>...</li>
 </ul>
 </li>
