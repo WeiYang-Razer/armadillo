@@ -116,7 +116,10 @@ struct arma_sort_index_mangle_packet
 template<typename eT>
 struct arma_sort_index_mangle_functor
   {
-  arma_inline eT operator() (const eT val) const { return val; }
+  arma_inline eT operator() (const eT val) const
+    {
+    return val;
+    }
   };
 
 
@@ -124,7 +127,10 @@ struct arma_sort_index_mangle_functor
 template<typename T>
 struct arma_sort_index_mangle_functor< std::complex<T> >
   {
-  arma_inline std::complex<T> operator() (const std::complex<T>& val) const { return std::complex<T>( std::abs(val), std::arg(val) ); }
+  arma_inline std::complex<T> operator() (const std::complex<T>& val) const
+    {
+    return std::complex<T>( std::abs(val), std::arg(val) );
+    }
   };
 
 
