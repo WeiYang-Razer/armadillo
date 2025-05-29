@@ -88,7 +88,7 @@ op_sort::apply_noalias(Mat<eT>& out, const Mat<eT>& X, const uword sort_mode, co
         
         const Proxy< Col<eT> > P(X_col);
         
-        const bool all_non_nan = op_sort_index::apply_helper<false>(indices, P, sort_mode);
+        const bool all_non_nan = op_sort_index::apply_helper(indices, P, sort_mode);
         
         if(all_non_nan == false)
           {
@@ -128,7 +128,7 @@ op_sort::apply_noalias(Mat<eT>& out, const Mat<eT>& X, const uword sort_mode, co
         
         const Proxy< Col<eT> > P(Y_col);
         
-        const bool all_non_nan = op_sort_index::apply_helper<false>(indices, P, sort_mode);
+        const bool all_non_nan = op_sort_index::apply_helper(indices, P, sort_mode);
         
         if(all_non_nan == false)
           {
@@ -260,7 +260,7 @@ op_sort_vec::apply(Mat<typename T1::elem_type>& out, const Op<T1,op_sort_vec>& i
     
     const Proxy< Mat<eT> > P(X);
     
-    const bool all_non_nan = op_sort_index::apply_helper<false>(indices, P, sort_mode);
+    const bool all_non_nan = op_sort_index::apply_helper(indices, P, sort_mode);
     
     if(all_non_nan == false)
       {

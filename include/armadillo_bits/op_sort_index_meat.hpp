@@ -21,7 +21,7 @@
 
 
 
-template<bool use_stable_sort, typename T1>
+template<typename T1>
 inline
 bool
 op_sort_index::apply_helper(Mat<uword>& out, const Proxy<T1>& P, const uword sort_mode)
@@ -76,27 +76,13 @@ op_sort_index::apply_helper(Mat<uword>& out, const Proxy<T1>& P, const uword sor
     {
     arma_sort_index_mangle_ascend_comparator<eT> comparator;
     
-    if(use_stable_sort)
-      {
-      std::stable_sort( packet_vec.begin(), packet_vec.end(), comparator );
-      }
-    else
-      {
-      std::sort( packet_vec.begin(), packet_vec.end(), comparator );
-      }
+    std::stable_sort( packet_vec.begin(), packet_vec.end(), comparator );
     }
   else
     {
     arma_sort_index_mangle_descend_comparator<eT> comparator;
     
-    if(use_stable_sort)
-      {
-      std::stable_sort( packet_vec.begin(), packet_vec.end(), comparator );
-      }
-    else
-      {
-      std::sort( packet_vec.begin(), packet_vec.end(), comparator );
-      }
+    std::stable_sort( packet_vec.begin(), packet_vec.end(), comparator );
     }
   
   uword* out_mem = out.memptr();
@@ -130,13 +116,13 @@ op_sort_index::apply(Mat<uword>& out, const mtOp<uword,T1,op_sort_index>& in)
     {
     Mat<uword> tmp;
     
-    all_non_nan = op_sort_index::apply_helper<true>(tmp, P, sort_mode);
+    all_non_nan = op_sort_index::apply_helper(tmp, P, sort_mode);
     
     out.steal_mem(tmp);
     }
   else
     {
-    all_non_nan = op_sort_index::apply_helper<true>(out, P, sort_mode);
+    all_non_nan = op_sort_index::apply_helper(out, P, sort_mode);
     }
   
   if(all_non_nan == false)  { out.soft_reset(); }

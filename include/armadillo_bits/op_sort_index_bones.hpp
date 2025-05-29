@@ -26,7 +26,7 @@ class op_sort_index
   {
   public:
   
-  template<bool use_stable_sort, typename T1>
+  template<typename T1>
   static inline bool apply_helper(Mat<uword>& out, const Proxy<T1>& P, const uword sort_mode);
   
   template<typename T1>
