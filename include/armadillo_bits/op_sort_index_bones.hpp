@@ -26,28 +26,11 @@ class op_sort_index
   {
   public:
   
-  template<typename T1>
-  static inline bool apply_noalias_proxy(Mat<uword>& out, const Proxy<T1>& P, const uword sort_mode);
-  
-  template<typename eT>
-  static inline void apply_noalias_mat(Mat<uword>& out, const Mat<eT>& X, const uword sort_mode);
+  template<bool use_stable_sort, typename T1>
+  static inline bool apply_helper(Mat<uword>& out, const Proxy<T1>& P, const uword sort_mode);
   
   template<typename T1>
   static inline void apply(Mat<uword>& out, const mtOp<uword,T1,op_sort_index>& in);
-  };
-
-
-
-class op_stable_sort_index
-  : public traits_op_col
-  {
-  public:
-  
-  template<typename T1>
-  static inline bool apply_noalias(Mat<uword>& out, const Proxy<T1>& P, const uword sort_mode);
-  
-  template<typename T1>
-  static inline void apply(Mat<uword>& out, const mtOp<uword,T1,op_stable_sort_index>& in);
   };
 
 
