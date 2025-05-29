@@ -81,16 +81,6 @@ struct arma_sort_index_helper_ascend< std::complex<T> >
     {
     return (std::abs(A.val) < std::abs(B.val));
     }
-  
-  // inline
-  // bool
-  // operator() (const arma_sort_index_packet<eT>& A, const arma_sort_index_packet<eT>& B) const
-  //   {
-  //   const T abs_A_val = std::abs(A.val);
-  //   const T abs_B_val = std::abs(B.val);
-  //   
-  //   return ( (abs_A_val != abs_B_val) ? (abs_A_val < abs_B_val) : (std::arg(A.val) < std::arg(B.val)) );
-  //   }
   };
 
 
@@ -106,22 +96,25 @@ struct arma_sort_index_helper_descend< std::complex<T> >
     {
     return (std::abs(A.val) > std::abs(B.val));
     }
-  
-  // inline
-  // bool
-  // operator() (const arma_sort_index_packet<eT>& A, const arma_sort_index_packet<eT>& B) const
-  //   {
-  //   const T abs_A_val = std::abs(A.val);
-  //   const T abs_B_val = std::abs(B.val);
-  //   
-  //   return ( (abs_A_val != abs_B_val) ? (abs_A_val > abs_B_val) : (std::arg(A.val) > std::arg(B.val)) );
-  //   }
+  };
+
+
+
+//
+
+
+
+template<typename eT>
+struct arma_sort_index_mangle_packet
+  {
+  eT    val;
+  uword index;
   };
 
 
 
 template<typename eT>
-struct arma_sort_index_helper_prepare
+struct arma_sort_index_mangle_functor
   {
   arma_inline eT operator() (const eT val) const { return val; }
   };
@@ -129,9 +122,70 @@ struct arma_sort_index_helper_prepare
 
 
 template<typename T>
-struct arma_sort_index_helper_prepare< std::complex<T> >
+struct arma_sort_index_mangle_functor< std::complex<T> >
   {
-  arma_inline T operator() (const std::complex<T>& val) const { return std::abs(val); }
+  arma_inline std::complex<T> operator() (const std::complex<T>& val) const { return std::complex<T>( std::abs(val), std::arg(val) ); }
+  };
+
+
+
+template<typename eT>
+struct arma_sort_index_mangle_ascend_comparator
+  {
+  arma_inline
+  bool
+  operator() (const arma_sort_index_mangle_packet<eT>& A, const arma_sort_index_mangle_packet<eT>& B) const
+    {
+    return (A.val < B.val);
+    }
+  };
+
+
+
+template<typename eT>
+struct arma_sort_index_mangle_descend_comparator
+  {
+  arma_inline
+  bool
+  operator() (const arma_sort_index_mangle_packet<eT>& A, const arma_sort_index_mangle_packet<eT>& B) const
+    {
+    return (A.val > B.val);
+    }
+  };
+
+
+template<typename T>
+struct arma_sort_index_mangle_ascend_comparator< std::complex<T> >
+  {
+  typedef typename std::complex<T> eT;
+  
+  inline
+  bool
+  operator() (const arma_sort_index_mangle_packet<eT>& A, const arma_sort_index_mangle_packet<eT>& B) const
+    {
+    const T A_real = A.val.real();
+    const T B_real = B.val.real();
+    
+    return ( (A_real != B_real) ? (A_real < B_real) : (A.val.imag() < B.val.imag()) );
+    }
+  };
+
+
+
+template<typename T>
+struct arma_sort_index_mangle_descend_comparator< std::complex<T> >
+  {
+  typedef typename std::complex<T> eT;
+  
+  inline
+  bool
+  operator() (const arma_sort_index_mangle_packet<eT>& A, const arma_sort_index_mangle_packet<eT>& B) const
+    {
+    const T A_real = A.val.real();
+    const T B_real = B.val.real();
+    
+    return ( (A_real != B_real) ? (A_real > B_real) : (A.val.imag() > B.val.imag()) );
+    }
   };
 
 
