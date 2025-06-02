@@ -67,6 +67,8 @@ class subview_elem2 : public Base< eT, subview_elem2<eT,T1,T2> >
   inline void fill(const eT val);
   inline void zeros();
   inline void ones();
+  // inline void randu();  // TODO: add randu
+  // inline void randn();  // TODO: add randn
   
   inline void operator+= (const eT val);
   inline void operator-= (const eT val);

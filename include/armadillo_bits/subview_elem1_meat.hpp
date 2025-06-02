@@ -485,6 +485,7 @@ subview_elem1<eT,T1>::randu()
   const uword* aa_mem    = aa.memptr();
   const uword  aa_n_elem = aa.n_elem;
   
+  // TODO: replace with simpler loop
   uword iq,jq;
   for(iq=0, jq=1; jq < aa_n_elem; iq+=2, jq+=2)
     {
@@ -493,7 +494,7 @@ subview_elem1<eT,T1>::randu()
     
     arma_conform_check_bounds( ( (ii >= m_n_elem) || (jj >= m_n_elem) ), "Mat::elem(): index out of bounds" );
     
-    const eT val1 = eT(arma_rng::randu<eT>());
+    const eT val1 = eT(arma_rng::randu<eT>());  // TODO: replace with batch generation
     const eT val2 = eT(arma_rng::randu<eT>());
     
     m_mem[ii] = val1;
@@ -535,6 +536,7 @@ subview_elem1<eT,T1>::randn()
   const uword* aa_mem    = aa.memptr();
   const uword  aa_n_elem = aa.n_elem;
   
+  // TODO: replace with simpler loop
   uword iq,jq;
   for(iq=0, jq=1; jq < aa_n_elem; iq+=2, jq+=2)
     {
@@ -543,7 +545,7 @@ subview_elem1<eT,T1>::randn()
     
     arma_conform_check_bounds( ( (ii >= m_n_elem) || (jj >= m_n_elem) ), "Mat::elem(): index out of bounds" );
     
-    arma_rng::randn<eT>::dual_val( m_mem[ii], m_mem[jj] );
+    arma_rng::randn<eT>::dual_val( m_mem[ii], m_mem[jj] );  // TODO: replace with batch generation
     }
   
   if(iq < aa_n_elem)
