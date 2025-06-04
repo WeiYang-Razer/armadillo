@@ -361,6 +361,17 @@ struct arma_zeros_indicator   : public arma_initmode_indicator<true > {};
 struct arma_nozeros_indicator : public arma_initmode_indicator<false> {};
 
 
+
+namespace elem_opts
+  {
+  template<bool omit_nan_flag> struct omit_nan_indicator {};
+  
+  static constexpr omit_nan_indicator<true >    omit_nan;
+  static constexpr omit_nan_indicator<false> include_nan;
+  }
+
+
+
 //! \addtogroup injector
 //! @{
 

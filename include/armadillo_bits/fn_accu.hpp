@@ -1005,6 +1005,100 @@ accu(const eGlueCube<T1,T2,eglue_schur>& expr)
 
 
 
+template<typename T1, bool omit_nan_flag>
+arma_warn_unused
+inline
+typename enable_if2< is_arma_type<T1>::value, typename T1::elem_type >::result
+accu(const T1& X, const elem_opts::omit_nan_indicator<omit_nan_flag>&)
+  {
+  arma_debug_sigprint();
+  
+  typedef typename T1::elem_type eT;
+  
+  if(omit_nan_flag == false)  { return accu(X); }
+  
+  constexpr eT eT_zero = eT(0);
+  
+  eT val = eT(0);
+  
+  const Proxy<T1> P(X);
+  
+  if(Proxy<T1>::use_at)
+    {
+    const uword n_rows = P.get_n_rows();
+    const uword n_cols = P.get_n_cols();
+    
+    if(n_rows != 1)
+      {
+      eT val1 = eT(0);
+      eT val2 = eT(0);
+      
+      for(uword col=0; col < n_cols; ++col)
+        {
+        uword i,j;
+        for(i=0, j=1; j < n_rows; i+=2, j+=2)
+          {
+          const eT tmp_i = P.at(i,col);
+          const eT tmp_j = P.at(j,col);
+          
+          val1 += arma_isnan(tmp_i) ? eT_zero : tmp_i;
+          val2 += arma_isnan(tmp_j) ? eT_zero : tmp_j;
+          }
+        
+        if(i < n_rows)
+          {
+          const eT tmp_i = P.at(i,col);
+          
+          val1 += arma_isnan(tmp_i) ? eT_zero : tmp_i;
+          }
+        }
+      
+      val = val1 + val2;
+      }
+    else
+      {
+      for(uword col=0; col < n_cols; ++col)
+        {
+        const eT tmp = P.at(0,col);
+        
+        val += arma_isnan(tmp) ? eT_zero : tmp;
+        }
+      }
+    }
+  else
+    {
+    typename Proxy<T1>::ea_type Pea = P.get_ea();
+    
+    const uword n_elem = P.get_n_elem();
+    
+    eT val1 = eT(0);
+    eT val2 = eT(0);
+    
+    uword i,j;
+    for(i=0, j=1; j < n_elem; i+=2, j+=2)
+      {
+      const eT tmp_i = Pea[i];
+      const eT tmp_j = Pea[j];
+      
+      val1 += arma_isnan(tmp_i) ? eT_zero : tmp_i;
+      val2 += arma_isnan(tmp_j) ? eT_zero : tmp_j;
+      }
+    
+    if(i < n_elem)
+      {
+      const eT tmp_i = Pea[i];
+      
+      val1 += arma_isnan(tmp_i) ? eT(0) : tmp_i;
+      }
+    
+    val = val1 + val2;
+    }
+  
+  return val;
+  }
+
+
+
 //
 
 
