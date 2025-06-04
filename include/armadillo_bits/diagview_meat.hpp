@@ -1001,7 +1001,7 @@ diagview<eT>::randu()
   
   for(uword ii=0; ii < local_n_elem; ++ii)
     {
-    x.at(ii+row_offset, ii+col_offset) = tmp[i];
+    x.at(ii+row_offset, ii+col_offset) = tmp[ii];
     }
   }
 
@@ -1024,7 +1024,7 @@ diagview<eT>::randn()
   
   for(uword ii=0; ii < local_n_elem; ++ii)
     {
-    x.at(ii+row_offset, ii+col_offset) = tmp[i];
+    x.at(ii+row_offset, ii+col_offset) = tmp[ii];
     }
   }
 
