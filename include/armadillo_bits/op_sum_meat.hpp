@@ -416,6 +416,172 @@ op_sum::apply_proxy_noalias(Mat<typename T1::elem_type>& out, const Proxy<T1>& P
 
 
 //
+
+
+
+template<typename T1>
+inline
+void
+op_sum_omit::apply(Mat<typename T1::elem_type>& out, const Op<T1,op_sum_omit>& in)
+  {
+  arma_debug_sigprint();
+  
+  typedef typename T1::elem_type eT;
+  
+  const uword dim       = in.aux_uword_a;
+  const uword omit_mode = in.aux_uword_b;
+  
+  arma_conform_check( (dim > 1), "sum(): parameter 'dim' must be 0 or 1" );
+  
+  auto is_omitted_1 = [](const eT& x) -> bool { return arma_isnan(x);               };
+  auto is_omitted_2 = [](const eT& x) -> bool { return (arma_isfinite(x) == false); };
+  
+  const Proxy<T1> P(in.m);
+  
+  if(P.is_alias(out))
+    {
+    Mat<eT> tmp;
+    
+    if(omit_mode == 1)  { op_sum_omit::apply_proxy_noalias(tmp, P, dim, is_omitted_1); }
+    if(omit_mode == 2)  { op_sum_omit::apply_proxy_noalias(tmp, P, dim, is_omitted_2); }
+    
+    out.steal_mem(tmp);
+    }
+  else
+    {
+    if(omit_mode == 1)  { op_sum_omit::apply_proxy_noalias(out, P, dim, is_omitted_1); }
+    if(omit_mode == 2)  { op_sum_omit::apply_proxy_noalias(out, P, dim, is_omitted_2); }
+    }
+  }
+
+
+
+template<typename T1, typename functor>
+inline
+void
+op_sum_omit::apply_proxy_noalias(Mat<typename T1::elem_type>& out, const Proxy<T1>& P, const uword dim, functor is_omitted)
+  {
+  arma_debug_sigprint();
+  
+  typedef typename T1::elem_type eT;
+  
+  constexpr eT eT_zero = eT(0);
+  
+  const uword P_n_rows = P.get_n_rows();
+  const uword P_n_cols = P.get_n_cols();
+  
+  const uword out_n_rows = (dim == 0) ? uword(1) : P_n_rows;
+  const uword out_n_cols = (dim == 0) ? P_n_cols : uword(1);
+  
+  out.set_size(out_n_rows, out_n_cols);
+  
+  if(P.get_n_elem() == 0)  { out.zeros(); return; }
+  
+  eT* out_mem = out.memptr();
+  
+  if(Proxy<T1>::use_at == false)
+    {
+    if(dim == 0)
+      {
+      uword count = 0;
+      
+      for(uword col=0; col < P_n_cols; ++col)
+        {
+        eT val1 = eT(0);
+        eT val2 = eT(0);
+        
+        uword j;
+        for(j=1; j < P_n_rows; j+=2)
+          {
+          const eT tmp1 = P[count]; ++count;
+          const eT tmp2 = P[count]; ++count;
+          
+          val1 += is_omitted(tmp1) ? eT_zero : tmp1;
+          val2 += is_omitted(tmp2) ? eT_zero : tmp2;
+          }
+        
+        if((j-1) < P_n_rows)
+          {
+          const eT tmp1 = P[count]; ++count;
+          
+          val1 += is_omitted(tmp1) ? eT_zero : tmp1;
+          }
+        
+        out_mem[col] = (val1 + val2);
+        }
+      }
+    else
+      {
+      uword count = 0;
+      
+      for(uword row=0; row < P_n_rows; ++row)
+        {
+        const eT tmp = P[count]; ++count;
+        
+        out_mem[row] = is_omitted(tmp) ? eT_zero : tmp;
+        }
+      
+      for(uword col=1; col < P_n_cols; ++col)
+      for(uword row=0; row < P_n_rows; ++row)
+        {
+        const eT tmp = P[count]; ++count;
+        
+        out_mem[row] += is_omitted(tmp) ? eT_zero : tmp;
+        }
+      }
+    }
+  else
+    {
+    if(dim == 0)
+      {
+      for(uword col=0; col < P_n_cols; ++col)
+        {
+        eT val1 = eT(0);
+        eT val2 = eT(0);
+        
+        uword i,j;
+        for(i=0, j=1; j < P_n_rows; i+=2, j+=2)
+          {
+          const eT tmp1 = P.at(i,col);
+          const eT tmp2 = P.at(j,col);
+          
+          val1 += is_omitted(tmp1) ? eT_zero : tmp1;
+          val2 += is_omitted(tmp2) ? eT_zero : tmp2;
+          }
+        
+        if(i < P_n_rows)
+          {
+          const eT tmp1 = P.at(i,col);
+          
+          val1 += is_omitted(tmp1) ? eT_zero : tmp1;
+          }
+        
+        out_mem[col] = (val1 + val2);
+        }
+      }
+    else
+      {
+      for(uword row=0; row < P_n_rows; ++row)
+        {
+        const eT tmp = P.at(row,0);
+        
+        out_mem[row] = is_omitted(tmp) ? eT_zero : tmp;
+        }
+      
+      for(uword col=1; col < P_n_cols; ++col)
+      for(uword row=0; row < P_n_rows; ++row)
+        {
+        const eT tmp = P.at(row,col);
+        
+        out_mem[row] += is_omitted(tmp) ? eT_zero : tmp;
+        }
+      }
+    }
+  }
+
+
+
+//
 // cubes
 
 

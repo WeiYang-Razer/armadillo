@@ -366,7 +366,6 @@ namespace elem_opts
   {
   template<int omit_mode> struct omit_indicator {};
   
-  static constexpr omit_indicator<0> omit_none;
   static constexpr omit_indicator<1> omit_nan;
   static constexpr omit_indicator<2> omit_nonfinite;
   }
