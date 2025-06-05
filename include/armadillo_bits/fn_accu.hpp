@@ -1005,19 +1005,24 @@ accu(const eGlueCube<T1,T2,eglue_schur>& expr)
 
 
 
-template<typename T1, bool omit_nan_flag>
+template<typename T1, int omit_mode>
 arma_warn_unused
 inline
 typename enable_if2< is_arma_type<T1>::value, typename T1::elem_type >::result
-accu(const T1& X, const elem_opts::omit_nan_indicator<omit_nan_flag>&)
+accu(const T1& X, const elem_opts::omit_indicator<omit_mode>&)
   {
   arma_debug_sigprint();
   
   typedef typename T1::elem_type eT;
   
-  if(omit_nan_flag == false)  { return accu(X); }
-  
   constexpr eT eT_zero = eT(0);
+  
+  auto is_omitted = [](const eT& x) -> bool
+    {
+    if(omit_mode == 0)  { return false;                       }
+    if(omit_mode == 1)  { return arma_isnan(x);               }
+    if(omit_mode == 2)  { return (arma_isfinite(x) == false); }
+    };
   
   eT val = eT(0);
   
@@ -1041,15 +1046,15 @@ accu(const T1& X, const elem_opts::omit_nan_indicator<omit_nan_flag>&)
           const eT tmp_i = P.at(i,col);
           const eT tmp_j = P.at(j,col);
           
-          val1 += arma_isnan(tmp_i) ? eT_zero : tmp_i;
-          val2 += arma_isnan(tmp_j) ? eT_zero : tmp_j;
+          val1 += is_omitted(tmp_i) ? eT_zero : tmp_i;
+          val2 += is_omitted(tmp_j) ? eT_zero : tmp_j;
           }
         
         if(i < n_rows)
           {
           const eT tmp_i = P.at(i,col);
           
-          val1 += arma_isnan(tmp_i) ? eT_zero : tmp_i;
+          val1 += is_omitted(tmp_i) ? eT_zero : tmp_i;
           }
         }
       
@@ -1061,7 +1066,7 @@ accu(const T1& X, const elem_opts::omit_nan_indicator<omit_nan_flag>&)
         {
         const eT tmp = P.at(0,col);
         
-        val += arma_isnan(tmp) ? eT_zero : tmp;
+        val += is_omitted(tmp) ? eT_zero : tmp;
         }
       }
     }
@@ -1080,15 +1085,15 @@ accu(const T1& X, const elem_opts::omit_nan_indicator<omit_nan_flag>&)
       const eT tmp_i = Pea[i];
       const eT tmp_j = Pea[j];
       
-      val1 += arma_isnan(tmp_i) ? eT_zero : tmp_i;
-      val2 += arma_isnan(tmp_j) ? eT_zero : tmp_j;
+      val1 += is_omitted(tmp_i) ? eT_zero : tmp_i;
+      val2 += is_omitted(tmp_j) ? eT_zero : tmp_j;
       }
     
     if(i < n_elem)
       {
       const eT tmp_i = Pea[i];
       
-      val1 += arma_isnan(tmp_i) ? eT(0) : tmp_i;
+      val1 += is_omitted(tmp_i) ? eT(0) : tmp_i;
       }
     
     val = val1 + val2;
@@ -1467,6 +1472,61 @@ accu(const mtSpOp<uword,T1,spop_type>& X, const typename arma_spop_rel_only<spop
     }
   
   return count;
+  }
+
+
+
+template<typename T1, int omit_mode>
+arma_warn_unused
+inline
+typename enable_if2< is_arma_type<T1>::value, typename T1::elem_type >::result
+accu(const SpBase<typename T1::elem_type, T1>& expr, const elem_opts::omit_indicator<omit_mode>&)
+  {
+  arma_debug_sigprint();
+  
+  typedef typename T1::elem_type eT;
+  
+  constexpr eT eT_zero = eT(0);
+  
+  auto is_omitted = [](const eT& x) -> bool
+    {
+    if(omit_mode == 0)  { return false;                       }
+    if(omit_mode == 1)  { return arma_isnan(x);               }
+    if(omit_mode == 2)  { return (arma_isfinite(x) == false); }
+    };
+  
+  const SpProxy<T1> P(expr.get_ref());
+  
+  const uword N = P.get_n_nonzero();
+  
+  if(N == 0)  { return eT(0); }
+  
+  eT val = eT(0);
+  
+  if(SpProxy<T1>::use_iterator == false)
+    {
+    const eT* values = P.get_values();
+    
+    for(uword i=0; i < N; ++i)
+      {
+      const eT tmp = values[i];
+      
+      val += is_omitted(tmp) ? eT_zero : tmp;
+      }
+    }
+  else
+    {
+    typename SpProxy<T1>::const_iterator_type it = P.begin();
+    
+    for(uword i=0; i < N; ++i)
+      {
+      const eT tmp = (*it); ++it;
+      
+      val += is_omitted(tmp) ? eT_zero : tmp;
+      }
+    }
+  
+  return val;
   }
 
 

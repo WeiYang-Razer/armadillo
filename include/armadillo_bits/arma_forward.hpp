@@ -364,10 +364,11 @@ struct arma_nozeros_indicator : public arma_initmode_indicator<false> {};
 
 namespace elem_opts
   {
-  template<bool omit_nan_flag> struct omit_nan_indicator {};
+  template<int omit_mode> struct omit_indicator {};
   
-  static constexpr omit_nan_indicator<true >    omit_nan;
-  static constexpr omit_nan_indicator<false> include_nan;
+  static constexpr omit_indicator<0> omit_none;
+  static constexpr omit_indicator<1> omit_nan;
+  static constexpr omit_indicator<2> omit_nonfinite;
   }
 
 
