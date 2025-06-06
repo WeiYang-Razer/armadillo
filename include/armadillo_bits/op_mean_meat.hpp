@@ -709,5 +709,86 @@ op_mean::robust_mean(const std::complex<T>& A, const std::complex<T>& B)
 
 
 
-//! @}
+//
 
+
+
+template<typename eT, int omit_mode>
+inline
+eT
+op_mean_omit::direct_mean(const eT* X_mem, const uword N, const elem_opts::omit_indicator<omit_mode>&)
+  {
+  arma_debug_sigprint();
+  
+  typedef typename get_pod_type<eT>::result T;
+  
+  auto is_omitted = [](const eT& x) -> bool
+    {
+    if(omit_mode == 1)  { return arma_isnan(x);       }
+    if(omit_mode == 2)  { return arma_isnonfinite(x); }
+    };
+  
+  uword count = 0;
+  
+  eT val = eT(0);
+  
+  for(uword i=0; i < N; ++i)
+    {
+    const eT tmp = X_mem[i];
+    
+    if(is_omitted(tmp) == false)  { val += tmp;  ++count; }
+    }
+  
+  val /= T(count);
+  
+  if( arma_isfinite(val) || (count == 0) )  { return val; }
+  
+  if( (omit_mode == 1) && arrayops::has_inf(X_mem, N) )  { return val; }
+  
+  arma_debug_print("op_mean_omit::direct_mean(): possible overflow; fallback to robust mean calculation");
+  
+  podarray<eT> Y(N,  arma_nozeros_indicator());
+  
+  eT* Y_mem = Y.memptr();
+  
+  count = 0;
+  
+  for(uword i=0; i < N; ++i)
+    {
+    const eT tmp = X_mem[i];
+    
+    if(is_omitted(tmp) == false)  { Y_mem[count] = val; ++count; }
+    }
+  
+  return op_mean::direct_mean_robust(Y_mem, count);
+  }
+
+
+
+template<typename T1, int omit_mode>
+inline
+typename T1::elem_type 
+op_mean_omit::mean_all(const Base<typename T1::elem_type, T1>& X, const elem_opts::omit_indicator<omit_mode>& indicator)
+  {
+  arma_debug_sigprint();
+  
+  typedef typename T1::elem_type eT;
+  
+  const quasi_unwrap<T1> tmp(X.get_ref());
+  const Mat<eT>&     A = tmp.M;
+  
+  const uword A_n_elem = A.n_elem;
+  
+  if(A_n_elem == 0)
+    {
+    arma_conform_check(true, "mean(): object has no elements");
+    
+    return Datum<eT>::nan;
+    }
+  
+  return op_mean_omit::direct_mean(A.memptr(), A_n_elem, indicator);
+  }
+
+
+
+//! @}

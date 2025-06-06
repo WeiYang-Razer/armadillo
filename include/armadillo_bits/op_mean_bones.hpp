@@ -112,4 +112,22 @@ class op_mean
 
 
 
+//
+
+
+
+class op_mean_omit
+  : public traits_op_xvec
+  {
+  public:
+  
+  template<typename eT, int omit_mode>
+  inline static eT direct_mean(const eT* X_mem, const uword N, const elem_opts::omit_indicator<omit_mode>&);
+  
+  template<typename T1, int omit_mode>
+  inline static typename T1::elem_type mean_all(const Base<typename T1::elem_type, T1>& X, const elem_opts::omit_indicator<omit_mode>& indicator);
+  };
+
+
+
 //! @}
