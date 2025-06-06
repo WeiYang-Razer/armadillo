@@ -433,8 +433,8 @@ op_sum_omit::apply(Mat<typename T1::elem_type>& out, const Op<T1,op_sum_omit>& i
   
   arma_conform_check( (dim > 1), "sum(): parameter 'dim' must be 0 or 1" );
   
-  auto is_omitted_1 = [](const eT& x) -> bool { return arma_isnan(x);               };
-  auto is_omitted_2 = [](const eT& x) -> bool { return (arma_isfinite(x) == false); };
+  auto is_omitted_1 = [](const eT& x) -> bool { return arma_isnan(x);       };
+  auto is_omitted_2 = [](const eT& x) -> bool { return arma_isnonfinite(x); };
   
   const Proxy<T1> P(in.m);
   

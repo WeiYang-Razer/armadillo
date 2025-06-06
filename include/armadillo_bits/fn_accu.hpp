@@ -1019,8 +1019,8 @@ accu(const T1& X, const elem_opts::omit_indicator<omit_mode>&)
   
   auto is_omitted = [](const eT& x) -> bool
     {
-    if(omit_mode == 1)  { return arma_isnan(x);               }
-    if(omit_mode == 2)  { return (arma_isfinite(x) == false); }
+    if(omit_mode == 1)  { return arma_isnan(x);       }
+    if(omit_mode == 2)  { return arma_isnonfinite(x); }
     };
   
   eT val = eT(0);
@@ -1489,8 +1489,8 @@ accu(const SpBase<typename T1::elem_type, T1>& expr, const elem_opts::omit_indic
   
   auto is_omitted = [](const eT& x) -> bool
     {
-    if(omit_mode == 1)  { return arma_isnan(x);               }
-    if(omit_mode == 2)  { return (arma_isfinite(x) == false); }
+    if(omit_mode == 1)  { return arma_isnan(x);       }
+    if(omit_mode == 2)  { return arma_isnonfinite(x); }
     };
   
   const SpProxy<T1> P(expr.get_ref());
