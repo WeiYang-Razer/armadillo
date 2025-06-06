@@ -398,6 +398,10 @@ op_mean::direct_mean(const eT* const X, const uword n_elem)
 
 
 
+// TODO: corner-case bug: doesn't work properly if X has inf; problem is inf - inf = nan
+// TODO: refactor to have old mean as an arg, which is then returned if X has inf
+// TODO: remove other forms of direct_mean_robust()
+// TODO: refactor callers to create an array that is used as arg to this function
 template<typename eT>
 inline
 eT
@@ -413,6 +417,7 @@ op_mean::direct_mean_robust(const eT* const X, const uword n_elem)
   
   eT r_mean = eT(0);
   
+  // TODO: refactor into simple loop; the division takes many cycles anyway
   for(i=0, j=1; j<n_elem; i+=2, j+=2)
     {
     const eT Xi = X[i];
@@ -467,6 +472,7 @@ op_mean::direct_mean(const Mat<eT>& X, const uword row)
 
 
 
+// TODO: corner-case bug: doesn't work properly if X has inf; problem is inf - inf = nan
 template<typename eT>
 inline
 eT
@@ -548,6 +554,7 @@ op_mean::mean_all(const subview<eT>& X)
 
 
 
+// TODO: corner-case bug: doesn't work properly if X has inf; problem is inf - inf = nan
 template<typename eT>
 inline 
 eT
@@ -628,6 +635,7 @@ op_mean::mean_all(const diagview<eT>& X)
 
 
 
+// TODO: corner-case bug: doesn't work properly if X has inf; problem is inf - inf = nan
 template<typename eT>
 inline 
 eT
