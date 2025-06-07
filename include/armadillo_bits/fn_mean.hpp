@@ -73,6 +73,19 @@ mean(const T1& X, const uword dim)
 
 
 
+template<typename T1, int omit_mode>
+arma_warn_unused
+arma_inline
+typename enable_if2< is_arma_type<T1>::value, const Op<T1, op_mean_omit> >::result
+mean(const T1& X, const uword dim, const elem_opts::omit_indicator<omit_mode>&)
+  {
+  arma_debug_sigprint();
+  
+  return Op<T1, op_mean_omit>(X, dim, uword(omit_mode));
+  }
+
+
+
 template<typename T>
 arma_warn_unused
 arma_inline

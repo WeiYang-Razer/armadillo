@@ -81,11 +81,17 @@ class op_mean_omit
   {
   public:
   
-  template<typename eT, int omit_mode>
-  inline static eT direct_mean(const eT* X_mem, const uword N, const elem_opts::omit_indicator<omit_mode>&);
+  template<typename T1>
+  inline static void apply(Mat<typename T1::elem_type>& out, const Op<T1,op_mean_omit>& in);
+  
+  template<typename eT, typename functor>
+  inline static void apply_noalias(Mat<eT>& out, const Mat<eT>& X, const uword dim, functor is_omitted);
+  
+  template<typename eT, typename functor>
+  inline static eT direct_mean(const eT* X_mem, const uword N, functor is_omitted);
   
   template<typename T1, int omit_mode>
-  inline static typename T1::elem_type mean_all(const Base<typename T1::elem_type, T1>& X, const elem_opts::omit_indicator<omit_mode>& indicator);
+  inline static typename T1::elem_type mean_all(const Base<typename T1::elem_type, T1>& X, const elem_opts::omit_indicator<omit_mode>&);
   };
 
 
