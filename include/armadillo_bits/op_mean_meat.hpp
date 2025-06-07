@@ -418,10 +418,10 @@ op_mean_omit::direct_mean(const eT* X_mem, const uword N, const elem_opts::omit_
     {
     const eT tmp = X_mem[i];
     
-    if(is_omitted(tmp) == false)  { Y_mem[count] = val; ++count; }
+    if(is_omitted(tmp) == false)  { Y_mem[count] = tmp; ++count; }
     }
   
-  return op_mean::direct_mean_robust(Y_mem, count);
+  return op_mean::direct_mean_robust(val, Y_mem, count);
   }
 
 
