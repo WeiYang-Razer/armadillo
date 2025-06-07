@@ -76,7 +76,7 @@ template<typename T1, int omit_mode>
 arma_warn_unused
 arma_inline
 typename enable_if2< is_arma_type<T1>::value, const Op<T1, op_sum_omit> >::result
-sum(const T1& X, const uword dim, const elem_opts::omit_indicator<omit_mode>& indicator)
+sum(const T1& X, const uword dim, const elem_opts::omit_indicator<omit_mode>&)
   {
   arma_debug_sigprint();
   
