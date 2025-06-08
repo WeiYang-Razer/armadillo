@@ -1041,7 +1041,7 @@ accu(const BaseCube<typename T1::elem_type,T1>& X, const elem_opts::omit_indicat
     
     for(uword s=0; s < n_s; ++s)
     for(uword c=0; c < n_c; ++c)
-    for(uword r=0, r < n_r; ++r)  
+    for(uword r=0; r < n_r; ++r)  
       {
       const eT tmp = P.at(r,c,s);
       
@@ -1054,9 +1054,9 @@ accu(const BaseCube<typename T1::elem_type,T1>& X, const elem_opts::omit_indicat
     
     const uword N = P.get_n_elem();
     
-    for(uword i=0, i < N; ++i)
+    for(uword i=0; i < N; ++i)
       {
-      const eT tmp = P[i];
+      const eT tmp = Pea[i];
       
       val += is_omitted(tmp) ? eT_zero : tmp;
       }

@@ -78,6 +78,9 @@ class op_sum_omit
   
   template<typename T1>
   inline static void apply(Cube<typename T1::elem_type>& out, const OpCube<T1, op_sum_omit>& in);
+  
+  template<typename T1, typename functor>
+  inline static void apply_proxy_noalias(Cube<typename T1::elem_type>& out, const ProxyCube<T1>& P, const uword dim, functor is_omitted);
   };
 
 
