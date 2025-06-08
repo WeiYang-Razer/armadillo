@@ -1011,6 +1011,62 @@ accu(const BaseCube<typename T1::elem_type,T1>& X)
 
 
 
+template<typename T1, int omit_mode>
+arma_warn_unused
+inline
+typename T1::elem_type
+accu(const BaseCube<typename T1::elem_type,T1>& X, const elem_opts::omit_indicator<omit_mode>&)
+  {
+  arma_debug_sigprint();
+  
+  typedef typename T1::elem_type eT;
+  
+  constexpr eT eT_zero = eT(0);
+  
+  auto is_omitted = [](const eT& x) -> bool
+    {
+    if(omit_mode == 1)  { return arma_isnan(x);       }
+    if(omit_mode == 2)  { return arma_isnonfinite(x); }
+    };
+  
+  eT val = eT(0);
+  
+  const ProxyCube<T1> P(X.get_ref());
+  
+  if(ProxyCube<T1>::use_at)
+    {
+    const uword n_r = P.get_n_rows();
+    const uword n_c = P.get_n_cols();
+    const uword n_s = P.get_n_slices();
+    
+    for(uword s=0; s < n_s; ++s)
+    for(uword c=0; c < n_c; ++c)
+    for(uword r=0, r < n_r; ++r)  
+      {
+      const eT tmp = P.at(r,c,s);
+      
+      val += is_omitted(tmp) ? eT_zero : tmp;
+      }
+    }
+  else
+    {
+    typename ProxyCube<T1>::ea_type Pea = P.get_ea();
+    
+    const uword N = P.get_n_elem();
+    
+    for(uword i=0, i < N; ++i)
+      {
+      const eT tmp = P[i];
+      
+      val += is_omitted(tmp) ? eT_zero : tmp;
+      }
+    }
+  
+  return val;
+  }
+
+
+
 template<typename T1>
 arma_warn_unused
 inline

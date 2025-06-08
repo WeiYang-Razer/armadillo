@@ -114,6 +114,24 @@ sum
 
 
 
+template<typename T1, int omit_mode>
+arma_warn_unused
+arma_inline
+const OpCube<T1, op_sum_omit>
+sum
+  (
+  const BaseCube<typename T1::elem_type,T1>& X,
+  const uword dim,
+  const elem_opts::omit_indicator<omit_mode>&
+  )
+  {
+  arma_debug_sigprint();
+  
+  return OpCube<T1, op_sum_omit>(X.get_ref(), dim, uword(omit_mode));
+  }
+
+
+
 //! sum of sparse object
 template<typename T1>
 arma_warn_unused
