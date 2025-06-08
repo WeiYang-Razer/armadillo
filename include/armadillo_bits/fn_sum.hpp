@@ -134,6 +134,24 @@ sum(const T1& x)
 
 
 
+template<typename T1, int omit_mode>
+arma_warn_unused
+inline
+typename
+enable_if2
+  <
+  is_arma_sparse_type<T1>::value && resolves_to_sparse_vector<T1>::yes,
+  typename T1::elem_type
+  >::result
+sum(const T1& x, const elem_opts::omit_indicator<omit_mode>& indicator)
+  {
+  arma_debug_sigprint();
+  
+  return accu(x, indicator);
+  }
+
+
+
 template<typename T1>
 arma_warn_unused
 inline
@@ -166,6 +184,24 @@ sum(const T1& x, const uword dim)
   arma_debug_sigprint();
   
   return mtSpReduceOp<typename T1::elem_type, T1, op_sp_sum>(x, dim, 0);
+  }
+
+
+
+template<typename T1, int omit_mode>
+arma_warn_unused
+inline
+typename
+enable_if2
+  <
+  is_arma_sparse_type<T1>::value,
+  const mtSpReduceOp<typename T1::elem_type, T1, op_sp_sum_omit>
+  >::result
+sum(const T1& x, const uword dim, const elem_opts::omit_indicator<omit_mode>&)
+  {
+  arma_debug_sigprint();
+  
+  return mtSpReduceOp<typename T1::elem_type, T1, op_sp_sum_omit>(x, dim, uword(omit_mode));
   }
 
 

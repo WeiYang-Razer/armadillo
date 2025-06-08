@@ -1478,7 +1478,7 @@ accu(const mtSpOp<uword,T1,spop_type>& X, const typename arma_spop_rel_only<spop
 template<typename T1, int omit_mode>
 arma_warn_unused
 inline
-typename enable_if2< is_arma_type<T1>::value, typename T1::elem_type >::result
+typename T1::elem_type
 accu(const SpBase<typename T1::elem_type, T1>& expr, const elem_opts::omit_indicator<omit_mode>&)
   {
   arma_debug_sigprint();
