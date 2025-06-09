@@ -145,6 +145,8 @@ op_var::direct_var(const eT* const X, const uword n_elem, const uword norm_type)
     {
     const eT acc1 = op_mean::direct_mean(X, n_elem);
     
+    if(arma_isnonfinite(acc1))  { return Datum<eT>::nan; }
+    
     eT acc2 = eT(0);
     eT acc3 = eT(0);
     
@@ -231,6 +233,8 @@ op_var::direct_var(const std::complex<T>* const X, const uword n_elem, const uwo
   if(n_elem >= 2)
     {
     const eT acc1 = op_mean::direct_mean(X, n_elem);
+    
+    if(arma_isnonfinite(acc1))  { return Datum<T>::nan; }
     
     T  acc2 =  T(0);
     eT acc3 = eT(0);
