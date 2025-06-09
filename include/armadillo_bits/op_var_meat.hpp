@@ -111,7 +111,7 @@ op_var::apply_noalias(Mat<typename get_pod_type<in_eT>::result>& out, const Mat<
 template<typename T1>
 inline
 typename T1::pod_type
-op_var::var_vec(const Base<typename T1::elem_type, T1>& X, const uword norm_type)
+op_var::var_vec(const T1& X, const uword norm_type)
   {
   arma_debug_sigprint();
   
@@ -119,7 +119,7 @@ op_var::var_vec(const Base<typename T1::elem_type, T1>& X, const uword norm_type
   
   arma_conform_check( (norm_type > 1), "var(): parameter 'norm_type' must be 0 or 1" );
   
-  const quasi_unwrap<T1> U(X.get_ref());
+  const quasi_unwrap<T1> U(X);
   
   if(U.M.n_elem == 0)
     {
@@ -129,68 +129,6 @@ op_var::var_vec(const Base<typename T1::elem_type, T1>& X, const uword norm_type
     }
   
   return op_var::direct_var(U.M.memptr(), U.M.n_elem, norm_type);
-  }
-
-
-
-template<typename eT>
-inline
-typename get_pod_type<eT>::result
-op_var::var_vec(const subview_col<eT>& X, const uword norm_type)
-  {
-  arma_debug_sigprint();
-  
-  typedef typename get_pod_type<eT>::result T;
-  
-  arma_conform_check( (norm_type > 1), "var(): parameter 'norm_type' must be 0 or 1" );
-  
-  if(X.n_elem == 0)
-    {
-    arma_conform_check(true, "var(): object has no elements");
-    
-    return Datum<T>::nan;
-    }
-  
-  return op_var::direct_var(X.colptr(0), X.n_rows, norm_type);
-  }
-
-
-
-
-template<typename eT>
-inline
-typename get_pod_type<eT>::result
-op_var::var_vec(const subview_row<eT>& X, const uword norm_type)
-  {
-  arma_debug_sigprint();
-  
-  typedef typename get_pod_type<eT>::result T;
-  
-  arma_conform_check( (norm_type > 1), "var(): parameter 'norm_type' must be 0 or 1" );
-  
-  if(X.n_elem == 0)
-    {
-    arma_conform_check(true, "var(): object has no elements");
-    
-    return Datum<T>::nan;
-    }
-  
-  const Mat<eT>& A = X.m;
-  
-  const uword start_row = X.aux_row1;
-  const uword start_col = X.aux_col1;
-  
-  const uword end_col_p1 = start_col + X.n_cols;
-  
-  podarray<eT> tmp(X.n_elem);
-  eT* tmp_mem = tmp.memptr();
-  
-  for(uword i=0, col=start_col; col < end_col_p1; ++col, ++i)
-    {
-    tmp_mem[i] = A.at(start_row, col);
-    }
-  
-  return op_var::direct_var(tmp.memptr(), tmp.n_elem, norm_type);
   }
 
 
