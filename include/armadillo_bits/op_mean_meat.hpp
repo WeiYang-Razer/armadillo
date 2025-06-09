@@ -309,26 +309,14 @@ op_mean::direct_mean_robust(const eT old_mean, const eT* X_mem, const uword N)
 template<typename T1>
 inline
 typename T1::elem_type 
-op_mean::mean_all(const Op<T1,op_vectorise_col>& X)
-  {
-  arma_debug_sigprint();
-  
-  return op_mean::mean_all(X.m);
-  }
-
-
-
-template<typename T1>
-inline
-typename T1::elem_type 
-op_mean::mean_all(const Base<typename T1::elem_type, T1>& X)
+op_mean::mean_all(const T1& X)
   {
   arma_debug_sigprint();
   
   typedef typename T1::elem_type eT;
   
-  const quasi_unwrap<T1> tmp(X.get_ref());
-  const Mat<eT>&     A = tmp.M;
+  const quasi_unwrap<T1> U(X);
+  const Mat<eT>&     A = U.M;
   
   const uword A_n_elem = A.n_elem;
   
@@ -503,14 +491,14 @@ op_mean_omit::direct_mean(const eT* X_mem, const uword N, functor is_omitted)
 template<typename T1, int omit_mode>
 inline
 typename T1::elem_type 
-op_mean_omit::mean_all(const Base<typename T1::elem_type, T1>& X, const elem_opts::omit_indicator<omit_mode>&)
+op_mean_omit::mean_all(const T1& X, const elem_opts::omit_indicator<omit_mode>&)
   {
   arma_debug_sigprint();
   
   typedef typename T1::elem_type eT;
   
-  const quasi_unwrap<T1> tmp(X.get_ref());
-  const Mat<eT>&     A = tmp.M;
+  const quasi_unwrap<T1> U(X);
+  const Mat<eT>&     A = U.M;
   
   const uword A_n_elem = A.n_elem;
   

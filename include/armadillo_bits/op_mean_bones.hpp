@@ -55,10 +55,7 @@ class op_mean
   //
   
   template<typename T1>
-  inline static typename T1::elem_type mean_all(const Op<T1,op_vectorise_col>& X);
-  
-  template<typename T1>
-  inline static typename T1::elem_type mean_all(const Base<typename T1::elem_type, T1>& X);
+  inline static typename T1::elem_type mean_all(const T1& X);
   
   
   //
@@ -91,7 +88,7 @@ class op_mean_omit
   inline static eT direct_mean(const eT* X_mem, const uword N, functor is_omitted);
   
   template<typename T1, int omit_mode>
-  inline static typename T1::elem_type mean_all(const Base<typename T1::elem_type, T1>& X, const elem_opts::omit_indicator<omit_mode>&);
+  inline static typename T1::elem_type mean_all(const T1& X, const elem_opts::omit_indicator<omit_mode>&);
   };
 
 
