@@ -470,7 +470,7 @@ op_mean_omit::direct_mean(const eT* X_mem, const uword N, functor is_omitted)
   
   arma_debug_print("op_mean_omit::direct_mean(): possible overflow; fallback to robust mean calculation");
   
-  podarray<eT> Y(N,  arma_nozeros_indicator());
+  podarray<eT> Y(N,  arma_nozeros_indicator());  // TODO: it may be more efficient to declare Y outside of this function; amortise mem allocation penalty
   
   eT* Y_mem = Y.memptr();
   
