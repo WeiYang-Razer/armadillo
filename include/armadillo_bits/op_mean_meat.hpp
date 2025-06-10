@@ -103,7 +103,7 @@ op_mean::apply_noalias(Mat<eT>& out, const Mat<eT>& X, const uword dim)
         {
         const eT old_mean = out_mem[row];
         
-        if(arma_isfinite(old_mean) == false)
+        if(arma_isnonfinite(old_mean))
           {
           tmp.copy_row(X, row);
           
@@ -209,7 +209,7 @@ op_mean::apply_noalias(Cube<eT>& out, const Cube<eT>& X, const uword dim)
           {
           const eT old_mean = out_mem[row];
           
-          if(arma_isfinite(old_mean) == false)
+          if(arma_isnonfinite(old_mean))
             {
             tmp_vec.copy(tmp_mat, row);
             
@@ -244,7 +244,7 @@ op_mean::apply_noalias(Cube<eT>& out, const Cube<eT>& X, const uword dim)
         {
         const eT old_mean = out.at(row,col,0);
         
-        if(arma_isfinite(old_mean) == false)
+        if(arma_isnonfinite(old_mean))
           {
           for(uword slice=0; slice < X_n_slices; ++slice)  { tmp[slice] = X.at(row,col,slice); }
           
