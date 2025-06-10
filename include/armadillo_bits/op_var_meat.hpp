@@ -137,7 +137,7 @@ op_var::var_vec(const T1& X, const uword norm_type)
 template<typename eT>
 inline
 eT
-op_var::direct_var(const eT* const X, const uword n_elem, const uword norm_type)
+op_var::direct_var(const eT* X, const uword n_elem, const uword norm_type)
   {
   arma_debug_sigprint();
   
@@ -191,7 +191,7 @@ op_var::direct_var(const eT* const X, const uword n_elem, const uword norm_type)
 template<typename eT>
 inline
 eT
-op_var::direct_var_robust(const eT* const X, const uword n_elem, const uword norm_type)
+op_var::direct_var_robust(const eT* X, const uword n_elem, const uword norm_type)
   {
   arma_debug_sigprint();
   
@@ -291,6 +291,67 @@ op_var::direct_var_robust(const std::complex<T>* const X, const uword n_elem, co
     {
     return T(0);
     }
+  }
+
+
+
+//
+
+
+
+template<typename T1, int omit_mode>
+inline
+typename T1::pod_type
+op_var_omit::var_vec(const T1& X, const uword norm_type, const elem_opts::omit_indicator<omit_mode>&)
+  {
+  arma_debug_sigprint();
+  
+  typedef typename T1::elem_type eT;
+  typedef typename T1::pod_type   T;
+  
+  arma_conform_check( (norm_type > 1), "var(): parameter 'norm_type' must be 0 or 1" );
+  
+  const quasi_unwrap<T1> U(X);
+  
+  if(U.M.n_elem == 0)
+    {
+    arma_conform_check(true, "var(): object has no elements");
+    
+    return Datum<T>::nan;
+    }
+  
+  auto is_omitted = [](const eT& x) -> bool
+    {
+    if(omit_mode == 1)  { return arma_isnan(x);       }
+    if(omit_mode == 2)  { return arma_isnonfinite(x); }
+    };
+  
+  podarray<eT> work(U.M.n_elem);
+  
+  return op_var_omit::direct_var(U.M.memptr(), U.M.n_elem, norm_type, is_omitted, work.memptr());
+  }
+
+
+
+template<typename eT, typename functor>
+inline
+eT
+op_var_omit::direct_var(const eT* X_mem, const uword N, const uword norm_type, functor is_omitted, eT* work_mem)
+  {
+  arma_debug_sigprint();
+  
+  constexpr eT eT_zero = eT(0);
+  
+  uword count = 0;
+  
+  for(uword i=0; i < N; ++i)
+    {
+    const eT tmp = X_mem[i];
+    
+    if(is_omitted(tmp) == false)  { work_mem[count] = tmp; ++count; }
+    }
+  
+  return op_var::direct_var(work_mem, count, norm_type);
   }
 
 

@@ -41,10 +41,10 @@ class op_var
   //
   
   template<typename eT>
-  inline static eT direct_var(const eT* const X, const uword N, const uword norm_type = 0);
+  inline static eT direct_var(const eT* X, const uword N, const uword norm_type = 0);
   
   template<typename eT>
-  inline static eT direct_var_robust(const eT* const X, const uword N, const uword norm_type = 0);
+  inline static eT direct_var_robust(const eT* X, const uword N, const uword norm_type = 0);
   
   
   //
@@ -54,6 +54,20 @@ class op_var
   
   template<typename T>
   inline static  T direct_var_robust(const std::complex<T>* const X, const uword N, const uword norm_type = 0);
+  };
+
+
+
+class op_var_omit
+  : public traits_op_xvec
+  {
+  public:
+  
+  template<typename T1, int omit_mode>
+  inline static typename T1::pod_type var_vec(const T1& X, const uword norm_type, const elem_opts::omit_indicator<omit_mode>&);
+  
+  template<typename eT, typename functor>
+  inline static eT direct_var(const eT* X_mem, const uword N, const uword norm_type, functor is_omitted, eT* work_mem);
   };
 
 
