@@ -97,7 +97,7 @@ op_mean::apply_noalias(Mat<eT>& out, const Mat<eT>& X, const uword dim)
     
     if(out.internal_has_nonfinite())
       {
-      podarray<eT> tmp(X_n_cols, arma_nozeros_indicator());
+      podarray<eT> tmp;
       
       for(uword row=0; row < X_n_rows; ++row)
         {
@@ -107,7 +107,7 @@ op_mean::apply_noalias(Mat<eT>& out, const Mat<eT>& X, const uword dim)
           {
           tmp.copy_row(X, row);
           
-          out_mem[row] = op_mean::direct_mean_robust(old_mean, tmp.memptr(), X_n_cols);
+          out_mem[row] = op_mean::direct_mean_robust(old_mean, tmp.memptr(), tmp.n_elem);
           }
         }
       }
@@ -203,7 +203,7 @@ op_mean::apply_noalias(Cube<eT>& out, const Cube<eT>& X, const uword dim)
         {
         const Mat<eT> tmp_mat('j', X.slice_memptr(slice), X_n_rows, X_n_cols);
         
-        podarray<eT> tmp_vec(X_n_cols, arma_nozeros_indicator());
+        podarray<eT> tmp_vec;
         
         for(uword row=0; row < X_n_rows; ++row)
           {
@@ -213,7 +213,7 @@ op_mean::apply_noalias(Cube<eT>& out, const Cube<eT>& X, const uword dim)
             {
             tmp_vec.copy(tmp_mat, row);
             
-            out_mem[row] = op_mean::direct_mean_robust(old_mean, tmp_vec, X_n_cols);
+            out_mem[row] = op_mean::direct_mean_robust(old_mean, tmp_vec.memptr(), tmp_vec.n_elem);
             }
           }
         }
@@ -248,7 +248,7 @@ op_mean::apply_noalias(Cube<eT>& out, const Cube<eT>& X, const uword dim)
           {
           for(uword slice=0; slice < X_n_slices; ++slice)  { tmp[slice] = X.at(row,col,slice); }
           
-          out.at(row,col,0) = op_mean::direct_mean_robust(mean, tmp.memptr(), X_n_slices);
+          out.at(row,col,0) = op_mean::direct_mean_robust(mean, tmp.memptr(), tmp.n_elem);
           }
         }
       }
@@ -409,6 +409,8 @@ op_mean_omit::apply_noalias(Mat<eT>& out, const Mat<eT>& X, const uword dim, fun
   const uword X_n_rows = X.n_rows;
   const uword X_n_cols = X.n_cols;
   
+  podarray<eT> work;
+    
   if(dim == 0)
     {
     out.set_size((X_n_rows > 0) ? 1 : 0, X_n_cols);
@@ -419,7 +421,7 @@ op_mean_omit::apply_noalias(Mat<eT>& out, const Mat<eT>& X, const uword dim, fun
     
     for(uword col=0; col < X_n_cols; ++col)
       {
-      out_mem[col] = op_mean_omit::direct_mean( X.colptr(col), X_n_rows, is_omitted );
+      out_mem[col] = op_mean_omit::direct_mean(X.colptr(col), X_n_rows, is_omitted, work);
       }
     }
   else
@@ -431,13 +433,13 @@ op_mean_omit::apply_noalias(Mat<eT>& out, const Mat<eT>& X, const uword dim, fun
     
     eT* out_mem = out.memptr();
     
-    podarray<eT> tmp(X_n_cols, arma_nozeros_indicator());
+    podarray<eT> tmp;
     
     for(uword row=0; row < X_n_rows; ++row)
       {
       tmp.copy_row(X, row);
       
-      out_mem[row] = op_mean_omit::direct_mean(tmp.memptr(), X_n_cols, is_omitted);
+      out_mem[row] = op_mean_omit::direct_mean(tmp.memptr(), X_n_cols, is_omitted, work);
       }
     }
   }
@@ -447,7 +449,7 @@ op_mean_omit::apply_noalias(Mat<eT>& out, const Mat<eT>& X, const uword dim, fun
 template<typename eT, typename functor>
 inline
 eT
-op_mean_omit::direct_mean(const eT* X_mem, const uword N, functor is_omitted)
+op_mean_omit::direct_mean(const eT* X_mem, const uword N, functor is_omitted, podarray<eT>& work)
   {
   arma_debug_sigprint();
   
@@ -470,9 +472,9 @@ op_mean_omit::direct_mean(const eT* X_mem, const uword N, functor is_omitted)
   
   arma_debug_print("op_mean_omit::direct_mean(): possible overflow; fallback to robust mean calculation");
   
-  podarray<eT> Y(N,  arma_nozeros_indicator());  // TODO: it may be more efficient to declare Y outside of this function; amortise mem allocation penalty
+  work.set_size(N);
   
-  eT* Y_mem = Y.memptr();
+  eT* work_mem = work.memptr();
   
   count = 0;
   
@@ -480,10 +482,10 @@ op_mean_omit::direct_mean(const eT* X_mem, const uword N, functor is_omitted)
     {
     const eT tmp = X_mem[i];
     
-    if(is_omitted(tmp) == false)  { Y_mem[count] = tmp; ++count; }
+    if(is_omitted(tmp) == false)  { work_mem[count] = tmp; ++count; }
     }
   
-  return op_mean::direct_mean_robust(val, Y_mem, count);
+  return op_mean::direct_mean_robust(val, work_mem, count);
   }
 
 
@@ -515,7 +517,9 @@ op_mean_omit::mean_all(const T1& X, const elem_opts::omit_indicator<omit_mode>&)
     if(omit_mode == 2)  { return arma_isnonfinite(x); }
     };
   
-  return op_mean_omit::direct_mean(A.memptr(), A_n_elem, is_omitted);
+  podarray<eT> work;
+  
+  return op_mean_omit::direct_mean(A.memptr(), A_n_elem, is_omitted, work);
   }
 
 
