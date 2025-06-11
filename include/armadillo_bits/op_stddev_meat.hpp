@@ -158,9 +158,6 @@ op_stddev_omit::apply(Mat<typename T1::pod_type>& out, const mtOp<typename T1::p
   if( (omit_mode_and_dim == 10) || (omit_mode_and_dim == 11) )  { omit_mode = 1; }
   if( (omit_mode_and_dim == 20) || (omit_mode_and_dim == 21) )  { omit_mode = 2; }
   
-  arma_conform_check( (norm_type > 1), "stddev(): parameter 'norm_type' must be 0 or 1" );
-  arma_conform_check( (dim > 1),       "stddev(): parameter 'dim' must be 0 or 1"       );
-  
   auto is_omitted_1 = [](const in_eT& x) -> bool { return arma_isnan(x);       };
   auto is_omitted_2 = [](const in_eT& x) -> bool { return arma_isnonfinite(x); };
   

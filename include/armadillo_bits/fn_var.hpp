@@ -106,6 +106,9 @@ var(const T1& X, const uword norm_type, const uword dim, const elem_opts::omit_i
   {
   arma_debug_sigprint();
   
+  arma_conform_check( (norm_type > 1), "var(): parameter 'norm_type' must be 0 or 1" );
+  arma_conform_check( (dim > 1),       "var(): parameter 'dim' must be 0 or 1"       );
+  
   uword omit_mode_and_dim = 0;
   
   if( (omit_mode == 1) && (dim == 0) )  { omit_mode_and_dim = 10; }
