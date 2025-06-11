@@ -37,7 +37,7 @@ internal_randperm_helper(obj_type& x, const uword N, const uword N_keep)
   
   std::vector<packet> packet_vec(N);
   
-  podarray<int> tmp(N, arma_nozeros_indicator());
+  podarray<int> tmp(N);
   
   int* tmp_mem = tmp.memptr();
   

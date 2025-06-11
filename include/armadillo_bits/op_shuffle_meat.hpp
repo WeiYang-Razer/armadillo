@@ -40,7 +40,7 @@ op_shuffle::apply_direct(Mat<eT>& out, const Mat<eT>& X, const uword dim)
   
   std::vector<packet> packet_vec(N);
   
-  podarray<int> tmp(N, arma_nozeros_indicator());
+  podarray<int> tmp(N);
   
   int* tmp_mem = tmp.memptr();
   

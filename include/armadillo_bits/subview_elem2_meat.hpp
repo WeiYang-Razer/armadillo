@@ -331,7 +331,7 @@ subview_elem2<eT,T1,T2>::randu()
     const uword* ci_mem    = ci.memptr();
     const uword  ci_n_elem = ci.n_elem;
     
-    podarray<eT> tmp(ri_n_elem, arma_nozeros_indicator());
+    podarray<eT> tmp(ri_n_elem);
     
     eT* tmp_mem = tmp.memptr();
     
@@ -394,7 +394,7 @@ subview_elem2<eT,T1,T2>::randu()
     const uword* ri_mem    = ri.memptr();
     const uword  ri_n_elem = ri.n_elem;
     
-    podarray<eT> tmp(ri_n_elem, arma_nozeros_indicator());
+    podarray<eT> tmp(ri_n_elem);
     
     eT* tmp_mem = tmp.memptr();
     
@@ -448,7 +448,7 @@ subview_elem2<eT,T1,T2>::randn()
     const uword* ci_mem    = ci.memptr();
     const uword  ci_n_elem = ci.n_elem;
     
-    podarray<eT> tmp(ri_n_elem, arma_nozeros_indicator());
+    podarray<eT> tmp(ri_n_elem);
     
     eT* tmp_mem = tmp.memptr();
     
@@ -511,7 +511,7 @@ subview_elem2<eT,T1,T2>::randn()
     const uword* ri_mem    = ri.memptr();
     const uword  ri_n_elem = ri.n_elem;
     
-    podarray<eT> tmp(ri_n_elem, arma_nozeros_indicator());
+    podarray<eT> tmp(ri_n_elem);
     
     eT* tmp_mem = tmp.memptr();
     

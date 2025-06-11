@@ -237,7 +237,7 @@ op_mean::apply_noalias(Cube<eT>& out, const Cube<eT>& X, const uword dim)
     
     if(out.internal_has_nonfinite())
       {
-      podarray<eT> tmp(X_n_slices, arma_nozeros_indicator());
+      podarray<eT> tmp(X_n_slices);
       
       for(uword col=0; col < X_n_cols; ++col)
       for(uword row=0; row < X_n_rows; ++row)
