@@ -237,8 +237,8 @@ op_mean::apply_noalias(Cube<eT>& out, const Cube<eT>& X, const uword dim)
     
     if(out.internal_has_nonfinite())
       {
-      podarray<eT> tmp(X_n_slices);
-        
+      podarray<eT> tmp(X_n_slices, arma_nozeros_indicator());
+      
       for(uword col=0; col < X_n_cols; ++col)
       for(uword row=0; row < X_n_rows; ++row)
         {
@@ -248,7 +248,7 @@ op_mean::apply_noalias(Cube<eT>& out, const Cube<eT>& X, const uword dim)
           {
           for(uword slice=0; slice < X_n_slices; ++slice)  { tmp[slice] = X.at(row,col,slice); }
           
-          out.at(row,col,0) = op_mean::direct_mean_robust(mean, tmp.memptr(), tmp.n_elem);
+          out.at(row,col,0) = op_mean::direct_mean_robust(old_mean, tmp.memptr(), tmp.n_elem);
           }
         }
       }
@@ -439,7 +439,7 @@ op_mean_omit::apply_noalias(Mat<eT>& out, const Mat<eT>& X, const uword dim, fun
       {
       tmp.copy_row(X, row);
       
-      out_mem[row] = op_mean_omit::direct_mean(tmp.memptr(), X_n_cols, is_omitted, work);
+      out_mem[row] = op_mean_omit::direct_mean(tmp.memptr(), tmp.n_elem, is_omitted, work);
       }
     }
   }
