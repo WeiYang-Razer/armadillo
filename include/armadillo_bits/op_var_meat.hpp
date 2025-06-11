@@ -76,7 +76,7 @@ op_var::apply_noalias(Mat<typename get_pod_type<in_eT>::result>& out, const Mat<
       {
       out_eT* out_mem = out.memptr();
       
-      for(uword col=0; col<X_n_cols; ++col)
+      for(uword col=0; col < X_n_cols; ++col)
         {
         out_mem[col] = op_var::direct_var( X.colptr(col), X_n_rows, norm_type );
         }
@@ -91,16 +91,15 @@ op_var::apply_noalias(Mat<typename get_pod_type<in_eT>::result>& out, const Mat<
     
     if(X_n_cols > 0)
       {
-      podarray<in_eT> dat(X_n_cols);
-      
-      in_eT*  dat_mem = dat.memptr();
       out_eT* out_mem = out.memptr();
       
-      for(uword row=0; row<X_n_rows; ++row)
+      podarray<in_eT> tmp;
+      
+      for(uword row=0; row < X_n_rows; ++row)
         {
-        dat.copy_row(X, row);
+        tmp.copy_row(X, row);
         
-        out_mem[row] = op_var::direct_var( dat_mem, X_n_cols, norm_type );
+        out_mem[row] = op_var::direct_var( tmp.memptr(), tmp.n_elem, norm_type );
         }
       }
     }
@@ -371,7 +370,7 @@ op_var_omit::apply_noalias(Mat<typename get_pod_type<in_eT>::result>& out, const
       {
       out_eT* out_mem = out.memptr();
       
-      for(uword col=0; col<X_n_cols; ++col)
+      for(uword col=0; col < X_n_cols; ++col)
         {
         out_mem[col] = op_var_omit::direct_var( X.colptr(col), X_n_rows, norm_type, is_omitted, work );
         }
@@ -390,7 +389,7 @@ op_var_omit::apply_noalias(Mat<typename get_pod_type<in_eT>::result>& out, const
       
       out_eT* out_mem = out.memptr();
       
-      for(uword row=0; row<X_n_rows; ++row)
+      for(uword row=0; row < X_n_rows; ++row)
         {
         tmp.copy_row(X, row);
         
