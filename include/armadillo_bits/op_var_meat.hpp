@@ -362,7 +362,7 @@ op_var_omit::apply_noalias(Mat<typename get_pod_type<in_eT>::result>& out, const
   
   if(dim == 0)
     {
-    arma_debug_print("op_var::apply_noalias(): dim = 0");
+    arma_debug_print("op_var_omit::apply_noalias(): dim = 0");
     
     out.set_size((X_n_rows > 0) ? 1 : 0, X_n_cols);
     
@@ -379,7 +379,7 @@ op_var_omit::apply_noalias(Mat<typename get_pod_type<in_eT>::result>& out, const
   else
   if(dim == 1)
     {
-    arma_debug_print("op_var::apply_noalias(): dim = 1");
+    arma_debug_print("op_var_omit::apply_noalias(): dim = 1");
     
     out.set_size(X_n_rows, (X_n_cols > 0) ? 1 : 0);
     
