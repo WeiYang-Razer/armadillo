@@ -102,7 +102,7 @@
 //// Uncomment the above line if your BLAS and LAPACK libraries have function names with a trailing underscore.
 //// Conversely, comment it out if the function names don't have a trailing underscore.
 
-// #define ARMA_BLAS_64BIT_INT
+// #define ARMA_BLAS_LONG_LONG
 //// Uncomment the above line if your BLAS and LAPACK libraries use 64 bit integers, ie. "long long" instead of "int"
 
 // #define ARMA_BLAS_NOEXCEPT
@@ -128,7 +128,7 @@
 //// Uncomment the above line to use Intel MKL types for complex numbers.
 //// You will need to include appropriate MKL headers before the Armadillo header.
 //// You may also need to enable or disable the following options:
-//// ARMA_BLAS_64BIT_INT, ARMA_USE_FORTRAN_HIDDEN_ARGS
+//// ARMA_BLAS_LONG_LONG, ARMA_USE_FORTRAN_HIDDEN_ARGS
 
 #if !defined(ARMA_USE_OPENMP)
 // #define ARMA_USE_OPENMP
@@ -320,8 +320,8 @@
   #undef  ARMA_BLAS_64BIT_INT
   #define ARMA_BLAS_64BIT_INT
   
-  #pragma message ("options ARMA_BLAS_LONG and ARMA_BLAS_LONG_LONG are deprecated;")
-  #pragma message ("use ARMA_BLAS_64BIT_INT instead")
+  // #pragma message ("options ARMA_BLAS_LONG and ARMA_BLAS_LONG_LONG are deprecated;")
+  // #pragma message ("use ARMA_BLAS_64BIT_INT instead")
 #endif
 
 #if defined(ARMA_DONT_OPTIMISE_BAND) || defined(ARMA_DONT_OPTIMISE_SOLVE_BAND)

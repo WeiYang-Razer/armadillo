@@ -303,7 +303,7 @@ the active solution platform must be set to x64, instead of win32.
 
 The MSVC project was tested on Windows 10 (64 bit) with Visual Studio C++ 2019.
 Adaptations may be required for 32 bit systems, later versions of Windows and/or the compiler.
-For example, options such as `ARMA_BLAS_64BIT_INT` and `ARMA_BLAS_UNDERSCORE`,
+For example, options such as `ARMA_BLAS_LONG_LONG` and `ARMA_BLAS_UNDERSCORE`,
 defined in `include/armadillo_bits/config.hpp`, may need to be either enabled or disabled.
 
 The folder `examples/lib_win64` contains a copy of lib and dll files
@@ -333,7 +333,7 @@ as used by the replacement libraries. Specifically, the following defines
 may need to be enabled or disabled:
 
     ARMA_USE_WRAPPER  
-    ARMA_BLAS_64BIT_INT  
+    ARMA_BLAS_LONG_LONG  
     ARMA_DONT_USE_FORTRAN_HIDDEN_ARGS  
     ARMA_BLAS_UNDERSCORE  
     ARMA_BLAS_CAPITALS  
