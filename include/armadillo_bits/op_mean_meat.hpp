@@ -316,18 +316,15 @@ op_mean::mean_all(const T1& X)
   typedef typename T1::elem_type eT;
   
   const quasi_unwrap<T1> U(X);
-  const Mat<eT>&     A = U.M;
   
-  const uword A_n_elem = A.n_elem;
-  
-  if(A_n_elem == 0)
+  if(U.M.n_elem == 0)
     {
     arma_conform_check(true, "mean(): object has no elements");
     
     return Datum<eT>::nan;
     }
   
-  return op_mean::direct_mean(A.memptr(), A_n_elem);
+  return op_mean::direct_mean(U.M.memptr(), U.M.n_elem);
   }
 
 
