@@ -105,93 +105,17 @@ struct arma_sort_index_helper_descend< std::complex<T> >
 
 
 template<typename eT>
-struct arma_sort_index_mangle_packet
+struct arma_sort_index_helper_prepare
   {
-  eT    val;
-  uword index;
-  };
-
-
-
-template<typename eT>
-struct arma_sort_index_mangle_functor
-  {
-  arma_inline eT operator() (const eT val) const
-    {
-    return val;
-    }
+  arma_inline eT operator() (const eT val) const { return val; }
   };
 
 
 
 template<typename T>
-struct arma_sort_index_mangle_functor< std::complex<T> >
+struct arma_sort_index_helper_prepare< std::complex<T> >
   {
-  arma_inline std::complex<T> operator() (const std::complex<T>& val) const
-    {
-    return std::complex<T>( std::abs(val), std::arg(val) );
-    }
-  };
-
-
-
-template<typename eT>
-struct arma_sort_index_mangle_ascend_comparator
-  {
-  arma_inline
-  bool
-  operator() (const arma_sort_index_mangle_packet<eT>& A, const arma_sort_index_mangle_packet<eT>& B) const
-    {
-    return (A.val < B.val);
-    }
-  };
-
-
-
-template<typename eT>
-struct arma_sort_index_mangle_descend_comparator
-  {
-  arma_inline
-  bool
-  operator() (const arma_sort_index_mangle_packet<eT>& A, const arma_sort_index_mangle_packet<eT>& B) const
-    {
-    return (A.val > B.val);
-    }
-  };
-
-
-template<typename T>
-struct arma_sort_index_mangle_ascend_comparator< std::complex<T> >
-  {
-  typedef typename std::complex<T> eT;
-  
-  inline
-  bool
-  operator() (const arma_sort_index_mangle_packet<eT>& A, const arma_sort_index_mangle_packet<eT>& B) const
-    {
-    const T A_real = A.val.real();
-    const T B_real = B.val.real();
-    
-    return ( (A_real != B_real) ? (A_real < B_real) : (A.val.imag() < B.val.imag()) );
-    }
-  };
-
-
-
-template<typename T>
-struct arma_sort_index_mangle_descend_comparator< std::complex<T> >
-  {
-  typedef typename std::complex<T> eT;
-  
-  inline
-  bool
-  operator() (const arma_sort_index_mangle_packet<eT>& A, const arma_sort_index_mangle_packet<eT>& B) const
-    {
-    const T A_real = A.val.real();
-    const T B_real = B.val.real();
-    
-    return ( (A_real != B_real) ? (A_real > B_real) : (A.val.imag() > B.val.imag()) );
-    }
+  arma_inline T operator() (const std::complex<T>& val) const { return std::abs(val); }
   };
 
 

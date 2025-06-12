@@ -29,24 +29,27 @@ op_sort_index::apply_helper(Mat<uword>& out, const Proxy<T1>& P, const uword sor
   arma_debug_sigprint();
   
   typedef typename T1::elem_type eT;
+  typedef typename T1::pod_type   T;
   
   const uword n_elem = P.get_n_elem();
   
   out.set_size(n_elem, 1);
   
-  const arma_sort_index_mangle_functor<eT> mangle_functor;
+  const arma_sort_index_helper_prepare<eT> prepare;
   
-  std::vector< arma_sort_index_mangle_packet<eT> > packet_vec(n_elem);
+  std::vector< arma_sort_index_packet<T> > packet_vec(n_elem);
   
   if(Proxy<T1>::use_at == false)
     {
-    for(uword i=0; i<n_elem; ++i)
+    const typename Proxy<T1>::ea_type Pea = P.get_ea();
+    
+    for(uword i=0; i < n_elem; ++i)
       {
-      const eT val = P[i];
+      const eT val = Pea[i];
       
       if(arma_isnan(val))  { return false; }
       
-      packet_vec[i].val   = mangle_functor(val);
+      packet_vec[i].val   = prepare(val);
       packet_vec[i].index = i;
       }
     }
@@ -64,7 +67,7 @@ op_sort_index::apply_helper(Mat<uword>& out, const Proxy<T1>& P, const uword sor
       
       if(arma_isnan(val))  { return false; }
       
-      packet_vec[i].val   = mangle_functor(val);
+      packet_vec[i].val   = prepare(val);
       packet_vec[i].index = i;
       
       ++i;
@@ -74,13 +77,17 @@ op_sort_index::apply_helper(Mat<uword>& out, const Proxy<T1>& P, const uword sor
   
   if(sort_mode == 0)
     {
-    arma_sort_index_mangle_ascend_comparator<eT> comparator;
+    // ascend
+    
+    arma_sort_index_helper_ascend<T> comparator;
     
     std::stable_sort( packet_vec.begin(), packet_vec.end(), comparator );
     }
   else
     {
-    arma_sort_index_mangle_descend_comparator<eT> comparator;
+    // descend
+    
+    arma_sort_index_helper_descend<T> comparator;
     
     std::stable_sort( packet_vec.begin(), packet_vec.end(), comparator );
     }
