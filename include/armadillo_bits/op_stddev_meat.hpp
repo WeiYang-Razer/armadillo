@@ -118,7 +118,7 @@ op_stddev::stddev_vec(const T1& X, const uword norm_type)
   
   arma_conform_check( (norm_type > 1), "stddev(): parameter 'norm_type' must be 0 or 1" );
   
-  const quasi_unwrap<T1> U(X.get_ref());
+  const quasi_unwrap<T1> U(X);
   
   if(U.M.n_elem == 0)
     {
