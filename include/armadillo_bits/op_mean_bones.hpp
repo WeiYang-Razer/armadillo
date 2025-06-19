@@ -57,6 +57,11 @@ class op_mean
   template<typename T1>
   inline static typename T1::elem_type mean_all(const T1& X);
   
+  template<typename T1>
+  inline static typename T1::elem_type mean_all(const Op<T1, op_omit>& X);
+  
+  template<typename eT, typename functor>
+  inline static eT mean_all_omit(const eT* X_mem, const uword N, functor is_omitted);
   
   //
   

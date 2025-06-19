@@ -294,7 +294,7 @@ op_mean::direct_mean_robust(const eT old_mean, const eT* X_mem, const uword N)
   
   for(uword i=0; i < N; ++i)
     {
-    r_mean = r_mean + (X_mem[i] - r_mean)/T(i+1);
+    r_mean = r_mean + (X_mem[i] - r_mean) / T(i+1);
     }
   
   return r_mean;
@@ -308,7 +308,7 @@ op_mean::direct_mean_robust(const eT old_mean, const eT* X_mem, const uword N)
 
 template<typename T1>
 inline
-typename T1::elem_type 
+typename T1::elem_type
 op_mean::mean_all(const T1& X)
   {
   arma_debug_sigprint();
@@ -325,6 +325,85 @@ op_mean::mean_all(const T1& X)
     }
   
   return op_mean::direct_mean(U.M.memptr(), U.M.n_elem);
+  }
+
+
+
+template<typename T1>
+inline
+typename T1::elem_type
+op_mean::mean_all(const Op<T1, op_omit>& in)
+  {
+  arma_debug_sigprint();
+  
+  typedef typename T1::elem_type eT;
+  
+  const uword omit_mode = in.aux_uword_a;
+  
+  const quasi_unwrap<T1> U(in.m);
+  
+  if(U.M.n_elem == 0)
+    {
+    arma_conform_check(true, "mean(): object has no elements");
+    
+    return Datum<eT>::nan;
+    }
+  
+  auto is_omitted_1 = [](const eT& x) -> bool { return arma_isnan(x);       };
+  auto is_omitted_2 = [](const eT& x) -> bool { return arma_isnonfinite(x); };
+  
+  eT result = eT(0);
+  
+  if(omit_mode == 1)  { result = op_mean::mean_all_omit(U.M.memptr(), U.M.n_elem, is_omitted_1); }
+  if(omit_mode == 2)  { result = op_mean::mean_all_omit(U.M.memptr(), U.M.n_elem, is_omitted_2); }
+  
+  return result;
+  }
+
+
+
+template<typename eT, typename functor>
+inline
+eT
+op_mean::mean_all_omit(const eT* X_mem, const uword N, functor is_omitted)
+  {
+  arma_debug_sigprint();
+  
+  typedef typename get_pod_type<eT>::result T;
+  
+  uword count = 0;
+  eT    acc   = eT(0);
+  
+  for(uword i=0; i < N; ++i)
+    {
+    const eT val = X_mem[i];
+    
+    if(is_omitted(val) == false)  { acc += val; ++count; }
+    }
+  
+  acc /= T(count);
+  
+  if(arma_isfinite(acc))  { return acc; }
+  
+  // handle possible overflow
+  
+  eT r_mean = eT(0);
+  
+  count = 0;
+  
+  for(uword i=0; i < N; ++i)
+    {
+    const eT val = X_mem[i];
+    
+    if(is_omitted(val) == false)
+      {
+      r_mean = r_mean + (val - r_mean) / T(count+1);  // kept as count+1 to use same algorithm as op_mean::direct_mean_robust()
+      
+      ++count;
+      }
+    }
+  
+  return r_mean;
   }
 
 

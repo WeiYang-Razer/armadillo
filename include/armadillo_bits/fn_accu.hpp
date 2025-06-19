@@ -272,6 +272,93 @@ accu(const T1& X)
 
 
 
+template<typename T1, typename functor>
+inline
+typename T1::elem_type
+accu_omit_helper(const Proxy<T1>& P, functor is_omitted)
+  {
+  arma_debug_sigprint();
+  
+  typedef typename T1::elem_type eT;
+  
+  constexpr eT eT_zero = eT(0);
+  
+  eT acc = eT(0);
+  
+  if(Proxy<T1>::use_at)
+    {
+    const uword n_rows = P.get_n_rows();
+    const uword n_cols = P.get_n_cols();
+    
+    for(uword c=0; c < n_cols; ++c)
+    for(uword r=0; r < n_rows; ++r)
+      {
+      const eT val = P.at(r,c);
+      
+      acc += is_omitted(val) ? eT_zero : val;
+      }
+    }
+  else
+    {
+    typename Proxy<T1>::ea_type Pea = P.get_ea();
+    
+    const uword n_elem = P.get_n_elem();
+    
+    eT val1 = eT(0);
+    eT val2 = eT(0);
+    
+    uword i,j;
+    for(i=0, j=1; j < n_elem; i+=2, j+=2)
+      {
+      const eT tmp_i = Pea[i];
+      const eT tmp_j = Pea[j];
+      
+      val1 += is_omitted(tmp_i) ? eT_zero : tmp_i;
+      val2 += is_omitted(tmp_j) ? eT_zero : tmp_j;
+      }
+    
+    if(i < n_elem)
+      {
+      const eT tmp_i = Pea[i];
+      
+      val1 += is_omitted(tmp_i) ? eT(0) : tmp_i;
+      }
+    
+    acc = val1 + val2;
+    }
+  
+  return acc;
+  }
+
+
+
+template<typename T1>
+arma_warn_unused
+inline
+typename T1::elem_type
+accu(const Op<T1, op_omit>& in)
+  {
+  arma_debug_sigprint();
+  
+  typedef typename T1::elem_type eT;
+  
+  const Proxy<T1> P(in.m);
+  
+  const uword omit_mode = in.aux_uword_a;
+  
+  auto is_omitted_1 = [](const eT& x) -> bool  { return arma_isnan(x);       };
+  auto is_omitted_2 = [](const eT& x) -> bool  { return arma_isnonfinite(x); };
+  
+  eT acc = eT(0);
+  
+  if(omit_mode == 1)  { acc = accu_omit_helper(P, is_omitted_1); }
+  if(omit_mode == 2)  { acc = accu_omit_helper(P, is_omitted_2); }
+  
+  return acc;
+  }
+
+
+
 template<typename T1, int omit_mode>
 arma_warn_unused
 inline
