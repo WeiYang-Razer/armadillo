@@ -70,34 +70,34 @@ omit_nonfinite(const T1& X)
 //   
 //   return CubeToMatOp<T1, op_omit_cube>(X.get_ref(), 2);
 //   }
-// 
-// 
-// 
-// template<typename T1>
-// arma_warn_unused
-// inline
-// typename
-// enable_if2< is_arma_sparse_type<T1>::value, const SpOp<T1, spop_omit> >::result
-// omit_nan(const T1& X)
-//   {
-//   arma_debug_sigprint();
-//   
-//   return SpOp<T1, spop_omit>(X, 1, 0);
-//   }
-// 
-// 
-// 
-// template<typename T1>
-// arma_warn_unused
-// inline
-// typename
-// enable_if2< is_arma_sparse_type<T1>::value, const SpOp<T1, spop_omit> >::result
-// omit_nonfinite(const T1& X)
-//   {
-//   arma_debug_sigprint();
-//   
-//   return SpOp<T1, spop_omit>(X, 2, 0);
-//   }
+
+
+
+template<typename T1>
+arma_warn_unused
+inline
+typename
+enable_if2< is_arma_sparse_type<T1>::value, const SpOp<T1, spop_omit> >::result
+omit_nan(const T1& X)
+  {
+  arma_debug_sigprint();
+  
+  return SpOp<T1, spop_omit>(X, 1, 0);
+  }
+
+
+
+template<typename T1>
+arma_warn_unused
+inline
+typename
+enable_if2< is_arma_sparse_type<T1>::value, const SpOp<T1, spop_omit> >::result
+omit_nonfinite(const T1& X)
+  {
+  arma_debug_sigprint();
+  
+  return SpOp<T1, spop_omit>(X, 2, 0);
+  }
 
 
 
