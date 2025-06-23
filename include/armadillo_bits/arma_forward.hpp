@@ -363,16 +363,6 @@ struct arma_nozeros_indicator : public arma_initmode_indicator<false> {};
 
 
 
-namespace elem_opts
-  {
-  template<int omit_mode> struct omit_indicator {};
-  
-  static constexpr omit_indicator<1> omit_nan;
-  static constexpr omit_indicator<2> omit_nonfinite;
-  }
-
-
-
 //! \addtogroup injector
 //! @{
 
