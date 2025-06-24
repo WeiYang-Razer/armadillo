@@ -33,6 +33,12 @@ spop_omit::apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, spop_omit>& 
   
   const uword omit_mode = in.aux_uword_a;
   
+  if(arma_config::fast_math_warn)
+    {
+    if(omit_mode == 1)  { arma_warn(1, "omit_nan(): detection of NaN is not reliable in fast math mode"); }
+    if(omit_mode == 2)  { arma_warn(1, "omit_nonfinite(): detection of non-finite values is not reliable in fast math mode"); }
+    }
+  
   auto is_omitted_1 = [](const eT& x) -> bool { return arma_isnan(x);       };
   auto is_omitted_2 = [](const eT& x) -> bool { return arma_isnonfinite(x); };
   
