@@ -1092,6 +1092,95 @@ accu(const eGlueCube<T1,T2,eglue_schur>& expr)
 
 
 
+template<typename T1, typename functor>
+inline
+typename T1::elem_type
+accu_cube_omit_helper(const ProxyCube<T1>& P, functor is_omitted)
+  {
+  arma_debug_sigprint();
+  
+  typedef typename T1::elem_type eT;
+  
+  constexpr eT eT_zero = eT(0);
+  
+  eT acc = eT(0);
+  
+  if(ProxyCube<T1>::use_at)
+    {
+    const uword n_r = P.get_n_rows();
+    const uword n_c = P.get_n_cols();
+    const uword n_s = P.get_n_slices();
+    
+    for(uword s=0; s < n_s; ++s)
+    for(uword c=0; c < n_c; ++c)
+    for(uword r=0; r < n_r; ++r)
+      {
+      const eT val = P.at(r,c,s);
+      
+      acc += is_omitted(val) ? eT_zero : val;
+      }
+    }
+  else
+    {
+    typename ProxyCube<T1>::ea_type Pea = P.get_ea();
+    
+    const uword n_elem = P.get_n_elem();
+    
+    eT val1 = eT(0);
+    eT val2 = eT(0);
+    
+    uword i,j;
+    for(i=0, j=1; j < n_elem; i+=2, j+=2)
+      {
+      const eT tmp_i = Pea[i];
+      const eT tmp_j = Pea[j];
+      
+      val1 += is_omitted(tmp_i) ? eT_zero : tmp_i;
+      val2 += is_omitted(tmp_j) ? eT_zero : tmp_j;
+      }
+    
+    if(i < n_elem)
+      {
+      const eT tmp_i = Pea[i];
+      
+      val1 += is_omitted(tmp_i) ? eT_zero : tmp_i;
+      }
+    
+    acc = val1 + val2;
+    }
+  
+  return acc;
+  }
+
+
+
+template<typename T1>
+arma_warn_unused
+inline
+typename T1::elem_type
+accu(const CubeToMatOp<T1, op_omit_cube>& in)
+  {
+  arma_debug_sigprint();
+  
+  typedef typename T1::elem_type eT;
+  
+  const ProxyCube<T1> P(in.m);
+  
+  const uword omit_mode = in.aux_uword;
+  
+  auto is_omitted_1 = [](const eT& x) -> bool  { return arma_isnan(x);       };
+  auto is_omitted_2 = [](const eT& x) -> bool  { return arma_isnonfinite(x); };
+  
+  eT acc = eT(0);
+  
+  if(omit_mode == 1)  { acc = accu_cube_omit_helper(P, is_omitted_1); }
+  if(omit_mode == 2)  { acc = accu_cube_omit_helper(P, is_omitted_2); }
+  
+  return acc;
+  }
+
+
+
 //
 
 
