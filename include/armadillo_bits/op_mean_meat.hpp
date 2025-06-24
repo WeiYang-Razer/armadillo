@@ -340,6 +340,12 @@ op_mean::mean_all(const Op<T1, op_omit>& in)
   
   const uword omit_mode = in.aux_uword_a;
   
+  if(arma_config::fast_math_warn)
+    {
+    if(omit_mode == 1)  { arma_warn(1, "omit_nan(): detection of NaN is not reliable in fast math mode"); }
+    if(omit_mode == 2)  { arma_warn(1, "omit_nonfinite(): detection of non-finite values is not reliable in fast math mode"); }
+    }
+  
   const quasi_unwrap<T1> U(in.m);
   
   if(U.M.n_elem == 0)
