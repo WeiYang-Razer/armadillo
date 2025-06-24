@@ -47,29 +47,29 @@ omit_nonfinite(const T1& X)
 
 
 
-// template<typename T1>
-// arma_warn_unused
-// inline
-// CubeToMatOp<T1, op_omit_cube>
-// omit_nan(const BaseCube<typename T1::elem_type, T1>& X)
-//   {
-//   arma_debug_sigprint();
-//   
-//   return CubeToMatOp<T1, op_omit_cube>(X.get_ref(), 1);
-//   }
-// 
-// 
-// 
-// template<typename T1>
-// arma_warn_unused
-// inline
-// CubeToMatOp<T1, op_omit_cube>
-// omit_nonfinite(const BaseCube<typename T1::elem_type, T1>& X)
-//   {
-//   arma_debug_sigprint();
-//   
-//   return CubeToMatOp<T1, op_omit_cube>(X.get_ref(), 2);
-//   }
+template<typename T1>
+arma_warn_unused
+inline
+CubeToMatOp<T1, op_omit_cube>
+omit_nan(const BaseCube<typename T1::elem_type, T1>& X)
+  {
+  arma_debug_sigprint();
+  
+  return CubeToMatOp<T1, op_omit_cube>(X.get_ref(), 1);
+  }
+
+
+
+template<typename T1>
+arma_warn_unused
+inline
+CubeToMatOp<T1, op_omit_cube>
+omit_nonfinite(const BaseCube<typename T1::elem_type, T1>& X)
+  {
+  arma_debug_sigprint();
+  
+  return CubeToMatOp<T1, op_omit_cube>(X.get_ref(), 2);
+  }
 
 
 
