@@ -321,7 +321,7 @@ accu_omit_helper(const Proxy<T1>& P, functor is_omitted)
       {
       const eT tmp_i = Pea[i];
       
-      val1 += is_omitted(tmp_i) ? eT(0) : tmp_i;
+      val1 += is_omitted(tmp_i) ? eT_zero : tmp_i;
       }
     
     acc = val1 + val2;
