@@ -1387,48 +1387,58 @@ accu(const SpOp<T1, spop_type>& expr)
   
   if(is_vectorise)  { return accu(expr.m); }
   
-  if(is_same_type<spop_type, spop_square>::yes)
-    {
-    if(is_SpSubview_col<T1>::value)
-      {
-      const SpSubview_col<eT>& svcol = reinterpret_cast<const SpSubview_col<eT>&>(expr.m);
-      
-      if(svcol.n_rows == svcol.m.n_rows)
-        {
-        const SpMat<eT>& m   = svcol.m;
-        const uword      col = svcol.aux_col1;
-        
-        const eT* ptr = &(m.values[ m.col_ptrs[col] ]);
-        
-        return op_dot::direct_dot(svcol.n_nonzero, ptr, ptr);
-        }
-      }
-    
-    const SpProxy<T1> P(expr.m);
-    
-    const uword N = P.get_n_nonzero();
-    
-    if(N == 0)  { return eT(0); }
-    
-    if(SpProxy<T1>::use_iterator == false)
-      {
-      return op_dot::direct_dot(N, P.get_values(), P.get_values());
-      }
-    else
-      {
-      typename SpProxy<T1>::const_iterator_type it = P.begin();
-      
-      eT val = eT(0);
-      
-      for(uword i=0; i < N; ++i)  { const eT tmp = (*it); val += (tmp*tmp); ++it; }
-      
-      return val;
-      }
-    }
-  
   const SpMat<eT> tmp = expr;
   
   return accu(tmp);
+  }
+
+
+
+template<typename T1>
+arma_warn_unused
+inline
+typename T1::elem_type
+accu(const SpOp<T1, spop_square>& expr)
+  {
+  arma_debug_sigprint();
+  
+  typedef typename T1::elem_type eT;
+  
+  if(is_SpSubview_col<T1>::value)
+    {
+    const SpSubview_col<eT>& svcol = reinterpret_cast<const SpSubview_col<eT>&>(expr.m);
+    
+    if(svcol.n_rows == svcol.m.n_rows)
+      {
+      const SpMat<eT>& m   = svcol.m;
+      const uword      col = svcol.aux_col1;
+      
+      const eT* ptr = &(m.values[ m.col_ptrs[col] ]);
+      
+      return op_dot::direct_dot(svcol.n_nonzero, ptr, ptr);
+      }
+    }
+  
+  const SpProxy<T1> P(expr.m);
+  
+  const uword N = P.get_n_nonzero();
+  
+  if(N == 0)  { return eT(0); }
+  
+  if(SpProxy<T1>::use_iterator == false)
+    {
+    return op_dot::direct_dot(N, P.get_values(), P.get_values());
+    }
+  else
+    {
+    typename SpProxy<T1>::const_iterator_type it = P.begin();
+    
+    eT val = eT(0);
+    
+    for(uword i=0; i < N; ++i)  { const eT tmp = (*it); val += (tmp*tmp); ++it; }
+    
+    return val;
+    }
   }
 
 
