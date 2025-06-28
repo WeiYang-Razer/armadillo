@@ -275,7 +275,7 @@ accu(const T1& X)
 template<typename T1, typename functor>
 inline
 typename T1::elem_type
-accu_omit_helper(const Proxy<T1>& P, functor is_omitted)
+accu_op_omit_helper(const Proxy<T1>& P, functor is_omitted)
   {
   arma_debug_sigprint();
   
@@ -342,8 +342,6 @@ accu(const Op<T1, op_omit>& in)
   
   typedef typename T1::elem_type eT;
   
-  const Proxy<T1> P(in.m);
-  
   const uword omit_mode = in.aux_uword_a;
   
   if(arma_config::fast_math_warn)
@@ -355,10 +353,12 @@ accu(const Op<T1, op_omit>& in)
   auto is_omitted_1 = [](const eT& x) -> bool  { return arma_isnan(x);       };
   auto is_omitted_2 = [](const eT& x) -> bool  { return arma_isnonfinite(x); };
   
+  const Proxy<T1> P(in.m);
+  
   eT acc = eT(0);
   
-  if(omit_mode == 1)  { acc = accu_omit_helper(P, is_omitted_1); }
-  if(omit_mode == 2)  { acc = accu_omit_helper(P, is_omitted_2); }
+  if(omit_mode == 1)  { acc = accu_op_omit_helper(P, is_omitted_1); }
+  if(omit_mode == 2)  { acc = accu_op_omit_helper(P, is_omitted_2); }
   
   return acc;
   }
@@ -1410,6 +1410,8 @@ accu(const SpOp<T1, spop_square>& expr)
     
     if(svcol.n_rows == svcol.m.n_rows)
       {
+      arma_debug_print("accu(): spop_square subview_col optimisation");
+      
       const SpMat<eT>& m   = svcol.m;
       const uword      col = svcol.aux_col1;
       
@@ -1439,6 +1441,114 @@ accu(const SpOp<T1, spop_square>& expr)
     
     return val;
     }
+  }
+
+
+
+template<typename T1, typename functor>
+inline
+typename T1::elem_type
+accu_spop_omit_helper(const T1& expr, functor is_omitted)
+  {
+  arma_debug_sigprint();
+  
+  typedef typename T1::elem_type eT;
+  
+  constexpr eT eT_zero = eT(0);
+  
+  if(is_SpSubview_col<T1>::value)
+    {
+    const SpSubview_col<eT>& svcol = reinterpret_cast<const SpSubview_col<eT>&>(expr);
+    
+    if(svcol.n_rows == svcol.m.n_rows)
+      {
+      arma_debug_print("accu_spop_omit_helper(): subview_col optimisation");
+      
+      const SpMat<eT>& m   = svcol.m;
+      const uword      col = svcol.aux_col1;
+      
+      const eT* vals = &(m.values[ m.col_ptrs[col] ]);
+      
+      const uword N = svcol.n_nonzero;
+      
+      eT val = eT(0);
+      
+      for(uword i=0; i < N; ++i)
+        {
+        const eT tmp = vals[i];
+        
+        val += is_omitted(tmp) ? eT_zero : tmp;
+        }
+      
+      return val;
+      }
+    }
+  
+  const SpProxy<T1> P(expr);
+  
+  const uword N = P.get_n_nonzero();
+  
+  if(N == 0)  { return eT(0); }
+  
+  eT val = eT(0);
+  
+  if(SpProxy<T1>::use_iterator == false)
+    {
+    const eT* vals = P.get_values();
+    
+    for(uword i=0; i < N; ++i)
+      {
+      const eT tmp = vals[i];
+      
+      val += is_omitted(tmp) ? eT_zero : tmp;
+      }
+    }
+  else
+    {
+    typename SpProxy<T1>::const_iterator_type it = P.begin();
+    
+    for(uword i=0; i < N; ++i)
+      {
+      const eT tmp = (*it);
+      
+      val += is_omitted(tmp) ? eT_zero : tmp;
+      
+      ++it;
+      }
+    }
+  
+  return val;
+  }
+
+
+
+template<typename T1>
+arma_warn_unused
+inline
+typename T1::elem_type
+accu(const SpOp<T1, spop_omit>& expr)
+  {
+  arma_debug_sigprint();
+  
+  typedef typename T1::elem_type eT;
+  
+  const uword omit_mode = expr.aux_uword_a;
+  
+  if(arma_config::fast_math_warn)
+    {
+    if(omit_mode == 1)  { arma_warn(1, "omit_nan(): detection of NaN is not reliable in fast math mode"); }
+    if(omit_mode == 2)  { arma_warn(1, "omit_nonfinite(): detection of non-finite values is not reliable in fast math mode"); }
+    }
+  
+  auto is_omitted_1 = [](const eT& x) -> bool { return arma_isnan(x);       };
+  auto is_omitted_2 = [](const eT& x) -> bool { return arma_isnonfinite(x); };
+  
+  eT acc = eT(0);
+  
+  if(omit_mode == 1)  { acc = accu_spop_omit_helper(expr.m, is_omitted_1); }
+  if(omit_mode == 2)  { acc = accu_spop_omit_helper(expr.m, is_omitted_2); }
+  
+  return acc;
   }
 
 
