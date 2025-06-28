@@ -1410,7 +1410,7 @@ accu(const SpOp<T1, spop_square>& expr)
     
     if(svcol.n_rows == svcol.m.n_rows)
       {
-      arma_debug_print("accu(): spop_square subview_col optimisation");
+      arma_debug_print("accu(): SpSubview_col spop_square optimisation");
       
       const SpMat<eT>& m   = svcol.m;
       const uword      col = svcol.aux_col1;
@@ -1462,7 +1462,7 @@ accu_spop_omit_helper(const T1& expr, functor is_omitted)
     
     if(svcol.n_rows == svcol.m.n_rows)
       {
-      arma_debug_print("accu_spop_omit_helper(): subview_col optimisation");
+      arma_debug_print("accu_spop_omit_helper(): SpSubview_col optimisation");
       
       const SpMat<eT>& m   = svcol.m;
       const uword      col = svcol.aux_col1;
