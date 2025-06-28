@@ -9565,8 +9565,7 @@ mat A(5, 5, fill::randu);
 A(1,1) = datum::inf;
 A(2,2) = datum::nan;
 
-// accumulate only finite elements
-double val = accu( A.elem( find_finite(A) ) );
+uvec indices = find_nan(A);
 
 // change non-finite elements to zero
 A.elem( find_nonfinite(A) ).zeros();
