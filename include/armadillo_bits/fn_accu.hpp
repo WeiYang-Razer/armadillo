@@ -1437,11 +1437,11 @@ accu(const SpOp<T1, spop_square>& expr)
     {
     typename SpProxy<T1>::const_iterator_type it = P.begin();
     
-    eT val = eT(0);
+    eT acc = eT(0);
     
-    for(uword i=0; i < N; ++i)  { const eT tmp = (*it); val += (tmp*tmp); ++it; }
+    for(uword i=0; i < N; ++i)  { const eT tmp = (*it); acc += (tmp*tmp); ++it; }
     
-    return val;
+    return acc;
     }
   }
 
@@ -1475,16 +1475,16 @@ accu_spop_omit_helper(const T1& expr, functor is_omitted)
       
       const uword N = svcol.n_nonzero;
       
-      eT val = eT(0);
+      eT acc = eT(0);
       
       for(uword i=0; i < N; ++i)
         {
         const eT tmp = vals[i];
         
-        val += is_omitted(tmp) ? eT_zero : tmp;
+        acc += is_omitted(tmp) ? eT_zero : tmp;
         }
       
-      return val;
+      return acc;
       }
     }
   
@@ -1494,7 +1494,7 @@ accu_spop_omit_helper(const T1& expr, functor is_omitted)
   
   if(N == 0)  { return eT(0); }
   
-  eT val = eT(0);
+  eT acc = eT(0);
   
   if(SpProxy<T1>::use_iterator == false)
     {
@@ -1504,7 +1504,7 @@ accu_spop_omit_helper(const T1& expr, functor is_omitted)
       {
       const eT tmp = vals[i];
       
-      val += is_omitted(tmp) ? eT_zero : tmp;
+      acc += is_omitted(tmp) ? eT_zero : tmp;
       }
     }
   else
@@ -1515,13 +1515,13 @@ accu_spop_omit_helper(const T1& expr, functor is_omitted)
       {
       const eT tmp = (*it);
       
-      val += is_omitted(tmp) ? eT_zero : tmp;
+      acc += is_omitted(tmp) ? eT_zero : tmp;
       
       ++it;
       }
     }
   
-  return val;
+  return acc;
   }
 
 
