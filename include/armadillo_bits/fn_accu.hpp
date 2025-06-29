@@ -1408,6 +1408,8 @@ accu(const SpOp<T1, spop_square>& expr)
     {
     const SpSubview_col<eT>& svcol = reinterpret_cast<const SpSubview_col<eT>&>(expr.m);
     
+    if(svcol.n_nonzero == 0)  { return eT(0); }
+    
     if(svcol.n_rows == svcol.m.n_rows)
       {
       arma_debug_print("accu(): SpSubview_col spop_square optimisation");
@@ -1459,6 +1461,8 @@ accu_spop_omit_helper(const T1& expr, functor is_omitted)
   if(is_SpSubview_col<T1>::value)
     {
     const SpSubview_col<eT>& svcol = reinterpret_cast<const SpSubview_col<eT>&>(expr);
+    
+    if(svcol.n_nonzero == 0)  { return eT(0); }
     
     if(svcol.n_rows == svcol.m.n_rows)
       {
