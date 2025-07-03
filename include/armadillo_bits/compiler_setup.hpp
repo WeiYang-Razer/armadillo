@@ -34,8 +34,8 @@
 #define arma_aligned
 #define arma_align_mem
 #define arma_warn_unused
-#define arma_deprecated
-#define arma_frown(msg)
+#define arma_deprecated        [[deprecated]]
+#define arma_frown(msg)        [[deprecated(msg)]]
 #define arma_malloc
 #define arma_inline            inline
 #define arma_noinline
@@ -365,15 +365,6 @@
   //   
   // #endif
   
-#endif
-
-
-#if defined(ARMA_HAVE_CXX14)
-  #undef  arma_deprecated
-  #define arma_deprecated [[deprecated]]
-
-  #undef  arma_frown
-  #define arma_frown(msg) [[deprecated(msg)]]
 #endif
 
 
