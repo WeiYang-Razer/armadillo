@@ -211,7 +211,7 @@
 
 
 #if defined(ARMA_DEFAULT_OSTREAM)
-  #pragma message ("WARNING: support for ARMA_DEFAULT_OSTREAM is deprecated and will be removed;")
+  #pragma message ("WARNING: option ARMA_DEFAULT_OSTREAM is deprecated and will be removed;")
   #pragma message ("WARNING: use ARMA_COUT_STREAM and ARMA_CERR_STREAM instead")
 #endif
 
@@ -290,7 +290,7 @@
 
 // for compatibility with earlier versions of Armadillo
 #if defined(ARMA_DONT_USE_CXX11_MUTEX)
-  #pragma message ("WARNING: support for ARMA_DONT_USE_CXX11_MUTEX is deprecated and will be removed;")
+  #pragma message ("WARNING: option ARMA_DONT_USE_CXX11_MUTEX is deprecated and will be removed;")
   #pragma message ("WARNING: use ARMA_DONT_USE_STD_MUTEX instead")
   #undef ARMA_USE_STD_MUTEX
 #endif
@@ -372,11 +372,11 @@
 #endif
 
 #if defined(ARMA_CRIPPLED_LAPACK)
-  #pragma message ("NOTE: option ARMA_CRIPPLED_LAPACK not supported")
+  #pragma message ("WARNING: option ARMA_CRIPPLED_LAPACK is deprecated and will be removed")
 #endif
 
 #if defined(ARMA_IGNORE_DEPRECATED_MARKER)
-  #pragma message ("NOTE: option ARMA_IGNORE_DEPRECATED_MARKER not supported")
+  #pragma message ("NOTE: option ARMA_IGNORE_DEPRECATED_MARKER is not supported")
 #endif
 
 
