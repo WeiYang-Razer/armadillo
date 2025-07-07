@@ -199,14 +199,14 @@ arma_isnan(const std::complex<T>& x)
 
 
 //
-// wrappers for arma_pow()---see FP16 specialization below
+// wrapper for pow; see also the associated FP16 specialisation
 
 
 
-template<typename eT, typename pow_eT>
+template<typename eT, typename exponent_eT>
 inline
 eT
-arma_pow(eT base, pow_eT pow)
+arma_pow(eT base, exponent_eT pow)
   {
   return std::pow(base, pow);
   }
@@ -433,7 +433,7 @@ struct arma_arg< std::complex<double> >
 
 
 //
-// wrappers for low-precision fp16
+// extensions for half-precision fp16
 
 #if defined(ARMA_HAVE_FP16)
 
@@ -442,9 +442,17 @@ inline
 bool
 arma_isfinite(fp16 x)
   {
-  // Technically not required until C++23 but basically every compiler supports it.
-  // (this is true for almost every fp16 overload below)
   return std::isfinite(x);
+  }
+
+
+
+template<>
+inline
+bool
+arma_isnonfinite(fp16 x)
+  {
+  return (std::isfinite(x) == false);
   }
 
 
@@ -469,10 +477,10 @@ arma_isnan(fp16 x)
 
 
 
-template<typename pow_eT>
+template<typename exponent_eT>
 inline
 fp16
-arma_pow(fp16 base, pow_eT pow)
+arma_pow(fp16 base, exponent_eT pow)
   {
   return std::pow(base, fp16(pow));
   }
