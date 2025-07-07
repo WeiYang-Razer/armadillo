@@ -18408,20 +18408,18 @@ Convenience short forms (typedefs) for complex element types:
       <td>
       <b><code>cx_double</code></b>
       </td>
-      <td>&nbsp;<br>
-      </td>
+      <td>&nbsp;=&nbsp;</td>
       <td>
-      equivalent to <code>std::complex&lt;double&gt;</code>
+      <code>std::complex&lt;double&gt;</code>
       </td>
     </tr>
     <tr>
       <td>
       <b><code>cx_float</code></b>
       </td>
-      <td>&nbsp;<br>
-      </td>
+      <td>&nbsp;=&nbsp;</td>
       <td>
-      equivalent to <code>std::complex&lt;float&gt;</code>
+      <code>std::complex&lt;float&gt;</code>
       </td>
     </tr>
   </tbody>
@@ -18456,7 +18454,7 @@ cx_double val = X(2,3);
 <b>fp16</b>
 <ul>
 <li>
-Convenience short form (typedef) for the IEEE half-precision 16-bit floating point element type
+Convenience short form (typedef) for <code>std::float16_t</code>, aka IEEE half-precision 16-bit floating point element type
 </li>
 <br>
 <li>
@@ -18482,11 +18480,6 @@ If no compiler or hardware support is detected, support for <code>fp16</code> is
 <br>
 <li>
 To force the use of (possibly software emulated) <code>fp16</code> element type, define <code>ARMA_FORCE_USE_FP16</code> before including the armadillo header
-</li>
-<br>
-<li>
-The C++ type <code>std::float16_t</code> is preferentially used to define the <code>fp16</code> type;
-in certain situations other intrinsic types such as <code>_Float16</code> or <code>__fp16</code> are used
 </li>
 <br>
 <li>
@@ -18520,9 +18513,9 @@ fp16 val = X(2,3);
 <ul>
 <li><a href="https://en.wikipedia.org/wiki/Half-precision_floating-point_format">half-precision floating point format on Wikipedia</a></li>
 <li><a href="https://en.wikipedia.org/wiki/AVX-512">AVX-512 in Wikipedia</a></li>
-<li><a href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html">gcc half-precision documentation</a></li>
-<li><a href="https://clang.llvm.org/docs/LanguageExtensions.html#half-precision-floating-point">clang half-precision documentation</a></li>
-<li><a href="https://en.cppreference.com/w/cpp/header/stdfloat.html">std::float16_t reference</a></li>
+<!-- <li><a href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html">gcc half-precision documentation</a></li> -->
+<!-- <li><a href="https://clang.llvm.org/docs/LanguageExtensions.html#half-precision-floating-point">clang half-precision documentation</a></li> -->
+<li><a href="https://en.cppreference.com/w/cpp/header/stdfloat.html">std::float16_t</a> in cppreference.com</li>
 <li><a href="https://cplusplus.com/doc/tutorial/other_data_types/">explanation of <i>typedef</i></a></li>
 <li><a href="#Mat">fp16_mat</a> matrix type
 <li><a href="#Col">fp16_vec</a> vector type
