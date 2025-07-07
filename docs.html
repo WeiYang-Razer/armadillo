@@ -18463,11 +18463,15 @@ Convenience short form (typedef) for the IEEE half-precision 16-bit floating poi
 To enable automatic support for the <code>fp16</code> element type, <b>both</b> of the following are necessary:
 <br>
 <ul>
-<li>support for the C++23 standard in your compiler (eg. compile with <code>-std=c++23</code> or similar)</li>
+<li>support for the C++23 standard in your compiler</li>
+<ul>
+<li>use <code>-std=c++23</code> when compiling with gcc or clang</li>
+</ul>
 <li>hardware support for native FP16 arithmetic:
 <ul>
-<li>ARM CPUs require the <code>+fp16</code> feature; typically found on ARMv8.2-A+ devices</li>
-<li>x86-64 CPUs require the AVX512-FP16 instruction set extension</li>
+<li>ARM CPUs with the <code>+fp16</code> feature; typically found on ARMv8.2-A+ devices</li>
+<li>x86-64 CPUs with the AVX512-FP16 instruction set extension</li>
+<li>use <code>-march=native</code> when compiling with gcc or clang
 </ul>
 </li>
 <br>
