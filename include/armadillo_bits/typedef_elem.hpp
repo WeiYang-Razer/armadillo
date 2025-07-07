@@ -214,7 +214,7 @@ typedef void* void_ptr;
 #else
   
   #if defined(ARMA_FORCE_USE_FP16)
-    #pragma message("WARNING: no usable fp16 type detected; support for 16-bit floating point disabled");
+    #pragma message("WARNING: no usable fp16 type detected; support for 16-bit floating point disabled")
   #endif
 
 #endif
