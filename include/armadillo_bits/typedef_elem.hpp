@@ -171,6 +171,12 @@ typedef void* void_ptr;
     
   #endif
   
+#else
+  
+  #if defined(ARMA_FORCE_USE_FP16)
+    #pragma message ("WARNING: C++23 required for fp16 support")
+  #endif
+  
 #endif
 
 
