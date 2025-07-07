@@ -153,13 +153,6 @@ struct arma_config
   #endif
   
   
-  #if defined(ARMA_HAVE_CXX14)
-    static constexpr bool cxx14 = true;
-  #else
-    static constexpr bool cxx14 = false;
-  #endif
-  
-  
   #if defined(ARMA_HAVE_CXX17)
     static constexpr bool cxx17 = true;
   #else
