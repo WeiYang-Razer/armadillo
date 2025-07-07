@@ -127,7 +127,7 @@ op_norm2est::norm2est
   Col<eT> x(A.n_rows, fill::none);
   Col<eT> y(A.n_cols, fill::none);
   
-  if (is_fp16<eT>::yes)
+  if(is_fp16<eT>::yes)
     {
     // randu_filler can only fill floats, so do that and then convert
     Col<float> tmp(y.n_elem);
