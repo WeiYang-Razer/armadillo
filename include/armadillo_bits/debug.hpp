@@ -1445,6 +1445,7 @@ inline void arma_debug_check(bool state, const char* msg)  { arma_conform_check(
         out << "\n@ arma_config::check_nonfinite  = " << arma_config::check_nonfinite;
         out << "\n@ arma_config::fast_math        = " << arma_config::fast_math;
         out << "\n@ arma_config::have_fp16        = " << arma_config::have_fp16;
+        out << "\n@ arma_config::good_fp16        = " << arma_config::good_fp16;
         out << "\n@ sizeof(void*)    = " << sizeof(void*);
         out << "\n@ sizeof(int)      = " << sizeof(int);
         out << "\n@ sizeof(long)     = " << sizeof(long);

@@ -133,92 +133,45 @@ typedef void* void_ptr;
 //
 
 
-// attempt to capture all supported float16 types;
-// if C++23 or newer is used, we have a native type;
-// otherwise, there are several alternative types.
-
 #undef ARMA_HAVE_FP16
+#undef ARMA_GOOD_FP16
 
 #if defined(ARMA_HAVE_CXX23)
   
-  #if defined(__STDCPP_FLOAT16_T__) && (__STDCPP_FLOAT16_T__ == 1)
-    #define ARMA_HAVE_FP16
-    typedef std::float16_t fp16;
-  #endif
-  
-#elif defined(ARMA_FORCE_USE_FP16)
-  
-  #if defined(__GNUG__) && !defined(__clang__)
-    
-    // all Armadillo-supported GCC versions support FP16
-    #if defined(__FLT16_MAX__) && defined(__ARM_FP16_FORMAT_IEEE)
-      #define ARMA_HAVE_FP16
-      typedef _Float16 fp16;
-    #elif defined(__FLT16_MAX__) && defined(__SSE2__)
-      // __SSE2__ is needed as per https://gcc.gnu.org/bugzilla/show_bug.cgi?id=116122
-      #define ARMA_HAVE_FP16
-      typedef _Float16 fp16;
-    #endif
-    
-  #elif defined(__clang__) && defined(__is_identifier)
-    
-    // NOTE: clang is_identifier behavior returns 0 if the symbol is an identifier; https://clang.llvm.org/docs/LanguageExtensions.html
-    #if !(__is_identifier(_Float16))
-      #define ARMA_HAVE_FP16
-      typedef _Float16 fp16;
-    #endif
-    
-  #endif
-
-#endif
-
-
-//
-
-
-// disable support for FP16 if it is software emulated, unless ARMA_FORCE_USE_FP16 is defined
-
-#if defined(ARMA_HAVE_FP16)
-  
-  #undef ARMA_BAD_FP16
-  
   #if defined(__aarch64__)
-    #if !defined(__ARM_FEATURE_FP16_SCALAR_ARITHMETIC)
-      // we need scalar intrinsics for native FP16 support
-      #define ARMA_BAD_FP16
+    #if defined(__ARM_FEATURE_FP16_SCALAR_ARITHMETIC)
+      // need scalar intrinsics for native FP16 support
+      #define ARMA_GOOD_FP16
     #endif
   #elif defined(__x86_64__) || defined(__i386__)
-    #if !defined(__AVX512FP16__)
-      // without the AVX512-FP16 extensions, FP16 support is non-native (emulated)
-      #define ARMA_BAD_FP16
+    #if defined(__AVX512FP16__)
+      // need AVX512-FP16 extensions for native FP16 support
+      #define ARMA_GOOD_FP16
     #endif
+  #endif
+  
+  #if defined(__STDCPP_FLOAT16_T__) && (__STDCPP_FLOAT16_T__ == 1)
+    
+    #if defined(ARMA_FORCE_USE_FP16) || defined(ARMA_GOOD_FP16)
+      #define ARMA_HAVE_FP16
+      typedef std::float16_t fp16;
+    #endif
+    
+    #if defined(ARMA_FORCE_USE_FP16) && !defined(ARMA_GOOD_FP16)
+      #pragma message ("WARNING: hardware support for fp16 not detected; use of fp16 can be very slow")
+    #endif
+    
   #else
-    // we have an architecture that does not define any macros that we can use
-    #define ARMA_BAD_FP16
-  #endif
-  
-  #if defined(ARMA_BAD_FP16)
+    
     #if defined(ARMA_FORCE_USE_FP16)
-      #pragma message ("WARNING: 16-bit floating point support enabled via ARMA_FORCE_USE_FP16, but native hardware support not detected; use of fp16 can be very slow")
-      
-      #if !defined(ARMA_HAVE_CXX23)
-        #pragma message("WARNING: C++23 not detected but 16-bit floating point support forced via ARMA_FORCE_USE_FP16; compilation may fail as various std:: functions may not support fp16 element type")
-      #endif
-    #else
-      #undef ARMA_HAVE_FP16
+      #pragma message ("WARNING: C++ support for fp16 not detected")
     #endif
+    
+    #undef ARMA_GOOD_FP16
+    
   #endif
   
-  #undef ARMA_BAD_FP16
-  
-#else
-  
-  #if defined(ARMA_FORCE_USE_FP16)
-    #pragma message("WARNING: no usable fp16 type detected; support for 16-bit floating point disabled")
-  #endif
-
 #endif
-
 
 
 //
