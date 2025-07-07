@@ -237,6 +237,13 @@ struct arma_config
   #endif
   
   
+  #if defined(ARMA_HAVE_FP16)
+    static constexpr bool have_fp16 = true;
+  #else
+    static constexpr bool have_fp16 = false;
+  #endif
+  
+  
   static constexpr uword warn_level = (sword(ARMA_WARN_LEVEL) > 0) ? uword(ARMA_WARN_LEVEL) : 0;
   };
 
