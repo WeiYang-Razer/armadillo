@@ -202,7 +202,7 @@ typedef void* void_ptr;
       #pragma message ("WARNING: 16-bit floating point support enabled via ARMA_FORCE_USE_FP16, but native hardware support not detected; use of fp16 can be very slow")
       
       #if !defined(ARMA_HAVE_CXX23)
-        #pragma message("WARNING: C++23 not detected but 16-bit floating point support forced via ARMA_FORCE_USE_FP16; compilation may fail as various std:: functions may not support fp16 element type");
+        #pragma message("WARNING: C++23 not detected but 16-bit floating point support forced via ARMA_FORCE_USE_FP16; compilation may fail as various std:: functions may not support fp16 element type")
       #endif
     #else
       #undef ARMA_HAVE_FP16
