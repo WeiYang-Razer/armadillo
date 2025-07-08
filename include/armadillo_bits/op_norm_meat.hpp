@@ -956,9 +956,9 @@ typename get_pod_type<eT>::result
 op_norm::mat_norm_2(const Mat<eT>& X, typename arma_fp16_only<eT>::result* junk)
   {
   arma_debug_sigprint();
-
-  arma_stop_logic_error("norm(): matrix 2-norm currently not supported for fp16 type");
-
+  
+  arma_stop_logic_error("norm(): matrix 2-norm currently not supported for fp16; try norm2est() instead");
+  
   return typename get_pod_type<eT>::result(0);
   }
 

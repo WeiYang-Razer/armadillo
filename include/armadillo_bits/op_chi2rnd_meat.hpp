@@ -56,6 +56,7 @@ op_chi2rnd::apply_noalias(Mat<typename T1::elem_type>& out, const Proxy<T1>& P)
   arma_debug_sigprint();
   
   typedef typename T1::elem_type eT;
+  
   // we can only make a generator for float/double/long double types
   typedef typename promote_type<eT, float>::result gT;
   

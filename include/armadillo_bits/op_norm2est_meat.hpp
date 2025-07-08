@@ -27,11 +27,13 @@ norm2est_randu_filler<eT>::norm2est_randu_filler()
   {
   arma_debug_sigprint();
   
+  typedef typename promote_type<eT, float>::result eTp;
+  
   typedef typename std::mt19937_64::result_type local_seed_type;
   
   local_engine.seed(local_seed_type(123));
   
-  typedef typename std::uniform_real_distribution<eT>::param_type local_param_type;
+  typedef typename std::uniform_real_distribution<eTp>::param_type local_param_type;
   
   local_u_distr.param(local_param_type(-1.0, +1.0));
   }
@@ -57,11 +59,13 @@ norm2est_randu_filler< std::complex<T> >::norm2est_randu_filler()
   {
   arma_debug_sigprint();
   
+  typedef typename promote_type<T, float>::result Tp;
+  
   typedef typename std::mt19937_64::result_type local_seed_type;
   
   local_engine.seed(local_seed_type(123));
   
-  typedef typename std::uniform_real_distribution<T>::param_type local_param_type;
+  typedef typename std::uniform_real_distribution<Tp>::param_type local_param_type;
   
   local_u_distr.param(local_param_type(-1.0, +1.0));
   }
@@ -120,24 +124,12 @@ op_norm2est::norm2est
   
   if((A.n_rows == 1) || (A.n_cols == 1))  { return op_norm::vec_norm_2( Proxy< Mat<eT> >(A) ); }
   
-  // low-precision types cannot be used for norm2est_randu_filler
-  // (std::uniform_real_distribution is undefined for types not float/double/long double)
-  norm2est_randu_filler< typename promote_type<eT, float>::result > randu_filler;
+  norm2est_randu_filler<eT> randu_filler;
   
   Col<eT> x(A.n_rows, fill::none);
   Col<eT> y(A.n_cols, fill::none);
   
-  if(is_fp16<eT>::yes)
-    {
-    // randu_filler can only fill floats, so do that and then convert
-    Col<float> tmp(y.n_elem);
-    randu_filler.fill(tmp.memptr(), tmp.n_elem);
-    arrayops::convert(y.memptr(), tmp.memptr(), tmp.n_elem);
-    }
-  else
-    {
-    randu_filler.fill(y.memptr(), y.n_elem);
-    }
+  randu_filler.fill(y.memptr(), y.n_elem);
   
   T est_old = 0;
   T est_cur = 0;
