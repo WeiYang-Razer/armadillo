@@ -100,6 +100,21 @@ spop_norm::mat_norm_2(const SpMat<eT>& X, const typename arma_cx_only<eT>::resul
 template<typename eT>
 inline
 typename get_pod_type<eT>::result
+spop_norm::mat_norm_2(const SpMat<eT>& X, const typename arma_fp16_only<eT>::result* junk)
+  {
+  arma_debug_sigprint();
+  arma_ignore(junk);
+  
+  arma_stop_logic_error("norm(): matrix 2-norm currently not supported for fp16; try norm2est() instead");
+  
+  return typename get_pod_type<eT>::result(0);
+  }
+
+
+
+template<typename eT>
+inline
+typename get_pod_type<eT>::result
 spop_norm::mat_norm_inf(const SpMat<eT>& X)
   {
   arma_debug_sigprint();
