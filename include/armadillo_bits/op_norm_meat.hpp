@@ -931,9 +931,10 @@ op_norm::mat_norm_1(const Mat<eT>& X)
 template<typename eT>
 inline
 typename get_pod_type<eT>::result
-op_norm::mat_norm_2(const Mat<eT>& X, typename arma_blas_real_or_cx_only<eT>::result* junk)
+op_norm::mat_norm_2(const Mat<eT>& X, const typename arma_blas_real_or_cx_only<eT>::result* junk)
   {
   arma_debug_sigprint();
+  arma_ignore(junk);
   
   typedef typename get_pod_type<eT>::result T;
   
@@ -953,9 +954,10 @@ op_norm::mat_norm_2(const Mat<eT>& X, typename arma_blas_real_or_cx_only<eT>::re
 template<typename eT>
 inline
 typename get_pod_type<eT>::result
-op_norm::mat_norm_2(const Mat<eT>& X, typename arma_fp16_only<eT>::result* junk)
+op_norm::mat_norm_2(const Mat<eT>& X, const typename arma_fp16_only<eT>::result* junk)
   {
   arma_debug_sigprint();
+  arma_ignore(junk);
   
   arma_stop_logic_error("norm(): matrix 2-norm currently not supported for fp16; try norm2est() instead");
   
