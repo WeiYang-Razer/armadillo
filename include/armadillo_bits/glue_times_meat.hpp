@@ -453,7 +453,7 @@ glue_times_redirect<2>::apply(Mat<typename T1::elem_type>& out, const Glue<T1,T2
   
   typedef typename T1::elem_type eT;
   
-  glue_times_redirect2_helper< is_supported_blas_type<eT>::value >::apply(out, X);
+  glue_times_redirect2_helper< is_blas_type<eT>::value >::apply(out, X);
   }
 
 
@@ -467,7 +467,7 @@ glue_times_redirect<3>::apply(Mat<typename T1::elem_type>& out, const Glue< Glue
   
   typedef typename T1::elem_type eT;
   
-  glue_times_redirect3_helper< is_supported_blas_type<eT>::value >::apply(out, X);
+  glue_times_redirect3_helper< is_blas_type<eT>::value >::apply(out, X);
   }
 
 

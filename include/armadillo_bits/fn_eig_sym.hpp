@@ -23,7 +23,7 @@
 //! Eigenvalues of real/complex symmetric/hermitian matrix X
 template<typename T1>
 inline
-typename enable_if2< is_supported_blas_type<typename T1::elem_type>::value, bool >::result
+typename enable_if2< is_blas_type<typename T1::elem_type>::value, bool >::result
 eig_sym
   (
          Col<typename T1::pod_type>&     eigval,
@@ -53,7 +53,7 @@ eig_sym
 template<typename T1>
 arma_warn_unused
 inline
-typename enable_if2< is_supported_blas_type<typename T1::elem_type>::value, Col<typename T1::pod_type> >::result
+typename enable_if2< is_blas_type<typename T1::elem_type>::value, Col<typename T1::pod_type> >::result
 eig_sym
   (
   const Base<typename T1::elem_type,T1>& X
@@ -115,7 +115,7 @@ eig_sym_helper
 //! Eigenvalues and eigenvectors of real/complex symmetric/hermitian matrix X
 template<typename T1> 
 inline
-typename enable_if2< is_supported_blas_type<typename T1::elem_type>::value, bool >::result
+typename enable_if2< is_blas_type<typename T1::elem_type>::value, bool >::result
 eig_sym
   (
          Col<typename T1::pod_type>&     eigval,

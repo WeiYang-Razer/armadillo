@@ -109,7 +109,7 @@ struct Base_trans<derived, false> { typedef Base_trans_default<derived> result; 
 
 template<typename elem_type, typename derived>
 struct Base
-  : public Base_extra<elem_type, derived, is_supported_blas_type<elem_type>::value>::result
+  : public Base_extra<elem_type, derived, is_blas_type<elem_type>::value>::result
   , public Base_eval<elem_type, derived, is_Mat<derived>::value>::result
   , public Base_trans<derived, is_cx<elem_type>::value>::result
   {

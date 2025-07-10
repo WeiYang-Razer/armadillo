@@ -24,7 +24,7 @@
 template<typename T1>
 arma_warn_unused
 inline
-typename enable_if2<is_supported_blas_type<typename T1::elem_type>::value, typename T1::pod_type>::result
+typename enable_if2<is_blas_type<typename T1::elem_type>::value, typename T1::pod_type>::result
 cond(const Base<typename T1::elem_type, T1>& X)
   {
   arma_debug_sigprint();
@@ -37,7 +37,7 @@ cond(const Base<typename T1::elem_type, T1>& X)
 template<typename T1>
 arma_warn_unused
 inline
-typename enable_if2<is_supported_blas_type<typename T1::elem_type>::value, typename T1::pod_type>::result
+typename enable_if2<is_blas_type<typename T1::elem_type>::value, typename T1::pod_type>::result
 rcond(const Base<typename T1::elem_type, T1>& X)
   {
   arma_debug_sigprint();
@@ -50,7 +50,7 @@ rcond(const Base<typename T1::elem_type, T1>& X)
 // template<typename T1>
 // arma_warn_unused
 // inline
-// typename enable_if2<is_supported_blas_type<typename T1::elem_type>::value, typename T1::pod_type>::result
+// typename enable_if2<is_blas_type<typename T1::elem_type>::value, typename T1::pod_type>::result
 // rcond(const SpBase<typename T1::elem_type, T1>& X)
 //   {
 //   arma_debug_sigprint();

@@ -1124,7 +1124,7 @@ struct is_supported_elem_type
 
 
 template<typename T1>
-struct is_supported_blas_type
+struct is_blas_type
   {
   static constexpr bool value = \
     is_float<T1>::value ||

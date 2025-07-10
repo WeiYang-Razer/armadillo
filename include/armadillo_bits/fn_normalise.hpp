@@ -99,7 +99,7 @@ arma_inline
 typename
 enable_if2
   <
-  is_supported_blas_type<T>::value,
+  is_blas_type<T>::value,
   Col<T>
   >::result
 normalise(const T& val)
