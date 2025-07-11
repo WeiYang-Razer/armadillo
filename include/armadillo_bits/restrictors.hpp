@@ -119,10 +119,10 @@ template<> struct arma_blas_real_only< double > { typedef double result; };
 
 
 
-template<typename T> struct arma_fp16_only { };
+template<typename T> struct arma_fp16_real_only { };
 
 #if defined(ARMA_HAVE_FP16)
-template<> struct arma_fp16_only< fp16 > { typedef fp16 result; };
+template<> struct arma_fp16_real_only< fp16 > { typedef fp16 result; };
 #endif
 
 

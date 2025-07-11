@@ -258,7 +258,7 @@ op_norm::vec_norm_1_direct_std(const Mat<eT>& X, const typename arma_blas_real_o
 template<typename eT>
 inline
 eT
-op_norm::vec_norm_1_direct_std(const Mat<eT>& X, const typename arma_fp16_only<eT>::result* junk)
+op_norm::vec_norm_1_direct_std(const Mat<eT>& X, const typename arma_fp16_real_only<eT>::result* junk)
   {
   arma_debug_sigprint();
   arma_ignore(junk);
@@ -268,6 +268,7 @@ op_norm::vec_norm_1_direct_std(const Mat<eT>& X, const typename arma_fp16_only<e
 
   // fp16 support must be direct non-BLAS
   eT out_val = op_norm::vec_norm_1_direct_mem(N,A);
+  
   return (out_val <= eT(0)) ? eT(0) : out_val;
   }
 
@@ -587,7 +588,7 @@ op_norm::vec_norm_2_direct_std(const Mat<eT>& X, const typename arma_blas_real_o
 template<typename eT>
 inline
 eT
-op_norm::vec_norm_2_direct_std(const Mat<eT>& X, const typename arma_fp16_only<eT>::result* junk)
+op_norm::vec_norm_2_direct_std(const Mat<eT>& X, const typename arma_fp16_real_only<eT>::result* junk)
   {
   arma_debug_sigprint();
   arma_ignore(junk);

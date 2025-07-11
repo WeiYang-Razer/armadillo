@@ -29,7 +29,7 @@ class op_norm
   template<typename T1> arma_hot inline static typename T1::pod_type vec_norm_1(const Proxy<T1>& P, const typename arma_cx_only<typename T1::elem_type>::result* junk = nullptr);
   
   template<typename eT> arma_hot inline static eT vec_norm_1_direct_std(const Mat<eT>& X, const typename arma_blas_real_only<eT>::result* junk = nullptr);
-  template<typename eT> arma_hot inline static eT vec_norm_1_direct_std(const Mat<eT>& X, const typename      arma_fp16_only<eT>::result* junk = nullptr);
+  template<typename eT> arma_hot inline static eT vec_norm_1_direct_std(const Mat<eT>& X, const typename arma_fp16_real_only<eT>::result* junk = nullptr);
   
   template<typename eT> arma_hot inline static eT vec_norm_1_direct_mem(const uword N, const eT* A);
   
@@ -37,7 +37,7 @@ class op_norm
   template<typename T1> arma_hot inline static typename T1::pod_type vec_norm_2(const Proxy<T1>& P, const typename arma_cx_only<typename T1::elem_type>::result* junk = nullptr);
   
   template<typename eT> arma_hot inline static eT vec_norm_2_direct_std(const Mat<eT>& X, const typename arma_blas_real_only<eT>::result* junk = nullptr);
-  template<typename eT> arma_hot inline static eT vec_norm_2_direct_std(const Mat<eT>& X, const typename      arma_fp16_only<eT>::result* junk = nullptr);
+  template<typename eT> arma_hot inline static eT vec_norm_2_direct_std(const Mat<eT>& X, const typename arma_fp16_real_only<eT>::result* junk = nullptr);
   
   template<typename eT> arma_hot inline static eT vec_norm_2_direct_mem(const uword N, const eT* A);
   template<typename eT> arma_hot inline static eT vec_norm_2_direct_robust(const Mat<eT>& X);
