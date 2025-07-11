@@ -54,9 +54,6 @@ SpMat<eT>::~SpMat()
   if(values     )  { memory::release(access::rw(values));      }
   if(row_indices)  { memory::release(access::rw(row_indices)); }
   if(col_ptrs   )  { memory::release(access::rw(col_ptrs));    }
-
-  // FP16 is not currently supported for sparse matrices
-  arma_type_check(( is_fp16<eT>::value == true ));
   }
 
 
