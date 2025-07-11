@@ -1046,8 +1046,27 @@ struct is_cx
   static constexpr bool no    = true;
   };
 
+// template<>
+template<typename T>
+struct is_cx< std::complex<T> >
+  {
+  static constexpr bool value = true;
+  static constexpr bool yes   = true;
+  static constexpr bool no    = false;
+  };
+
+
+
+template<typename T1>
+struct is_blas_cx
+  {
+  static constexpr bool value = false;
+  static constexpr bool yes   = false;
+  static constexpr bool no    = true;
+  };
+
 template<>
-struct is_cx< std::complex<float> >
+struct is_blas_cx< std::complex<float> >
   {
   static constexpr bool value = true;
   static constexpr bool yes   = true;
@@ -1055,7 +1074,7 @@ struct is_cx< std::complex<float> >
   };
 
 template<>
-struct is_cx< std::complex<double> >
+struct is_blas_cx< std::complex<double> >
   {
   static constexpr bool value = true;
   static constexpr bool yes   = true;
