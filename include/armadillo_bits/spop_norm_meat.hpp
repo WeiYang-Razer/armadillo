@@ -66,7 +66,7 @@ spop_norm::mat_norm_2(const SpMat<eT>& X, const typename arma_blas_real_only<eT>
 template<typename eT>
 inline
 typename get_pod_type<eT>::result
-spop_norm::mat_norm_2(const SpMat<eT>& X, const typename arma_cx_only<eT>::result* junk)
+spop_norm::mat_norm_2(const SpMat<eT>& X, const typename arma_blas_cx_only<eT>::result* junk)
   {
   arma_debug_sigprint();
   arma_ignore(junk);
@@ -100,7 +100,7 @@ spop_norm::mat_norm_2(const SpMat<eT>& X, const typename arma_cx_only<eT>::resul
 template<typename eT>
 inline
 typename get_pod_type<eT>::result
-spop_norm::mat_norm_2(const SpMat<eT>& X, const typename arma_fp16_only<eT>::result* junk)
+spop_norm::mat_norm_2(const SpMat<eT>& X, const typename arma_fp16_real_or_cx_only<eT>::result* junk)
   {
   arma_debug_sigprint();
   arma_ignore(junk);
