@@ -1120,6 +1120,26 @@ struct is_cx_double< std::complex<double> >
 
 
 template<typename T1>
+struct is_cx_fp16
+  {
+  static constexpr bool value = false;
+  static constexpr bool yes   = false;
+  static constexpr bool no    = true;
+  };
+
+#ifdef ARMA_HAVE_FP16
+template<>
+struct is_cx_fp16< std::complex<fp16> >
+  {
+  static constexpr bool value = true;
+  static constexpr bool yes   = true;
+  static constexpr bool no    = false;
+  };
+#endif
+
+
+
+template<typename T1>
 struct is_supported_elem_type
   {
   static constexpr bool value = \
@@ -1137,7 +1157,8 @@ struct is_supported_elem_type
     is_double<T1>::value ||
     is_fp16<T1>::value ||
     is_cx_float<T1>::value ||
-    is_cx_double<T1>::value;
+    is_cx_double<T1>::value ||
+    is_cx_fp16<T1>::value;
   };
 
 
@@ -1194,6 +1215,7 @@ template<> struct is_non_integral< std::complex<double> > { static constexpr boo
 
 #if defined(ARMA_HAVE_FP16)
 template<> struct is_non_integral<              fp16    > { static constexpr bool value = true; };
+template<> struct is_non_integral< std::complex<fp16>   > { static constexpr bool value = true; };
 #endif
 
 

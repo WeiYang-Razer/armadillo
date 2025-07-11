@@ -104,6 +104,12 @@ typedef Col <fp16> fp16_vec;
 typedef Col <fp16> fp16_colvec;
 typedef Row <fp16> fp16_rowvec;
 typedef Cube<fp16> fp16_cube;
+
+typedef Mat <cx_fp16> cx_fp16_mat;
+typedef Col <cx_fp16> cx_fp16_vec;
+typedef Col <cx_fp16> cx_fp16_colvec;
+typedef Row <cx_fp16> cx_fp16_rowvec;
+typedef Cube<cx_fp16> cx_fp16_cube;
 #endif
 
 
@@ -153,6 +159,11 @@ typedef SpMat <fp16> sp_fp16_mat;
 typedef SpCol <fp16> sp_fp16_vec;
 typedef SpCol <fp16> sp_fp16_colvec;
 typedef SpRow <fp16> sp_fp16_rowvec;
+
+typedef SpMat <cx_fp16> sp_cx_fp16_mat;
+typedef SpCol <cx_fp16> sp_cx_fp16_vec;
+typedef SpCol <cx_fp16> sp_cx_fp16_colvec;
+typedef SpRow <cx_fp16> sp_cx_fp16_rowvec;
 #endif
 
 

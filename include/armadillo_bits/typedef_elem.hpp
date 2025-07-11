@@ -154,7 +154,8 @@ typedef void* void_ptr;
     
     #if defined(ARMA_FORCE_USE_FP16) || defined(ARMA_GOOD_FP16)
       #define ARMA_HAVE_FP16
-      typedef std::float16_t fp16;
+      typedef              std::float16_t     fp16;
+      typedef std::complex<std::float16_t> cx_fp16;
     #endif
     
     #if defined(ARMA_FORCE_USE_FP16) && !defined(ARMA_GOOD_FP16)

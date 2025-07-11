@@ -40,13 +40,13 @@ class op_dot
   template<typename eT>
   arma_hot inline static typename arma_blas_real_only<eT>::result
   direct_dot(const uword n_elem, const eT* const A, const eT* const B);
-
+  
   template<typename eT>
-  arma_hot inline static typename arma_fp16_only<eT>::result
+  arma_hot inline static typename arma_blas_cx_only<eT>::result
   direct_dot(const uword n_elem, const eT* const A, const eT* const B);
-
+  
   template<typename eT>
-  arma_hot inline static typename arma_cx_only<eT>::result
+  arma_hot inline static typename arma_fp16_real_or_cx_only<eT>::result
   direct_dot(const uword n_elem, const eT* const A, const eT* const B);
   
   template<typename eT>
@@ -98,7 +98,7 @@ class op_cdot
   arma_hot inline static eT direct_cdot(const uword n_elem, const eT* const A, const eT* const B, const typename arma_blas_real_or_cx_only<eT>::result* junk = 0);
 
   template<typename eT>
-  arma_hot inline static eT direct_cdot(const uword n_elem, const eT* const A, const eT* const B, const typename arma_fp16_only<eT>::result* junk = 0);
+  arma_hot inline static eT direct_cdot(const uword n_elem, const eT* const A, const eT* const B, const typename arma_fp16_real_or_cx_only<eT>::result* junk = 0);
 
   template<typename T1, typename T2>
   arma_hot inline static typename T1::elem_type apply       (const T1& X, const T2& Y);

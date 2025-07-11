@@ -954,7 +954,7 @@ op_norm::mat_norm_2(const Mat<eT>& X, const typename arma_blas_real_or_cx_only<e
 template<typename eT>
 inline
 typename get_pod_type<eT>::result
-op_norm::mat_norm_2(const Mat<eT>& X, const typename arma_fp16_only<eT>::result* junk)
+op_norm::mat_norm_2(const Mat<eT>& X, const typename arma_fp16_real_or_cx_only<eT>::result* junk)
   {
   arma_debug_sigprint();
   arma_ignore(junk);

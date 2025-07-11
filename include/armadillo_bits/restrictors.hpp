@@ -40,11 +40,12 @@ template<> struct arma_scalar_only< ulng_t    > { typedef ulng_t    result; };
 template<> struct arma_scalar_only< slng_t    > { typedef slng_t    result; };
 template<> struct arma_scalar_only< float     > { typedef float     result; };
 template<> struct arma_scalar_only< double    > { typedef double    result; };
-#if defined(ARMA_HAVE_FP16)
-template<> struct arma_scalar_only< fp16      > { typedef fp16      result; };
-#endif
 template<> struct arma_scalar_only< cx_float  > { typedef cx_float  result; };
 template<> struct arma_scalar_only< cx_double > { typedef cx_double result; };
+#if defined(ARMA_HAVE_FP16)
+template<> struct arma_scalar_only< fp16      > { typedef fp16      result; };
+template<> struct arma_scalar_only< cx_fp16   > { typedef cx_fp16   result; };
+#endif
 
 
 
@@ -92,11 +93,12 @@ template<> struct arma_signed_only< s64       > { typedef s64       result; };
 template<> struct arma_signed_only< slng_t    > { typedef slng_t    result; };
 template<> struct arma_signed_only< float     > { typedef float     result; };
 template<> struct arma_signed_only< double    > { typedef double    result; };
-#if defined(ARMA_HAVE_FP16)
-template<> struct arma_signed_only< fp16      > { typedef fp16      result; };
-#endif
 template<> struct arma_signed_only< cx_float  > { typedef cx_float  result; };
 template<> struct arma_signed_only< cx_double > { typedef cx_double result; };
+#if defined(ARMA_HAVE_FP16)
+template<> struct arma_signed_only< fp16      > { typedef fp16      result; };
+template<> struct arma_signed_only< cx_fp16   > { typedef cx_fp16   result; };
+#endif
 
 
 
@@ -129,11 +131,12 @@ template<typename T> struct arma_real_or_cx_only { };
 
 template<> struct arma_real_or_cx_only< float     > { typedef float     result; };
 template<> struct arma_real_or_cx_only< double    > { typedef double    result; };
-#if defined(ARMA_HAVE_FP16)
-template<> struct arma_real_or_cx_only< fp16      > { typedef fp16      result; };
-#endif
 template<> struct arma_real_or_cx_only< cx_float  > { typedef cx_float  result; };
 template<> struct arma_real_or_cx_only< cx_double > { typedef cx_double result; };
+#if defined(ARMA_HAVE_FP16)
+template<> struct arma_real_or_cx_only<    fp16   > { typedef    fp16   result; };
+template<> struct arma_real_or_cx_only< cx_fp16   > { typedef cx_fp16   result; };
+#endif
 
 
 template<typename T> struct arma_blas_real_or_cx_only { };
@@ -145,10 +148,37 @@ template<> struct arma_blas_real_or_cx_only< cx_double > { typedef cx_double res
 
 
 
+template<typename T> struct arma_fp16_real_or_cx_only { };
+
+#if defined(ARMA_HAVE_FP16)
+template<> struct arma_fp16_real_or_cx_only<    fp16 > { typedef    fp16 result; };
+template<> struct arma_fp16_real_or_cx_only< cx_fp16 > { typedef cx_fp16 result; };
+#endif
+
+
+
 template<typename T> struct arma_cx_only { };
 
 template<> struct arma_cx_only< cx_float  > { typedef cx_float  result; };
 template<> struct arma_cx_only< cx_double > { typedef cx_double result; };
+#if defined(ARMA_HAVE_FP16)
+template<> struct arma_cx_only< cx_fp16   > { typedef cx_fp16   result; };
+#endif
+
+
+
+template<typename T> struct arma_blas_cx_only { };
+
+template<> struct arma_blas_real_only< cx_float  > { typedef cx_float  result; };
+template<> struct arma_blas_real_only< cx_double > { typedef cx_double result; };
+
+
+
+template<typename T> struct arma_cx_fp16_only { };
+
+#if defined(ARMA_HAVE_FP16)
+template<> struct arma_cx_fp16_only< cx_fp16  > { typedef cx_fp16  result; };
+#endif
 
 
 
