@@ -187,24 +187,6 @@ template<typename T> struct arma_not_cx< std::complex<T> > { };
 
 
 
-template<typename T> struct arma_blas_type_only { };
-
-template<> struct arma_blas_type_only< float     > { typedef float     result; };
-template<> struct arma_blas_type_only< double    > { typedef double    result; };
-template<> struct arma_blas_type_only< cx_float  > { typedef cx_float  result; };
-template<> struct arma_blas_type_only< cx_double > { typedef cx_double result; };
-
-
-
-template<typename T> struct arma_not_blas_type { typedef T result; };
-
-template<> struct arma_not_blas_type< float     > {  };
-template<> struct arma_not_blas_type< double    > {  };
-template<> struct arma_not_blas_type< cx_float  > {  };
-template<> struct arma_not_blas_type< cx_double > {  };
-
-
-
 template<typename T> struct arma_op_rel_only { };
 
 template<> struct arma_op_rel_only< op_rel_lt_pre    > { typedef int result; };

@@ -1155,9 +1155,9 @@ struct is_supported_elem_type
     is_slng_t<T1>::value ||
     is_float<T1>::value ||
     is_double<T1>::value ||
-    is_fp16<T1>::value ||
     is_cx_float<T1>::value ||
     is_cx_double<T1>::value ||
+    is_fp16<T1>::value ||
     is_cx_fp16<T1>::value;
   };
 

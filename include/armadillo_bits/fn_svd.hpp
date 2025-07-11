@@ -28,7 +28,7 @@ svd
   (
          Col<typename T1::pod_type>&     S,
   const Base<typename T1::elem_type,T1>& X,
-  const typename arma_blas_type_only<typename T1::elem_type>::result* junk = nullptr
+  const typename arma_blas_real_or_cx_only<typename T1::elem_type>::result* junk = nullptr
   )
   {
   arma_debug_sigprint();
@@ -58,7 +58,7 @@ Col<typename T1::pod_type>
 svd
   (
   const Base<typename T1::elem_type,T1>& X,
-  const typename arma_blas_type_only<typename T1::elem_type>::result* junk = nullptr
+  const typename arma_blas_real_or_cx_only<typename T1::elem_type>::result* junk = nullptr
   )
   {
   arma_debug_sigprint();
@@ -94,7 +94,7 @@ svd
          Mat<typename T1::elem_type>&    V,
   const Base<typename T1::elem_type,T1>& X,
   const char*                            method = "dc",
-  const typename arma_blas_type_only<typename T1::elem_type>::result* junk = nullptr
+  const typename arma_blas_real_or_cx_only<typename T1::elem_type>::result* junk = nullptr
   )
   {
   arma_debug_sigprint();
@@ -140,7 +140,7 @@ svd_econ
   const Base<typename T1::elem_type,T1>& X,
   const char                             mode,
   const char*                            method = "dc",
-  const typename arma_blas_type_only<typename T1::elem_type>::result* junk = nullptr
+  const typename arma_blas_real_or_cx_only<typename T1::elem_type>::result* junk = nullptr
   )
   {
   arma_debug_sigprint();
@@ -192,7 +192,7 @@ svd_econ
   const Base<typename T1::elem_type,T1>& X,
   const char*                            mode   = "both",
   const char*                            method = "dc",
-  const typename arma_blas_type_only<typename T1::elem_type>::result* junk = nullptr
+  const typename arma_blas_real_or_cx_only<typename T1::elem_type>::result* junk = nullptr
   )
   {
   arma_debug_sigprint();

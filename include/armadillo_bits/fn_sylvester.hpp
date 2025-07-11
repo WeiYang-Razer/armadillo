@@ -30,7 +30,7 @@ sylvester
   const Base<typename T1::elem_type,T1>& in_A,
   const Base<typename T1::elem_type,T2>& in_B,
   const Base<typename T1::elem_type,T3>& in_C,
-  const typename arma_blas_type_only<typename T1::elem_type>::result* junk = nullptr
+  const typename arma_blas_real_or_cx_only<typename T1::elem_type>::result* junk = nullptr
   )
   {
   arma_debug_sigprint();
@@ -70,7 +70,7 @@ syl
   const Base<typename T1::elem_type,T1>& in_A,
   const Base<typename T1::elem_type,T2>& in_B,
   const Base<typename T1::elem_type,T3>& in_C,
-  const typename arma_blas_type_only<typename T1::elem_type>::result* junk = nullptr
+  const typename arma_blas_real_or_cx_only<typename T1::elem_type>::result* junk = nullptr
   )
   {
   arma_ignore(junk);
@@ -89,7 +89,7 @@ sylvester
   const Base<typename T1::elem_type,T1>& in_A,
   const Base<typename T1::elem_type,T2>& in_B,
   const Base<typename T1::elem_type,T3>& in_C,
-  const typename arma_blas_type_only<typename T1::elem_type>::result* junk = nullptr
+  const typename arma_blas_real_or_cx_only<typename T1::elem_type>::result* junk = nullptr
   )
   {
   arma_debug_sigprint();
@@ -130,7 +130,7 @@ syl
   const Base<typename T1::elem_type,T1>& in_A,
   const Base<typename T1::elem_type,T2>& in_B,
   const Base<typename T1::elem_type,T3>& in_C,
-  const typename arma_blas_type_only<typename T1::elem_type>::result* junk = nullptr
+  const typename arma_blas_real_or_cx_only<typename T1::elem_type>::result* junk = nullptr
   )
   {
   arma_ignore(junk);
