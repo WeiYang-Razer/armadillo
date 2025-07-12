@@ -24,10 +24,10 @@
 template<typename eT>
 struct norm2est_randu_filler
   {
-  typedef typename promote_type<eT, float>::result eTp;
+  typedef typename promote_type<eT, float>::result eT_promoted;
   
-  std::mt19937_64                     local_engine;
-  std::uniform_real_distribution<eTp> local_u_distr;
+  std::mt19937_64                             local_engine;
+  std::uniform_real_distribution<eT_promoted> local_u_distr;
   
   inline norm2est_randu_filler();
   
@@ -38,10 +38,10 @@ struct norm2est_randu_filler
 template<typename T>
 struct norm2est_randu_filler< std::complex<T> >
   {
-  typedef typename promote_type<T, float>::result Tp;
+  typedef typename promote_type<T, float>::result T_promoted;
   
-  std::mt19937_64                    local_engine;
-  std::uniform_real_distribution<Tp> local_u_distr;
+  std::mt19937_64                            local_engine;
+  std::uniform_real_distribution<T_promoted> local_u_distr;
   
   inline norm2est_randu_filler();
   
