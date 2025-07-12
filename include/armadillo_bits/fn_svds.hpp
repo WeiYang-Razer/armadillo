@@ -150,7 +150,7 @@ svds_helper
   const uword                              k,
   const typename T1::pod_type              tol,
   const bool                               calc_UV,
-  const typename arma_cx_only<typename T1::elem_type>::result* junk = nullptr
+  const typename arma_blas_cx_only<typename T1::elem_type>::result* junk = nullptr
   )
   {
   arma_debug_sigprint();
