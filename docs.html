@@ -18598,18 +18598,20 @@ Convenience short forms (typedefs) for IEEE half-precision floating point elemen
 </li>
 <br>
 <li>
-To enable automatic support for <code>fp16</code> element types, <b>both</b> of the following are necessary:
+Support for <code>fp16</code> element types is automatically enabled if <b>both</b> of the following conditions are satisfied:
+<br>
 <br>
 <ul>
-<li>support for the C++23 standard in your compiler</li>
+<li>the C++23 standard (or newer) is enabled in your C++ compiler</li>
 <ul>
 <li>use <code>-std=c++23</code> when compiling with gcc or clang</li>
 </ul>
-<li>hardware support for native FP16 arithmetic:
+<br>
+<li>hardware support for native FP16 arithmetic is detected
 <ul>
-<li>ARM CPUs with the <code>+fp16</code> feature; typically found on ARMv8.2-A+ devices</li>
-<li>x86-64 CPUs with the AVX512-FP16 instruction set extension</li>
-<li>use <code>-march=native</code> when compiling with gcc or clang
+<li>use <code>-march=native</code> when compiling with gcc or clang; this enables use of all available instructions on your CPU
+<li>native FP16 arithmetic is present on x86-64 CPUs with the AVX512-FP16 instruction set extension</li>
+<li>native FP16 arithmetic is present on ARM CPUs with the <code>+fp16</code> feature; typically found on ARMv8.2-A+ devices</li>
 </ul>
 </li>
 <br>
@@ -18619,7 +18621,8 @@ If no compiler or hardware support is detected, support for <code>fp16</code> el
 </li>
 <br>
 <li>
-To force the use of (possibly software emulated) <code>fp16</code> element types, define <code>ARMA_FORCE_USE_FP16</code> before including the armadillo header
+To force the use of (possibly software emulated) <code>fp16</code> element types, 
+define <a href="#config_hpp_arma_force_use_fp16"><code>ARMA_FORCE_USE_FP16</code></a> before including the armadillo header
 </li>
 <br>
 <li>
@@ -20280,6 +20283,54 @@ Automatically enabled when using a 64-bit platform, except when using Armadillo 
 Useful if matrices/vectors capable of holding more than 4 billion elements are required.
 This can also be enabled by adding <code>#define&nbsp;ARMA_64BIT_WORD</code> before each instance of <code>#include&nbsp;&lt;armadillo&gt;</code>.
 <br>See also the <code>ARMA_BLAS_LONG_LONG</code> option.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top;">
+<a name="config_hpp_arma_force_use_fp16"></a>
+<code>ARMA_FORCE_USE_FP16</code>
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+    Force the use of <a href="#fp16_type"><code>fp16</code></a> and <a href="#fp16_type"><code>cx_fp16</code></a> element types even if harware supported is not detected.
+    Note that C++23 is also required for <code>fp16</code> and <code>cx_fp16</code>.
+    Support for fp16 element types is automatically enabled if hardware and compiler support is present.
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top;">
+<a name="config_hpp_arma_force_use_fp16"></a>
+<code>ARMA_DONT_USE_FP16</code>
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+    Disable use of <a href="#fp16_type"><code>fp16</code></a> and <a href="#fp16_type"><code>cx_fp16</code></a> element types.
     </td>
   </tr>
   <tr>
