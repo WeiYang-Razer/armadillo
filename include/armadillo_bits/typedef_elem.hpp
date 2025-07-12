@@ -136,6 +136,7 @@ typedef void* void_ptr;
 #undef ARMA_HAVE_FP16
 #undef ARMA_GOOD_FP16
 
+#if !defined(ARMA_DONT_USE_FP16)
 #if defined(ARMA_HAVE_CXX23)
   
   #if defined(__aarch64__)
@@ -178,6 +179,7 @@ typedef void* void_ptr;
     #pragma message ("WARNING: C++23 required for fp16 support")
   #endif
   
+#endif
 #endif
 
 

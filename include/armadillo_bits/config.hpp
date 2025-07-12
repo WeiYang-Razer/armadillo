@@ -147,6 +147,12 @@
 //// Note that ARMA_64BIT_WORD is automatically enabled when std::size_t has 64 bits and ARMA_32BIT_WORD is not defined.
 #endif
 
+#if !defined(ARMA_FORCE_USE_FP16)
+// #define ARMA_FORCE_USE_FP16
+//// Uncomment the above line to force the use of fp16 and cx_fp16 element types even if hardware support is not detected.
+//// NOTE: C++23 is also required for fp16 and cx_fp16.
+#endif
+
 #if !defined(ARMA_OPTIMISE_BAND)
   #define ARMA_OPTIMISE_BAND
   //// Comment out the above line to disable optimised handling
@@ -301,6 +307,10 @@
 
 #if defined(ARMA_32BIT_WORD)
   #undef ARMA_64BIT_WORD
+#endif
+
+#if defined(ARMA_DONT_USE_FP16)
+  #undef ARMA_FORCE_USE_FP16
 #endif
 
 #if (defined(ARMA_BLAS_LONG_LONG) && defined(ARMA_USE_WRAPPER))
