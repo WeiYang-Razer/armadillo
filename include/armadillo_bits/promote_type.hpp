@@ -37,34 +37,59 @@ struct is_promotable_ok
 template<typename T> struct is_promotable<T,               T> : public is_promotable_ok { typedef T               result; };
 template<typename T> struct is_promotable<std::complex<T>, T> : public is_promotable_ok { typedef std::complex<T> result; };
 
+
 template<> struct is_promotable<std::complex<double>, std::complex<float>> : public is_promotable_ok { typedef std::complex<double> result; };
-template<> struct is_promotable<std::complex<double>, float>               : public is_promotable_ok { typedef std::complex<double> result; };
+template<> struct is_promotable<std::complex<double>, float              > : public is_promotable_ok { typedef std::complex<double> result; };
+template<> struct is_promotable<std::complex<double>, u64                > : public is_promotable_ok { typedef std::complex<double> result; };
+template<> struct is_promotable<std::complex<double>, s64                > : public is_promotable_ok { typedef std::complex<double> result; };
+template<> struct is_promotable<std::complex<double>, ulng_t             > : public is_promotable_ok { typedef std::complex<double> result; };
+template<> struct is_promotable<std::complex<double>, slng_t             > : public is_promotable_ok { typedef std::complex<double> result; };
+template<> struct is_promotable<std::complex<double>, s32                > : public is_promotable_ok { typedef std::complex<double> result; };
+template<> struct is_promotable<std::complex<double>, u32                > : public is_promotable_ok { typedef std::complex<double> result; };
+template<> struct is_promotable<std::complex<double>, s16                > : public is_promotable_ok { typedef std::complex<double> result; };
+template<> struct is_promotable<std::complex<double>, u16                > : public is_promotable_ok { typedef std::complex<double> result; };
+template<> struct is_promotable<std::complex<double>, s8                 > : public is_promotable_ok { typedef std::complex<double> result; };
+template<> struct is_promotable<std::complex<double>, u8                 > : public is_promotable_ok { typedef std::complex<double> result; };
 #if defined(ARMA_HAVE_FP16)
-template<> struct is_promotable<std::complex<double>, fp16>                : public is_promotable_ok { typedef std::complex<double> result; };
+template<> struct is_promotable<std::complex<double>, std::complex<fp16> > : public is_promotable_ok { typedef std::complex<double> result; };
+template<> struct is_promotable<std::complex<double>, fp16               > : public is_promotable_ok { typedef std::complex<double> result; };
 #endif
 
-template<> struct is_promotable<std::complex<float>,  double>              : public is_promotable_ok { typedef std::complex<double> result; };
-#if defined(ARMA_HAVE_FP16)
-template<> struct is_promotable<std::complex<float>,  fp16>                : public is_promotable_ok { typedef std::complex<float> result; };
+
+template<> struct is_promotable<std::complex<float>, double             > : public is_promotable_ok { typedef std::complex<double> result; };
+template<> struct is_promotable<std::complex<float>, u64                > : public is_promotable_ok { typedef std::complex<float>  result; };
+template<> struct is_promotable<std::complex<float>, s64                > : public is_promotable_ok { typedef std::complex<float>  result; };
+template<> struct is_promotable<std::complex<float>, ulng_t             > : public is_promotable_ok { typedef std::complex<float>  result; };
+template<> struct is_promotable<std::complex<float>, slng_t             > : public is_promotable_ok { typedef std::complex<float>  result; };
+template<> struct is_promotable<std::complex<float>, s32                > : public is_promotable_ok { typedef std::complex<float>  result; };
+template<> struct is_promotable<std::complex<float>, u32                > : public is_promotable_ok { typedef std::complex<float>  result; };
+template<> struct is_promotable<std::complex<float>, s16                > : public is_promotable_ok { typedef std::complex<float>  result; };
+template<> struct is_promotable<std::complex<float>, u16                > : public is_promotable_ok { typedef std::complex<float>  result; };
+template<> struct is_promotable<std::complex<float>, s8                 > : public is_promotable_ok { typedef std::complex<float>  result; };
+template<> struct is_promotable<std::complex<float>, u8                 > : public is_promotable_ok { typedef std::complex<float>  result; };
+#if defined(ARMA_HAVE_FP16)                                                                                                        
+template<> struct is_promotable<std::complex<float>, std::complex<fp16> > : public is_promotable_ok { typedef std::complex<float>  result; };
+template<> struct is_promotable<std::complex<float>, fp16               > : public is_promotable_ok { typedef std::complex<float>  result; };
 #endif
 
 
-template<typename t> struct is_promotable<std::complex<t>, u64>    : public is_promotable_ok { typedef std::complex<t> result; };
-template<typename t> struct is_promotable<std::complex<t>, s64>    : public is_promotable_ok { typedef std::complex<t> result; };
-template<typename t> struct is_promotable<std::complex<t>, ulng_t> : public is_promotable_ok { typedef std::complex<t> result; };
-template<typename t> struct is_promotable<std::complex<t>, slng_t> : public is_promotable_ok { typedef std::complex<t> result; };
-template<typename T> struct is_promotable<std::complex<T>, s32>    : public is_promotable_ok { typedef std::complex<T> result; };
-template<typename T> struct is_promotable<std::complex<T>, u32>    : public is_promotable_ok { typedef std::complex<T> result; };
-template<typename T> struct is_promotable<std::complex<T>, s16>    : public is_promotable_ok { typedef std::complex<T> result; };
-template<typename T> struct is_promotable<std::complex<T>, u16>    : public is_promotable_ok { typedef std::complex<T> result; };
-template<typename T> struct is_promotable<std::complex<T>, s8>     : public is_promotable_ok { typedef std::complex<T> result; };
-template<typename T> struct is_promotable<std::complex<T>, u8>     : public is_promotable_ok { typedef std::complex<T> result; };
+#if defined(ARMA_HAVE_FP16)
+template<> struct is_promotable<std::complex<fp16>, double> : public is_promotable_ok { typedef std::complex<double> result; };
+template<> struct is_promotable<std::complex<fp16>, float>  : public is_promotable_ok { typedef std::complex<float>  result; };
+template<> struct is_promotable<std::complex<fp16>, u64>    : public is_promotable_ok { typedef std::complex<float>  result; };
+template<> struct is_promotable<std::complex<fp16>, s64>    : public is_promotable_ok { typedef std::complex<float>  result; };
+template<> struct is_promotable<std::complex<fp16>, ulng_t> : public is_promotable_ok { typedef std::complex<float>  result; };
+template<> struct is_promotable<std::complex<fp16>, slng_t> : public is_promotable_ok { typedef std::complex<float>  result; };
+template<> struct is_promotable<std::complex<fp16>, s32>    : public is_promotable_ok { typedef std::complex<float>  result; };
+template<> struct is_promotable<std::complex<fp16>, u32>    : public is_promotable_ok { typedef std::complex<float>  result; };
+template<> struct is_promotable<std::complex<fp16>, s16>    : public is_promotable_ok { typedef std::complex<fp16>   result; };
+template<> struct is_promotable<std::complex<fp16>, u16>    : public is_promotable_ok { typedef std::complex<float>  result; };
+template<> struct is_promotable<std::complex<fp16>, s8>     : public is_promotable_ok { typedef std::complex<fp16>   result; };
+template<> struct is_promotable<std::complex<fp16>, u8>     : public is_promotable_ok { typedef std::complex<fp16>   result; };
+#endif
 
 
 template<> struct is_promotable<double, float > : public is_promotable_ok { typedef double result; };
-#if defined(ARMA_HAVE_FP16)
-template<> struct is_promotable<double, fp16  > : public is_promotable_ok { typedef double result; };
-#endif
 template<> struct is_promotable<double, s64   > : public is_promotable_ok { typedef double result; };
 template<> struct is_promotable<double, u64   > : public is_promotable_ok { typedef double result; };
 template<> struct is_promotable<double, slng_t> : public is_promotable_ok { typedef double result; };
@@ -75,10 +100,11 @@ template<> struct is_promotable<double, s16   > : public is_promotable_ok { type
 template<> struct is_promotable<double, u16   > : public is_promotable_ok { typedef double result; };
 template<> struct is_promotable<double, s8    > : public is_promotable_ok { typedef double result; };
 template<> struct is_promotable<double, u8    > : public is_promotable_ok { typedef double result; };
-
 #if defined(ARMA_HAVE_FP16)
-template<> struct is_promotable<float, fp16  > : public is_promotable_ok { typedef float result; };
+template<> struct is_promotable<double, fp16  > : public is_promotable_ok { typedef double result; };
 #endif
+
+
 template<> struct is_promotable<float, s64   > : public is_promotable_ok { typedef float result; };
 template<> struct is_promotable<float, u64   > : public is_promotable_ok { typedef float result; };
 template<> struct is_promotable<float, slng_t> : public is_promotable_ok { typedef float result; };
@@ -89,24 +115,29 @@ template<> struct is_promotable<float, s16   > : public is_promotable_ok { typed
 template<> struct is_promotable<float, u16   > : public is_promotable_ok { typedef float result; };
 template<> struct is_promotable<float, s8    > : public is_promotable_ok { typedef float result; };
 template<> struct is_promotable<float, u8    > : public is_promotable_ok { typedef float result; };
+#if defined(ARMA_HAVE_FP16)
+template<> struct is_promotable<float, fp16  > : public is_promotable_ok { typedef float result; };
+#endif
+
 
 #if defined(ARMA_HAVE_FP16)
-// FP16 can only represent [-65504, 65504] so there are some cases where we have to go up!
 template<> struct is_promotable<fp16, s64   > : public is_promotable_ok { typedef float result; };
 template<> struct is_promotable<fp16, u64   > : public is_promotable_ok { typedef float result; };
 template<> struct is_promotable<fp16, slng_t> : public is_promotable_ok { typedef float result; };
 template<> struct is_promotable<fp16, ulng_t> : public is_promotable_ok { typedef float result; };
 template<> struct is_promotable<fp16, s32   > : public is_promotable_ok { typedef float result; };
 template<> struct is_promotable<fp16, u32   > : public is_promotable_ok { typedef float result; };
-template<> struct is_promotable<fp16, s16   > : public is_promotable_ok { typedef fp16 result; };
-template<> struct is_promotable<fp16, u16   > : public is_promotable_ok { typedef fp16 result; }; // very technically could not hold extreme u16s
-template<> struct is_promotable<fp16, s8    > : public is_promotable_ok { typedef fp16 result; };
-template<> struct is_promotable<fp16, u8    > : public is_promotable_ok { typedef fp16 result; };
+template<> struct is_promotable<fp16, s16   > : public is_promotable_ok { typedef fp16  result; };
+template<> struct is_promotable<fp16, u16   > : public is_promotable_ok { typedef float result; };
+template<> struct is_promotable<fp16, s8    > : public is_promotable_ok { typedef fp16  result; };
+template<> struct is_promotable<fp16, u8    > : public is_promotable_ok { typedef fp16  result; };
 #endif
+
 
 template<> struct is_promotable<u64, u32> : public is_promotable_ok { typedef u64 result; };
 template<> struct is_promotable<u64, u16> : public is_promotable_ok { typedef u64 result; };
 template<> struct is_promotable<u64, u8 > : public is_promotable_ok { typedef u64 result; };
+
 
 template<> struct is_promotable<s64, u64> : public is_promotable_ok { typedef s64 result; };  // float ?  
 template<> struct is_promotable<s64, u32> : public is_promotable_ok { typedef s64 result; };
@@ -116,23 +147,28 @@ template<> struct is_promotable<s64, u16> : public is_promotable_ok { typedef s6
 template<> struct is_promotable<s64, s8 > : public is_promotable_ok { typedef s64 result; };
 template<> struct is_promotable<s64, u8 > : public is_promotable_ok { typedef s64 result; };
 
+
 template<> struct is_promotable<s32, u32> : public is_promotable_ok { typedef s32 result; };  // float ?  
 template<> struct is_promotable<s32, s16> : public is_promotable_ok { typedef s32 result; };
 template<> struct is_promotable<s32, u16> : public is_promotable_ok { typedef s32 result; };
 template<> struct is_promotable<s32, s8 > : public is_promotable_ok { typedef s32 result; };
 template<> struct is_promotable<s32, u8 > : public is_promotable_ok { typedef s32 result; };
 
+
 template<> struct is_promotable<u32, s16> : public is_promotable_ok { typedef s32 result; };  // float ?
 template<> struct is_promotable<u32, u16> : public is_promotable_ok { typedef u32 result; };
 template<> struct is_promotable<u32, s8 > : public is_promotable_ok { typedef s32 result; };  // float ?
 template<> struct is_promotable<u32, u8 > : public is_promotable_ok { typedef u32 result; };
 
+
 template<> struct is_promotable<s16, u16> : public is_promotable_ok { typedef s16 result; };  // s32 ?
 template<> struct is_promotable<s16, s8 > : public is_promotable_ok { typedef s16 result; };
 template<> struct is_promotable<s16, u8 > : public is_promotable_ok { typedef s16 result; };
 
+
 template<> struct is_promotable<u16, s8> : public is_promotable_ok { typedef s16 result; };  // s32 ?
 template<> struct is_promotable<u16, u8> : public is_promotable_ok { typedef u16 result; };
+
 
 template<> struct is_promotable<s8, u8> : public is_promotable_ok { typedef s8 result; };  // s16 ?
 
@@ -144,33 +180,59 @@ template<> struct is_promotable<s8, u8> : public is_promotable_ok { typedef s8 r
 
 template<typename T> struct is_promotable<T, std::complex<T>> : public is_promotable_ok { typedef std::complex<T> result; };
 
+
 template<> struct is_promotable<std::complex<float>, std::complex<double>> : public is_promotable_ok { typedef std::complex<double> result; };
 template<> struct is_promotable<float,               std::complex<double>> : public is_promotable_ok { typedef std::complex<double> result; };
+template<> struct is_promotable<s64,                 std::complex<double>> : public is_promotable_ok { typedef std::complex<double> result; };
+template<> struct is_promotable<u64,                 std::complex<double>> : public is_promotable_ok { typedef std::complex<double> result; };
+template<> struct is_promotable<slng_t,              std::complex<double>> : public is_promotable_ok { typedef std::complex<double> result; };
+template<> struct is_promotable<ulng_t,              std::complex<double>> : public is_promotable_ok { typedef std::complex<double> result; };
+template<> struct is_promotable<s32,                 std::complex<double>> : public is_promotable_ok { typedef std::complex<double> result; };
+template<> struct is_promotable<u32,                 std::complex<double>> : public is_promotable_ok { typedef std::complex<double> result; };
+template<> struct is_promotable<s16,                 std::complex<double>> : public is_promotable_ok { typedef std::complex<double> result; };
+template<> struct is_promotable<u16,                 std::complex<double>> : public is_promotable_ok { typedef std::complex<double> result; };
+template<> struct is_promotable<s8,                  std::complex<double>> : public is_promotable_ok { typedef std::complex<double> result; };
+template<> struct is_promotable<u8,                  std::complex<double>> : public is_promotable_ok { typedef std::complex<double> result; };
 #if defined(ARMA_HAVE_FP16)
+template<> struct is_promotable<std::complex<fp16>,  std::complex<double>> : public is_promotable_ok { typedef std::complex<double> result; };
 template<> struct is_promotable<fp16,                std::complex<double>> : public is_promotable_ok { typedef std::complex<double> result; };
 #endif
 
-template<> struct is_promotable<double,              std::complex<float> > : public is_promotable_ok { typedef std::complex<double> result; };
+
+template<> struct is_promotable<double,             std::complex<float>> : public is_promotable_ok { typedef std::complex<double> result; };
+template<> struct is_promotable<s64,                std::complex<float>> : public is_promotable_ok { typedef std::complex<float>  result; };
+template<> struct is_promotable<u64,                std::complex<float>> : public is_promotable_ok { typedef std::complex<float>  result; };
+template<> struct is_promotable<slng_t,             std::complex<float>> : public is_promotable_ok { typedef std::complex<float>  result; };
+template<> struct is_promotable<ulng_t,             std::complex<float>> : public is_promotable_ok { typedef std::complex<float>  result; };
+template<> struct is_promotable<s32,                std::complex<float>> : public is_promotable_ok { typedef std::complex<float>  result; };
+template<> struct is_promotable<u32,                std::complex<float>> : public is_promotable_ok { typedef std::complex<float>  result; };
+template<> struct is_promotable<s16,                std::complex<float>> : public is_promotable_ok { typedef std::complex<float>  result; };
+template<> struct is_promotable<u16,                std::complex<float>> : public is_promotable_ok { typedef std::complex<float>  result; };
+template<> struct is_promotable<s8,                 std::complex<float>> : public is_promotable_ok { typedef std::complex<float>  result; };
+template<> struct is_promotable<u8,                 std::complex<float>> : public is_promotable_ok { typedef std::complex<float>  result; };
 #if defined(ARMA_HAVE_FP16)
-template<> struct is_promotable<fp16,                std::complex<float> > : public is_promotable_ok { typedef std::complex<float> result;  };
+template<> struct is_promotable<std::complex<fp16>, std::complex<float>> : public is_promotable_ok { typedef std::complex<float> result;  };
+template<> struct is_promotable<fp16,               std::complex<float>> : public is_promotable_ok { typedef std::complex<float> result;  };
 #endif
 
-template<typename T> struct is_promotable<s64,    std::complex<T>> : public is_promotable_ok { typedef std::complex<T> result; };
-template<typename T> struct is_promotable<u64,    std::complex<T>> : public is_promotable_ok { typedef std::complex<T> result; };
-template<typename T> struct is_promotable<slng_t, std::complex<T>> : public is_promotable_ok { typedef std::complex<T> result; };
-template<typename T> struct is_promotable<ulng_t, std::complex<T>> : public is_promotable_ok { typedef std::complex<T> result; };
-template<typename T> struct is_promotable<s32,    std::complex<T>> : public is_promotable_ok { typedef std::complex<T> result; };
-template<typename T> struct is_promotable<u32,    std::complex<T>> : public is_promotable_ok { typedef std::complex<T> result; };
-template<typename T> struct is_promotable<s16,    std::complex<T>> : public is_promotable_ok { typedef std::complex<T> result; };
-template<typename T> struct is_promotable<u16,    std::complex<T>> : public is_promotable_ok { typedef std::complex<T> result; };
-template<typename T> struct is_promotable<s8,     std::complex<T>> : public is_promotable_ok { typedef std::complex<T> result; };
-template<typename T> struct is_promotable<u8,     std::complex<T>> : public is_promotable_ok { typedef std::complex<T> result; };
+
+#if defined(ARMA_HAVE_FP16)
+template<> struct is_promotable<double, std::complex<fp16>> : public is_promotable_ok { typedef std::complex<double> result; };
+template<> struct is_promotable<float,  std::complex<fp16>> : public is_promotable_ok { typedef std::complex<float>  result; };
+template<> struct is_promotable<s64,    std::complex<fp16>> : public is_promotable_ok { typedef std::complex<float>  result; };
+template<> struct is_promotable<u64,    std::complex<fp16>> : public is_promotable_ok { typedef std::complex<float>  result; };
+template<> struct is_promotable<slng_t, std::complex<fp16>> : public is_promotable_ok { typedef std::complex<float>  result; };
+template<> struct is_promotable<ulng_t, std::complex<fp16>> : public is_promotable_ok { typedef std::complex<float>  result; };
+template<> struct is_promotable<s32,    std::complex<fp16>> : public is_promotable_ok { typedef std::complex<float>  result; };
+template<> struct is_promotable<u32,    std::complex<fp16>> : public is_promotable_ok { typedef std::complex<float>  result; };
+template<> struct is_promotable<s16,    std::complex<fp16>> : public is_promotable_ok { typedef std::complex<fp16>   result; };
+template<> struct is_promotable<u16,    std::complex<fp16>> : public is_promotable_ok { typedef std::complex<float>  result; };
+template<> struct is_promotable<s8,     std::complex<fp16>> : public is_promotable_ok { typedef std::complex<fp16>   result; };
+template<> struct is_promotable<u8,     std::complex<fp16>> : public is_promotable_ok { typedef std::complex<fp16>   result; };
+#endif
 
 
 template<> struct is_promotable<float,  double> : public is_promotable_ok { typedef double result; };
-#if defined(ARMA_HAVE_FP16)
-template<> struct is_promotable<fp16,   double> : public is_promotable_ok { typedef double result; };
-#endif
 template<> struct is_promotable<s64,    double> : public is_promotable_ok { typedef double result; };
 template<> struct is_promotable<u64,    double> : public is_promotable_ok { typedef double result; };
 template<> struct is_promotable<slng_t, double> : public is_promotable_ok { typedef double result; };
@@ -181,10 +243,11 @@ template<> struct is_promotable<s16,    double> : public is_promotable_ok { type
 template<> struct is_promotable<u16,    double> : public is_promotable_ok { typedef double result; };
 template<> struct is_promotable<s8,     double> : public is_promotable_ok { typedef double result; };
 template<> struct is_promotable<u8,     double> : public is_promotable_ok { typedef double result; };
-
 #if defined(ARMA_HAVE_FP16)
-template<> struct is_promotable<fp16,   float> : public is_promotable_ok { typedef float result; };
+template<> struct is_promotable<fp16,   double> : public is_promotable_ok { typedef double result; };
 #endif
+
+
 template<> struct is_promotable<s64,    float> : public is_promotable_ok { typedef float result; };
 template<> struct is_promotable<u64,    float> : public is_promotable_ok { typedef float result; };
 template<> struct is_promotable<slng_t, float> : public is_promotable_ok { typedef float result; };
@@ -195,6 +258,10 @@ template<> struct is_promotable<s16,    float> : public is_promotable_ok { typed
 template<> struct is_promotable<u16,    float> : public is_promotable_ok { typedef float result; };
 template<> struct is_promotable<s8,     float> : public is_promotable_ok { typedef float result; };
 template<> struct is_promotable<u8,     float> : public is_promotable_ok { typedef float result; };
+#if defined(ARMA_HAVE_FP16)
+template<> struct is_promotable<fp16,   float> : public is_promotable_ok { typedef float result; };
+#endif
+
 
 #if defined(ARMA_HAVE_FP16)
 template<> struct is_promotable<s64,    fp16> : public is_promotable_ok { typedef float result; };
@@ -203,15 +270,17 @@ template<> struct is_promotable<slng_t, fp16> : public is_promotable_ok { typede
 template<> struct is_promotable<ulng_t, fp16> : public is_promotable_ok { typedef float result; };
 template<> struct is_promotable<s32,    fp16> : public is_promotable_ok { typedef float result; };
 template<> struct is_promotable<u32,    fp16> : public is_promotable_ok { typedef float result; };
-template<> struct is_promotable<s16,    fp16> : public is_promotable_ok { typedef fp16 result; };
-template<> struct is_promotable<u16,    fp16> : public is_promotable_ok { typedef fp16 result; };
-template<> struct is_promotable<s8,     fp16> : public is_promotable_ok { typedef fp16 result; };
-template<> struct is_promotable<u8,     fp16> : public is_promotable_ok { typedef fp16 result; };
+template<> struct is_promotable<s16,    fp16> : public is_promotable_ok { typedef fp16  result; };
+template<> struct is_promotable<u16,    fp16> : public is_promotable_ok { typedef float result; };
+template<> struct is_promotable<s8,     fp16> : public is_promotable_ok { typedef fp16  result; };
+template<> struct is_promotable<u8,     fp16> : public is_promotable_ok { typedef fp16  result; };
 #endif
+
 
 template<> struct is_promotable<u32, u64> : public is_promotable_ok { typedef u64 result; };
 template<> struct is_promotable<u16, u64> : public is_promotable_ok { typedef u64 result; };
 template<> struct is_promotable<u8,  u64> : public is_promotable_ok { typedef u64 result; };
+
 
 template<> struct is_promotable<u64, s64> : public is_promotable_ok { typedef s64 result; };  // float ?  
 template<> struct is_promotable<s32, s64> : public is_promotable_ok { typedef s64 result; };
@@ -221,23 +290,28 @@ template<> struct is_promotable<u16, s64> : public is_promotable_ok { typedef s6
 template<> struct is_promotable<s8 , s64> : public is_promotable_ok { typedef s64 result; };
 template<> struct is_promotable<u8 , s64> : public is_promotable_ok { typedef s64 result; };
 
+
 template<> struct is_promotable<u32, s32> : public is_promotable_ok { typedef s32 result; };  // float ?  
 template<> struct is_promotable<s16, s32> : public is_promotable_ok { typedef s32 result; };
 template<> struct is_promotable<u16, s32> : public is_promotable_ok { typedef s32 result; };
 template<> struct is_promotable<s8 , s32> : public is_promotable_ok { typedef s32 result; };
 template<> struct is_promotable<u8 , s32> : public is_promotable_ok { typedef s32 result; };
 
+
 template<> struct is_promotable<s16, u32> : public is_promotable_ok { typedef s32 result; };  // float ?
 template<> struct is_promotable<u16, u32> : public is_promotable_ok { typedef u32 result; };
 template<> struct is_promotable<s8 , u32> : public is_promotable_ok { typedef s32 result; };  // float ?
 template<> struct is_promotable<u8 , u32> : public is_promotable_ok { typedef u32 result; };
 
+
 template<> struct is_promotable<u16, s16> : public is_promotable_ok { typedef s16 result; };  // s32 ?
 template<> struct is_promotable<s8 , s16> : public is_promotable_ok { typedef s16 result; };
 template<> struct is_promotable<u8 , s16> : public is_promotable_ok { typedef s16 result; };
 
+
 template<> struct is_promotable<s8, u16> : public is_promotable_ok { typedef s16 result; };  // s32 ?
 template<> struct is_promotable<u8, u16> : public is_promotable_ok { typedef u16 result; };
+
 
 template<> struct is_promotable<u8, s8> : public is_promotable_ok { typedef s8 result; };  // s16 ?
 

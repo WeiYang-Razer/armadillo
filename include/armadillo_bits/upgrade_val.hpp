@@ -134,7 +134,6 @@ struct upgrade_val< std::complex<double>, std::complex<float> >
   };
 
 
-//! work around limitations in the complex class (at least as present in gcc 4.1 & 4.3)
 template<>
 struct upgrade_val< std::complex<double>, float >
   {
@@ -155,6 +154,98 @@ struct upgrade_val< float, std::complex<double> >
   arma_inline static       double                apply(const float x)                 { return double(x); }
   arma_inline static const std::complex<double>& apply(const std::complex<double>& x) { return x; }
   };
+
+
+#if defined(ARMA_HAVE_FP16)
+
+template<>
+struct upgrade_val< std::complex<fp16>, std::complex<double> >
+  {
+  typedef std::complex<double> T1_result;
+  typedef std::complex<double> T2_result;
+  
+  arma_inline static const std::complex<double>  apply(const std::complex<fp16>&   x) { return std::complex<double>(x); }
+  arma_inline static const std::complex<double>& apply(const std::complex<double>& x) { return x; }
+  };
+
+
+template<>
+struct upgrade_val< std::complex<double>, std::complex<fp16> >
+  {
+  typedef std::complex<double> T1_result;
+  typedef std::complex<double> T2_result;
+  
+  arma_inline static const std::complex<double>& apply(const std::complex<double>& x) { return x; }
+  arma_inline static const std::complex<double>  apply(const std::complex<fp16>&   x) { return std::complex<double>(x); }
+  };
+
+
+template<>
+struct upgrade_val< std::complex<fp16>, std::complex<float> >
+  {
+  typedef std::complex<float> T1_result;
+  typedef std::complex<float> T2_result;
+  
+  arma_inline static const std::complex<float>  apply(const std::complex<fp16>&  x) { return std::complex<float>(x); }
+  arma_inline static const std::complex<float>& apply(const std::complex<float>& x) { return x; }
+  };
+
+
+template<>
+struct upgrade_val< std::complex<float>, std::complex<fp16> >
+  {
+  typedef std::complex<float> T1_result;
+  typedef std::complex<float> T2_result;
+  
+  arma_inline static const std::complex<float>& apply(const std::complex<float>& x) { return x; }
+  arma_inline static const std::complex<float>  apply(const std::complex<fp16>&  x) { return std::complex<float>(x); }
+  };
+
+
+template<>
+struct upgrade_val< std::complex<double>, fp16 >
+  {
+  typedef std::complex<double> T1_result;
+  typedef double               T2_result;
+  
+  arma_inline static const std::complex<double>& apply(const std::complex<double>& x) { return x; }
+  arma_inline static       double                apply(const fp16 x)                  { return double(x); }
+  };
+
+
+template<>
+struct upgrade_val< fp16, std::complex<double> >
+  {
+  typedef double               T1_result;
+  typedef std::complex<double> T2_result;
+  
+  arma_inline static       double                apply(const fp16 x)                  { return double(x); }
+  arma_inline static const std::complex<double>& apply(const std::complex<double>& x) { return x; }
+  };
+
+
+template<>
+struct upgrade_val< std::complex<float>, fp16 >
+  {
+  typedef std::complex<float> T1_result;
+  typedef float               T2_result;
+  
+  arma_inline static const std::complex<float>& apply(const std::complex<float>& x) { return x; }
+  arma_inline static       float                apply(const fp16 x)                 { return float(x); }
+  };
+
+
+template<>
+struct upgrade_val< fp16, std::complex<float> >
+  {
+  typedef float               T1_result;
+  typedef std::complex<float> T2_result;
+  
+  arma_inline static       float                apply(const fp16 x)                 { return float(x); }
+  arma_inline static const std::complex<float>& apply(const std::complex<float>& x) { return x; }
+  };
+
+#endif
 
 
 
