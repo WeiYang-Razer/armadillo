@@ -390,12 +390,12 @@
   #undef ARMA_PRINT_EXCEPTIONS
 #endif
 
-#if defined(ARMA_CRIPPLED_LAPACK)
-  #pragma message ("NOTE: option ARMA_CRIPPLED_LAPACK is not supported")
-#endif
-
 #if defined(ARMA_IGNORE_DEPRECATED_MARKER)
   #pragma message ("NOTE: option ARMA_IGNORE_DEPRECATED_MARKER is not supported")
+#endif
+
+#if defined(ARMA_CRIPPLED_LAPACK)
+  #pragma message ("NOTE: option ARMA_CRIPPLED_LAPACK is not supported")
 #endif
 
 
