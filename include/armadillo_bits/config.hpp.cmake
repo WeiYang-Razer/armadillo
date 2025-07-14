@@ -381,12 +381,8 @@
   #undef ARMA_PRINT_EXCEPTIONS
 #endif
 
-#if defined(ARMA_NO_CRIPPLED_LAPACK)
-  #undef ARMA_CRIPPLED_LAPACK
-#endif
-
 #if defined(ARMA_CRIPPLED_LAPACK)
-  #pragma message ("WARNING: option ARMA_CRIPPLED_LAPACK is deprecated and will be removed")
+  #pragma message ("NOTE: option ARMA_CRIPPLED_LAPACK is not supported")
 #endif
 
 #if defined(ARMA_IGNORE_DEPRECATED_MARKER)
