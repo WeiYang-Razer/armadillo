@@ -169,8 +169,8 @@ template<> struct arma_cx_only< cx_fp16   > { typedef cx_fp16   result; };
 
 template<typename T> struct arma_blas_cx_only { };
 
-template<> struct arma_blas_real_only< cx_float  > { typedef cx_float  result; };
-template<> struct arma_blas_real_only< cx_double > { typedef cx_double result; };
+template<> struct arma_blas_cx_only< cx_float  > { typedef cx_float  result; };
+template<> struct arma_blas_cx_only< cx_double > { typedef cx_double result; };
 
 
 
