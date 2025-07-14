@@ -7334,26 +7334,6 @@ auxlib::lu_rcond_band(const Mat< std::complex<T> >& AB, const uword KL, const uw
 
 
 
-template<typename T1>
-inline
-bool
-auxlib::crippled_lapack(const Base<typename T1::elem_type, T1>&)
-  {
-  #if defined(ARMA_CRIPPLED_LAPACK)
-    {
-    arma_debug_print("auxlib::crippled_lapack(): true");
-    
-    return (is_cx<typename T1::elem_type>::yes);
-    }
-  #else
-    {
-    return false;
-    }
-  #endif
-  }
-
-
-
 template<typename eT>
 inline
 bool

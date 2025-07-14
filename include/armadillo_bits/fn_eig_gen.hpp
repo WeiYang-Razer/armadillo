@@ -39,8 +39,6 @@ eig_gen
   
   arma_conform_check( ((sig != 'n') && (sig != 'b')), "eig_gen(): unknown option" );
   
-  if( auxlib::crippled_lapack(expr) && (sig == 'b') )  { arma_warn(1,  "eig_gen(): 'balance' option ignored due to linking with crippled lapack"); }
-  
   Col<eT> eigvals;
   Mat<eT> eigvecs;
   
@@ -76,8 +74,6 @@ eig_gen
   
   arma_conform_check( ((sig != 'n') && (sig != 'b')), "eig_gen(): unknown option" );
   
-  if( auxlib::crippled_lapack(expr) && (sig == 'b') )  { arma_warn(1,  "eig_gen(): 'balance' option ignored due to linking with crippled lapack"); }
-  
   Mat<eT> eigvecs;
   
   const bool status = (sig == 'b') ? auxlib::eig_gen_balance(eigvals, eigvecs, false, expr.get_ref()) : auxlib::eig_gen(eigvals, eigvecs, false, expr.get_ref());
@@ -111,8 +107,6 @@ eig_gen
   const char sig = (option != nullptr) ? option[0] : char(0);
   
   arma_conform_check( ((sig != 'n') && (sig != 'b')), "eig_gen(): unknown option" );
-  
-  if( auxlib::crippled_lapack(expr) && (sig == 'b') )  { arma_warn(1,  "eig_gen(): 'balance' option ignored due to linking with crippled lapack"); }
   
   const bool status = (sig == 'b') ? auxlib::eig_gen_balance(eigvals, eigvecs, true, expr.get_ref()) : auxlib::eig_gen(eigvals, eigvecs, true, expr.get_ref());
   
@@ -149,8 +143,6 @@ eig_gen
   const char sig = (option != nullptr) ? option[0] : char(0);
   
   arma_conform_check( ((sig != 'n') && (sig != 'b')), "eig_gen(): unknown option" );
-  
-  if( auxlib::crippled_lapack(expr) && (sig == 'b') )  { arma_warn(1,  "eig_gen(): 'balance' option ignored due to linking with crippled lapack"); }
   
   const bool status = (sig == 'b') ? auxlib::eig_gen_twosided_balance(eigvals, leigvecs, reigvecs, expr.get_ref()) : auxlib::eig_gen_twosided(eigvals, leigvecs, reigvecs, expr.get_ref());
   

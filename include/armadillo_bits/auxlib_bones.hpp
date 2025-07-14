@@ -458,9 +458,6 @@ class auxlib
   //
   // misc
   
-  template<typename T1>
-  inline static bool crippled_lapack(const Base<typename T1::elem_type, T1>&);
-  
   template<typename eT>
   inline static bool rudimentary_sym_check(const Mat<eT>& X);
   
