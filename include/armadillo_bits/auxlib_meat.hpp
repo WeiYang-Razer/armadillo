@@ -2686,30 +2686,6 @@ auxlib::chol_band(Mat<eT>& X, const uword KD, const uword layout)
   {
   arma_debug_sigprint();
   
-  return auxlib::chol_band_common(X, KD, layout);
-  }
-
-
-
-template<typename T>
-inline
-bool
-auxlib::chol_band(Mat< std::complex<T> >& X, const uword KD, const uword layout)
-  {
-  arma_debug_sigprint();
-  
-  return auxlib::chol_band_common(X, KD, layout);
-  }
-
-
-
-template<typename eT>
-inline
-bool
-auxlib::chol_band_common(Mat<eT>& X, const uword KD, const uword layout)
-  {
-  arma_debug_sigprint();
-  
   #if defined(ARMA_USE_LAPACK)
     {
     const uword N = X.n_rows;
@@ -4840,18 +4816,6 @@ auxlib::solve_sympd_fast(Mat<typename T1::elem_type>& out, Mat<typename T1::elem
   {
   arma_debug_sigprint();
   
-  return auxlib::solve_sympd_fast_common(out, A, B_expr);
-  }
-
-
-
-template<typename T1>
-inline
-bool
-auxlib::solve_sympd_fast_common(Mat<typename T1::elem_type>& out, Mat<typename T1::elem_type>& A, const Base<typename T1::elem_type,T1>& B_expr)
-  {
-  arma_debug_sigprint();
-  
   out = B_expr.get_ref();
   
   const uword B_n_rows = out.n_rows;
@@ -5771,37 +5735,11 @@ auxlib::solve_trimat_rcond(Mat<typename T1::elem_type>& out, typename T1::pod_ty
 
 
 
-//! solve a system of linear equations via LU decomposition (real band matrix)
-template<typename T1>
-inline
-bool
-auxlib::solve_band_fast(Mat<typename T1::pod_type>& out, Mat<typename T1::pod_type>& A, const uword KL, const uword KU, const Base<typename T1::pod_type,T1>& B_expr)
-  {
-  arma_debug_sigprint();
-  
-  return auxlib::solve_band_fast_common(out, A, KL, KU, B_expr);
-  }
-
-
-
-//! solve a system of linear equations via LU decomposition (complex band matrix)
-template<typename T1>
-inline
-bool
-auxlib::solve_band_fast(Mat< std::complex<typename T1::pod_type> >& out, Mat< std::complex<typename T1::pod_type> >& A, const uword KL, const uword KU, const Base< std::complex<typename T1::pod_type>,T1>& B_expr)
-  {
-  arma_debug_sigprint();
-  
-  return auxlib::solve_band_fast_common(out, A, KL, KU, B_expr);
-  }
-
-
-
 //! solve a system of linear equations via LU decomposition (band matrix)
 template<typename T1>
 inline
 bool
-auxlib::solve_band_fast_common(Mat<typename T1::elem_type>& out, const Mat<typename T1::elem_type>& A, const uword KL, const uword KU, const Base<typename T1::elem_type,T1>& B_expr)
+auxlib::solve_band_fast(Mat<typename T1::elem_type>& out, const Mat<typename T1::elem_type>& A, const uword KL, const uword KU, const Base<typename T1::elem_type,T1>& B_expr)
   {
   arma_debug_sigprint();
   
@@ -5859,37 +5797,11 @@ auxlib::solve_band_fast_common(Mat<typename T1::elem_type>& out, const Mat<typen
 
 
 
-//! solve a system of linear equations via LU decomposition (real band matrix)
-template<typename T1>
-inline
-bool
-auxlib::solve_band_rcond(Mat<typename T1::pod_type>& out, typename T1::pod_type& out_rcond, Mat<typename T1::pod_type>& A, const uword KL, const uword KU, const Base<typename T1::pod_type,T1>& B_expr)
-  {
-  arma_debug_sigprint();
-  
-  return auxlib::solve_band_rcond_common(out, out_rcond, A, KL, KU, B_expr);
-  }
-
-
-
-//! solve a system of linear equations via LU decomposition (complex band matrix)
-template<typename T1>
-inline
-bool
-auxlib::solve_band_rcond(Mat< std::complex<typename T1::pod_type> >& out, typename T1::pod_type& out_rcond, Mat< std::complex<typename T1::pod_type> >& A, const uword KL, const uword KU, const Base< std::complex<typename T1::pod_type>,T1>& B_expr)
-  {
-  arma_debug_sigprint();
-  
-  return auxlib::solve_band_rcond_common(out, out_rcond, A, KL, KU, B_expr);
-  }
-
-
-
 //! solve a system of linear equations via LU decomposition (band matrix)
 template<typename T1>
 inline
 bool
-auxlib::solve_band_rcond_common(Mat<typename T1::elem_type>& out, typename T1::pod_type& out_rcond, const Mat<typename T1::elem_type>& A, const uword KL, const uword KU, const Base<typename T1::elem_type,T1>& B_expr)
+auxlib::solve_band_rcond(Mat<typename T1::elem_type>& out, typename T1::pod_type& out_rcond, const Mat<typename T1::elem_type>& A, const uword KL, const uword KU, const Base<typename T1::elem_type,T1>& B_expr)
   {
   arma_debug_sigprint();
   
@@ -6157,37 +6069,11 @@ auxlib::solve_band_refine(Mat< std::complex<typename T1::pod_type> >& out, typen
 
 
 
-//! solve a system of linear equations via Gaussian elimination with partial pivoting (real tridiagonal band matrix)
-template<typename T1>
-inline
-bool
-auxlib::solve_tridiag_fast(Mat<typename T1::pod_type>& out, Mat<typename T1::pod_type>& A, const Base<typename T1::pod_type,T1>& B_expr)
-  {
-  arma_debug_sigprint();
-  
-  return auxlib::solve_tridiag_fast_common(out, A, B_expr);
-  }
-
-
-
-//! solve a system of linear equations via Gaussian elimination with partial pivoting (complex tridiagonal band matrix)
-template<typename T1>
-inline
-bool
-auxlib::solve_tridiag_fast(Mat< std::complex<typename T1::pod_type> >& out, Mat< std::complex<typename T1::pod_type> >& A, const Base< std::complex<typename T1::pod_type>,T1>& B_expr)
-  {
-  arma_debug_sigprint();
-  
-  return auxlib::solve_tridiag_fast_common(out, A, B_expr);
-  }
-
-
-
 //! solve a system of linear equations via Gaussian elimination with partial pivoting (tridiagonal band matrix)
 template<typename T1>
 inline
 bool
-auxlib::solve_tridiag_fast_common(Mat<typename T1::elem_type>& out, const Mat<typename T1::elem_type>& A, const Base<typename T1::elem_type,T1>& B_expr)
+auxlib::solve_tridiag_fast(Mat<typename T1::elem_type>& out, const Mat<typename T1::elem_type>& A, const Base<typename T1::elem_type,T1>& B_expr)
   {
   arma_debug_sigprint();
   
