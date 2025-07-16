@@ -23,6 +23,9 @@
 
 //! for two arrays, generic version for non-complex values
 template<typename eT>
+#if defined ARMA_REAL_GCC
+__attribute__((optimize("O3", "fast-math")))
+#endif
 inline
 typename arma_not_cx<eT>::result
 op_dot::direct_dot_arma(const uword n_elem, const eT* const A, const eT* const B)

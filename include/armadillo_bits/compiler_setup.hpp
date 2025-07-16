@@ -102,6 +102,7 @@
 #define ARMA_SIMPLE_LOOPS
 
 #undef ARMA_GOOD_COMPILER
+#undef ARMA_REAL_GCC
 
 // posix_memalign() is part of IEEE standard 1003.1
 // http://pubs.opengroup.org/onlinepubs/009696899/functions/posix_memalign.html
@@ -163,6 +164,7 @@
   #endif
   
   #define ARMA_GOOD_COMPILER
+  #define ARMA_REAL_GCC
   
   #undef  arma_hot
   #undef  arma_cold
