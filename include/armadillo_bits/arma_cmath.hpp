@@ -222,7 +222,9 @@ constexpr
 typename arma_unsigned_integral_only<eT>::result
 arma_sign(const eT x)
   {
-  return (x > eT(0)) ? eT(+1) : eT(0);
+  constexpr eT eT_zero = eT(0);
+  
+  return (x > eT_zero) ? eT(+1) : eT_zero;
   }
 
 
@@ -232,7 +234,9 @@ constexpr
 typename arma_signed_integral_only<eT>::result
 arma_sign(const eT x)
   {
-  return (x > eT(0)) ? eT(+1) : ( (x < eT(0)) ? eT(-1) : eT(0) );
+  constexpr eT eT_zero = eT(0);
+  
+  return (x > eT_zero) ? eT(+1) : ( (x < eT_zero) ? eT(-1) : eT_zero );
   }
 
 
@@ -242,7 +246,9 @@ constexpr
 typename arma_real_only<eT>::result
 arma_sign(const eT x)
   {
-  return (x > eT(0)) ? eT(+1) : ( (x < eT(0)) ? eT(-1) : ((x == eT(0)) ? eT(0) : x) );
+  constexpr eT eT_zero = eT(0);
+  
+  return (x > eT_zero) ? eT(+1) : ( (x < eT_zero) ? eT(-1) : ((x == eT_zero) ? eT_zero : x) );
   }
 
 
