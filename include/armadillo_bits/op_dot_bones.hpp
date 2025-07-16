@@ -28,7 +28,7 @@ class op_dot
   public:
   
   template<typename eT>
-  arma_inline static
+  inline static
   typename arma_not_cx<eT>::result
   direct_dot_arma(const uword n_elem, const eT* const A, const eT* const B);
   
