@@ -296,8 +296,6 @@ arma_ostream::print_elem_zero(std::ostream& o, const bool modify)
   {
   typedef typename promote_type<eT, s16>::result promoted_eT;
   
-  constexpr promoted_eT promoted_eT_zero = promoted_eT(0);
-  
   if(modify)
     {
     const ios::fmtflags   save_flags     = o.flags();
@@ -307,14 +305,14 @@ arma_ostream::print_elem_zero(std::ostream& o, const bool modify)
     o.setf(ios::fixed);
     o.precision(0);
     
-    o << promoted_eT_zero;
+    o << promoted_eT(0);
     
     o.flags(save_flags);
     o.precision(save_precision);
     }
   else
     {
-    o << promoted_eT_zero;
+    o << promoted_eT(0);
     }
   }
 
