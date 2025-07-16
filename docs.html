@@ -19842,7 +19842,7 @@ the <i>hdf5.h</i> header file must be available on your system and you will need
       &nbsp;
     </td>
     <td style="vertical-align: top;">
-Disable the use of the HDF5 library; overrides <i>ARMA_USE_HDF5</i>
+Disable use of the HDF5 library; overrides <i>ARMA_USE_HDF5</i>
     </td>
   </tr>
   <tr>
@@ -19887,7 +19887,7 @@ you will need to link with the FFTW3 library (eg. <code><i>-lfftw3</i></code>)
       &nbsp;
     </td>
     <td style="vertical-align: top;">
-Disable the use of the FFTW3 library; overrides <i>ARMA_USE_FFTW3</i>
+Disable use of the FFTW3 library; overrides <i>ARMA_USE_FFTW3</i>
     </td>
   </tr>
   <tr>
@@ -19931,7 +19931,7 @@ Disable use of <i>std::mutex</i>; applicable if your compiler and/or environment
       &nbsp;
     </td>
     <td style="vertical-align: top;">
-Disable automatically optimised handling of band matrices by <a href="#solve">solve()</a> and <a href="#chol">chol()</a>
+Disable  optimised handling of band matrices by <a href="#solve">solve()</a> and <a href="#chol">chol()</a>
     </td>
   </tr>
   <tr>
@@ -19953,7 +19953,7 @@ Disable automatically optimised handling of band matrices by <a href="#solve">so
       &nbsp;
     </td>
     <td style="vertical-align: top;">
-Disable automatically optimised handling of symmetric/hermitian positive definite matrices by
+Disable  optimised handling of symmetric/hermitian positive definite matrices by
 <a href="#solve">solve()</a>,
 <a href="#inv">inv()</a>,
 <a href="#pinv">pinv()</a>,
@@ -19962,6 +19962,50 @@ Disable automatically optimised handling of symmetric/hermitian positive definit
 <a href="#sqrtmat">sqrtmat()</a>,
 <a href="#powmat">powmat()</a>,
 <a href="#rcond">rcond()</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top;">
+<code>ARMA_DONT_OPTIMISE_INVEXPR</code>
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+Disable  optimised handling of <a href="#inv">inv()</a> and <a href="#inv_sympd">inv_sympd()</a> within compound expressions
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top;">
+<code>ARMA_DONT_OPTIMISE_POWEXPR</code>
+    </td>
+    <td style="vertical-align: top;">
+      &nbsp;
+    </td>
+    <td style="vertical-align: top;">
+Disable  optimised handling of <a href="#pow">pow()</a>
     </td>
   </tr>
   <tr>
