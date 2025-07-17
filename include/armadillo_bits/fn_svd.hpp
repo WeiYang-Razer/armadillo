@@ -114,7 +114,27 @@ svd
   
   Mat<eT> A(X.get_ref());
   
-  const bool status = (sig == 'd') ? auxlib::svd_dc(U, S, V, A) : auxlib::svd(U, S, V, A);
+  bool status = false;
+  
+  if(sig == 'd')
+    {
+    const uword N = (std::min)(A.n_rows, A.n_cols);
+    
+    const uword N_limit = (is_cx<eT>::yes) ? uword(20000) : uword(23000);
+    
+    const bool allow_dc = (sizeof(blas_int) >= std::size_t(8)) ? true : (N <= N_limit);
+    
+    if(allow_dc == false)
+      {
+      arma_warn(3, "svd(): matrix size too large for divide-and-conquer algorithm; using standard algorithm instead");
+      }
+    
+    status = (allow_dc) ? auxlib::svd_dc(U, S, V, A) : auxlib::svd(U, S, V, A);
+    }
+  else
+    {
+    status = auxlib::svd(U, S, V, A);
+    }
   
   if(status == false)
     {
@@ -166,7 +186,27 @@ svd_econ
   
   Mat<eT> A(X.get_ref());
   
-  const bool status = ((mode == 'b') && (sig == 'd')) ? auxlib::svd_dc_econ(U, S, V, A) : auxlib::svd_econ(U, S, V, A, mode);
+  bool status = false;
+  
+  if( (mode == 'b') && (sig == 'd') )
+    {
+    const uword N = (std::min)(A.n_rows, A.n_cols);
+    
+    const uword N_limit = (is_cx<eT>::yes) ? uword(20000) : uword(23000);
+    
+    const bool allow_dc = (sizeof(blas_int) >= std::size_t(8)) ? true : (N <= N_limit);
+    
+    if(allow_dc == false)
+      {
+      arma_warn(3, "svd_econ(): matrix size too large for divide-and-conquer algorithm; using standard algorithm instead");
+      }
+    
+    status = (allow_dc) ? auxlib::svd_dc_econ(U, S, V, A) : auxlib::svd_econ(U, S, V, A, mode);
+    }
+  else
+    {
+    status = auxlib::svd_econ(U, S, V, A, mode);
+    }
   
   if(status == false)
     {

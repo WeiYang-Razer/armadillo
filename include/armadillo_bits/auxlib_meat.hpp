@@ -3888,9 +3888,7 @@ auxlib::svd_dc(Mat<eT>& U, Col<eT>& S, Mat<eT>& V, Mat<eT>& A)
     blas_int  lda       = blas_int(A.n_rows);
     blas_int  ldu       = blas_int(U.n_rows);
     blas_int  ldvt      = blas_int(V.n_rows);
-    blas_int  lwork1    = 3*min_mn*min_mn + (std::max)(max_mn, 4*min_mn*min_mn + 4*min_mn);  // as per LAPACK 3.2 docs
-    blas_int  lwork2    = 4*min_mn*min_mn + 6*min_mn + max_mn;  // as per LAPACK 3.8 docs; consistent with LAPACK 3.4 docs
-    blas_int  lwork_min = (std::max)(lwork1, lwork2);  // due to differences between LAPACK 3.2 and 3.8
+    blas_int  lwork_min = 4*min_mn*min_mn + 6*min_mn + max_mn;  // as per LAPACK 3.8 and 3.12 docs; consistent with LAPACK 3.4 docs
     blas_int  info      = 0;
     
     S.set_size( static_cast<uword>(min_mn) );
@@ -3968,8 +3966,8 @@ auxlib::svd_dc(Mat< std::complex<T> >& U, Col<T>& S, Mat< std::complex<T> >& V, 
     blas_int lda       = blas_int(A.n_rows);
     blas_int ldu       = blas_int(U.n_rows);
     blas_int ldvt      = blas_int(V.n_rows);
-    blas_int lwork_min = min_mn*min_mn + 2*min_mn + max_mn;  // as per LAPACK 3.2, 3.4, 3.8 docs
-    blas_int lrwork    = min_mn * ((std::max)(5*min_mn+7, 2*max_mn + 2*min_mn+1));   // as per LAPACK 3.4 docs; LAPACK 3.8 uses 5*min_mn+5 instead of 5*min_mn+7
+    blas_int lwork_min = min_mn*min_mn + 2*min_mn + max_mn;  // as per LAPACK 3.2, 3.4, 3.8, 3.12 docs
+    blas_int lrwork    = min_mn * ((std::max)(5*min_mn+5, 2*max_mn + 2*min_mn+1));   // as per LAPACK 3.8 and 3.12 docs
     blas_int info      = 0;
     
     S.set_size( static_cast<uword>(min_mn) );
@@ -4037,13 +4035,11 @@ auxlib::svd_dc_econ(Mat<eT>& U, Col<eT>& S, Mat<eT>& V, Mat<eT>& A)
     blas_int m         = blas_int(A.n_rows);
     blas_int n         = blas_int(A.n_cols);
     blas_int min_mn    = (std::min)(m,n);
-    blas_int max_mn    = (std::max)(m,n);
+ // blas_int max_mn    = (std::max)(m,n);
     blas_int lda       = blas_int(A.n_rows);
     blas_int ldu       = m;
     blas_int ldvt      = min_mn;
-    blas_int lwork1    = 3*min_mn*min_mn + (std::max)( max_mn, 4*min_mn*min_mn + 4*min_mn );  // as per LAPACK 3.2 docs
-    blas_int lwork2    = 4*min_mn*min_mn + 6*min_mn + max_mn;  // as per LAPACK 3.4 docs; LAPACK 3.8 requires 4*min_mn*min_mn + 7*min_mn
-    blas_int lwork_min = (std::max)(lwork1, lwork2);  // due to differences between LAPACK 3.2 and 3.4
+    blas_int lwork_min = 4*min_mn*min_mn + 7*min_mn;  // as per LAPACK 3.8 and 3.12 docs
     blas_int info      = 0;
     
     if(A.is_empty())
@@ -4128,8 +4124,8 @@ auxlib::svd_dc_econ(Mat< std::complex<T> >& U, Col<T>& S, Mat< std::complex<T> >
     blas_int lda       = blas_int(A.n_rows);
     blas_int ldu       = m;
     blas_int ldvt      = min_mn;
-    blas_int lwork_min = min_mn*min_mn + 2*min_mn + max_mn;  // as per LAPACK 3.2 docs
-    blas_int lrwork    = min_mn * ((std::max)(5*min_mn+7, 2*max_mn + 2*min_mn+1));  // LAPACK 3.8 uses 5*min_mn+5 instead of 5*min_mn+7
+    blas_int lwork_min = min_mn*min_mn + 3*min_mn;  // as per LAPACK 3.12 docs
+    blas_int lrwork    = min_mn * ((std::max)(5*min_mn+5, 2*max_mn + 2*min_mn+1));  // as per LAPACK 3.8 and 3.12 docs
     blas_int info      = 0;
     
     if(A.is_empty())
