@@ -192,8 +192,18 @@ op_pinv::apply_sym(Mat<eT>& out, const Mat<eT>& A, typename get_pod_type<eT>::re
   Col< T> eigval;
   Mat<eT> eigvec;
   
-  // TODO: refactor to avoid dc if matrix size too large
-  const bool status = ((method_id == uword(0)) || (method_id == uword(2))) ? auxlib::eig_sym_dc(eigval, eigvec, A) : auxlib::eig_sym(eigval, eigvec, A);
+  bool status = false;
+  
+  if( (method_id == uword(0)) || (method_id == uword(2)) )
+    {
+    const bool allow_dc = (sizeof(blas_int) >= std::size_t(8)) ? true : (A.n_rows <= uword(32000));
+    
+    status = (allow_dc) ? auxlib::eig_sym_dc(eigval, eigvec, A) : auxlib::eig_sym(eigval, eigvec, A);
+    }
+  else
+    {
+    status = auxlib::eig_sym(eigval, eigvec, A);
+    }
   
   if(status == false)  { return false; }
   
@@ -257,8 +267,27 @@ op_pinv::apply_gen(Mat<eT>& out, Mat<eT>& A, typename get_pod_type<eT>::result t
   
   if(n_cols > n_rows)  { A = trans(A); }
   
-  // TODO: refactor to avoid dc if matrix size too large
-  const bool status = ((method_id == uword(0)) || (method_id == uword(2))) ? auxlib::svd_dc_econ(U, s, V, A) : auxlib::svd_econ(U, s, V, A, 'b');
+  bool status = false;
+  
+  if( (method_id == uword(0)) || (method_id == uword(2)) )
+    {
+    const uword N = (std::min)(A.n_rows, A.n_cols);
+    
+    const uword N_limit = (is_cx<eT>::yes) ? uword(20000) : uword(23000);
+    
+    const bool allow_dc = (sizeof(blas_int) >= std::size_t(8)) ? true : (N <= N_limit);
+    
+    if(allow_dc == false)
+      {
+      arma_warn(3, "pinv(): matrix size too large for divide-and-conquer algorithm; using standard algorithm instead");
+      }
+    
+    status = (allow_dc) ? auxlib::svd_dc_econ(U, s, V, A) : auxlib::svd_econ(U, s, V, A, 'b');
+    }
+  else
+    {
+    auxlib::svd_econ(U, s, V, A, 'b');
+    }
   
   if(status == false)  { return false; }
   
