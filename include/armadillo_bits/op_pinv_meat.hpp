@@ -192,6 +192,7 @@ op_pinv::apply_sym(Mat<eT>& out, const Mat<eT>& A, typename get_pod_type<eT>::re
   Col< T> eigval;
   Mat<eT> eigvec;
   
+  // TODO: refactor to avoid dc if matrix size too large
   const bool status = ((method_id == uword(0)) || (method_id == uword(2))) ? auxlib::eig_sym_dc(eigval, eigvec, A) : auxlib::eig_sym(eigval, eigvec, A);
   
   if(status == false)  { return false; }
@@ -256,6 +257,7 @@ op_pinv::apply_gen(Mat<eT>& out, Mat<eT>& A, typename get_pod_type<eT>::result t
   
   if(n_cols > n_rows)  { A = trans(A); }
   
+  // TODO: refactor to avoid dc if matrix size too large
   const bool status = ((method_id == uword(0)) || (method_id == uword(2))) ? auxlib::svd_dc_econ(U, s, V, A) : auxlib::svd_econ(U, s, V, A, 'b');
   
   if(status == false)  { return false; }
