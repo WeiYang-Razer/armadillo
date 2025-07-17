@@ -103,9 +103,24 @@ eig_sym_helper
   
   bool status = false;
   
-  if(method_sig == 'd') { status = auxlib::eig_sym_dc(eigval, eigvec, X); }
+  if(method_sig == 'd')
+    {
+    const bool allow_dc = (sizeof(blas_int) >= std::size_t(8)) ? true : (X.n_rows <= uword(32000));
+    
+    if(allow_dc)
+      {
+      status = auxlib::eig_sym_dc(eigval, eigvec, X);
+      }
+    else
+      {
+      arma_warn(3, caller_sig, ": matrix size too large for divide-and-conquer algorithm; using standard algorithm instead");
+      }
+    }
   
-  if(status == false)   { status = auxlib::eig_sym(eigval, eigvec, X);    }
+  if(status == false)
+    {
+    status = auxlib::eig_sym(eigval, eigvec, X);
+    }
   
   return status;
   }
