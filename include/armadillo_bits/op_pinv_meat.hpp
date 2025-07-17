@@ -198,6 +198,11 @@ op_pinv::apply_sym(Mat<eT>& out, const Mat<eT>& A, typename get_pod_type<eT>::re
     {
     const bool allow_dc = (sizeof(blas_int) >= std::size_t(8)) ? true : (A.n_rows <= uword(32000));
     
+    if(allow_dc == false)
+      {
+      arma_warn(3, "pinv(): matrix size too large for divide-and-conquer algorithm; using standard algorithm instead");
+      }
+    
     status = (allow_dc) ? auxlib::eig_sym_dc(eigval, eigvec, A) : auxlib::eig_sym(eigval, eigvec, A);
     }
   else
