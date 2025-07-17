@@ -4035,7 +4035,6 @@ auxlib::svd_dc_econ(Mat<eT>& U, Col<eT>& S, Mat<eT>& V, Mat<eT>& A)
     blas_int m         = blas_int(A.n_rows);
     blas_int n         = blas_int(A.n_cols);
     blas_int min_mn    = (std::min)(m,n);
- // blas_int max_mn    = (std::max)(m,n);
     blas_int lda       = blas_int(A.n_rows);
     blas_int ldu       = m;
     blas_int ldvt      = min_mn;
