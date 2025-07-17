@@ -62,7 +62,7 @@ op_orth::apply_direct(Mat<typename T1::elem_type>& out, const Base<typename T1::
   Col< T> s;
   Mat<eT> V;
   
-  const bool status = auxlib::svd_dc(U, s, V, A);
+  const bool status = auxlib::svd_dc(U, s, V, A);  // TODO: refactor to avoid dc if matrix size too large
   
   V.reset();
   
@@ -138,7 +138,7 @@ op_null::apply_direct(Mat<typename T1::elem_type>& out, const Base<typename T1::
   Col< T> s;
   Mat<eT> V;
   
-  const bool status = auxlib::svd_dc(U, s, V, A);
+  const bool status = auxlib::svd_dc(U, s, V, A);  // TODO: refactor to avoid dc if matrix size too large
   
   U.reset();
   
