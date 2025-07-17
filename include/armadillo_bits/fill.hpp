@@ -46,7 +46,7 @@ namespace fill
     {
     static constexpr bool value = true;
     };
-
+  
   template<> struct allow_conversion<std::complex<double>, double> { static constexpr bool value = false; };
   template<> struct allow_conversion<std::complex<double>, float > { static constexpr bool value = false; };
   #if defined(ARMA_HAVE_FP16)
@@ -60,7 +60,7 @@ namespace fill
   template<> struct allow_conversion<std::complex<double>, s16   > { static constexpr bool value = false; };
   template<> struct allow_conversion<std::complex<double>, u8    > { static constexpr bool value = false; };
   template<> struct allow_conversion<std::complex<double>, s8    > { static constexpr bool value = false; };
-
+  
   template<> struct allow_conversion<std::complex<float>, double> { static constexpr bool value = false; };
   template<> struct allow_conversion<std::complex<float>, float > { static constexpr bool value = false; };
   #if defined(ARMA_HAVE_FP16)
@@ -74,6 +74,8 @@ namespace fill
   template<> struct allow_conversion<std::complex<float>, s16   > { static constexpr bool value = false; };
   template<> struct allow_conversion<std::complex<float>, u8    > { static constexpr bool value = false; };
   template<> struct allow_conversion<std::complex<float>, s8    > { static constexpr bool value = false; };
+  
+  // TODO: add handling of std::complex<fp16>
   
   //
   
