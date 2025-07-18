@@ -18632,10 +18632,13 @@ define <a href="#config_hpp_arma_force_use_fp16"><code>ARMA_FORCE_USE_FP16</code
 care must be taken when using the <code>fp16</code> element type; it has a range of only &pm;65&thinsp;x&thinsp;10<sup>3</sup>
 </li>
 <li>
-matrices with <code>fp16</code> elements cannot be used with functions that require LAPACK (eg. matrix decompositions such as SVD are not available)
+software emulated <code>fp16</code> element type can be slow
 </li>
 <li>
-software emulated <code>fp16</code> element type can be slow
+matrix multiplication and dot products involving <code>fp16</code> elements are currently rudimentary and not optimised
+</li>
+<li>
+matrices with <code>fp16</code> elements cannot be used with functions that require LAPACK (eg. matrix decompositions such as SVD are not available)
 </li>
 </ul>
 </li>
@@ -18658,7 +18661,7 @@ fp16 val = X(2,3);
 <li><a href="#Col">fp16_vec</a> vector type
 <li><a href="https://en.cppreference.com/w/cpp/types/floating-point.html">std::float16_t</a> in cppreference.com</li>
 <!-- <li><a href="https://en.cppreference.com/w/cpp/header/stdfloat.html">std::float16_t</a> in cppreference.com</li> -->
-<li><a href="https://en.wikipedia.org/wiki/Half-precision_floating-point_format">half-precision floating point format on Wikipedia</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Half-precision_floating-point_format">half-precision floating point format in Wikipedia</a></li>
 <li><a href="https://en.wikipedia.org/wiki/AVX-512">AVX-512 extensions in Wikipedia</a></li>
 <!-- <li><a href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html">gcc half-precision documentation</a></li> -->
 <!-- <li><a href="https://clang.llvm.org/docs/LanguageExtensions.html#half-precision-floating-point">clang half-precision documentation</a></li> -->
@@ -19636,7 +19639,7 @@ Disable use of LAPACK; overrides <i>ARMA_USE_LAPACK</i>
     <td style="vertical-align: top;">
 Enable use of BLAS, or a high-speed replacement for BLAS (eg. OpenBLAS, Intel MKL, or the Accelerate framework).
 BLAS is used for <a href="#operators">matrix multiplication</a>.
-Without BLAS, Armadillo will use a built-in matrix multiplication routine, which might be slower for large matrices.
+Without BLAS, Armadillo will use a rudimentary matrix multiplication routine, which might be slower for large matrices.
     </td>
   </tr>
   <tr>
@@ -20655,7 +20658,7 @@ List of additions and changes for each version:
 <li>Version 15.0:
 <ul>
 <li>(under development)</li>
-<li>added support for matrices with <a href="#fp16_type">half-precision fp16</a> element type when native hardware support is detected</li>
+<li>added preliminary support for matrices with <a href="#fp16_type">half-precision fp16</a> element type</li>
 <li>...</li>
 </ul>
 </li>
