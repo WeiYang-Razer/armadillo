@@ -233,7 +233,7 @@ class gemv_emul
       {
       if(A_n_rows == 1)
         {
-        const eT acc = op_dot::direct_dot_arma(A_n_cols, A.memptr(), x);
+        const eT acc = op_dot::direct_dot_generic(A_n_cols, A.memptr(), x);
         
              if( (use_alpha == false) && (use_beta == false) )  { y[0] =       acc;             }
         else if( (use_alpha == true ) && (use_beta == false) )  { y[0] = alpha*acc;             }
@@ -269,7 +269,7 @@ class gemv_emul
           //   acc += A_coldata[row] * x[row];
           //   }
           
-          const eT acc = op_dot::direct_dot_arma(A_n_rows, A.colptr(col), x);
+          const eT acc = op_dot::direct_dot_generic(A_n_rows, A.colptr(col), x);
           
                if( (use_alpha == false) && (use_beta == false) )  { y[col] =       acc;               }
           else if( (use_alpha == true ) && (use_beta == false) )  { y[col] = alpha*acc;               }

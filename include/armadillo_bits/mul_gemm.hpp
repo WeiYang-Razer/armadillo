@@ -102,7 +102,7 @@ class gemm_emul_large
         
         for(uword col_B=0; col_B < B_n_cols; ++col_B)
           {
-          const eT acc = op_dot::direct_dot_arma(B_n_rows, A_rowdata, B.colptr(col_B));
+          const eT acc = op_dot::direct_dot_generic(B_n_rows, A_rowdata, B.colptr(col_B));
           
                if( (use_alpha == false) && (use_beta == false) )  { C.at(row_A,col_B) =       acc;                          }
           else if( (use_alpha == true ) && (use_beta == false) )  { C.at(row_A,col_B) = alpha*acc;                          }
@@ -122,7 +122,7 @@ class gemm_emul_large
         
         for(uword col_B=0; col_B < B_n_cols; ++col_B)
           {
-          const eT acc = op_dot::direct_dot_arma(B_n_rows, A_coldata, B.colptr(col_B));
+          const eT acc = op_dot::direct_dot_generic(B_n_rows, A_coldata, B.colptr(col_B));
           
                if( (use_alpha == false) && (use_beta == false) )  { C.at(col_A,col_B) =       acc;                          }
           else if( (use_alpha == true ) && (use_beta == false) )  { C.at(col_A,col_B) = alpha*acc;                          }
@@ -158,7 +158,7 @@ class gemm_emul_large
         
         for(uword col_A=0; col_A < A_n_cols; ++col_A)
           {
-          const eT acc = op_dot::direct_dot_arma(A_n_rows, B_rowdata, A.colptr(col_A));
+          const eT acc = op_dot::direct_dot_generic(A_n_rows, B_rowdata, A.colptr(col_A));
           
                if( (use_alpha == false) && (use_beta == false) )  { C.at(col_A,row_B) =       acc;                          }
           else if( (use_alpha == true ) && (use_beta == false) )  { C.at(col_A,row_B) = alpha*acc;                          }

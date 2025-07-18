@@ -28,7 +28,7 @@ __attribute__((optimize("O3", "fast-math")))
 #endif
 inline
 typename arma_not_cx<eT>::result
-op_dot::direct_dot_arma(const uword n_elem, const eT* const A, const eT* const B)
+op_dot::direct_dot_generic(const uword n_elem, const eT* const A, const eT* const B)
   {
   arma_debug_sigprint();
   
@@ -72,7 +72,7 @@ op_dot::direct_dot_arma(const uword n_elem, const eT* const A, const eT* const B
 template<typename eT>
 inline
 typename arma_cx_only<eT>::result
-op_dot::direct_dot_arma(const uword n_elem, const eT* const A, const eT* const B)
+op_dot::direct_dot_generic(const uword n_elem, const eT* const A, const eT* const B)
   {
   arma_debug_sigprint();
   
@@ -109,7 +109,7 @@ op_dot::direct_dot(const uword n_elem, const eT* const A, const eT* const B)
   {
   arma_debug_sigprint();
   
-  if(n_elem <= 32u)  { return op_dot::direct_dot_arma(n_elem, A, B); }
+  if(n_elem <= 32u)  { return op_dot::direct_dot_generic(n_elem, A, B); }
 
   #if defined(ARMA_USE_ATLAS)
     {
@@ -125,7 +125,7 @@ op_dot::direct_dot(const uword n_elem, const eT* const A, const eT* const B)
     }
   #else
     {
-    return op_dot::direct_dot_arma(n_elem, A, B);
+    return op_dot::direct_dot_generic(n_elem, A, B);
     }
   #endif
   }
@@ -138,7 +138,7 @@ inline
 typename arma_blas_cx_only<eT>::result
 op_dot::direct_dot(const uword n_elem, const eT* const A, const eT* const B)
   {
-  if(n_elem <= 16u)  { return op_dot::direct_dot_arma(n_elem, A, B); }
+  if(n_elem <= 16u)  { return op_dot::direct_dot_generic(n_elem, A, B); }
   
   #if defined(ARMA_USE_ATLAS)
     {
@@ -154,7 +154,7 @@ op_dot::direct_dot(const uword n_elem, const eT* const A, const eT* const B)
     }
   #else
     {
-    return op_dot::direct_dot_arma(n_elem, A, B);
+    return op_dot::direct_dot_generic(n_elem, A, B);
     }
   #endif
   }
@@ -167,7 +167,7 @@ inline
 typename arma_fp16_real_or_cx_only<eT>::result
 op_dot::direct_dot(const uword n_elem, const eT* const A, const eT* const B)
   {
-  return op_dot::direct_dot_arma(n_elem, A, B);
+  return op_dot::direct_dot_generic(n_elem, A, B);
   }
 
 
@@ -178,7 +178,7 @@ inline
 typename arma_integral_only<eT>::result
 op_dot::direct_dot(const uword n_elem, const eT* const A, const eT* const B)
   {
-  return op_dot::direct_dot_arma(n_elem, A, B);
+  return op_dot::direct_dot_generic(n_elem, A, B);
   }
 
 
