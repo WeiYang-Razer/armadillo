@@ -28,19 +28,14 @@ class op_dot
   public:
   
   template<typename eT>
-  arma_inline static
-  typename arma_not_cx<eT>::result
-  direct_dot_generic_short(const uword n_elem, const eT* const A, const eT* const B);
-  
-  template<typename eT>
-  inline static
-  typename arma_not_cx<eT>::result
-  direct_dot_generic_long(const uword n_elem, const eT* const A, const eT* const B);
-  
-  template<typename eT>
-  inline static
+  arma_hot inline static
   typename arma_not_cx<eT>::result
   direct_dot_generic(const uword n_elem, const eT* const A, const eT* const B);
+  
+  template<typename eT>
+  inline static
+  typename arma_not_cx<eT>::result
+  direct_dot_generic_force_optimise(const uword n_elem, const eT* const A, const eT* const B);
   
   template<typename eT>
   arma_hot inline static
@@ -56,7 +51,11 @@ class op_dot
   direct_dot(const uword n_elem, const eT* const A, const eT* const B);
   
   template<typename eT>
-  arma_hot inline static typename arma_fp16_real_or_cx_only<eT>::result
+  arma_hot inline static typename arma_fp16_real_only<eT>::result
+  direct_dot(const uword n_elem, const eT* const A, const eT* const B);
+  
+  template<typename eT>
+  arma_hot inline static typename arma_fp16_cx_only<eT>::result
   direct_dot(const uword n_elem, const eT* const A, const eT* const B);
   
   template<typename eT>
@@ -102,7 +101,7 @@ class op_cdot
   public:
   
   template<typename eT>
-  arma_hot inline static eT direct_cdot_arma(const uword n_elem, const eT* const A, const eT* const B);
+  arma_hot inline static eT direct_cdot_generic(const uword n_elem, const eT* const A, const eT* const B);
   
   template<typename eT>
   arma_hot inline static eT direct_cdot(const uword n_elem, const eT* const A, const eT* const B, const typename arma_blas_real_or_cx_only<eT>::result* junk = 0);

@@ -174,10 +174,10 @@ template<> struct arma_blas_cx_only< cx_double > { typedef cx_double result; };
 
 
 
-template<typename T> struct arma_cx_fp16_only { };
+template<typename T> struct arma_fp16_cx_only { };
 
 #if defined(ARMA_HAVE_FP16)
-template<> struct arma_cx_fp16_only< cx_fp16  > { typedef cx_fp16  result; };
+template<> struct arma_fp16_cx_only< cx_fp16  > { typedef cx_fp16  result; };
 #endif
 
 
