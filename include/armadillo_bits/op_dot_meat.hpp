@@ -159,7 +159,7 @@ op_dot::direct_dot(const uword n_elem, const eT* const A, const eT* const B)
     }
   #else
     {
-    return op_dot::direct_dot_generic(n_elem, A, B);
+    return op_dot::direct_dot_generic_force_optimise(n_elem, A, B);
     }
   #endif
   }
