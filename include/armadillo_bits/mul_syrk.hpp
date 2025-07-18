@@ -233,7 +233,7 @@ class syrk_emul
         
         for(uword k=col_A; k < A_n_cols; ++k)
           {
-          const eT acc = op_dot::direct_dot_generic(A_n_rows, A_coldata, A.colptr(k));
+          const eT acc = op_dot::direct_dot(A_n_rows, A_coldata, A.colptr(k));
           
           if( (use_alpha == false) && (use_beta == false) )
             {
