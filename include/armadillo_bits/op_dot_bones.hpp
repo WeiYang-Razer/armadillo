@@ -28,6 +28,16 @@ class op_dot
   public:
   
   template<typename eT>
+  arma_inline static
+  typename arma_not_cx<eT>::result
+  direct_dot_generic_short(const uword n_elem, const eT* const A, const eT* const B);
+  
+  template<typename eT>
+  inline static
+  typename arma_not_cx<eT>::result
+  direct_dot_generic_long(const uword n_elem, const eT* const A, const eT* const B);
+  
+  template<typename eT>
   inline static
   typename arma_not_cx<eT>::result
   direct_dot_generic(const uword n_elem, const eT* const A, const eT* const B);

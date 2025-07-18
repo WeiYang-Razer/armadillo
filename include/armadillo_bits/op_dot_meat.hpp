@@ -21,25 +21,37 @@
 
 
 
-//! for two arrays, generic version for non-complex values
+//! generic version for non-complex values (short length)
 template<typename eT>
-#if defined ARMA_REAL_GCC
+arma_inline
+typename arma_not_cx<eT>::result
+op_dot::direct_dot_generic_short(const uword n_elem, const eT* const A, const eT* const B)
+  {
+  // TODO: see if shenanigans with switch() are worth it
+  
+  eT val = eT(0);
+  
+  for(uword i=0; i < n_elem; ++i)  { val += A[i] * B[i]; }
+  
+  return val;
+  }
+
+
+
+//! generic version for non-complex values (long length)
+template<typename eT>
+#if defined ARMA_REAL_GCC && !defined(ARMA_DONT_FORCE_OPTIMISE_DOT)
 __attribute__((optimize("O3", "fast-math")))
 #endif
 inline
 typename arma_not_cx<eT>::result
-op_dot::direct_dot_generic(const uword n_elem, const eT* const A, const eT* const B)
+op_dot::direct_dot_generic_long(const uword n_elem, const eT* const A, const eT* const B)
   {
-  arma_debug_sigprint();
-  
   #if defined(__FAST_MATH__)
     {
     eT val = eT(0);
     
-    for(uword i=0; i<n_elem; ++i)
-      {
-      val += A[i] * B[i];
-      }
+    for(uword i=0; i < n_elem; ++i)  { val += A[i] * B[i]; }
     
     return val;
     }
@@ -50,7 +62,7 @@ op_dot::direct_dot_generic(const uword n_elem, const eT* const A, const eT* cons
     
     uword i, j;
     
-    for(i=0, j=1; j<n_elem; i+=2, j+=2)
+    for(i=0, j=1; j < n_elem; i+=2, j+=2)
       {
       val1 += A[i] * B[i];
       val2 += A[j] * B[j];
@@ -68,7 +80,22 @@ op_dot::direct_dot_generic(const uword n_elem, const eT* const A, const eT* cons
 
 
 
-//! for two arrays, generic version for complex values
+//! generic version for non-complex values
+template<typename eT>
+inline
+typename arma_not_cx<eT>::result
+op_dot::direct_dot_generic(const uword n_elem, const eT* const A, const eT* const B)
+  {
+  arma_debug_sigprint();
+  
+  // TODO: empirically determine threshold
+  
+  return (n_elem <= uword(16)) ? op_dot::direct_dot_generic_short(n_elem, A, B) : op_dot::direct_dot_generic_long(n_elem, A, B);
+  }
+
+
+
+//! generic version for complex values
 template<typename eT>
 inline
 typename arma_cx_only<eT>::result
@@ -101,7 +128,7 @@ op_dot::direct_dot_generic(const uword n_elem, const eT* const A, const eT* cons
 
 
 
-//! for two arrays, float and double version
+//! float and double version
 template<typename eT>
 inline
 typename arma_blas_real_only<eT>::result
@@ -109,8 +136,10 @@ op_dot::direct_dot(const uword n_elem, const eT* const A, const eT* const B)
   {
   arma_debug_sigprint();
   
-  if(n_elem <= 32u)  { return op_dot::direct_dot_generic(n_elem, A, B); }
-
+  // TODO: empirically determine threshold
+  
+  if(n_elem <= 16u)  { return op_dot::direct_dot_generic_short(n_elem, A, B); }
+  
   #if defined(ARMA_USE_ATLAS)
     {
     arma_debug_print("atlas::cblas_dot()");
@@ -125,21 +154,19 @@ op_dot::direct_dot(const uword n_elem, const eT* const A, const eT* const B)
     }
   #else
     {
-    return op_dot::direct_dot_generic(n_elem, A, B);
+    return op_dot::direct_dot_generic_long(n_elem, A, B);
     }
   #endif
   }
 
 
 
-//! for two arrays, complex version
+//! complex version
 template<typename eT>
 inline
 typename arma_blas_cx_only<eT>::result
 op_dot::direct_dot(const uword n_elem, const eT* const A, const eT* const B)
   {
-  if(n_elem <= 16u)  { return op_dot::direct_dot_generic(n_elem, A, B); }
-  
   #if defined(ARMA_USE_ATLAS)
     {
     arma_debug_print("atlas::cblas_cx_dot()");
@@ -161,7 +188,7 @@ op_dot::direct_dot(const uword n_elem, const eT* const A, const eT* const B)
 
 
 
-//! for two arrays, fp16 version
+//! fp16 version
 template<typename eT>
 inline
 typename arma_fp16_real_or_cx_only<eT>::result
@@ -172,7 +199,7 @@ op_dot::direct_dot(const uword n_elem, const eT* const A, const eT* const B)
 
 
 
-//! for two arrays, integral version
+//! integral version
 template<typename eT>
 inline
 typename arma_integral_only<eT>::result
