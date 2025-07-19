@@ -220,31 +220,13 @@
   #define ARMA_DEBUG
 #endif
 
-
-#if defined(ARMA_DEFAULT_OSTREAM)
-  #pragma message ("WARNING: option ARMA_DEFAULT_OSTREAM is deprecated and will be removed;")
-  #pragma message ("WARNING: use ARMA_COUT_STREAM and ARMA_CERR_STREAM instead")
-#endif
-
-
 #if !defined(ARMA_COUT_STREAM)
-  #if defined(ARMA_DEFAULT_OSTREAM)
-    // for compatibility with earlier versions of Armadillo
-    #define ARMA_COUT_STREAM ARMA_DEFAULT_OSTREAM
-  #else
-    #define ARMA_COUT_STREAM std::cout
-  #endif
+  #define ARMA_COUT_STREAM std::cout
 #endif
 
 #if !defined(ARMA_CERR_STREAM)
-  #if defined(ARMA_DEFAULT_OSTREAM)
-    // for compatibility with earlier versions of Armadillo
-    #define ARMA_CERR_STREAM ARMA_DEFAULT_OSTREAM
-  #else
-    #define ARMA_CERR_STREAM std::cerr
-  #endif
+  #define ARMA_CERR_STREAM std::cerr
 #endif
-
 
 #if !defined(ARMA_PRINT_EXCEPTIONS)
   // #define ARMA_PRINT_EXCEPTIONS
@@ -296,13 +278,6 @@
 #endif
 
 #if defined(ARMA_DONT_USE_STD_MUTEX)
-  #undef ARMA_USE_STD_MUTEX
-#endif
-
-// for compatibility with earlier versions of Armadillo
-#if defined(ARMA_DONT_USE_CXX11_MUTEX)
-  #pragma message ("WARNING: option ARMA_DONT_USE_CXX11_MUTEX is deprecated and will be removed;")
-  #pragma message ("WARNING: use ARMA_DONT_USE_STD_MUTEX instead")
   #undef ARMA_USE_STD_MUTEX
 #endif
 
