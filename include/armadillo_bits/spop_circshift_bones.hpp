@@ -17,12 +17,12 @@
 
 
 
-//! \addtogroup spop_shift
+//! \addtogroup spop_circshift
 //! @{
 
 
 
-class spop_shift
+class spop_circshift
   : public traits_op_default
   {
   public:

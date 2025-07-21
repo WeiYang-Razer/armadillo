@@ -17,22 +17,22 @@
 
 
 
-//! \addtogroup op_shift
+//! \addtogroup op_circshift
 //! @{
 
 
 
-class op_shift_vec
+class op_circshift_vec
   : public traits_op_passthru
   {
   public:
   
-  template<typename T1> inline static void apply(Mat<typename T1::elem_type>& out, const Op<T1,op_shift_vec>& in);
+  template<typename T1> inline static void apply(Mat<typename T1::elem_type>& out, const Op<T1,op_circshift_vec>& in);
   };
 
 
 
-class op_shift
+class op_circshift
   : public traits_op_default
   {
   public:
