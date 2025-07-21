@@ -51,6 +51,31 @@ shift
 
 template<typename T1>
 arma_warn_unused
+arma_inline
+typename
+enable_if2
+  <
+  is_arma_type<T1>::value && resolves_to_vector<T1>::yes,
+  const Op<T1, op_shift_vec>
+  >::result
+circshift
+  (
+  const T1&   X,
+  const sword N
+  )
+  {
+  arma_debug_sigprint();
+  
+  const uword len = (N < 0) ? uword(-N) : uword(N);
+  const uword neg = (N < 0) ? uword( 1) : uword(0);
+  
+  return Op<T1, op_shift_vec>(X, len, neg);
+  }
+
+
+
+template<typename T1>
+arma_warn_unused
 inline
 typename
 enable_if2
@@ -59,6 +84,39 @@ enable_if2
   Mat<typename T1::elem_type>
   >::result
 shift
+  (
+  const T1&   X,
+  const sword N
+  )
+  {
+  arma_debug_sigprint();
+  
+  typedef typename T1::elem_type eT;
+  
+  const uword len = (N < 0) ? uword(-N) : uword(N);
+  const uword neg = (N < 0) ? uword( 1) : uword(0);
+  
+  quasi_unwrap<T1> U(X);
+  
+  Mat<eT> out;
+  
+  op_shift::apply_noalias(out, U.M, len, neg, 0);
+  
+  return out;
+  }
+
+
+
+template<typename T1>
+arma_warn_unused
+inline
+typename
+enable_if2
+  <
+  is_arma_type<T1>::value && resolves_to_vector<T1>::no,
+  Mat<typename T1::elem_type>
+  >::result
+circshift
   (
   const T1&   X,
   const sword N
@@ -118,6 +176,42 @@ shift
 
 
 
+template<typename T1>
+arma_warn_unused
+inline
+typename
+enable_if2
+  <
+  (is_arma_type<T1>::value),
+  Mat<typename T1::elem_type>
+  >::result
+circshift
+  (
+  const T1&   X,
+  const sword N,
+  const uword dim
+  )
+  {
+  arma_debug_sigprint();
+  
+  typedef typename T1::elem_type eT;
+  
+  arma_conform_check( (dim > 1), "circshift(): parameter 'dim' must be 0 or 1" );
+  
+  const uword len = (N < 0) ? uword(-N) : uword(N);
+  const uword neg = (N < 0) ? uword( 1) : uword(0);
+  
+  quasi_unwrap<T1> U(X);
+  
+  Mat<eT> out;
+  
+  op_shift::apply_noalias(out, U.M, len, neg, dim);
+  
+  return out;
+  }
+
+
+
 //
 
 
@@ -138,6 +232,37 @@ shift
   typedef typename T1::elem_type eT;
   
   arma_conform_check( (dim > 1), "shift(): parameter 'dim' must be 0 or 1" );
+  
+  const uword len = (N < 0) ? uword(-N) : uword(N);
+  const uword neg = (N < 0) ? uword( 1) : uword(0);
+  
+  unwrap_spmat<T1> U(expr.get_ref());
+  
+  SpMat<eT> out;
+  
+  spop_shift::apply_noalias(out, U.M, len, neg, dim);
+  
+  return out;
+  }
+
+
+
+template<typename T1>
+arma_warn_unused
+inline
+SpMat<typename T1::elem_type>
+circshift
+  (
+  const SpBase<typename T1::elem_type,T1>& expr,
+  const sword N,
+  const uword dim = 0
+  )
+  {
+  arma_debug_sigprint();
+  
+  typedef typename T1::elem_type eT;
+  
+  arma_conform_check( (dim > 1), "circshift(): parameter 'dim' must be 0 or 1" );
   
   const uword len = (N < 0) ? uword(-N) : uword(N);
   const uword neg = (N < 0) ? uword( 1) : uword(0);
