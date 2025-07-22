@@ -207,16 +207,7 @@ typedef void* void_ptr;
 // TODO: other compilers: http://fortranwiki.org/fortran/show/Compilers
 
 #if !defined(ARMA_FORTRAN_CHARLEN_TYPE)
-  #if defined(__GNUC__) && !defined(__clang__)
-    #if (__GNUC__ <= 7)
-      #define ARMA_FORTRAN_CHARLEN_TYPE int
-    #else
-      #define ARMA_FORTRAN_CHARLEN_TYPE size_t
-    #endif
-  #else
-    // TODO: determine the type for other compilers
-    #define ARMA_FORTRAN_CHARLEN_TYPE size_t
-  #endif
+  #define ARMA_FORTRAN_CHARLEN_TYPE size_t
 #endif
 
 typedef ARMA_FORTRAN_CHARLEN_TYPE blas_len;
