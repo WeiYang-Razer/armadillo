@@ -8,7 +8,7 @@ CXX_FLAGS = -I../tmp/include/ -std=c++14 -Wshadow -Wall -pedantic -Og
 #CXX_FLAGS = -I../tmp/include/ -std=c++14 -Wshadow -Wall -pedantic -Og -fopenmp
 #CXX_FLAGS = -I../tmp/include/ -std=c++14 -Wshadow -Wall -pedantic -Og -DARMA_DONT_USE_WRAPPER
 #CXX_FLAGS = -I../tmp/include/ -std=c++14 -Wshadow -Wall -pedantic -Og -fsanitize=address -fsanitize=leak -fsanitize=undefined -fsanitize=bounds -fsanitize=bounds-strict -g
-#CXX_FLAGS = -I../tmp/include/ -std=c++23 -Wshadow -Wall -pedantic -Og -DARMA_FORCE_USE_FP16
+#CXX_FLAGS = -I../tmp/include/ -std=c++23 -Wshadow -Wall -pedantic -Og -march=native -DARMA_FORCE_USE_FP16
 
 
 OBJECTS = $(patsubst %.cpp,%.o,$(wildcard *.cpp))
