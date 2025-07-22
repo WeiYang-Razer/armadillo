@@ -208,7 +208,7 @@ TEST_CASE("fn_conv_to_complex_real_to_different_eT_sparse", "[conv_to]")
 #if defined(ARMA_HAVE_FP16)
 TEST_CASE("fn_conv_to_fp16", "[conv_to]")
   {
-  fp16_mat x1 = randu<fp16_mat>(50, 50);
+  hmat x1 = randu<hmat>(50, 50);
   mat x2 = conv_to<mat>::from(x1);
 
   REQUIRE( x1.n_rows == x2.n_rows );
@@ -219,7 +219,7 @@ TEST_CASE("fn_conv_to_fp16", "[conv_to]")
     }
 
   x2.randu();
-  x1 = conv_to<fp16_mat>::from(x2);
+  x1 = conv_to<hmat>::from(x2);
 
   for (uword i = 0; i < x1.n_elem; ++i)
     {

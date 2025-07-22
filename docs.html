@@ -712,7 +712,7 @@ If supported by compiler and hardware, additional typedefs for matrices with hal
   <tbody>
     <tr>
       <td style="vertical-align: top; text-align: right;">
-      <code>fp16_mat</code>
+      <code>hmat</code>
       </td>
       <td style="vertical-align: top;">
       &nbsp;=&nbsp;
@@ -723,7 +723,7 @@ If supported by compiler and hardware, additional typedefs for matrices with hal
     </tr>
     <tr>
       <td style="vertical-align: top; text-align: right;">
-      <code>cx_fp16_mat</code>
+      <code>cx_hmat</code>
       </td>
       <td style="vertical-align: top;">
       &nbsp;=&nbsp;
@@ -1110,13 +1110,13 @@ If supported by compiler and hardware, additional typedefs for column vectors wi
   <tbody>
     <tr>
       <td style="vertical-align: top; text-align: right;">
-      <code>fp16_vec</code>
+      <code>hvec</code>
       </td>
       <td style="vertical-align: top;">
       &nbsp;=&nbsp;
       </td>
       <td style="vertical-align: top; text-align: right;">
-      <code>fp16_colvec</code>
+      <code>hcolvec</code>
       </td>
       <td style="vertical-align: top;">
       &nbsp;=&nbsp;
@@ -1127,13 +1127,13 @@ If supported by compiler and hardware, additional typedefs for column vectors wi
     </tr>
     <tr>
       <td style="vertical-align: top; text-align: right;">
-      <code>cx_fp16_vec</code>
+      <code>cx_hvec</code>
       </td>
       <td style="vertical-align: top;">
       &nbsp;=&nbsp;
       </td>
       <td style="vertical-align: top; text-align: right;">
-      <code>cx_fp16_colvec</code>
+      <code>cx_hcolvec</code>
       </td>
       <td style="vertical-align: top;">
       &nbsp;=&nbsp;
@@ -1401,7 +1401,7 @@ If supported by compiler and hardware, additional typedefs for row vectors with 
   <tbody>
     <tr>
       <td style="vertical-align: top; text-align: right;">
-      <code>fp16_rowvec</code>
+      <code>hrowvec</code>
       </td>
       <td style="vertical-align: top;">
       &nbsp;=&nbsp;
@@ -1412,7 +1412,7 @@ If supported by compiler and hardware, additional typedefs for row vectors with 
     </tr>
     <tr>
       <td style="vertical-align: top; text-align: right;">
-      <code>cx_fp16_rowvec</code>
+      <code>cx_hrowvec</code>
       </td>
       <td style="vertical-align: top;">
       &nbsp;=&nbsp;
@@ -1691,7 +1691,7 @@ If supported by compiler and hardware, additional typedefs for cubes with half-p
   <tbody>
     <tr>
       <td style="vertical-align: top; text-align: right;">
-      <code>fp16_cube</code>
+      <code>hcube</code>
       </td>
       <td style="vertical-align: top;">
       &nbsp;=&nbsp;
@@ -1702,7 +1702,7 @@ If supported by compiler and hardware, additional typedefs for cubes with half-p
     </tr>
     <tr>
       <td style="vertical-align: top; text-align: right;">
-      <code>cx_fp16_cube</code>
+      <code>cx_hcube</code>
       </td>
       <td style="vertical-align: top;">
       &nbsp;=&nbsp;
@@ -2069,7 +2069,7 @@ If supported by compiler and hardware, additional typedefs for sparse matrices w
   <tbody>
     <tr>
       <td style="vertical-align: top; text-align: right;">
-      <code>sp_fp16_mat</code>
+      <code>sp_hmat</code>
       </td>
       <td style="vertical-align: top;">
       &nbsp;=&nbsp;
@@ -2080,7 +2080,7 @@ If supported by compiler and hardware, additional typedefs for sparse matrices w
     </tr>
     <tr>
       <td style="vertical-align: top; text-align: right;">
-      <code>sp_cx_fp16_mat</code>
+      <code>sp_cx_hmat</code>
       </td>
       <td style="vertical-align: top;">
       &nbsp;=&nbsp;
@@ -18648,7 +18648,7 @@ matrices with <code>fp16</code> elements cannot be used with functions that requ
 Example:
 <ul>
 <pre>
-fp16_mat X(5, 5, fill::randu);
+hmat X(5, 5, fill::randu);
 
 X(1,2) = fp16(1.5);
 
@@ -18658,8 +18658,8 @@ fp16 val = X(2,3);
 </li>
 <li>See also:
 <ul>
-<li><a href="#Mat">fp16_mat</a> matrix type
-<li><a href="#Col">fp16_vec</a> vector type
+<li><a href="#Mat">hmat</a> matrix type
+<li><a href="#Col">hvec</a> vector type
 <li><a href="https://en.cppreference.com/w/cpp/types/floating-point.html">std::float16_t</a> in cppreference.com</li>
 <!-- <li><a href="https://en.cppreference.com/w/cpp/header/stdfloat.html">std::float16_t</a> in cppreference.com</li> -->
 <li><a href="https://en.wikipedia.org/wiki/Half-precision_floating-point_format">half-precision floating point format in Wikipedia</a></li>
