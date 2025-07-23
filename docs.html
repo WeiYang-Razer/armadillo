@@ -18608,10 +18608,11 @@ Support for <code>fp16</code> element types is automatically enabled if <b>both<
 <li>use <code>-std=c++23</code> when compiling with gcc or clang</li>
 </ul>
 <br>
-<li>hardware support for native FP16 arithmetic is detected
+<li>hardware support for FP16 is detected
 <ul>
 <li>use <code>-march=native</code> when compiling with gcc or clang; this enables use of all available instructions on your CPU
-<li>native FP16 arithmetic is present on x86-64 CPUs with the AVX512-FP16 instruction set extension</li>
+<li>rudimentary FP16 hardware support is present on x86-64 CPUs with the F16C instruction set extensions</li>
+<li>native FP16 arithmetic is present on x86-64 CPUs with the AVX512-FP16 instruction set extensions</li>
 <li>native FP16 arithmetic is present on ARM CPUs with the <code>+fp16</code> feature; typically found on ARMv8.2-A+ devices</li>
 </ul>
 </li>
