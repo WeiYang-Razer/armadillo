@@ -145,9 +145,8 @@ typedef void* void_ptr;
       #define ARMA_GOOD_FP16
     #endif
   #elif defined(__x86_64__) || defined(__i386__)
-    // TODO: seems that F16C extensions (previously known as CVT16) also provide "good enough" fp16 support
-    #if defined(__AVX512FP16__)
-      // need AVX512-FP16 extensions for native FP16 support
+    #if defined(__F16C__) || defined(__AVX512FP16__)
+      // NOTE: AVX512-FP16 extensions are preferred for native FP16 support
       #define ARMA_GOOD_FP16
     #endif
   #endif
@@ -162,7 +161,7 @@ typedef void* void_ptr;
     
     #if defined(ARMA_FORCE_USE_FP16) && !defined(ARMA_GOOD_FP16)
       #if defined(__GNUG__) || defined(__clang__)
-        #pragma message ("WARNING: hardware support for fp16 not detected; emulated fp16 can be slow; try adding -march=native to compiler flags")
+        #pragma message ("WARNING: hardware support for fp16 not detected; emulated fp16 can be slow; try adding -march=native or -mf16c to compiler flags")
       #else
         #pragma message ("WARNING: hardware support for fp16 not detected; emulated fp16 can be slow")
       #endif
