@@ -43,7 +43,7 @@ svds_helper
   
   arma_conform_check
     (
-    ( ((void*)(&U) == (void*)(&S)) || (&U == &V) || ((void*)(&S) == (void*)(&V)) ),
+    ( (void_ptr(&U) == void_ptr(&S)) || (&U == &V) || (void_ptr(&S) == void_ptr(&V)) ),
     "svds(): two or more output objects are the same object"
     );
   
@@ -167,7 +167,7 @@ svds_helper
   
   arma_conform_check
     (
-    ( ((void*)(&U) == (void*)(&S)) || (&U == &V) || ((void*)(&S) == (void*)(&V)) ),
+    ( (void_ptr(&U) == void_ptr(&S)) || (&U == &V) || (void_ptr(&S) == void_ptr(&V)) ),
     "svds(): two or more output objects are the same object"
     );
   
