@@ -54,7 +54,16 @@
 #include <atomic>
 
 #if defined(ARMA_USE_STD_MUTEX)
-  #include <mutex>
+  #if defined(__has_include)
+    #if __has_include(<mutex>)
+      #include <mutex>
+    #else
+      #undef ARMA_USE_STD_MUTEX
+      #pragma message ("WARNING: use of std::mutex disabled; mutex header not found")
+    #endif
+  #else
+    #include <mutex>
+  #endif
 #endif
 
 // #if defined(ARMA_HAVE_CXX17)
@@ -63,7 +72,13 @@
 // #endif
 
 #if defined(ARMA_HAVE_CXX23)
-  #include <stdfloat>
+  #if defined(__has_include)
+    #if __has_include(<stdfloat>)
+      #include <stdfloat>
+    #endif
+  #else
+    #include <stdfloat>
+  #endif
 #endif
 
 #if ( defined(__unix__) || defined(__unix) || defined(_POSIX_C_SOURCE) || (defined(__APPLE__) && defined(__MACH__)) ) && !defined(_WIN32)
