@@ -161,7 +161,7 @@ typedef void* void_ptr;
     
     #if defined(ARMA_FORCE_USE_FP16) && !defined(ARMA_GOOD_FP16)
       #if defined(__GNUG__) || defined(__clang__)
-        #pragma message ("WARNING: hardware support for fp16 not detected; emulated fp16 can be slow; try adding -march=native or -mf16c to compiler flags")
+        #pragma message ("WARNING: hardware support for fp16 not detected; emulated fp16 can be slow; try adding -march=native to compiler flags")
       #else
         #pragma message ("WARNING: hardware support for fp16 not detected; emulated fp16 can be slow")
       #endif
