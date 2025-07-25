@@ -21,10 +21,8 @@
 
 
 
-class herk_helper
+struct herk_helper
   {
-  public:
-  
   template<typename eT>
   inline
   static
@@ -84,10 +82,8 @@ class herk_helper
 
 
 template<const bool do_trans_A=false, const bool use_alpha=false, const bool use_beta=false>
-class herk_vec
+struct herk_vec
   {
-  public:
-  
   template<typename T, typename TA>
   arma_hot
   inline
@@ -225,10 +221,8 @@ class herk_vec
 
 
 template<const bool do_trans_A=false, const bool use_alpha=false, const bool use_beta=false>
-class herk_emul
+struct herk_emul
   {
-  public:
-  
   template<typename T, typename TA>
   arma_hot
   inline
@@ -310,10 +304,8 @@ class herk_emul
 
 
 template<const bool do_trans_A=false, const bool use_alpha=false, const bool use_beta=false>
-class herk
+struct herk
   {
-  public:
-  
   template<typename T, typename TA>
   inline
   static

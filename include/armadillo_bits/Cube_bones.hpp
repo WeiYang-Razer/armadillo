@@ -464,11 +464,12 @@ class Cube : public BaseCube< eT, Cube<eT> >
   inline Mat<eT>* create_mat_ptr(const uword in_slice) const;
   inline Mat<eT>*    get_mat_ptr(const uword in_slice) const;
   
-  friend class glue_join;
-  friend class op_reshape;
-  friend class op_resize;
   friend class subview_cube<eT>;
   
+  friend struct glue_join;
+  friend struct op_reshape;
+  friend struct op_resize;
+    
   
   public:
   

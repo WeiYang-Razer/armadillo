@@ -24,10 +24,8 @@
 #if defined(ARMA_USE_FFTW3)
 
 template<typename cx_type, bool inverse>
-class fft_engine_wrapper
+struct fft_engine_wrapper
   {
-  public:
-  
   static constexpr uword threshold = 512;
   
   fft_engine_kissfft<cx_type,inverse>* worker_kissfft = nullptr;

@@ -31,10 +31,8 @@ struct fft_engine_fftw3_aux
   };
 
 template<typename cx_type, bool inverse>
-class fft_engine_fftw3
+struct fft_engine_fftw3
   {
-  public:
-  
   constexpr static int fftw3_sign_forward  = -1;
   constexpr static int fftw3_sign_backward = +1;
   

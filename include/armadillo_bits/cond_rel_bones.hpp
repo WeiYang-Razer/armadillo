@@ -24,10 +24,8 @@
 // for preventing pedantic compiler warnings
 
 template<const bool do_eval>
-class cond_rel
+struct cond_rel
   {
-  public:
-  
   template<typename eT> arma_inline static bool lt(const eT A, const eT B);
   template<typename eT> arma_inline static bool gt(const eT A, const eT B);
 

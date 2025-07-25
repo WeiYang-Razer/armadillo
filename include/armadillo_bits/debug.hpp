@@ -1401,10 +1401,8 @@ inline void arma_debug_check(bool state, const char* msg)  { arma_conform_check(
 
   namespace junk
     {
-    class arma_first_debug_message
+    struct arma_first_debug_message
       {
-      public:
-      
       inline
       arma_first_debug_message()
         {

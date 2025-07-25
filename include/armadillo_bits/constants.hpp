@@ -22,10 +22,8 @@
 
 namespace priv
   {
-  class Datum_helper
+  struct Datum_helper
     {
-    public:
-    
     template<typename eT>
     static
     typename arma_real_only<eT>::result

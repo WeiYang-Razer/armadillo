@@ -801,13 +801,14 @@ class Mat : public Base< eT, Mat<eT> >
   
   friend class Cube<eT>;
   friend class subview_cube<eT>;
-  friend class glue_join;
-  friend class op_strans;
-  friend class op_htrans;
-  friend class op_resize;
-  friend class op_mean;
-  friend class op_max;
-  friend class op_min;
+  
+  friend struct glue_join;
+  friend struct op_strans;
+  friend struct op_htrans;
+  friend struct op_resize;
+  friend struct op_mean;
+  friend struct op_max;
+  friend struct op_min;
 
   
   public:

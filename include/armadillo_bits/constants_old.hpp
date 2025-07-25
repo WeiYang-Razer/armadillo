@@ -26,10 +26,8 @@
 // eg. instead of math::pi(), use datum::pi
 
 template<typename eT>
-class Math
+struct Math
   {
-  public:
-  
   arma_frown("use datum::pi instead")      static eT pi()      { return eT(Datum<eT>::pi);      }
   arma_frown("use datum::e instead")       static eT e()       { return eT(Datum<eT>::e);       }
   arma_frown("use datum::euler instead")   static eT euler()   { return eT(Datum<eT>::euler);   }
@@ -45,10 +43,8 @@ class Math
 
 
 template<typename eT>
-class Phy
+struct Phy
   {
-  public:
-  
   arma_deprecated static eT m_u()       { return eT(Datum<eT>::m_u);       }
   arma_deprecated static eT N_A()       { return eT(Datum<eT>::N_A);       }
   arma_deprecated static eT k()         { return eT(Datum<eT>::k);         }

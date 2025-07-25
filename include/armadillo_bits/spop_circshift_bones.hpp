@@ -22,11 +22,9 @@
 
 
 
-class spop_circshift
+struct spop_circshift
   : public traits_op_default
   {
-  public:
-  
   template<typename eT> inline static void apply_noalias(SpMat<eT>& out, const SpMat<eT>& X, const uword len, const uword neg, const uword dim);
   };
 

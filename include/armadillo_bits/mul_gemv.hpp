@@ -23,11 +23,8 @@
 
 //! for tiny square matrices, size <= 4x4
 template<const bool do_trans_A=false, const bool use_alpha=false, const bool use_beta=false>
-class gemv_emul_tinysq
+struct gemv_emul_tinysq
   {
-  public:
-  
-  
   template<const uword row, const uword col>
   struct pos
     {
@@ -140,10 +137,8 @@ class gemv_emul_tinysq
 
 
 
-class gemv_emul_helper
+struct gemv_emul_helper
   {
-  public:
-  
   template<typename eT, typename TA>
   arma_hot
   inline
@@ -213,10 +208,8 @@ class gemv_emul_helper
 //! 'y' is assumed to have been set to the correct size (ie. taking into account the transpose)
 
 template<const bool do_trans_A=false, const bool use_alpha=false, const bool use_beta=false>
-class gemv_emul
+struct gemv_emul
   {
-  public:
-  
   template<typename eT, typename TA>
   arma_hot
   inline
@@ -297,10 +290,8 @@ class gemv_emul
 //! 'y' is assumed to have been set to the correct size (ie. taking into account the transpose)
 
 template<const bool do_trans_A=false, const bool use_alpha=false, const bool use_beta=false>
-class gemv
+struct gemv
   {
-  public:
-  
   template<typename eT, typename TA>
   inline
   static

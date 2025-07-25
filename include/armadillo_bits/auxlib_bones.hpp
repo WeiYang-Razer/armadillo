@@ -21,10 +21,8 @@
 
 
 //! low-level interface functions for accessing LAPACK
-class auxlib
+struct auxlib
   {
-  public:
-  
   //
   // inv
   

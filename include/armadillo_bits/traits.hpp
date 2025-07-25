@@ -1223,7 +1223,7 @@ template<> struct is_non_integral< std::complex<fp16>   > { static constexpr boo
 
 //
 
-class arma_junk_class;
+struct arma_junk_class;
 
 template<typename T1, typename T2>
 struct force_different_type
