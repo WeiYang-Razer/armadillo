@@ -23,7 +23,7 @@
 //
 // for preventing pedantic compiler warnings
 
-template<const bool do_eval>
+template<bool do_eval>
 struct cond_rel
   {
   template<typename eT> static constexpr bool lt(const eT A, const eT B);
@@ -35,6 +35,116 @@ struct cond_rel
   template<typename eT> static constexpr eT make_neg(const eT val);
   };
 
+
+
+template<>
+template<typename eT>
+constexpr
+bool
+cond_rel<true>::lt(const eT A, const eT B)
+  {
+  return (A < B);
+  }
+  
+
+
+template<>
+template<typename eT>
+constexpr
+bool
+cond_rel<false>::lt(const eT, const eT)
+  {
+  return false;
+  }
+  
+
+
+template<>
+template<typename eT>
+constexpr
+bool
+cond_rel<true>::gt(const eT A, const eT B)
+  {
+  return (A > B);
+  }
+  
+
+
+template<>
+template<typename eT>
+constexpr
+bool
+cond_rel<false>::gt(const eT, const eT)
+  {
+  return false;
+  }
+  
+
+
+template<>
+template<typename eT>
+constexpr
+bool
+cond_rel<true>::leq(const eT A, const eT B)
+  {
+  return (A <= B);
+  }
+  
+
+
+template<>
+template<typename eT>
+constexpr
+bool
+cond_rel<false>::leq(const eT, const eT)
+  {
+  return false;
+  }
+  
+
+
+template<>
+template<typename eT>
+constexpr
+bool
+cond_rel<true>::geq(const eT A, const eT B)
+  {
+  return (A >= B);
+  }
+  
+
+
+template<>
+template<typename eT>
+constexpr
+bool
+cond_rel<false>::geq(const eT, const eT)
+  {
+  return false;
+  }
+
+
+
+template<>
+template<typename eT>
+constexpr
+eT
+cond_rel<true>::make_neg(const eT val)
+  {
+  return -val;
+  }
+  
+
+
+template<>
+template<typename eT>
+constexpr
+eT
+cond_rel<false>::make_neg(const eT)
+  {
+  return eT(0);
+  }
+  
 
 
 //! @}

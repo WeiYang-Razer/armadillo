@@ -158,6 +158,7 @@ namespace arma
   #include "armadillo_bits/constants_old.hpp"
   #include "armadillo_bits/mp_misc.hpp"
   #include "armadillo_bits/arma_rel_comparators.hpp"
+  #include "armadillo_bits/cond_rel.hpp"
   #include "armadillo_bits/fill.hpp"
   
   #if defined(ARMA_RNG_ALT)
@@ -190,7 +191,6 @@ namespace arma
   #include "armadillo_bits/translate_superlu.hpp"
   #include "armadillo_bits/translate_fftw3.hpp"
   
-  #include "armadillo_bits/cond_rel_bones.hpp"
   #include "armadillo_bits/arrayops_bones.hpp"
   #include "armadillo_bits/podarray_bones.hpp"
   #include "armadillo_bits/auxlib_bones.hpp"
@@ -681,7 +681,6 @@ namespace arma
   #include "armadillo_bits/eop_core_meat.hpp"
   #include "armadillo_bits/eglue_core_meat.hpp"
   
-  #include "armadillo_bits/cond_rel_meat.hpp"
   #include "armadillo_bits/arrayops_meat.hpp"
   #include "armadillo_bits/podarray_meat.hpp"
   #include "armadillo_bits/auxlib_meat.hpp"
