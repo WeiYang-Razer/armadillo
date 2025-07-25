@@ -26,13 +26,13 @@
 template<const bool do_eval>
 struct cond_rel
   {
-  template<typename eT> arma_inline static bool lt(const eT A, const eT B);
-  template<typename eT> arma_inline static bool gt(const eT A, const eT B);
+  template<typename eT> static constexpr bool lt(const eT A, const eT B);
+  template<typename eT> static constexpr bool gt(const eT A, const eT B);
 
-  template<typename eT> arma_inline static bool leq(const eT A, const eT B);
-  template<typename eT> arma_inline static bool geq(const eT A, const eT B);
+  template<typename eT> static constexpr bool leq(const eT A, const eT B);
+  template<typename eT> static constexpr bool geq(const eT A, const eT B);
   
-  template<typename eT> arma_inline static eT make_neg(const eT val);
+  template<typename eT> static constexpr eT make_neg(const eT val);
   };
 
 
