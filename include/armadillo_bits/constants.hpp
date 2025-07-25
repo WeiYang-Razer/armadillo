@@ -107,10 +107,8 @@ namespace priv
 
 
 template<typename eT>
-class Datum
+struct Datum
   {
-  public:
-  
   static const eT pi;           //!< ratio of any circle's circumference to its diameter
   static const eT tau;          //!< ratio of any circle's circumference to its radius (replacement of 2*pi)
   static const eT e;            //!< base of the natural logarithm
