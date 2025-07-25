@@ -33,12 +33,12 @@ struct fft_engine_fftw3_aux
 template<typename cx_type, bool inverse>
 struct fft_engine_fftw3
   {
-  constexpr static int fftw3_sign_forward  = -1;
-  constexpr static int fftw3_sign_backward = +1;
+  static constexpr int fftw3_sign_forward  = -1;
+  static constexpr int fftw3_sign_backward = +1;
   
-  constexpr static unsigned int fftw3_flag_destroy  = (1u << 0);
-  constexpr static unsigned int fftw3_flag_preserve = (1u << 4);
-  constexpr static unsigned int fftw3_flag_estimate = (1u << 6);
+  static constexpr unsigned int fftw3_flag_destroy  = (1u << 0);
+  static constexpr unsigned int fftw3_flag_preserve = (1u << 4);
+  static constexpr unsigned int fftw3_flag_estimate = (1u << 6);
   
   const uword N;
   
