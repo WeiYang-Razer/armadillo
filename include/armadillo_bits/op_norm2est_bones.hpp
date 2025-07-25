@@ -50,11 +50,9 @@ struct norm2est_randu_filler< std::complex<T> >
 
 
 
-class op_norm2est
+struct op_norm2est
   : public traits_op_default
   {
-  public:
-  
   template<typename T1> inline static typename T1::pod_type norm2est(const   Base<typename T1::elem_type, T1>& X, const typename T1::pod_type tolerance, const uword max_iter);
   template<typename T1> inline static typename T1::pod_type norm2est(const SpBase<typename T1::elem_type, T1>& X, const typename T1::pod_type tolerance, const uword max_iter);
   };

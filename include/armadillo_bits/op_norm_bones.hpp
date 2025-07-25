@@ -20,11 +20,9 @@
 //! @{
 
 
-class op_norm
+struct op_norm
   : public traits_op_default
   {
-  public:
-  
   template<typename T1> arma_hot inline static typename T1::pod_type vec_norm_1(const Proxy<T1>& P, const typename  arma_not_cx<typename T1::elem_type>::result* junk = nullptr);
   template<typename T1> arma_hot inline static typename T1::pod_type vec_norm_1(const Proxy<T1>& P, const typename arma_cx_only<typename T1::elem_type>::result* junk = nullptr);
   

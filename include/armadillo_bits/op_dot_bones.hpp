@@ -22,11 +22,9 @@
 //! \brief
 //! dot product operation 
 
-class op_dot
+struct op_dot
   : public traits_op_default
   {
-  public:
-  
   template<typename eT>
   arma_hot inline static
   typename arma_not_cx<eT>::result
@@ -81,11 +79,9 @@ class op_dot
 //! \brief
 //! normalised dot product operation 
 
-class op_norm_dot
+struct op_norm_dot
   : public traits_op_default
   {
-  public:
-  
   template<typename T1, typename T2>
   arma_hot inline static typename T1::elem_type apply(const T1& X, const T2& Y);
   };
@@ -95,11 +91,9 @@ class op_norm_dot
 //! \brief
 //! complex conjugate dot product operation
 
-class op_cdot
+struct op_cdot
   : public traits_op_default
   {
-  public:
-  
   template<typename eT>
   arma_hot inline static eT direct_cdot_generic(const uword n_elem, const eT* const A, const eT* const B);
   
@@ -121,11 +115,9 @@ class op_cdot
 
 
 
-class op_dot_mixed
+struct op_dot_mixed
   : public traits_op_default
   {
-  public:
-  
   template<typename T1, typename T2>
   arma_hot inline static
   typename promote_type<typename T1::elem_type, typename T2::elem_type>::result

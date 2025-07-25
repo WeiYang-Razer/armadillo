@@ -20,11 +20,9 @@
 //! @{
 
 
-class op_sum
+struct op_sum
   : public traits_op_xvec
   {
-  public:
-  
   // dense matrices
   
   template<typename T1>

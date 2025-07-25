@@ -21,11 +21,9 @@
 
 
 //! Class for finding mean values of a matrix
-class op_mean
+struct op_mean
   : public traits_op_xvec
   {
-  public:
-  
   // dense matrices
   
   template<typename T1>
