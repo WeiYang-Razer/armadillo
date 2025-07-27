@@ -29,7 +29,7 @@ op_dot::direct_dot_generic(const uword n_elem, const eT* const A, const eT* cons
   {
   arma_debug_sigprint();
   
-  typedef typename conditional_promote_type<is_real_or_cx<eT>::value, eT, float>::result acc_eT;
+  typedef typename conditional_promote_type<is_real<eT>::value, eT, float>::result acc_eT;
   
   #if defined(__FAST_MATH__)
     {
@@ -74,7 +74,7 @@ op_dot::direct_dot_generic(const uword n_elem, const eT* const A, const eT* cons
   
   typedef typename get_pod_type<eT>::result T;
   
-  typedef typename conditional_promote_type<is_real_or_cx<eT>::value, T, float>::result acc_T;
+  typedef typename conditional_promote_type<is_real<T>::value, T, float>::result acc_T;
   
   acc_T val_real = acc_T(0);
   acc_T val_imag = acc_T(0);
@@ -333,7 +333,7 @@ op_dot::apply_proxy_linear(const Proxy<T1>& PA, const Proxy<T2>& PB)
   
   typedef typename T1::elem_type eT;
   
-  typedef typename conditional_promote_type<is_real_or_cx<eT>::value, eT, float>::result acc_eT;
+  typedef typename conditional_promote_type<is_real<eT>::value, eT, float>::result acc_eT;
   
   typedef typename Proxy<T1>::ea_type ea_type1;
   typedef typename Proxy<T2>::ea_type ea_type2;
@@ -374,7 +374,7 @@ op_dot::apply_proxy_linear(const Proxy<T1>& PA, const Proxy<T2>& PB)
   typedef typename T1::elem_type            eT;
   typedef typename get_pod_type<eT>::result  T;
   
-  typedef typename conditional_promote_type<is_real_or_cx<eT>::value, T, float>::result acc_T;
+  typedef typename conditional_promote_type<is_real<T>::value, T, float>::result acc_T;
   
   typedef typename Proxy<T1>::ea_type ea_type1;
   typedef typename Proxy<T2>::ea_type ea_type2;
