@@ -27,48 +27,8 @@ inline
 typename arma_not_cx<eT>::result
 op_dot::direct_dot_generic(const uword n_elem, const eT* const A, const eT* const B)
   {
-  #if defined(__FAST_MATH__)
-    {
-    eT val = eT(0);
-    
-    for(uword i=0; i < n_elem; ++i)  { val += A[i] * B[i]; }
-    
-    return val;
-    }
-  #else
-    {
-    eT val1 = eT(0);
-    eT val2 = eT(0);
-    
-    uword i, j;
-    
-    for(i=0, j=1; j < n_elem; i+=2, j+=2)
-      {
-      val1 += A[i] * B[i];
-      val2 += A[j] * B[j];
-      }
-    
-    if(i < n_elem)
-      {
-      val1 += A[i] * B[i];
-      }
-    
-    return val1 + val2;
-    }
-  #endif
-  }
-
-
-
-//! generic version for non-complex values with forced optimisation under GCC
-template<typename eT>
-#if defined ARMA_REAL_GCC && !defined(ARMA_DONT_FORCE_OPTIMISE_DOT)
-__attribute__((optimize("O3", "fast-math")))
-#endif
-inline
-typename arma_not_cx<eT>::result
-op_dot::direct_dot_generic_force_optimise(const uword n_elem, const eT* const A, const eT* const B)
-  {
+  arma_debug_sigprint();
+  
   #if defined(__FAST_MATH__)
     {
     eT val = eT(0);
@@ -159,7 +119,7 @@ op_dot::direct_dot(const uword n_elem, const eT* const A, const eT* const B)
     }
   #else
     {
-    return op_dot::direct_dot_generic_force_optimise(n_elem, A, B);
+    return op_dot::direct_dot_generic(n_elem, A, B);
     }
   #endif
   }
@@ -172,6 +132,8 @@ inline
 typename arma_blas_cx_only<eT>::result
 op_dot::direct_dot(const uword n_elem, const eT* const A, const eT* const B)
   {
+  arma_debug_sigprint();
+  
   if(n_elem <= 16u)  { return op_dot::direct_dot_generic(n_elem, A, B); }
 
   #if defined(ARMA_USE_ATLAS)
@@ -201,7 +163,27 @@ inline
 typename arma_fp16_real_only<eT>::result
 op_dot::direct_dot(const uword n_elem, const eT* const A, const eT* const B)
   {
-  return op_dot::direct_dot_generic_force_optimise(n_elem, A, B);
+  arma_debug_sigprint();
+  
+  typedef typename promote_type<eT,float>::result acc_eT;
+  
+  acc_eT val1 = acc_eT(0);
+  acc_eT val2 = acc_eT(0);
+  
+  uword i, j;
+  
+  for(i=0, j=1; j < n_elem; i+=2, j+=2)
+    {
+    val1 += acc_eT(A[i] * B[i]);
+    val2 += acc_eT(A[j] * B[j]);
+    }
+  
+  if(i < n_elem)
+    {
+    val1 += acc_eT(A[i] * B[i]);
+    }
+  
+  return eT(val1 + val2);
   }
 
 
@@ -212,7 +194,31 @@ inline
 typename arma_fp16_cx_only<eT>::result
 op_dot::direct_dot(const uword n_elem, const eT* const A, const eT* const B)
   {
-  return op_dot::direct_dot_generic(n_elem, A, B);
+  arma_debug_sigprint();
+  
+  typedef typename get_pod_type<eT>::result T;
+  
+  typedef typename promote_type<T,float>::result acc_T;
+  
+  acc_T val_real = acc_T(0);
+  acc_T val_imag = acc_T(0);
+  
+  for(uword i=0; i<n_elem; ++i)
+    {
+    const std::complex<T>& X = A[i];
+    const std::complex<T>& Y = B[i];
+    
+    const T a = X.real();
+    const T b = X.imag();
+    
+    const T c = Y.real();
+    const T d = Y.imag();
+    
+    val_real += acc_T(a*c) - acc_T(b*d);
+    val_imag += acc_T(a*d) + acc_T(b*c);
+    }
+  
+  return std::complex<T>( T(val_real), T(val_imag) );
   }
 
 
