@@ -367,7 +367,10 @@ op_dot::apply_proxy_linear(const Proxy<T1>& PA, const Proxy<T2>& PB)
   {
   arma_debug_sigprint();
   
-  typedef typename T1::elem_type      eT;
+  typedef typename T1::elem_type eT;
+  
+  typedef typename promote_type<eT,float>::result acc_eT;
+  
   typedef typename Proxy<T1>::ea_type ea_type1;
   typedef typename Proxy<T2>::ea_type ea_type2;
   
@@ -376,23 +379,23 @@ op_dot::apply_proxy_linear(const Proxy<T1>& PA, const Proxy<T2>& PB)
   ea_type1 A = PA.get_ea();
   ea_type2 B = PB.get_ea();
   
-  eT val1 = eT(0);
-  eT val2 = eT(0);
+  acc_eT val1 = acc_eT(0);
+  acc_eT val2 = acc_eT(0);
   
   uword i,j;
   
   for(i=0, j=1; j<N; i+=2, j+=2)
     {
-    val1 += A[i] * B[i];
-    val2 += A[j] * B[j];
+    val1 += acc_eT(A[i] * B[i]);
+    val2 += acc_eT(A[j] * B[j]);
     }
   
   if(i < N)
     {
-    val1 += A[i] * B[i];
+    val1 += acc_eT(A[i] * B[i]);
     }
   
-  return val1 + val2;
+  return eT(val1 + val2);
   }
 
 
@@ -407,6 +410,8 @@ op_dot::apply_proxy_linear(const Proxy<T1>& PA, const Proxy<T2>& PB)
   typedef typename T1::elem_type            eT;
   typedef typename get_pod_type<eT>::result  T;
   
+  typedef typename promote_type<T,float>::result acc_T;
+  
   typedef typename Proxy<T1>::ea_type ea_type1;
   typedef typename Proxy<T2>::ea_type ea_type2;
   
@@ -415,8 +420,8 @@ op_dot::apply_proxy_linear(const Proxy<T1>& PA, const Proxy<T2>& PB)
   ea_type1 A = PA.get_ea();
   ea_type2 B = PB.get_ea();
   
-  T val_real = T(0);
-  T val_imag = T(0);
+  acc_T val_real = acc_T(0);
+  acc_T val_imag = acc_T(0);
   
   for(uword i=0; i<N; ++i)
     {
@@ -429,11 +434,11 @@ op_dot::apply_proxy_linear(const Proxy<T1>& PA, const Proxy<T2>& PB)
     const T c = yy.real();
     const T d = yy.imag();
     
-    val_real += (a*c) - (b*d);
-    val_imag += (a*d) + (b*c);
+    val_real += acc_T( (a*c) - (b*d) );
+    val_imag += acc_T( (a*d) + (b*c) );
     }
   
-  return std::complex<T>(val_real, val_imag);
+  return std::complex<T>( T(val_real), T(val_imag) );
   }
 
 
