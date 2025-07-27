@@ -340,4 +340,11 @@ struct eT_promoter
 
 
 
+template<bool, typename eT1, typename eT2> struct conditional_promote_type { };
+
+template<typename eT1, typename eT2> struct conditional_promote_type<false, eT1, eT2> { typedef                                     eT1 result; };
+template<typename eT1, typename eT2> struct conditional_promote_type<true,  eT1, eT2> { typedef typename promote_type<eT1, eT2>::result result; };
+
+
+
 //! @}

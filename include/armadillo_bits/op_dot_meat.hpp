@@ -29,33 +29,35 @@ op_dot::direct_dot_generic(const uword n_elem, const eT* const A, const eT* cons
   {
   arma_debug_sigprint();
   
+  typedef typename conditional_promote_type<is_non_integral<eT>::value, eT, float>::result acc_eT;
+  
   #if defined(__FAST_MATH__)
     {
-    eT val = eT(0);
+    acc_eT val = acc_eT(0);
     
-    for(uword i=0; i < n_elem; ++i)  { val += A[i] * B[i]; }
+    for(uword i=0; i < n_elem; ++i)  { val += acc_eT( A[i] * B[i] ); }
     
-    return val;
+    return eT(val);
     }
   #else
     {
-    eT val1 = eT(0);
-    eT val2 = eT(0);
+    acc_eT val1 = acc_eT(0);
+    acc_eT val2 = acc_eT(0);
     
     uword i, j;
     
     for(i=0, j=1; j < n_elem; i+=2, j+=2)
       {
-      val1 += A[i] * B[i];
-      val2 += A[j] * B[j];
+      val1 += acc_eT( A[i] * B[i] );
+      val2 += acc_eT( A[j] * B[j] );
       }
     
     if(i < n_elem)
       {
-      val1 += A[i] * B[i];
+      val1 += acc_eT( A[i] * B[i] );
       }
     
-    return val1 + val2;
+    return eT( val1 + val2 );
     }
   #endif
   }
@@ -72,8 +74,10 @@ op_dot::direct_dot_generic(const uword n_elem, const eT* const A, const eT* cons
   
   typedef typename get_pod_type<eT>::result T;
   
-  T val_real = T(0);
-  T val_imag = T(0);
+  typedef typename conditional_promote_type<is_non_integral<eT>::value, T, float>::result acc_T;
+  
+  acc_T val_real = acc_T(0);
+  acc_T val_imag = acc_T(0);
   
   for(uword i=0; i<n_elem; ++i)
     {
@@ -86,11 +90,11 @@ op_dot::direct_dot_generic(const uword n_elem, const eT* const A, const eT* cons
     const T c = Y.real();
     const T d = Y.imag();
     
-    val_real += (a*c) - (b*d);
-    val_imag += (a*d) + (b*c);
+    val_real += acc_T(a*c) - acc_T(b*d);
+    val_imag += acc_T(a*d) + acc_T(b*c);
     }
   
-  return std::complex<T>(val_real, val_imag);
+  return std::complex<T>( T(val_real), T(val_imag) );
   }
 
 
@@ -165,25 +169,7 @@ op_dot::direct_dot(const uword n_elem, const eT* const A, const eT* const B)
   {
   arma_debug_sigprint();
   
-  typedef typename promote_type<eT,float>::result acc_eT;
-  
-  acc_eT val1 = acc_eT(0);
-  acc_eT val2 = acc_eT(0);
-  
-  uword i, j;
-  
-  for(i=0, j=1; j < n_elem; i+=2, j+=2)
-    {
-    val1 += acc_eT(A[i] * B[i]);
-    val2 += acc_eT(A[j] * B[j]);
-    }
-  
-  if(i < n_elem)
-    {
-    val1 += acc_eT(A[i] * B[i]);
-    }
-  
-  return eT(val1 + val2);
+  return op_dot::direct_dot_generic(n_elem, A, B);
   }
 
 
@@ -196,29 +182,7 @@ op_dot::direct_dot(const uword n_elem, const eT* const A, const eT* const B)
   {
   arma_debug_sigprint();
   
-  typedef typename get_pod_type<eT>::result T;
-  
-  typedef typename promote_type<T,float>::result acc_T;
-  
-  acc_T val_real = acc_T(0);
-  acc_T val_imag = acc_T(0);
-  
-  for(uword i=0; i<n_elem; ++i)
-    {
-    const std::complex<T>& X = A[i];
-    const std::complex<T>& Y = B[i];
-    
-    const T a = X.real();
-    const T b = X.imag();
-    
-    const T c = Y.real();
-    const T d = Y.imag();
-    
-    val_real += acc_T(a*c) - acc_T(b*d);
-    val_imag += acc_T(a*d) + acc_T(b*c);
-    }
-  
-  return std::complex<T>( T(val_real), T(val_imag) );
+  return op_dot::direct_dot_generic(n_elem, A, B);
   }
 
 
@@ -369,7 +333,7 @@ op_dot::apply_proxy_linear(const Proxy<T1>& PA, const Proxy<T2>& PB)
   
   typedef typename T1::elem_type eT;
   
-  typedef typename promote_type<eT,float>::result acc_eT;
+  typedef typename conditional_promote_type<is_non_integral<eT>::value, eT, float>::result acc_eT;
   
   typedef typename Proxy<T1>::ea_type ea_type1;
   typedef typename Proxy<T2>::ea_type ea_type2;
@@ -386,16 +350,16 @@ op_dot::apply_proxy_linear(const Proxy<T1>& PA, const Proxy<T2>& PB)
   
   for(i=0, j=1; j<N; i+=2, j+=2)
     {
-    val1 += acc_eT(A[i] * B[i]);
-    val2 += acc_eT(A[j] * B[j]);
+    val1 += acc_eT( A[i] * B[i] );
+    val2 += acc_eT( A[j] * B[j] );
     }
   
   if(i < N)
     {
-    val1 += acc_eT(A[i] * B[i]);
+    val1 += acc_eT( A[i] * B[i] );
     }
   
-  return eT(val1 + val2);
+  return eT( val1 + val2 );
   }
 
 
@@ -410,7 +374,7 @@ op_dot::apply_proxy_linear(const Proxy<T1>& PA, const Proxy<T2>& PB)
   typedef typename T1::elem_type            eT;
   typedef typename get_pod_type<eT>::result  T;
   
-  typedef typename promote_type<T,float>::result acc_T;
+  typedef typename conditional_promote_type<is_non_integral<eT>::value, T, float>::result acc_T;
   
   typedef typename Proxy<T1>::ea_type ea_type1;
   typedef typename Proxy<T2>::ea_type ea_type2;
