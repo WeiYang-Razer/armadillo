@@ -1202,20 +1202,20 @@ template<> struct is_signed<ulng_t> { static constexpr bool value = false; };
 
 
 template<typename T>
-struct is_non_integral
+struct is_real_or_cx
   {
   static constexpr bool value = false;
   };
 
 
-template<> struct is_non_integral<              float   > { static constexpr bool value = true; };
-template<> struct is_non_integral<              double  > { static constexpr bool value = true; };
-template<> struct is_non_integral< std::complex<float>  > { static constexpr bool value = true; };
-template<> struct is_non_integral< std::complex<double> > { static constexpr bool value = true; };
+template<> struct is_real_or_cx<              float   > { static constexpr bool value = true; };
+template<> struct is_real_or_cx<              double  > { static constexpr bool value = true; };
+template<> struct is_real_or_cx< std::complex<float>  > { static constexpr bool value = true; };
+template<> struct is_real_or_cx< std::complex<double> > { static constexpr bool value = true; };
 
 #if defined(ARMA_HAVE_FP16)
-template<> struct is_non_integral<              fp16    > { static constexpr bool value = true; };
-template<> struct is_non_integral< std::complex<fp16>   > { static constexpr bool value = true; };
+template<> struct is_real_or_cx<              fp16    > { static constexpr bool value = true; };
+template<> struct is_real_or_cx< std::complex<fp16>   > { static constexpr bool value = true; };
 #endif
 
 

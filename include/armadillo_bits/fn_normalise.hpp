@@ -99,7 +99,7 @@ arma_inline
 typename
 enable_if2
   <
-  is_non_integral<T>::value,
+  is_real_or_cx<T>::value,
   Col<T>
   >::result
 normalise(const T& val)

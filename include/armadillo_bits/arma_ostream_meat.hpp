@@ -86,22 +86,22 @@ arma_ostream::modify_stream(std::ostream& o, const eT* data, const uword n_elem)
       ( val >= eT(+100) )
       ||
       //( (is_signed<eT>::value) && (val <= eT(-100)) ) ||
-      //( (is_non_integral<eT>::value) && (val > eT(0)) && (val <= eT(+1e-4)) ) ||
-      //( (is_non_integral<eT>::value) && (is_signed<eT>::value) && (val < eT(0)) && (val >= eT(-1e-4)) ) 
+      //( (is_real<eT>::value) && (val > eT(0)) && (val <= eT(+1e-4)) ) ||
+      //( (is_real<eT>::value) && (is_signed<eT>::value) && (val < eT(0)) && (val >= eT(-1e-4)) ) 
         (
         cond_rel< is_signed<eT>::value >::leq(val, eT(-100))
         )
       ||
         (
-        cond_rel< is_non_integral<eT>::value >::gt(val,  eT(0))
+        cond_rel< is_real<eT>::value >::gt(val,  eT(0))
         &&
-        cond_rel< is_non_integral<eT>::value >::leq(val, eT(+1e-4))
+        cond_rel< is_real<eT>::value >::leq(val, eT(+1e-4))
         )
       ||
         (
-        cond_rel< is_non_integral<eT>::value && is_signed<eT>::value >::lt(val, eT(0))
+        cond_rel< is_real<eT>::value && is_signed<eT>::value >::lt(val, eT(0))
         &&
-        cond_rel< is_non_integral<eT>::value && is_signed<eT>::value >::geq(val, eT(-1e-4))
+        cond_rel< is_real<eT>::value && is_signed<eT>::value >::geq(val, eT(-1e-4))
         )
       )
       {
@@ -213,8 +213,8 @@ arma_ostream::modify_stream(std::ostream& o, typename SpMat<eT>::const_iterator 
     if(
       val >= eT(+100) ||
       ( (is_signed<eT>::value) && (val <= eT(-100)) ) ||
-      ( (is_non_integral<eT>::value) && (val > eT(0)) && (val <= eT(+1e-4)) ) ||
-      ( (is_non_integral<eT>::value) && (is_signed<eT>::value) && (val < eT(0)) && (val >= eT(-1e-4)) )
+      ( (  is_real<eT>::value) && (val > eT(0)) && (val <= eT(+1e-4)) ) ||
+      ( (  is_real<eT>::value) && (is_signed<eT>::value) && (val < eT(0)) && (val >= eT(-1e-4)) )
       )
       {
       use_layout_C = true;

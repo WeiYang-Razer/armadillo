@@ -414,7 +414,7 @@ accu(const eOp<T1,eop_pow>& expr)
     return accu( reinterpret_cast< const modified_expr_type& >(expr) );
     }
   
-  if(arma_config::optimise_powexpr && (expr.aux == eT(0.5)) && is_non_integral<eT>::value)
+  if(arma_config::optimise_powexpr && (expr.aux == eT(0.5)) && is_real_or_cx<eT>::value)
     {
     typedef eOp<T1,eop_sqrt> modified_expr_type;
     
@@ -1055,7 +1055,7 @@ accu(const eOpCube<T1,eop_pow>& expr)
     return accu( reinterpret_cast< const modified_expr_type& >(expr) );
     }
   
-  if(arma_config::optimise_powexpr && (expr.aux == eT(0.5)) && is_non_integral<eT>::value)
+  if(arma_config::optimise_powexpr && (expr.aux == eT(0.5)) && is_real_or_cx<eT>::value)
     {
     typedef eOpCube<T1,eop_sqrt> modified_expr_type;
     
