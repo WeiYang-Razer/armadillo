@@ -398,8 +398,8 @@ op_dot::apply_proxy_linear(const Proxy<T1>& PA, const Proxy<T2>& PB)
     const T c = yy.real();
     const T d = yy.imag();
     
-    val_real += acc_T( (a*c) - (b*d) );
-    val_imag += acc_T( (a*d) + (b*c) );
+    val_real += acc_T(a*c) - acc_T(b*d);
+    val_imag += acc_T(a*d) + acc_T(b*c);
     }
   
   return std::complex<T>( T(val_real), T(val_imag) );
