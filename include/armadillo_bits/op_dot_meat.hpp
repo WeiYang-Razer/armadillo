@@ -451,8 +451,10 @@ op_cdot::direct_cdot_generic(const uword n_elem, const eT* const A, const eT* co
   
   typedef typename get_pod_type<eT>::result T;
   
-  T val_real = T(0);
-  T val_imag = T(0);
+  typedef typename conditional_promote_type<is_real<T>::value, T, float>::result acc_T;
+  
+  acc_T val_real = acc_T(0);
+  acc_T val_imag = acc_T(0);
   
   for(uword i=0; i<n_elem; ++i)
     {
@@ -465,11 +467,11 @@ op_cdot::direct_cdot_generic(const uword n_elem, const eT* const A, const eT* co
     const T c = Y.real();
     const T d = Y.imag();
     
-    val_real += (a*c) + (b*d);
-    val_imag += (a*d) - (b*c);
+    val_real += acc_T(a*c) + acc_T(b*d);
+    val_imag += acc_T(a*d) - acc_T(b*c);
     }
   
-  return std::complex<T>(val_real, val_imag);
+  return std::complex<T>( T(val_real), T(val_imag) );
   }
 
 
@@ -580,6 +582,8 @@ op_cdot::apply_proxy(const T1& X, const T2& Y)
   typedef typename T1::elem_type            eT;
   typedef typename get_pod_type<eT>::result  T;
   
+  typedef typename conditional_promote_type<is_real<T>::value, T, float>::result acc_T;
+  
   typedef typename Proxy<T1>::ea_type ea_type1;
   typedef typename Proxy<T2>::ea_type ea_type2;
   
@@ -597,8 +601,8 @@ op_cdot::apply_proxy(const T1& X, const T2& Y)
     ea_type1 A = PA.get_ea();
     ea_type2 B = PB.get_ea();
     
-    T val_real = T(0);
-    T val_imag = T(0);
+    acc_T val_real = acc_T(0);
+    acc_T val_imag = acc_T(0);
     
     for(uword i=0; i<N; ++i)
       {
@@ -611,11 +615,11 @@ op_cdot::apply_proxy(const T1& X, const T2& Y)
       const T c = BB.real();
       const T d = BB.imag();
       
-      val_real += (a*c) + (b*d);
-      val_imag += (a*d) - (b*c);
+      val_real += acc_T(a*c) + acc_T(b*d);
+      val_imag += acc_T(a*d) - acc_T(b*c);
       }
     
-    return std::complex<T>(val_real, val_imag);
+    return std::complex<T>( T(val_real), T(val_imag) );
     }
   else
     {
