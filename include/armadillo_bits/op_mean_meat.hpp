@@ -114,6 +114,52 @@ op_mean::apply_noalias(Mat<eT>& out, const Mat<eT>& X, const uword dim)
 
 
 
+#if defined(ARMA_HAVE_FP16)
+inline
+void
+op_mean::apply_noalias(Mat<fp16>& out, const Mat<fp16>& X, const uword dim)
+  {
+  arma_debug_sigprint();
+  
+  const uword X_n_rows = X.n_rows;
+  const uword X_n_cols = X.n_cols;
+  
+  if(dim == 0)
+    {
+    out.set_size((X_n_rows > 0) ? 1 : 0, X_n_cols);
+    
+    if(X_n_rows == 0)  { return; }
+    
+    fp16* out_mem = out.memptr();
+    
+    for(uword col=0; col < X_n_cols; ++col)
+      {
+      out_mem[col] = op_mean::direct_mean( X.colptr(col), X_n_rows );
+      }
+    }
+  else
+  if(dim == 1)
+    {
+    out.set_size(X_n_rows, (X_n_cols > 0) ? 1 : 0);
+    
+    if(X_n_cols == 0)  { return; }
+    
+    fp16* out_mem = out.memptr();
+    
+    podarray<fp16> tmp;
+    
+    for(uword row=0; row < X_n_rows; ++row)
+      {
+      tmp.copy_row(X, row);
+      
+      out_mem[row] = op_mean::direct_mean( tmp.memptr(), tmp.n_elem );
+      }
+    }
+  }
+#endif
+
+
+
 //
 
 
@@ -271,6 +317,33 @@ op_mean::direct_mean(const eT* X_mem, const uword N)
   
   return arma_isfinite(mean) ? mean : op_mean::direct_mean_robust(mean, X_mem, N);
   }
+
+
+
+#if defined(ARMA_HAVE_FP16)
+inline
+fp16
+op_mean::direct_mean(const fp16* X_mem, const uword N)
+  {
+  arma_debug_sigprint();
+  
+  float acc = float(0);
+  
+  for(uword i=0; i<N; ++i)  { acc += float(X_mem[i]); }
+  
+  const float mean = acc / float(N);
+  
+  if(arma_isfinite(mean) == false)
+    {
+    return fp16(op_mean::direct_mean_robust(fp16(mean), X_mem, N));
+    }
+  
+  if(mean > float(std::numeric_limits<fp16>::max()   ))  { return            std::numeric_limits<fp16>::infinity(); }
+  if(mean < float(std::numeric_limits<fp16>::lowest()))  { return fp16(-1) * std::numeric_limits<fp16>::infinity(); }
+  
+  return fp16(mean);
+  }
+#endif
 
 
 
