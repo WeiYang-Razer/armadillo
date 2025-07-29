@@ -657,6 +657,37 @@ op_accu_mat::apply(const subview_col<eT>& X)
 template<typename T1>
 inline
 typename T1::elem_type
+op_accu_fp16mat::apply(const T1& X)
+  {
+  arma_debug_sigprint();
+  
+  // TODO: this is a rudimentary place-holder implementation
+  
+  typedef typename T1::elem_type eT;
+  
+  typedef typename conditional_promote_type<is_real_or_cx<eT>::value, eT, float>::result acc_eT;
+  
+  const quasi_unwrap<T1> U(X);
+  
+  const uword N   = U.M.n_elem;
+  const eT*   mem = U.M.memptr();
+  
+  acc_eT acc = acc_eT(0);
+  
+  for(uword i=0; i<N; ++i)  { acc += acc_eT( mem[i] ); }
+  
+  return eT(acc);
+  }
+
+
+
+//
+
+
+
+template<typename T1>
+inline
+typename T1::elem_type
 op_accu_cube::apply_proxy_linear(const ProxyCube<T1>& P)
   {
   arma_debug_sigprint();

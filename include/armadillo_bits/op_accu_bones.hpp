@@ -69,6 +69,15 @@ struct  op_accu_mat
 
 
 
+struct  op_accu_fp16mat
+  : public traits_op_passthru
+  {
+  template<typename T1>
+  static inline typename T1::elem_type apply(const T1& X);
+  };
+
+
+
 struct  op_accu_cube
   : public traits_op_passthru
   {
