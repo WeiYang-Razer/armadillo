@@ -28,9 +28,6 @@ struct  op_accu_mat
   static inline typename T1::elem_type apply_proxy_linear(const Proxy<T1>& P);
   
   template<typename T1>
-  static inline typename T1::elem_type apply_proxy_at_mp(const Proxy<T1>& P);
-  
-  template<typename T1>
   static inline typename T1::elem_type apply_proxy_at(const Proxy<T1>& P);
   
   template<typename T1>
@@ -77,9 +74,6 @@ struct  op_accu_cube
   {
   template<typename T1>
   static inline typename T1::elem_type apply_proxy_linear(const ProxyCube<T1>& P);
-  
-  template<typename T1>
-  static inline typename T1::elem_type apply_proxy_at_mp(const ProxyCube<T1>& P);
   
   template<typename T1>
   static inline typename T1::elem_type apply_proxy_at(const ProxyCube<T1>& P);

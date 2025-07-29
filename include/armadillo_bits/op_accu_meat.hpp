@@ -36,163 +36,30 @@ op_accu_mat::apply_proxy_linear(const Proxy<T1>& P)
   
   const uword n_elem = P.get_n_elem();
   
-  if( arma_config::openmp && Proxy<T1>::use_mp && mp_gate<eT>::eval(n_elem) )
+  #if defined(__FAST_MATH__)
     {
-    #if defined(ARMA_USE_OPENMP)
+    if(P.is_aligned())
       {
-      // NOTE: using parallelisation with manual reduction workaround to take into account complex numbers;
-      // NOTE: OpenMP versions lower than 4.0 do not support user-defined reduction
+      typename Proxy<T1>::aligned_ea_type Pea_aligned = P.get_aligned_ea();
       
-      const int   n_threads_max = mp_thread_limit::get();
-      const uword n_threads_use = (std::min)(uword(podarray_prealloc_n_elem::val), uword(n_threads_max));
-      const uword chunk_size    = n_elem / n_threads_use;
-      
-      podarray<eT> partial_accs(n_threads_use);
-      
-      #pragma omp parallel for schedule(static) num_threads(int(n_threads_use))
-      for(uword thread_id=0; thread_id < n_threads_use; ++thread_id)
-        {
-        const uword start = (thread_id+0) * chunk_size;
-        const uword endp1 = (thread_id+1) * chunk_size;
-        
-        eT acc = eT(0);
-        for(uword i=start; i < endp1; ++i)  { acc += Pea[i]; }
-        
-        partial_accs[thread_id] = acc;
-        }
-      
-      for(uword thread_id=0; thread_id < n_threads_use; ++thread_id)  { val += partial_accs[thread_id]; }
-      
-      for(uword i=(n_threads_use*chunk_size); i < n_elem; ++i)  { val += Pea[i]; }
-      }
-    #endif
-    }
-  else
-    {
-    #if defined(__FAST_MATH__)
-      {
-      if(P.is_aligned())
-        {
-        typename Proxy<T1>::aligned_ea_type Pea_aligned = P.get_aligned_ea();
-        
-        for(uword i=0; i<n_elem; ++i)  { val += Pea_aligned.at_alt(i); }
-        }
-      else
-        {
-        for(uword i=0; i<n_elem; ++i)  { val += Pea[i]; }
-        }
-      }
-    #else
-      {
-      eT val1 = eT(0);
-      eT val2 = eT(0);
-      
-      uword i,j;
-      for(i=0, j=1; j < n_elem; i+=2, j+=2)  { val1 += Pea[i]; val2 += Pea[j]; }
-      
-      if(i < n_elem)  { val1 += Pea[i]; }
-      
-      val = val1 + val2;
-      }
-    #endif
-    }
-  
-  return val;
-  }
-
-
-
-template<typename T1>
-inline
-typename T1::elem_type
-op_accu_mat::apply_proxy_at_mp(const Proxy<T1>& P)
-  {
-  arma_debug_sigprint();
-  
-  typedef typename T1::elem_type eT;
-  
-  eT val = eT(0);
-  
-  #if defined(ARMA_USE_OPENMP)
-    {
-    const uword n_rows = P.get_n_rows();
-    const uword n_cols = P.get_n_cols();
-    
-    if(n_cols == 1)
-      {
-      const int   n_threads_max = mp_thread_limit::get();
-      const uword n_threads_use = (std::min)(uword(podarray_prealloc_n_elem::val), uword(n_threads_max));
-      const uword chunk_size    = n_rows / n_threads_use;
-      
-      podarray<eT> partial_accs(n_threads_use);
-      
-      #pragma omp parallel for schedule(static) num_threads(int(n_threads_use))
-      for(uword thread_id=0; thread_id < n_threads_use; ++thread_id)
-        {
-        const uword start = (thread_id+0) * chunk_size;
-        const uword endp1 = (thread_id+1) * chunk_size;
-        
-        eT acc = eT(0);
-        for(uword i=start; i < endp1; ++i)  { acc += P.at(i,0); }
-        
-        partial_accs[thread_id] = acc;
-        }
-      
-      for(uword thread_id=0; thread_id < n_threads_use; ++thread_id)  { val += partial_accs[thread_id]; }
-      
-      for(uword i=(n_threads_use*chunk_size); i < n_rows; ++i)  { val += P.at(i,0); }
-      }
-    else
-    if(n_rows == 1)
-      {
-      const int   n_threads_max = mp_thread_limit::get();
-      const uword n_threads_use = (std::min)(uword(podarray_prealloc_n_elem::val), uword(n_threads_max));
-      const uword chunk_size    = n_cols / n_threads_use;
-      
-      podarray<eT> partial_accs(n_threads_use);
-      
-      #pragma omp parallel for schedule(static) num_threads(int(n_threads_use))
-      for(uword thread_id=0; thread_id < n_threads_use; ++thread_id)
-        {
-        const uword start = (thread_id+0) * chunk_size;
-        const uword endp1 = (thread_id+1) * chunk_size;
-        
-        eT acc = eT(0);
-        for(uword i=start; i < endp1; ++i)  { acc += P.at(0,i); }
-        
-        partial_accs[thread_id] = acc;
-        }
-      
-      for(uword thread_id=0; thread_id < n_threads_use; ++thread_id)  { val += partial_accs[thread_id]; }
-      
-      for(uword i=(n_threads_use*chunk_size); i < n_cols; ++i)  { val += P.at(0,i); }
+      for(uword i=0; i<n_elem; ++i)  { val += Pea_aligned.at_alt(i); }
       }
     else
       {
-      podarray<eT> col_accs(n_cols);
-      
-      const int n_threads = mp_thread_limit::get();
-      
-      #pragma omp parallel for schedule(static) num_threads(n_threads)
-      for(uword col=0; col < n_cols; ++col)
-        {
-        eT val1 = eT(0);
-        eT val2 = eT(0);
-        
-        uword i,j;
-        for(i=0, j=1; j < n_rows; i+=2, j+=2)  { val1 += P.at(i,col); val2 += P.at(j,col); }
-        
-        if(i < n_rows)  { val1 += P.at(i,col); }
-        
-        col_accs[col] = val1 + val2;
-        }
-      
-      val = arrayops::accumulate(col_accs.memptr(), n_cols);
+      for(uword i=0; i<n_elem; ++i)  { val += Pea[i]; }
       }
     }
   #else
     {
-    arma_ignore(P);
+    eT val1 = eT(0);
+    eT val2 = eT(0);
+    
+    uword i,j;
+    for(i=0, j=1; j < n_elem; i+=2, j+=2)  { val1 += Pea[i]; val2 += Pea[j]; }
+    
+    if(i < n_elem)  { val1 += Pea[i]; }
+    
+    val = val1 + val2;
     }
   #endif
   
@@ -209,11 +76,6 @@ op_accu_mat::apply_proxy_at(const Proxy<T1>& P)
   arma_debug_sigprint();
   
   typedef typename T1::elem_type eT;
-  
-  if(arma_config::openmp && Proxy<T1>::use_mp && mp_gate<eT>::eval(P.get_n_elem()))
-    {
-    return apply_proxy_at_mp(P);
-    }
   
   const uword n_rows = P.get_n_rows();
   const uword n_cols = P.get_n_cols();
@@ -252,7 +114,7 @@ op_accu_mat::apply(const T1& X)
   {
   arma_debug_sigprint();
   
-  if((is_Mat<T1>::value) || (is_subview_col<T1>::value) || (is_Mat<typename Proxy<T1>::stored_type>::value))
+  if((is_Mat<T1>::value) || (is_subview_col<T1>::value) || (is_Mat<typename Proxy<T1>::stored_type>::value) || (arma_config::openmp && Proxy<T1>::use_mp) )
     {
     const quasi_unwrap<T1> U(X);
     
@@ -802,120 +664,35 @@ op_accu_cube::apply_proxy_linear(const ProxyCube<T1>& P)
   typedef typename T1::elem_type eT;
   
   eT val = eT(0);
-    
+  
   typename ProxyCube<T1>::ea_type Pea = P.get_ea();
   
   const uword n_elem = P.get_n_elem();
   
-  if( arma_config::openmp && ProxyCube<T1>::use_mp && mp_gate<eT>::eval(n_elem) )
+  #if defined(__FAST_MATH__)
     {
-    #if defined(ARMA_USE_OPENMP)
+    if(P.is_aligned())
       {
-      // NOTE: using parallelisation with manual reduction workaround to take into account complex numbers;
-      // NOTE: OpenMP versions lower than 4.0 do not support user-defined reduction
+      typename ProxyCube<T1>::aligned_ea_type Pea_aligned = P.get_aligned_ea();
       
-      const int   n_threads_max = mp_thread_limit::get();
-      const uword n_threads_use = (std::min)(uword(podarray_prealloc_n_elem::val), uword(n_threads_max));
-      const uword chunk_size    = n_elem / n_threads_use;
-      
-      podarray<eT> partial_accs(n_threads_use);
-      
-      #pragma omp parallel for schedule(static) num_threads(int(n_threads_use))
-      for(uword thread_id=0; thread_id < n_threads_use; ++thread_id)
-        {
-        const uword start = (thread_id+0) * chunk_size;
-        const uword endp1 = (thread_id+1) * chunk_size;
-        
-        eT acc = eT(0);
-        for(uword i=start; i < endp1; ++i)  { acc += Pea[i]; }
-        
-        partial_accs[thread_id] = acc;
-        }
-      
-      for(uword thread_id=0; thread_id < n_threads_use; ++thread_id)  { val += partial_accs[thread_id]; }
-      
-      for(uword i=(n_threads_use*chunk_size); i < n_elem; ++i)  { val += Pea[i]; }
+      for(uword i=0; i<n_elem; ++i)  { val += Pea_aligned.at_alt(i); }
       }
-    #endif
-    }
-  else
-    {
-    #if defined(__FAST_MATH__)
+    else
       {
-      if(P.is_aligned())
-        {
-        typename ProxyCube<T1>::aligned_ea_type Pea_aligned = P.get_aligned_ea();
-        
-        for(uword i=0; i<n_elem; ++i)  { val += Pea_aligned.at_alt(i); }
-        }
-      else
-        {
-        for(uword i=0; i<n_elem; ++i)  { val += Pea[i]; }
-        }
+      for(uword i=0; i<n_elem; ++i)  { val += Pea[i]; }
       }
-    #else
-      {
-      eT val1 = eT(0);
-      eT val2 = eT(0);
-      
-      uword i,j;
-      for(i=0, j=1; j<n_elem; i+=2, j+=2)  { val1 += Pea[i]; val2 += Pea[j]; }
-      
-      if(i < n_elem) { val1 += Pea[i]; }
-      
-      val = val1 + val2;
-      }
-    #endif
-    }
-  
-  return val;
-  }
-
-
-
-template<typename T1>
-inline
-typename T1::elem_type
-op_accu_cube::apply_proxy_at_mp(const ProxyCube<T1>& P)
-  {
-  arma_debug_sigprint();
-  
-  typedef typename T1::elem_type eT;
-  
-  eT val = eT(0);
-  
-  #if defined(ARMA_USE_OPENMP)
-    {
-    const uword n_rows   = P.get_n_rows();
-    const uword n_cols   = P.get_n_cols();
-    const uword n_slices = P.get_n_slices();
-    
-    podarray<eT> slice_accs(n_slices);
-    
-    const int n_threads = mp_thread_limit::get();
-    
-    #pragma omp parallel for schedule(static) num_threads(n_threads)
-    for(uword slice = 0; slice < n_slices; ++slice)
-      {
-      eT val1 = eT(0);
-      eT val2 = eT(0);
-      
-      for(uword col = 0; col < n_cols; ++col)
-        {
-        uword i,j;
-        for(i=0, j=1; j<n_rows; i+=2, j+=2)  { val1 += P.at(i,col,slice);  val2 += P.at(j,col,slice); }
-        
-        if(i < n_rows)  { val1 += P.at(i,col,slice); }
-        }
-      
-      slice_accs[slice] = val1 + val2;
-      }
-    
-    val = arrayops::accumulate(slice_accs.memptr(), slice_accs.n_elem);
     }
   #else
     {
-    arma_ignore(P);
+    eT val1 = eT(0);
+    eT val2 = eT(0);
+    
+    uword i,j;
+    for(i=0, j=1; j<n_elem; i+=2, j+=2)  { val1 += Pea[i]; val2 += Pea[j]; }
+    
+    if(i < n_elem)  { val1 += Pea[i]; }
+    
+    val = val1 + val2;
     }
   #endif
   
@@ -932,11 +709,6 @@ op_accu_cube::apply_proxy_at(const ProxyCube<T1>& P)
   arma_debug_sigprint();
   
   typedef typename T1::elem_type eT;
-  
-  if(arma_config::openmp && ProxyCube<T1>::use_mp && mp_gate<eT>::eval(P.get_n_elem()))
-    {
-    return apply_proxy_at_mp(P);
-    }
   
   const uword n_rows   = P.get_n_rows();
   const uword n_cols   = P.get_n_cols();
@@ -966,7 +738,7 @@ op_accu_cube::apply(const BaseCube<typename T1::elem_type,T1>& X)
   {
   arma_debug_sigprint();
   
-  if((is_Cube<T1>::value) || (is_Cube<typename ProxyCube<T1>::stored_type>::value))
+  if( (is_Cube<T1>::value) || (is_Cube<typename ProxyCube<T1>::stored_type>::value) || (arma_config::openmp && ProxyCube<T1>::use_mp) )
     {
     const unwrap_cube<T1> U(X.get_ref());
     
