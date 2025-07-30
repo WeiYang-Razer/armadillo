@@ -609,19 +609,11 @@ op_accu_mat::apply(const subview<eT>& X)
     const uword col_offset = X.aux_col1;
     const uword row_offset = X.aux_row1;
     
-    eT val1 = eT(0);
-    eT val2 = eT(0);
+    eT val = eT(0);
     
-    uword i,j;
-    for(i=0, j=1; j < X_n_cols; i+=2, j+=2)
-      {
-      val1 += m.at(row_offset, col_offset + i);
-      val2 += m.at(row_offset, col_offset + j);
-      }
+    for(uword i=0; i < X_n_cols; ++i)  { val += m.at(row_offset, col_offset + i); }
     
-    if(i < X_n_cols)  { val1 += m.at(row_offset, col_offset + i); }
-    
-    return val1 + val2;
+    return val;
     }
   
   if(X_n_cols == 1)  { return arrayops::accumulate( X.colptr(0), X_n_rows ); }
