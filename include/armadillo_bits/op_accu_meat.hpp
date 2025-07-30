@@ -657,7 +657,7 @@ op_accu_mat::apply(const subview_col<eT>& X)
 template<typename T1>
 inline
 typename T1::elem_type
-op_accu_fp16mat::apply_proxy_linear(const Proxy<T1>& P)
+op_accu_mat_promote::apply_proxy_linear(const Proxy<T1>& P)
   {
   arma_debug_sigprint();
   
@@ -685,7 +685,7 @@ op_accu_fp16mat::apply_proxy_linear(const Proxy<T1>& P)
 template<typename T1>
 inline
 typename T1::elem_type
-op_accu_fp16mat::apply_proxy_at(const Proxy<T1>& P)
+op_accu_mat_promote::apply_proxy_at(const Proxy<T1>& P)
   {
   arma_debug_sigprint();
   
@@ -726,7 +726,7 @@ op_accu_fp16mat::apply_proxy_at(const Proxy<T1>& P)
 template<typename T1>
 inline
 typename T1::elem_type
-op_accu_fp16mat::apply(const T1& X)
+op_accu_mat_promote::apply(const T1& X)
   {
   arma_debug_sigprint();
   
@@ -754,7 +754,7 @@ op_accu_fp16mat::apply(const T1& X)
   
   const Proxy<T1> P(X);
   
-  return (Proxy<T1>::use_at) ? op_accu_fp16mat::apply_proxy_at(P) : op_accu_fp16mat::apply_proxy_linear(P);
+  return (Proxy<T1>::use_at) ? op_accu_mat_promote::apply_proxy_at(P) : op_accu_mat_promote::apply_proxy_linear(P);
   }
 
 

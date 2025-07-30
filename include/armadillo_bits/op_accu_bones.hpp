@@ -69,7 +69,7 @@ struct  op_accu_mat
 
 
 
-struct  op_accu_fp16mat
+struct  op_accu_mat_promote
   : public traits_op_passthru
   {
   template<typename T1>
