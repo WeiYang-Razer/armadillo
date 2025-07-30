@@ -31,9 +31,17 @@ accu(const T1& expr, const typename enable_if< is_arma_type<T1>::value >::result
   
   arma_ignore(junk);
   
-  typedef typename T1::elem_type eT;
-  
-  return (is_fp16<eT>::yes || is_cx_fp16<eT>::yes) ? op_accu_fp16mat::apply(expr) : op_accu_mat::apply(expr);
+  #if defined(ARMA_HAVE_FP16)
+    {
+    typedef typename T1::elem_type eT;
+    
+    return (is_fp16<eT>::yes || is_cx_fp16<eT>::yes) ? op_accu_fp16mat::apply(expr) : op_accu_mat::apply(expr);
+    }
+  #else
+    {
+    return op_accu_mat::apply(expr);
+    }
+  #endif
   }
 
 
