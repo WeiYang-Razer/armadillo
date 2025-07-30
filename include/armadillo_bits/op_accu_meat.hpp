@@ -114,7 +114,7 @@ op_accu_mat::apply(const T1& X)
   {
   arma_debug_sigprint();
   
-  if((is_Mat<T1>::value) || (is_subview_col<T1>::value) || (is_Mat<typename Proxy<T1>::stored_type>::value) || (arma_config::openmp && Proxy<T1>::use_mp) )
+  if( (is_Mat<T1>::value) || (is_subview_col<T1>::value) || (is_Mat<typename Proxy<T1>::stored_type>::value) || (arma_config::openmp && Proxy<T1>::use_mp) )
     {
     const quasi_unwrap<T1> U(X);
     
@@ -657,26 +657,104 @@ op_accu_mat::apply(const subview_col<eT>& X)
 template<typename T1>
 inline
 typename T1::elem_type
-op_accu_fp16mat::apply(const T1& X)
+op_accu_fp16mat::apply_proxy_linear(const Proxy<T1>& P)
   {
   arma_debug_sigprint();
-  
-  // TODO: this is a rudimentary place-holder implementation
   
   typedef typename T1::elem_type eT;
   
   typedef typename conditional_promote_type<is_real_or_cx<eT>::value, eT, float>::result acc_eT;
   
-  const quasi_unwrap<T1> U(X);
+  typename Proxy<T1>::ea_type Pea = P.get_ea();
   
-  const uword N   = U.M.n_elem;
-  const eT*   mem = U.M.memptr();
+  const uword n_elem = P.get_n_elem();
   
-  acc_eT acc = acc_eT(0);
+  acc_eT val1 = acc_eT(0);
+  acc_eT val2 = acc_eT(0);
   
-  for(uword i=0; i<N; ++i)  { acc += acc_eT( mem[i] ); }
+  uword i,j;
+  for(i=0, j=1; j < n_elem; i+=2, j+=2)  { val1 += acc_eT(Pea[i]); val2 += acc_eT(Pea[j]); }
   
-  return eT(acc);
+  if(i < n_elem)  { val1 += acc_eT(Pea[i]); }
+  
+  return eT(val1 + val2);
+  }
+
+
+
+template<typename T1>
+inline
+typename T1::elem_type
+op_accu_fp16mat::apply_proxy_at(const Proxy<T1>& P)
+  {
+  arma_debug_sigprint();
+  
+  typedef typename T1::elem_type eT;
+  
+  typedef typename conditional_promote_type<is_real_or_cx<eT>::value, eT, float>::result acc_eT;
+  
+  const uword n_rows = P.get_n_rows();
+  const uword n_cols = P.get_n_cols();
+  
+  acc_eT val = acc_eT(0);
+  
+  if(n_rows != 1)
+    {
+    acc_eT val1 = acc_eT(0);
+    acc_eT val2 = acc_eT(0);
+    
+    for(uword col=0; col < n_cols; ++col)
+      {
+      uword i,j;
+      for(i=0, j=1; j < n_rows; i+=2, j+=2)  { val1 += acc_eT(P.at(i,col)); val2 += acc_eT(P.at(j,col)); }
+      
+      if(i < n_rows)  { val1 += acc_eT(P.at(i,col)); }
+      }
+    
+    val = val1 + val2;
+    }
+  else
+    {
+    for(uword col=0; col < n_cols; ++col)  { val += acc_eT(P.at(0,col)); }
+    }
+  
+  return eT(val);
+  }
+
+
+
+template<typename T1>
+inline
+typename T1::elem_type
+op_accu_fp16mat::apply(const T1& X)
+  {
+  arma_debug_sigprint();
+  
+  typedef typename T1::elem_type eT;
+  
+  if( (is_Mat<T1>::value) || (is_subview_col<T1>::value) || (is_Mat<typename Proxy<T1>::stored_type>::value) || (arma_config::openmp && Proxy<T1>::use_mp) )
+    {
+    typedef typename conditional_promote_type<is_real_or_cx<eT>::value, eT, float>::result acc_eT;
+    
+    const quasi_unwrap<T1> U(X);
+    
+    const uword n_elem = U.M.n_elem;
+    const eT*   mem    = U.M.memptr();
+    
+    acc_eT val1 = acc_eT(0);
+    acc_eT val2 = acc_eT(0);
+    
+    uword i,j;
+    for(i=0, j=1; j < n_elem; i+=2, j+=2)  { val1 += acc_eT( mem[i] ); val2 += acc_eT( mem[j] ); }
+    
+    if(i < n_elem)  { val1 += acc_eT( mem[i] ); }
+    
+    return eT(val1 + val2);
+    }
+  
+  const Proxy<T1> P(X);
+  
+  return (Proxy<T1>::use_at) ? op_accu_fp16mat::apply_proxy_at(P) : op_accu_fp16mat::apply_proxy_linear(P);
   }
 
 

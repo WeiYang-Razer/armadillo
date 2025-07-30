@@ -73,6 +73,12 @@ struct  op_accu_fp16mat
   : public traits_op_passthru
   {
   template<typename T1>
+  static inline typename T1::elem_type apply_proxy_linear(const Proxy<T1>& P);
+  
+  template<typename T1>
+  static inline typename T1::elem_type apply_proxy_at(const Proxy<T1>& P);
+  
+  template<typename T1>
   static inline typename T1::elem_type apply(const T1& X);
   };
 
