@@ -722,31 +722,129 @@ op_accu_mat_promote::apply(const T1& X)
   {
   arma_debug_sigprint();
   
-  typedef typename T1::elem_type eT;
-  
   if( (is_Mat<T1>::value) || (is_subview_col<T1>::value) || (is_Mat<typename Proxy<T1>::stored_type>::value) || (arma_config::openmp && Proxy<T1>::use_mp) )
     {
-    typedef typename conditional_promote_type<is_real_or_cx<eT>::value, eT, float>::result acc_eT;
-    
     const quasi_unwrap<T1> U(X);
     
-    const uword n_elem = U.M.n_elem;
-    const eT*   mem    = U.M.memptr();
-    
-    acc_eT val1 = acc_eT(0);
-    acc_eT val2 = acc_eT(0);
-    
-    uword i,j;
-    for(i=0, j=1; j < n_elem; i+=2, j+=2)  { val1 += acc_eT( mem[i] ); val2 += acc_eT( mem[j] ); }
-    
-    if(i < n_elem)  { val1 += acc_eT( mem[i] ); }
-    
-    return eT(val1 + val2);
+    return arrayops::accumulate_promote(U.M.memptr(), U.M.n_elem);
     }
   
   const Proxy<T1> P(X);
   
   return (Proxy<T1>::use_at) ? op_accu_mat_promote::apply_proxy_at(P) : op_accu_mat_promote::apply_proxy_linear(P);
+  }
+
+
+
+template<typename T1>
+inline
+typename T1::elem_type
+op_accu_mat_promote::apply(const eOp<T1,eop_square>& expr)
+  {
+  arma_debug_sigprint();
+  
+  typedef typename T1::elem_type eT;
+  
+  typedef eOp<T1,eop_square> expr_type;
+  
+  typedef typename expr_type::proxy_type::stored_type expr_P_stored_type;
+  
+  if((is_Mat<expr_P_stored_type>::value) || (is_subview_col<expr_P_stored_type>::value))
+    {
+    const quasi_unwrap<expr_P_stored_type> U(expr.P.Q);
+    
+    const eT* X_mem = U.M.memptr();
+    
+    return op_dot::direct_dot(U.M.n_elem, X_mem, X_mem);
+    }
+  
+  const Proxy<expr_type> P(expr);
+  
+  return (Proxy<expr_type>::use_at) ? op_accu_mat_promote::apply_proxy_at(P) : op_accu_mat_promote::apply_proxy_linear(P);
+  }
+
+
+
+template<typename T1>
+inline
+typename T1::elem_type
+op_accu_mat_promote::apply(const eOp<T1,eop_pow>& expr)
+  {
+  arma_debug_sigprint();
+  
+  typedef typename T1::elem_type eT;
+  
+  typedef eOp<T1,eop_pow> expr_type;
+  
+  if(arma_config::optimise_powexpr && (expr.aux == eT(2)))
+    {
+    typedef eOp<T1,eop_square> modified_expr_type;
+    
+    return op_accu_mat_promote::apply( reinterpret_cast< const modified_expr_type& >(expr) );
+    }
+  
+  if(arma_config::optimise_powexpr && (expr.aux == eT(0.5)) && is_real_or_cx<eT>::value)
+    {
+    typedef eOp<T1,eop_sqrt> modified_expr_type;
+    
+    return op_accu_mat_promote::apply( reinterpret_cast< const modified_expr_type& >(expr) );
+    }
+  
+  const Proxy<expr_type> P(expr);
+  
+  return (Proxy<expr_type>::use_at) ? op_accu_mat_promote::apply_proxy_at(P) : op_accu_mat_promote::apply_proxy_linear(P);
+  }
+
+
+
+template<typename eT>
+inline
+eT
+op_accu_mat_promote::apply(const subview<eT>& X)
+  {
+  arma_debug_sigprint();  
+  
+  typedef typename conditional_promote_type<is_real_or_cx<eT>::value, eT, float>::result acc_eT;
+  
+  const uword X_n_rows = X.n_rows;
+  const uword X_n_cols = X.n_cols;
+  
+  if(X_n_rows == 1)
+    {
+    const Mat<eT>& m = X.m;
+    
+    const uword col_offset = X.aux_col1;
+    const uword row_offset = X.aux_row1;
+    
+    acc_eT val = acc_eT(0);
+    
+    for(uword i=0; i < X_n_cols; ++i)  { val += acc_eT( m.at(row_offset, col_offset + i) ); }
+    
+    return eT(val);
+    }
+  
+  if(X_n_cols == 1)  { return arrayops::accumulate_promote( X.colptr(0), X_n_rows ); }
+  
+  acc_eT val = acc_eT(0);
+  
+  for(uword col=0; col < X_n_cols; ++col)
+    {
+    val += arrayops::accumulate_promote( X.colptr(col), X_n_rows );
+    }
+  
+  return eT(val);
+  }
+
+
+
+template<typename eT>
+inline
+eT
+op_accu_mat_promote::apply(const subview_col<eT>& X)
+  {
+  arma_debug_sigprint();  
+  
+  return arrayops::accumulate_promote( X.colmem, X.n_rows );
   }
 
 

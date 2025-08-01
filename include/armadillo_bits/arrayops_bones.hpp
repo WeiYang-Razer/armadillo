@@ -194,6 +194,11 @@ struct arrayops
   template<typename eT>
   arma_hot inline static
   eT
+  accumulate_promote(const eT* src, const uword n_elem);
+  
+  template<typename eT>
+  arma_hot inline static
+  eT
   product(const eT* src, const uword n_elem);
   
   template<typename eT>

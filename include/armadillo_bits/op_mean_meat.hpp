@@ -327,11 +327,7 @@ op_mean::direct_mean(const fp16* X_mem, const uword N)
   {
   arma_debug_sigprint();
   
-  float acc = float(0);
-  
-  for(uword i=0; i<N; ++i)  { acc += float(X_mem[i]); }
-  
-  const float mean = acc / float(N);
+  const float mean = float(arrayops::accumulate_promote(X_mem, N)) / float(N);
   
   if(arma_isfinite(mean) == false)
     {

@@ -62,7 +62,7 @@ struct  op_accu_mat
   
   template<typename eT>
   static inline eT apply(const subview<eT>& X);
-
+  
   template<typename eT>
   static inline eT apply(const subview_col<eT>& X);
   };
@@ -80,6 +80,18 @@ struct  op_accu_mat_promote
   
   template<typename T1>
   static inline typename T1::elem_type apply(const T1& X);
+  
+  template<typename T1>
+  static inline typename T1::elem_type apply(const eOp<T1,eop_square>& expr);
+  
+  template<typename T1>
+  static inline typename T1::elem_type apply(const eOp<T1,eop_pow>& expr);
+  
+  template<typename eT>
+  static inline eT apply(const subview<eT>& X);
+  
+  template<typename eT>
+  static inline eT apply(const subview_col<eT>& X);
   };
 
 
