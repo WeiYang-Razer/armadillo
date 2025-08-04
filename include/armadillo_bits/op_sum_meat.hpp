@@ -227,7 +227,7 @@ op_sum::apply_mat_noalias_promote(Mat<eT>& out, const Mat<eT>& X, const uword di
   
   if(X.n_elem == 0)  { out.zeros(); return; }
   
-  eT* out_mem  = out.memptr();
+  eT* out_mem = out.memptr();
   
   if(dim == 0)
     {
@@ -238,14 +238,20 @@ op_sum::apply_mat_noalias_promote(Mat<eT>& out, const Mat<eT>& X, const uword di
     }
   else
     {
-    podarray<eT> tmp;
+    typedef typename conditional_promote_type<is_real_or_cx<eT>::value, eT, float>::result acc_eT;
     
-    for(uword row=0; row < X_n_rows; ++row)
+    podarray<acc_eT> acc(X_n_rows, arma_zeros_indicator());
+    
+    acc_eT* acc_mem = acc.memptr();
+    
+    for(uword col=0; col < X_n_cols; ++col)
       {
-      tmp.copy_row(X, row);
+      const eT* X_colmem = X.colptr(col);
       
-      out_mem[row] = arrayops::accumulate_promote( tmp.memptr(), tmp.n_elem );
+      for(uword row=0; row < X_n_rows; ++row)  { acc_mem[row] += acc_eT( X_colmem[row] ); }
       }
+    
+    for(uword row=0; row < X_n_rows; ++row)  { out_mem[row] = eT( acc_mem[row] ); }
     }
   }
 
