@@ -59,6 +59,12 @@ op_mean::apply_noalias(Mat<eT>& out, const Mat<eT>& X, const uword dim)
   {
   arma_debug_sigprint();
   
+  #if defined(ARMA_HAVE_FP16)
+    {
+    if(is_fp16<eT>::yes || is_cx_fp16<eT>::yes)  { op_mean::apply_noalias_promote(out, X, dim); return; }
+    }
+  #endif
+  
   typedef typename get_pod_type<eT>::result T;
   
   const uword X_n_rows = X.n_rows;
@@ -114,10 +120,10 @@ op_mean::apply_noalias(Mat<eT>& out, const Mat<eT>& X, const uword dim)
 
 
 
-#if defined(ARMA_HAVE_FP16)
+template<typename eT>
 inline
 void
-op_mean::apply_noalias(Mat<fp16>& out, const Mat<fp16>& X, const uword dim)
+op_mean::apply_noalias_promote(Mat<eT>& out, const Mat<eT>& X, const uword dim)
   {
   arma_debug_sigprint();
   
@@ -130,11 +136,11 @@ op_mean::apply_noalias(Mat<fp16>& out, const Mat<fp16>& X, const uword dim)
     
     if(X_n_rows == 0)  { return; }
     
-    fp16* out_mem = out.memptr();
+    eT* out_mem = out.memptr();
     
     for(uword col=0; col < X_n_cols; ++col)
       {
-      out_mem[col] = op_mean::direct_mean( X.colptr(col), X_n_rows );
+      out_mem[col] = op_mean::direct_mean_promote( X.colptr(col), X_n_rows );
       }
     }
   else
@@ -144,19 +150,18 @@ op_mean::apply_noalias(Mat<fp16>& out, const Mat<fp16>& X, const uword dim)
     
     if(X_n_cols == 0)  { return; }
     
-    fp16* out_mem = out.memptr();
+    eT* out_mem = out.memptr();
     
-    podarray<fp16> tmp;
+    podarray<eT> tmp;
     
     for(uword row=0; row < X_n_rows; ++row)
       {
       tmp.copy_row(X, row);
       
-      out_mem[row] = op_mean::direct_mean( tmp.memptr(), tmp.n_elem );
+      out_mem[row] = op_mean::direct_mean_promote( tmp.memptr(), tmp.n_elem );
       }
     }
   }
-#endif
 
 
 
@@ -320,26 +325,30 @@ op_mean::direct_mean(const eT* X_mem, const uword N)
 
 
 
-#if defined(ARMA_HAVE_FP16)
+template<typename eT>
 inline
-fp16
-op_mean::direct_mean(const fp16* X_mem, const uword N)
+eT
+op_mean::direct_mean_promote(const eT* X_mem, const uword N)
   {
   arma_debug_sigprint();
   
-  const float mean = float(arrayops::accumulate_promote(X_mem, N)) / float(N);
+  typedef typename conditional_promote_type<is_real_or_cx<eT>::value, eT, float>::result acc_eT;
+  
+  typedef typename get_pod_type<acc_eT>::result acc_T;
+  
+  acc_eT acc = acc_eT(0);
+  
+  for(uword i=0; i<N; ++i)  { acc += acc_eT(X_mem[i]); }
+  
+  const acc_eT mean = acc / acc_T(N);
   
   if(arma_isfinite(mean) == false)
     {
-    return fp16(op_mean::direct_mean_robust(fp16(mean), X_mem, N));
+    return eT(op_mean::direct_mean_robust(eT(mean), X_mem, N));
     }
   
-  if(mean > float(std::numeric_limits<fp16>::max()   ))  { return            std::numeric_limits<fp16>::infinity(); }
-  if(mean < float(std::numeric_limits<fp16>::lowest()))  { return fp16(-1) * std::numeric_limits<fp16>::infinity(); }
-  
-  return fp16(mean);
+  return eT(mean);
   }
-#endif
 
 
 
@@ -389,6 +398,12 @@ op_mean::mean_all(const T1& X)
     
     return Datum<eT>::nan;
     }
+  
+  #if defined(ARMA_HAVE_FP16)
+    {
+    if(is_fp16<eT>::yes || is_cx_fp16<eT>::yes)  { return op_mean::direct_mean_promote(U.M.memptr(), U.M.n_elem); }
+    }
+  #endif
   
   return op_mean::direct_mean(U.M.memptr(), U.M.n_elem);
   }

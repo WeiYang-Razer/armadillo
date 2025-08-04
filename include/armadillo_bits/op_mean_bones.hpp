@@ -32,10 +32,8 @@ struct op_mean
   template<typename eT>
   inline static void apply_noalias(Mat<eT>& out, const Mat<eT>& X, const uword dim);
   
-  #if defined(ARMA_HAVE_FP16)
-  // template<>
-  inline static void apply_noalias(Mat<fp16>& out, const Mat<fp16>& X, const uword dim);
-  #endif
+  template<typename eT>
+  inline static void apply_noalias_promote(Mat<eT>& out, const Mat<eT>& X, const uword dim);
   
   // cubes
   
@@ -50,10 +48,8 @@ struct op_mean
   template<typename eT>
   inline static eT direct_mean(const eT* X_mem, const uword N);
   
-  #if defined(ARMA_HAVE_FP16)
-  // template<>
-  inline static fp16 direct_mean(const fp16* X_mem, const uword N);
-  #endif
+  template<typename eT>
+  inline static eT direct_mean_promote(const eT* X_mem, const uword N);
   
   template<typename eT>
   inline static eT direct_mean_robust(const eT old_mean, const eT* X_mem, const uword N);
