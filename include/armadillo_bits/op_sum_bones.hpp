@@ -41,6 +41,9 @@ struct op_sum
   inline static void apply_mat_noalias(Mat<eT>& out, const Mat<eT>& X, const uword dim);
   
   template<typename eT>
+  inline static void apply_mat_noalias_promote(Mat<eT>& out, const Mat<eT>& X, const uword dim);
+  
+  template<typename eT>
   inline static void apply_mat_square_noalias(Mat<eT>& out, const Mat<eT>& X, const uword dim);
 
   template<typename T1>

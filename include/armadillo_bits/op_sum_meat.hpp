@@ -69,7 +69,7 @@ op_sum::apply(Mat<typename T1::elem_type>& out, const Op< eOp<T1,eop_square>, op
     
     return;
     }
-    
+  
   op_sum::apply_generic(out, in);
   }
 
@@ -120,7 +120,7 @@ op_sum::apply_generic(Mat<typename T1::elem_type>& out, const Op<T1,op_sum>& in)
   
   arma_conform_check( (dim > 1), "sum(): parameter 'dim' must be 0 or 1" );
   
-  if((is_Mat<T1>::value) || (is_Mat<typename Proxy<T1>::stored_type>::value) || (arma_config::openmp && Proxy<T1>::use_mp))
+  if((is_Mat<T1>::value) || (is_Mat<typename Proxy<T1>::stored_type>::value) || (arma_config::openmp && Proxy<T1>::use_mp) || (is_fp16<eT>::yes) || (is_cx_fp16<eT>::yes))
     {
     const quasi_unwrap<T1> U(in.m);
     
@@ -165,6 +165,12 @@ op_sum::apply_mat_noalias(Mat<eT>& out, const Mat<eT>& X, const uword dim)
   {
   arma_debug_sigprint();
   
+  #if defined(ARMA_HAVE_FP16)
+    {
+    if(is_fp16<eT>::yes || is_cx_fp16<eT>::yes)  { op_sum::apply_mat_noalias_promote(out, X, dim); return; }
+    }
+  #endif
+  
   const uword X_n_rows = X.n_rows;
   const uword X_n_cols = X.n_cols;
   
@@ -198,6 +204,47 @@ op_sum::apply_mat_noalias(Mat<eT>& out, const Mat<eT>& X, const uword dim)
       arrayops::inplace_plus( out_mem, X_colptr, X_n_rows );
       
       X_colptr += X_n_rows;
+      }
+    }
+  }
+
+
+
+template<typename eT>
+inline
+void
+op_sum::apply_mat_noalias_promote(Mat<eT>& out, const Mat<eT>& X, const uword dim)
+  {
+  arma_debug_sigprint();
+  
+  const uword X_n_rows = X.n_rows;
+  const uword X_n_cols = X.n_cols;
+  
+  const uword out_n_rows = (dim == 0) ? uword(1) : X_n_rows;
+  const uword out_n_cols = (dim == 0) ? X_n_cols : uword(1);
+  
+  out.set_size(out_n_rows, out_n_cols);
+  
+  if(X.n_elem == 0)  { out.zeros(); return; }
+  
+  eT* out_mem  = out.memptr();
+  
+  if(dim == 0)
+    {
+    for(uword col=0; col < X_n_cols; ++col)
+      {
+      out_mem[col] = arrayops::accumulate_promote( X.colptr(col), X_n_rows );
+      }
+    }
+  else
+    {
+    podarray<eT> tmp;
+    
+    for(uword row=0; row < X_n_rows; ++row)
+      {
+      tmp.copy_row(X, row);
+      
+      out_mem[row] = arrayops::accumulate_promote( tmp.memptr(), tmp.n_elem );
       }
     }
   }
