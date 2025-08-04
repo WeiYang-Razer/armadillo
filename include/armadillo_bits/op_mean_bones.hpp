@@ -54,6 +54,8 @@ struct op_mean
   template<typename eT>
   inline static eT direct_mean_robust(const eT old_mean, const eT* X_mem, const uword N);
   
+  template<typename eT>
+  inline static eT direct_mean_robust_promote(const eT old_mean, const eT* X_mem, const uword N);
   
   //
   
