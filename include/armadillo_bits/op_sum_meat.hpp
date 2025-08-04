@@ -264,6 +264,12 @@ op_sum::apply_mat_square_noalias(Mat<eT>& out, const Mat<eT>& X, const uword dim
   {
   arma_debug_sigprint();
   
+  #if defined(ARMA_HAVE_FP16)
+    {
+    if(is_fp16<eT>::yes || is_cx_fp16<eT>::yes)  { op_sum::apply_mat_square_noalias_promote(out, X, dim); return; }
+    }
+  #endif
+  
   const uword X_n_rows = X.n_rows;
   const uword X_n_cols = X.n_cols;
   
@@ -298,6 +304,60 @@ op_sum::apply_mat_square_noalias(Mat<eT>& out, const Mat<eT>& X, const uword dim
       
       X_colptr += X_n_rows;
       }
+    }
+  }
+
+
+
+template<typename eT>
+inline
+void
+op_sum::apply_mat_square_noalias_promote(Mat<eT>& out, const Mat<eT>& X, const uword dim)
+  {
+  arma_debug_sigprint();
+  
+  const uword X_n_rows = X.n_rows;
+  const uword X_n_cols = X.n_cols;
+  
+  const uword out_n_rows = (dim == 0) ? uword(1) : X_n_rows;
+  const uword out_n_cols = (dim == 0) ? X_n_cols : uword(1);
+  
+  out.set_size(out_n_rows, out_n_cols);
+  
+  if(X.n_elem == 0)  { out.zeros(); return; }
+  
+  eT* out_mem = out.memptr();
+  
+  if(dim == 0)
+    {
+    for(uword col=0; col < X_n_cols; ++col)
+      {
+      const eT* X_colmem = X.colptr(col);
+      
+      out_mem[col] = op_dot::direct_dot(X_n_rows, X_colmem, X_colmem);  // internally does type promotion
+      }
+    }
+  else
+    {
+    typedef typename conditional_promote_type<is_real_or_cx<eT>::value, eT, float>::result acc_eT;
+    
+    podarray<acc_eT> acc(X_n_rows, arma_zeros_indicator());
+    
+    acc_eT* acc_mem = acc.memptr();
+    
+    for(uword col=0; col < X_n_cols; ++col)
+      {
+      const eT* X_colmem = X.colptr(col);
+      
+      for(uword row=0; row < X_n_rows; ++row)
+        {
+        const eT tmp = X_colmem[row];
+        
+        acc_mem[row] += acc_eT( tmp*tmp );
+        }
+      }
+    
+    for(uword row=0; row < X_n_rows; ++row)  { out_mem[row] = eT( acc_mem[row] ); }
     }
   }
 
