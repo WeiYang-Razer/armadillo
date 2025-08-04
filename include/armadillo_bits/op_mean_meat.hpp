@@ -328,6 +328,31 @@ op_mean::direct_mean(const eT* X_mem, const uword N)
 template<typename eT>
 inline
 eT
+op_mean::direct_mean_robust(const eT old_mean, const eT* X_mem, const uword N)
+  {
+  arma_debug_sigprint();
+  
+  // use an adapted form of the mean finding algorithm from the running_stat class
+  
+  typedef typename get_pod_type<eT>::result T;
+  
+  if(arrayops::is_finite(X_mem, N) == false)  { return old_mean; }
+  
+  eT r_mean = eT(0);
+  
+  for(uword i=0; i < N; ++i)
+    {
+    r_mean = r_mean + (X_mem[i] - r_mean) / T(i+1);
+    }
+  
+  return r_mean;
+  }
+
+
+
+template<typename eT>
+inline
+eT
 op_mean::direct_mean_promote(const eT* X_mem, const uword N)
   {
   arma_debug_sigprint();
@@ -348,31 +373,6 @@ op_mean::direct_mean_promote(const eT* X_mem, const uword N)
     }
   
   return eT(mean);
-  }
-
-
-
-template<typename eT>
-inline
-eT
-op_mean::direct_mean_robust(const eT old_mean, const eT* X_mem, const uword N)
-  {
-  arma_debug_sigprint();
-  
-  // use an adapted form of the mean finding algorithm from the running_stat class
-  
-  typedef typename get_pod_type<eT>::result T;
-  
-  if(arrayops::is_finite(X_mem, N) == false)  { return old_mean; }
-  
-  eT r_mean = eT(0);
-  
-  for(uword i=0; i < N; ++i)
-    {
-    r_mean = r_mean + (X_mem[i] - r_mean) / T(i+1);
-    }
-  
-  return r_mean;
   }
 
 
