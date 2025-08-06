@@ -61,12 +61,12 @@ diskio::gen_txt_header(const Mat<eT>&)
   else if(is_slng_t_32<eT>::value)  { header = const_cast<char*>(ARMA_MAT_TXT_IS004); }
   else if(is_ulng_t_64<eT>::value)  { header = const_cast<char*>(ARMA_MAT_TXT_IU008); }
   else if(is_slng_t_64<eT>::value)  { header = const_cast<char*>(ARMA_MAT_TXT_IS008); }
+  else if(     is_fp16<eT>::value)  { header = const_cast<char*>(ARMA_MAT_TXT_FN002); }
   else if(    is_float<eT>::value)  { header = const_cast<char*>(ARMA_MAT_TXT_FN004); }
   else if(   is_double<eT>::value)  { header = const_cast<char*>(ARMA_MAT_TXT_FN008); }
-  else if(     is_fp16<eT>::value)  { header = const_cast<char*>(ARMA_MAT_TXT_FN002); }
+  else if(  is_cx_fp16<eT>::value)  { header = const_cast<char*>(ARMA_MAT_TXT_FC004); }
   else if( is_cx_float<eT>::value)  { header = const_cast<char*>(ARMA_MAT_TXT_FC008); }
   else if(is_cx_double<eT>::value)  { header = const_cast<char*>(ARMA_MAT_TXT_FC016); }
-  else if(  is_cx_fp16<eT>::value)  { header = const_cast<char*>(ARMA_MAT_TXT_FC004); }
   
   return std::string(header);
   }
@@ -114,12 +114,12 @@ diskio::gen_bin_header(const Mat<eT>&)
   else if(is_slng_t_32<eT>::value)  { header = const_cast<char*>(ARMA_MAT_BIN_IS004); }
   else if(is_ulng_t_64<eT>::value)  { header = const_cast<char*>(ARMA_MAT_BIN_IU008); }
   else if(is_slng_t_64<eT>::value)  { header = const_cast<char*>(ARMA_MAT_BIN_IS008); }
+  else if(     is_fp16<eT>::value)  { header = const_cast<char*>(ARMA_MAT_BIN_FN002); }
   else if(    is_float<eT>::value)  { header = const_cast<char*>(ARMA_MAT_BIN_FN004); }
   else if(   is_double<eT>::value)  { header = const_cast<char*>(ARMA_MAT_BIN_FN008); }
-  else if(     is_fp16<eT>::value)  { header = const_cast<char*>(ARMA_MAT_BIN_FN002); }
+  else if(  is_cx_fp16<eT>::value)  { header = const_cast<char*>(ARMA_MAT_BIN_FC004); }
   else if( is_cx_float<eT>::value)  { header = const_cast<char*>(ARMA_MAT_BIN_FC008); }
   else if(is_cx_double<eT>::value)  { header = const_cast<char*>(ARMA_MAT_BIN_FC016); }
-  else if(  is_cx_fp16<eT>::value)  { header = const_cast<char*>(ARMA_MAT_BIN_FC004); }
   
   return std::string(header);
   }
@@ -167,12 +167,12 @@ diskio::gen_bin_header(const SpMat<eT>&)
   else if(is_slng_t_32<eT>::value)  { header = const_cast<char*>(ARMA_SPM_BIN_IS004); }
   else if(is_ulng_t_64<eT>::value)  { header = const_cast<char*>(ARMA_SPM_BIN_IU008); }
   else if(is_slng_t_64<eT>::value)  { header = const_cast<char*>(ARMA_SPM_BIN_IS008); }
+  else if(     is_fp16<eT>::value)  { header = const_cast<char*>(ARMA_SPM_BIN_FN002); }
   else if(    is_float<eT>::value)  { header = const_cast<char*>(ARMA_SPM_BIN_FN004); }
   else if(   is_double<eT>::value)  { header = const_cast<char*>(ARMA_SPM_BIN_FN008); }
-  else if(     is_fp16<eT>::value)  { header = const_cast<char*>(ARMA_SPM_BIN_FN002); }
+  else if(  is_cx_fp16<eT>::value)  { header = const_cast<char*>(ARMA_SPM_BIN_FC004); }
   else if( is_cx_float<eT>::value)  { header = const_cast<char*>(ARMA_SPM_BIN_FC008); }
   else if(is_cx_double<eT>::value)  { header = const_cast<char*>(ARMA_SPM_BIN_FC016); }
-  else if(  is_cx_fp16<eT>::value)  { header = const_cast<char*>(ARMA_SPM_BIN_FC004); }
   
   return std::string(header);
   }
@@ -219,12 +219,12 @@ diskio::gen_txt_header(const Cube<eT>&)
   else if(is_slng_t_32<eT>::value)  { header = const_cast<char*>(ARMA_CUB_TXT_IS004); }
   else if(is_ulng_t_64<eT>::value)  { header = const_cast<char*>(ARMA_CUB_TXT_IU008); }
   else if(is_slng_t_64<eT>::value)  { header = const_cast<char*>(ARMA_CUB_TXT_IS008); }
+  else if(     is_fp16<eT>::value)  { header = const_cast<char*>(ARMA_CUB_TXT_FN002); }
   else if(    is_float<eT>::value)  { header = const_cast<char*>(ARMA_CUB_TXT_FN004); }
   else if(   is_double<eT>::value)  { header = const_cast<char*>(ARMA_CUB_TXT_FN008); }
-  else if(     is_fp16<eT>::value)  { header = const_cast<char*>(ARMA_CUB_TXT_FN002); }
+  else if(  is_cx_fp16<eT>::value)  { header = const_cast<char*>(ARMA_CUB_TXT_FC004); }
   else if( is_cx_float<eT>::value)  { header = const_cast<char*>(ARMA_CUB_TXT_FC008); }
   else if(is_cx_double<eT>::value)  { header = const_cast<char*>(ARMA_CUB_TXT_FC016); }
-  else if(  is_cx_fp16<eT>::value)  { header = const_cast<char*>(ARMA_CUB_TXT_FC004); }
   
   return std::string(header);
   }
@@ -272,12 +272,12 @@ diskio::gen_bin_header(const Cube<eT>&)
   else if(is_slng_t_32<eT>::value)  { header = const_cast<char*>(ARMA_CUB_BIN_IS004); }
   else if(is_ulng_t_64<eT>::value)  { header = const_cast<char*>(ARMA_CUB_BIN_IU008); }
   else if(is_slng_t_64<eT>::value)  { header = const_cast<char*>(ARMA_CUB_BIN_IS008); }
+  else if(     is_fp16<eT>::value)  { header = const_cast<char*>(ARMA_CUB_BIN_FN002); }
   else if(    is_float<eT>::value)  { header = const_cast<char*>(ARMA_CUB_BIN_FN004); }
   else if(   is_double<eT>::value)  { header = const_cast<char*>(ARMA_CUB_BIN_FN008); }
-  else if(     is_fp16<eT>::value)  { header = const_cast<char*>(ARMA_CUB_BIN_FN002); }
+  else if(  is_cx_fp16<eT>::value)  { header = const_cast<char*>(ARMA_CUB_BIN_FC004); }
   else if( is_cx_float<eT>::value)  { header = const_cast<char*>(ARMA_CUB_BIN_FC008); }
   else if(is_cx_double<eT>::value)  { header = const_cast<char*>(ARMA_CUB_BIN_FC016); }
-  else if(  is_cx_fp16<eT>::value)  { header = const_cast<char*>(ARMA_CUB_BIN_FC004); }
   
   return std::string(header);
   }
