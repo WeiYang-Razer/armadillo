@@ -59,11 +59,7 @@ op_mean::apply_noalias(Mat<eT>& out, const Mat<eT>& X, const uword dim)
   {
   arma_debug_sigprint();
   
-  #if defined(ARMA_HAVE_FP16)
-    {
-    if(is_fp16<eT>::yes || is_cx_fp16<eT>::yes)  { op_mean::apply_noalias_promote(out, X, dim); return; }
-    }
-  #endif
+  if(is_fp16<eT>::yes || is_cx_fp16<eT>::yes)  { return op_mean::apply_noalias_promote(out, X, dim); }
   
   typedef typename get_pod_type<eT>::result T;
   
@@ -316,6 +312,8 @@ op_mean::direct_mean(const eT* X_mem, const uword N)
   {
   arma_debug_sigprint();
   
+  if(is_fp16<eT>::yes || is_cx_fp16<eT>::yes)  { return op_mean::direct_mean_promote(X_mem, N); }
+  
   typedef typename get_pod_type<eT>::result T;
   
   const eT mean = arrayops::accumulate(X_mem, N) / T(N);
@@ -367,10 +365,7 @@ op_mean::direct_mean_promote(const eT* X_mem, const uword N)
   
   const acc_eT mean = acc / acc_T(N);
   
-  if(arma_isfinite(mean) == false)
-    {
-    return eT(op_mean::direct_mean_robust_promote(eT(mean), X_mem, N));
-    }
+  if(arma_isfinite(mean) == false)  { return op_mean::direct_mean_robust_promote(eT(mean), X_mem, N); }
   
   return eT(mean);
   }
@@ -386,11 +381,10 @@ op_mean::direct_mean_robust_promote(const eT old_mean, const eT* X_mem, const uw
   
   // use an adapted form of the mean finding algorithm from the running_stat class
   
-  typedef typename get_pod_type<eT>::result T;
-  
-  typedef typename conditional_promote_type<is_real_or_cx< T>::value,  T, float>::result acc_T;
   typedef typename conditional_promote_type<is_real_or_cx<eT>::value, eT, float>::result acc_eT;
 
+  typedef typename get_pod_type<acc_eT>::result acc_T;
+  
   if(arrayops::is_finite(X_mem, N) == false)  { return old_mean; }
   
   acc_eT r_mean = acc_eT(0);
@@ -426,12 +420,6 @@ op_mean::mean_all(const T1& X)
     
     return Datum<eT>::nan;
     }
-  
-  #if defined(ARMA_HAVE_FP16)
-    {
-    if(is_fp16<eT>::yes || is_cx_fp16<eT>::yes)  { return op_mean::direct_mean_promote(U.M.memptr(), U.M.n_elem); }
-    }
-  #endif
   
   return op_mean::direct_mean(U.M.memptr(), U.M.n_elem);
   }
