@@ -961,7 +961,7 @@ op_norm::mat_norm_2(const Mat<eT>& X, const typename arma_blas_real_or_cx_only<e
   
   Col<T> S;
   
-  svd(S, X);
+  arma::svd(S, X);
   
   const T out_val = (S.n_elem > 0) ? S[0] : T(0);
   
