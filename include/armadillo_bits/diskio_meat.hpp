@@ -43,6 +43,7 @@ diskio::gen_txt_header(const Mat<eT>&)
   const char* ARMA_MAT_TXT_FN002 = "ARMA_MAT_TXT_FN002";
   const char* ARMA_MAT_TXT_FN004 = "ARMA_MAT_TXT_FN004";
   const char* ARMA_MAT_TXT_FN008 = "ARMA_MAT_TXT_FN008";
+  const char* ARMA_MAT_TXT_FC004 = "ARMA_MAT_TXT_FC004";
   const char* ARMA_MAT_TXT_FC008 = "ARMA_MAT_TXT_FC008";
   const char* ARMA_MAT_TXT_FC016 = "ARMA_MAT_TXT_FC016";
   
@@ -65,6 +66,7 @@ diskio::gen_txt_header(const Mat<eT>&)
   else if(     is_fp16<eT>::value)  { header = const_cast<char*>(ARMA_MAT_TXT_FN002); }
   else if( is_cx_float<eT>::value)  { header = const_cast<char*>(ARMA_MAT_TXT_FC008); }
   else if(is_cx_double<eT>::value)  { header = const_cast<char*>(ARMA_MAT_TXT_FC016); }
+  else if(  is_cx_fp16<eT>::value)  { header = const_cast<char*>(ARMA_MAT_TXT_FC004); }
   
   return std::string(header);
   }
@@ -94,6 +96,7 @@ diskio::gen_bin_header(const Mat<eT>&)
   const char* ARMA_MAT_BIN_FN002 = "ARMA_MAT_BIN_FN002";
   const char* ARMA_MAT_BIN_FN004 = "ARMA_MAT_BIN_FN004";
   const char* ARMA_MAT_BIN_FN008 = "ARMA_MAT_BIN_FN008";
+  const char* ARMA_MAT_BIN_FC004 = "ARMA_MAT_BIN_FC004";
   const char* ARMA_MAT_BIN_FC008 = "ARMA_MAT_BIN_FC008";
   const char* ARMA_MAT_BIN_FC016 = "ARMA_MAT_BIN_FC016";  
   
@@ -116,6 +119,7 @@ diskio::gen_bin_header(const Mat<eT>&)
   else if(     is_fp16<eT>::value)  { header = const_cast<char*>(ARMA_MAT_BIN_FN002); }
   else if( is_cx_float<eT>::value)  { header = const_cast<char*>(ARMA_MAT_BIN_FC008); }
   else if(is_cx_double<eT>::value)  { header = const_cast<char*>(ARMA_MAT_BIN_FC016); }
+  else if(  is_cx_fp16<eT>::value)  { header = const_cast<char*>(ARMA_MAT_BIN_FC004); }
   
   return std::string(header);
   }
@@ -145,6 +149,7 @@ diskio::gen_bin_header(const SpMat<eT>&)
   const char* ARMA_SPM_BIN_FN002 = "ARMA_SPM_BIN_FN002";
   const char* ARMA_SPM_BIN_FN004 = "ARMA_SPM_BIN_FN004";
   const char* ARMA_SPM_BIN_FN008 = "ARMA_SPM_BIN_FN008";
+  const char* ARMA_SPM_BIN_FC004 = "ARMA_SPM_BIN_FC004";
   const char* ARMA_SPM_BIN_FC008 = "ARMA_SPM_BIN_FC008";
   const char* ARMA_SPM_BIN_FC016 = "ARMA_SPM_BIN_FC016";
   
@@ -167,6 +172,7 @@ diskio::gen_bin_header(const SpMat<eT>&)
   else if(     is_fp16<eT>::value)  { header = const_cast<char*>(ARMA_SPM_BIN_FN002); }
   else if( is_cx_float<eT>::value)  { header = const_cast<char*>(ARMA_SPM_BIN_FC008); }
   else if(is_cx_double<eT>::value)  { header = const_cast<char*>(ARMA_SPM_BIN_FC016); }
+  else if(  is_cx_fp16<eT>::value)  { header = const_cast<char*>(ARMA_SPM_BIN_FC004); }
   
   return std::string(header);
   }
@@ -195,6 +201,7 @@ diskio::gen_txt_header(const Cube<eT>&)
   const char* ARMA_CUB_TXT_FN002 = "ARMA_CUB_TXT_FN002";
   const char* ARMA_CUB_TXT_FN004 = "ARMA_CUB_TXT_FN004";
   const char* ARMA_CUB_TXT_FN008 = "ARMA_CUB_TXT_FN008";
+  const char* ARMA_CUB_TXT_FC004 = "ARMA_CUB_TXT_FC004";
   const char* ARMA_CUB_TXT_FC008 = "ARMA_CUB_TXT_FC008";
   const char* ARMA_CUB_TXT_FC016 = "ARMA_CUB_TXT_FC016";
   
@@ -217,6 +224,7 @@ diskio::gen_txt_header(const Cube<eT>&)
   else if(     is_fp16<eT>::value)  { header = const_cast<char*>(ARMA_CUB_TXT_FN002); }
   else if( is_cx_float<eT>::value)  { header = const_cast<char*>(ARMA_CUB_TXT_FC008); }
   else if(is_cx_double<eT>::value)  { header = const_cast<char*>(ARMA_CUB_TXT_FC016); }
+  else if(  is_cx_fp16<eT>::value)  { header = const_cast<char*>(ARMA_CUB_TXT_FC004); }
   
   return std::string(header);
   }
@@ -246,6 +254,7 @@ diskio::gen_bin_header(const Cube<eT>&)
   const char* ARMA_CUB_BIN_FN002 = "ARMA_CUB_BIN_FN002";
   const char* ARMA_CUB_BIN_FN004 = "ARMA_CUB_BIN_FN004";
   const char* ARMA_CUB_BIN_FN008 = "ARMA_CUB_BIN_FN008";
+  const char* ARMA_CUB_BIN_FC004 = "ARMA_CUB_BIN_FC004";
   const char* ARMA_CUB_BIN_FC008 = "ARMA_CUB_BIN_FC008";
   const char* ARMA_CUB_BIN_FC016 = "ARMA_CUB_BIN_FC016";
   
@@ -268,6 +277,7 @@ diskio::gen_bin_header(const Cube<eT>&)
   else if(     is_fp16<eT>::value)  { header = const_cast<char*>(ARMA_CUB_BIN_FN002); }
   else if( is_cx_float<eT>::value)  { header = const_cast<char*>(ARMA_CUB_BIN_FC008); }
   else if(is_cx_double<eT>::value)  { header = const_cast<char*>(ARMA_CUB_BIN_FC016); }
+  else if(  is_cx_fp16<eT>::value)  { header = const_cast<char*>(ARMA_CUB_BIN_FC004); }
   
   return std::string(header);
   }
