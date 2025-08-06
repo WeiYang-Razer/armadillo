@@ -59,13 +59,25 @@ linspace
     
     const uword num_m1 = num - 1;
     
-    if(is_real<T>::value)
+    if(is_float<T>::value || is_double<T>::value)
       {
       const T delta = (end-start)/T(num_m1);
       
       for(uword i=0; i<num_m1; ++i)
         {
         x_mem[i] = eT(start + i*delta);
+        }
+      
+      x_mem[num_m1] = eT(end);
+      }
+    else
+    if(is_fp16<T>::value)
+      {
+      const float delta = (end-start)/float(num_m1);
+      
+      for(uword i=0; i<num_m1; ++i)
+        {
+        x_mem[i] = eT(float(start) + i*delta);
         }
       
       x_mem[num_m1] = eT(end);
