@@ -73,7 +73,7 @@ linspace
     else
     if(is_fp16<T>::value)
       {
-      const float delta = (end-start)/float(num_m1);
+      const float delta = (float(end)-float(start)) / float(num_m1);
       
       for(uword i=0; i<num_m1; ++i)
         {
