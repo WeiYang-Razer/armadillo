@@ -420,7 +420,10 @@ op_norm_dot::apply(const T1& X, const T2& Y)
   arma_debug_sigprint();
   
   typedef typename T1::elem_type eT;
-  typedef typename T1::pod_type   T;
+  
+  typedef typename conditional_promote_type<is_real_or_cx<eT>::value, eT, float>::result acc_eT;
+  
+  typedef typename get_pod_type<acc_eT>::result acc_T;
   
   const quasi_unwrap<T1> tmp1(X);
   const quasi_unwrap<T2> tmp2(Y);
@@ -430,9 +433,9 @@ op_norm_dot::apply(const T1& X, const T2& Y)
   
   arma_conform_check( (A.n_elem != B.n_elem), "norm_dot(): objects must have the same number of elements" );
   
-  const T denom = norm(A,2) * norm(B,2);
+  const acc_T denom = acc_T( arma::norm(A,2) * arma::norm(B,2) );
   
-  return (denom != T(0)) ? ( op_dot::apply(A,B) / denom ) : eT(0);
+  return (denom != acc_T(0)) ? eT( acc_eT(op_dot::apply(A,B)) / denom ) : eT(0);
   }
 
 
