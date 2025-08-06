@@ -29,7 +29,7 @@ op_norm::vec_norm_1(const Proxy<T1>& P, const typename arma_not_cx<typename T1::
   arma_debug_sigprint();
   arma_ignore(junk);
   
-  const bool use_direct_mem = (is_Mat<typename Proxy<T1>::stored_type>::value) || (is_subview_col<typename Proxy<T1>::stored_type>::value) || (arma_config::openmp && Proxy<T1>::use_mp);
+  constexpr bool use_direct_mem = (is_Mat<typename Proxy<T1>::stored_type>::value) || (is_subview_col<typename Proxy<T1>::stored_type>::value) || (arma_config::openmp && Proxy<T1>::use_mp);
   
   if(use_direct_mem)
     {
@@ -328,13 +328,13 @@ op_norm::vec_norm_1_direct_mem(const uword N, const eT* A)
 
 template<typename T1>
 inline
-typename T1::pod_type
+typename T1::elem_type
 op_norm::vec_norm_2(const Proxy<T1>& P, const typename arma_not_cx<typename T1::elem_type>::result* junk)
   {
   arma_debug_sigprint();
   arma_ignore(junk);
   
-  const bool use_direct_mem = (is_Mat<typename Proxy<T1>::stored_type>::value) || (is_subview_col<typename Proxy<T1>::stored_type>::value) || (arma_config::openmp && Proxy<T1>::use_mp);
+  constexpr bool use_direct_mem = (is_Mat<typename Proxy<T1>::stored_type>::value) || (is_subview_col<typename Proxy<T1>::stored_type>::value) || (arma_config::openmp && Proxy<T1>::use_mp);
   
   if(use_direct_mem)
     {
@@ -343,9 +343,11 @@ op_norm::vec_norm_2(const Proxy<T1>& P, const typename arma_not_cx<typename T1::
     return op_norm::vec_norm_2_direct_std(tmp.M);
     }
   
-  typedef typename T1::pod_type T;
+  typedef typename T1::elem_type eT;
   
-  T acc = T(0);
+  typedef typename conditional_promote_type<is_real_or_cx<eT>::value, eT, float>::result acc_eT;
+  
+  acc_eT acc = acc_eT(0);
   
   if(Proxy<T1>::use_at == false)
     {
@@ -353,25 +355,25 @@ op_norm::vec_norm_2(const Proxy<T1>& P, const typename arma_not_cx<typename T1::
     
     const uword N = P.get_n_elem();
     
-    T acc1 = T(0);
-    T acc2 = T(0);
+    acc_eT acc1 = acc_eT(0);
+    acc_eT acc2 = acc_eT(0);
     
     uword i,j;
     
     for(i=0, j=1; j<N; i+=2, j+=2)
       {
-      const T tmp_i = A[i];
-      const T tmp_j = A[j];
+      const eT tmp_i = A[i];
+      const eT tmp_j = A[j];
       
-      acc1 += tmp_i * tmp_i;
-      acc2 += tmp_j * tmp_j;
+      acc1 += acc_eT(tmp_i * tmp_i);
+      acc2 += acc_eT(tmp_j * tmp_j);
       }
     
     if(i < N)
       {
-      const T tmp_i = A[i];
+      const eT tmp_i = A[i];
       
-      acc1 += tmp_i * tmp_i;
+      acc1 += acc_eT(tmp_i * tmp_i);
       }
     
     acc = acc1 + acc2;
@@ -385,9 +387,9 @@ op_norm::vec_norm_2(const Proxy<T1>& P, const typename arma_not_cx<typename T1::
       {
       for(uword col=0; col<n_cols; ++col)
         {
-        const T tmp = P.at(0,col);
+        const eT tmp = P.at(0,col);
         
-        acc += tmp * tmp;
+        acc += acc_eT(tmp * tmp);
         }
       }
     else
@@ -397,29 +399,29 @@ op_norm::vec_norm_2(const Proxy<T1>& P, const typename arma_not_cx<typename T1::
         uword i,j;
         for(i=0, j=1; j<n_rows; i+=2, j+=2)
           {
-          const T tmp_i = P.at(i,col);
-          const T tmp_j = P.at(j,col);
+          const eT tmp_i = P.at(i,col);
+          const eT tmp_j = P.at(j,col);
           
-          acc += tmp_i * tmp_i;
-          acc += tmp_j * tmp_j;
+          acc += acc_eT(tmp_i * tmp_i);
+          acc += acc_eT(tmp_j * tmp_j);
           }
         
         if(i < n_rows)
           {
-          const T tmp_i = P.at(i,col);
+          const eT tmp_i = P.at(i,col);
           
-          acc += tmp_i * tmp_i;
+          acc += acc_eT(tmp_i * tmp_i);
           }
         }
       }
     }
   
   
-  const T sqrt_acc = std::sqrt(acc);
+  const acc_eT sqrt_acc = std::sqrt(acc);
   
-  if( (sqrt_acc != T(0)) && arma_isfinite(sqrt_acc) )
+  if( (sqrt_acc != acc_eT(0)) && arma_isfinite(sqrt_acc) )
     {
-    return sqrt_acc;
+    return eT(sqrt_acc);
     }
   else
     {
@@ -444,7 +446,11 @@ op_norm::vec_norm_2(const Proxy<T1>& P, const typename arma_cx_only<typename T1:
   typedef typename T1::elem_type eT;
   typedef typename T1::pod_type   T;
   
-  T acc = T(0);
+  typedef typename conditional_promote_type<is_real_or_cx<eT>::value, eT, float>::result acc_eT;
+  
+  typedef typename get_pod_type<acc_eT>::result acc_T;
+  
+  acc_T acc = acc_T(0);
   
   if(Proxy<T1>::use_at == false)
     {
@@ -459,7 +465,7 @@ op_norm::vec_norm_2(const Proxy<T1>& P, const typename arma_cx_only<typename T1:
       const T a = X.real();
       const T b = X.imag();
       
-      acc += (a*a) + (b*b);
+      acc += acc_T(a*a) + acc_T(b*b);
       }
     }
   else
@@ -476,7 +482,7 @@ op_norm::vec_norm_2(const Proxy<T1>& P, const typename arma_cx_only<typename T1:
         const T a = X.real();
         const T b = X.imag();
         
-        acc += (a*a) + (b*b);
+        acc += acc_T(a*a) + acc_T(b*b);
         }
       }
     else
@@ -489,16 +495,16 @@ op_norm::vec_norm_2(const Proxy<T1>& P, const typename arma_cx_only<typename T1:
         const T a = X.real();
         const T b = X.imag();
         
-        acc += (a*a) + (b*b);
+        acc += acc_T(a*a) + acc_T(b*b);
         }
       }
     }
   
-  const T sqrt_acc = std::sqrt(acc);
+  const acc_T sqrt_acc = std::sqrt(acc);
   
-  if( (sqrt_acc != T(0)) && arma_isfinite(sqrt_acc) )
+  if( (sqrt_acc != acc_T(0)) && arma_isfinite(sqrt_acc) )
     {
-    return sqrt_acc;
+    return T(sqrt_acc);
     }
   else
     {
@@ -509,27 +515,27 @@ op_norm::vec_norm_2(const Proxy<T1>& P, const typename arma_cx_only<typename T1:
     const uword N     = R.M.n_elem;
     const eT*   R_mem = R.M.memptr();
     
-    T max_val = priv::most_neg<T>();
+    acc_T max_val = priv::most_neg<acc_T>();
     
     for(uword i=0; i<N; ++i)
       {
-      const T val_i = std::abs(R_mem[i]);
+      const acc_T val_i = std::abs(acc_eT(R_mem[i]));
       
       if(val_i > max_val)  { max_val = val_i; }
       }
     
-    if(max_val == T(0))  { return T(0); }
+    if(max_val == acc_T(0))  { return T(0); }
     
-    T alt_acc = T(0);
+    acc_T alt_acc = acc_T(0);
     
     for(uword i=0; i<N; ++i)
       {
-      const T val_i = std::abs(R_mem[i]) / max_val;
+      const acc_T val_i = std::abs(acc_eT(R_mem[i])) / max_val;
       
       alt_acc += val_i * val_i;
       }
     
-    return ( std::sqrt(alt_acc) * max_val ); 
+    return T( std::sqrt(alt_acc) * max_val );
     }
   }
 
@@ -620,29 +626,31 @@ op_norm::vec_norm_2_direct_mem(const uword N, const eT* A)
   {
   arma_debug_sigprint();
   
-  eT acc = eT(0);
+  typedef typename conditional_promote_type<is_real_or_cx<eT>::value, eT, float>::result acc_eT;
+  
+  acc_eT acc = acc_eT(0);
   
   #if (defined(ARMA_SIMPLE_LOOPS) || defined(__FAST_MATH__))
     {
-    eT acc1 = eT(0);
+    acc_eT acc1 = acc_eT(0);
     
     if(memory::is_aligned(A))
       {
       memory::mark_as_aligned(A);
       
-      for(uword i=0; i<N; ++i)  { const eT tmp_i = A[i];  acc1 += tmp_i * tmp_i; }
+      for(uword i=0; i<N; ++i)  { const eT tmp_i = A[i];  acc1 += acc_eT(tmp_i * tmp_i); }
       }
     else
       {
-      for(uword i=0; i<N; ++i)  { const eT tmp_i = A[i];  acc1 += tmp_i * tmp_i; }
+      for(uword i=0; i<N; ++i)  { const eT tmp_i = A[i];  acc1 += acc_eT(tmp_i * tmp_i); }
       }
     
     acc = acc1;
     }
   #else
     {
-    eT acc1 = eT(0);
-    eT acc2 = eT(0);
+    acc_eT acc1 = acc_eT(0);
+    acc_eT acc2 = acc_eT(0);
     
     uword j;
     
@@ -651,22 +659,22 @@ op_norm::vec_norm_2_direct_mem(const uword N, const eT* A)
       const eT tmp_i = (*A);  A++;
       const eT tmp_j = (*A);  A++;
       
-      acc1 += tmp_i * tmp_i;
-      acc2 += tmp_j * tmp_j;
+      acc1 += acc_eT(tmp_i * tmp_i);
+      acc2 += acc_eT(tmp_j * tmp_j);
       }
     
     if((j-1) < N)
       {
       const eT tmp_i = (*A);
       
-      acc1 += tmp_i * tmp_i;
+      acc1 += acc_eT(tmp_i * tmp_i);
       }
     
     acc = acc1 + acc2;
     }
   #endif
   
-  return std::sqrt(acc);
+  return eT(std::sqrt(acc));
   }
 
 
@@ -678,17 +686,19 @@ op_norm::vec_norm_2_direct_robust(const Mat<eT>& X)
   {
   arma_debug_sigprint();
   
+  typedef typename conditional_promote_type<is_real_or_cx<eT>::value, eT, float>::result acc_eT;
+  
   const uword N = X.n_elem;
   const eT*   A = X.memptr();
   
-  eT max_val = priv::most_neg<eT>();
+  acc_eT max_val = priv::most_neg<acc_eT>();
   
   uword j;
   
   for(j=1; j<N; j+=2)
     {
-    eT val_i = (*A);  A++;
-    eT val_j = (*A);  A++;
+    acc_eT val_i = acc_eT(*A);  A++;
+    acc_eT val_j = acc_eT(*A);  A++;
     
     val_i = std::abs(val_i);
     val_j = std::abs(val_j);
@@ -699,22 +709,22 @@ op_norm::vec_norm_2_direct_robust(const Mat<eT>& X)
   
   if((j-1) < N)
     {
-    const eT val_i = std::abs(*A);
+    const acc_eT val_i = std::abs(acc_eT(*A));
     
     if(val_i > max_val)  { max_val = val_i; }
     }
   
-  if(max_val == eT(0))  { return eT(0); }
+  if(max_val == acc_eT(0))  { return eT(0); }
   
   const eT* B = X.memptr();
   
-  eT acc1 = eT(0);
-  eT acc2 = eT(0);
+  acc_eT acc1 = acc_eT(0);
+  acc_eT acc2 = acc_eT(0);
   
   for(j=1; j<N; j+=2)
     {
-    eT val_i = (*B);  B++;
-    eT val_j = (*B);  B++;
+    acc_eT val_i = acc_eT(*B);  B++;
+    acc_eT val_j = acc_eT(*B);  B++;
     
     val_i /= max_val;
     val_j /= max_val;
@@ -725,14 +735,14 @@ op_norm::vec_norm_2_direct_robust(const Mat<eT>& X)
   
   if((j-1) < N)
     {
-    const eT val_i = (*B) / max_val;
+    const acc_eT val_i = acc_eT(*B) / max_val;
     
     acc1 += val_i * val_i;
     }
   
-  const eT out_val = std::sqrt(acc1 + acc2) * max_val;
+  const acc_eT out_val = std::sqrt(acc1 + acc2) * max_val;
   
-  return (out_val <= eT(0)) ? eT(0) : out_val;
+  return (out_val <= acc_eT(0)) ? eT(0) : eT(out_val);
   }
 
 
