@@ -951,34 +951,6 @@ arrayops::accumulate(const eT* src, const uword n_elem)
 template<typename eT>
 inline
 eT
-arrayops::accumulate_promote(const eT* src, const uword n_elem)
-  {
-  typedef typename conditional_promote_type<is_real_or_cx<eT>::value, eT, float>::result acc_eT;
-  
-  acc_eT acc1 = acc_eT(0);
-  acc_eT acc2 = acc_eT(0);
-  
-  uword j;
-  
-  for(j=1; j<n_elem; j+=2)
-    {
-    acc1 += acc_eT(*src);  src++;
-    acc2 += acc_eT(*src);  src++;
-    }
-  
-  if((j-1) < n_elem)
-    {
-    acc1 += acc_eT(*src);
-    }
-  
-  return eT(acc1 + acc2);
-  }
-
-
-
-template<typename eT>
-inline
-eT
 arrayops::product(const eT* src, const uword n_elem)
   {
   eT val1 = eT(1);
