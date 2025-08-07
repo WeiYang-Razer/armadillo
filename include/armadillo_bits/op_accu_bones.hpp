@@ -69,33 +69,6 @@ struct  op_accu_mat
 
 
 
-struct  op_accu_mat_promote
-  : public traits_op_passthru
-  {
-  template<typename T1>
-  static inline typename T1::elem_type apply_proxy_linear(const Proxy<T1>& P);
-  
-  template<typename T1>
-  static inline typename T1::elem_type apply_proxy_at(const Proxy<T1>& P);
-  
-  template<typename T1>
-  static inline typename T1::elem_type apply(const T1& X);
-  
-  template<typename T1>
-  static inline typename T1::elem_type apply(const eOp<T1,eop_square>& expr);
-  
-  template<typename T1>
-  static inline typename T1::elem_type apply(const eOp<T1,eop_pow>& expr);
-  
-  template<typename eT>
-  static inline eT apply(const subview<eT>& X);
-  
-  template<typename eT>
-  static inline eT apply(const subview_col<eT>& X);
-  };
-
-
-
 struct  op_accu_cube
   : public traits_op_passthru
   {
