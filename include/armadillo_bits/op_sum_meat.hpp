@@ -120,7 +120,7 @@ op_sum::apply_generic(Mat<typename T1::elem_type>& out, const Op<T1,op_sum>& in)
   
   arma_conform_check( (dim > 1), "sum(): parameter 'dim' must be 0 or 1" );
   
-  if((is_Mat<T1>::value) || (is_Mat<typename Proxy<T1>::stored_type>::value) || (arma_config::openmp && Proxy<T1>::use_mp) || (is_fp16<eT>::yes) || (is_cx_fp16<eT>::yes))
+  if((is_Mat<T1>::value) || (is_Mat<typename Proxy<T1>::stored_type>::value) || (arma_config::openmp && Proxy<T1>::use_mp))
     {
     const quasi_unwrap<T1> U(in.m);
     
