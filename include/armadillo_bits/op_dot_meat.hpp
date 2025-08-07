@@ -35,7 +35,7 @@ op_dot::direct_dot_generic(const uword n_elem, const eT* const A, const eT* cons
     
     for(uword i=0; i < n_elem; ++i)  { val += (A[i] * B[i]); }
     
-    return eT(val);
+    return val;
     }
   #else
     {
