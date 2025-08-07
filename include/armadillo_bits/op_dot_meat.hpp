@@ -29,35 +29,33 @@ op_dot::direct_dot_generic(const uword n_elem, const eT* const A, const eT* cons
   {
   arma_debug_sigprint();
   
-  typedef typename conditional_promote_type<is_real<eT>::value, eT, float>::result acc_eT;
-  
   #if defined(__FAST_MATH__)
     {
-    acc_eT val = acc_eT(0);
+    eT val = eT(0);
     
-    for(uword i=0; i < n_elem; ++i)  { val += acc_eT( A[i] * B[i] ); }
+    for(uword i=0; i < n_elem; ++i)  { val += (A[i] * B[i]); }
     
     return eT(val);
     }
   #else
     {
-    acc_eT val1 = acc_eT(0);
-    acc_eT val2 = acc_eT(0);
+    eT val1 = eT(0);
+    eT val2 = eT(0);
     
     uword i, j;
     
     for(i=0, j=1; j < n_elem; i+=2, j+=2)
       {
-      val1 += acc_eT( A[i] * B[i] );
-      val2 += acc_eT( A[j] * B[j] );
+      val1 += (A[i] * B[i]);
+      val2 += (A[j] * B[j]);
       }
     
     if(i < n_elem)
       {
-      val1 += acc_eT( A[i] * B[i] );
+      val1 += (A[i] * B[i]);
       }
     
-    return eT( val1 + val2 );
+    return (val1 + val2);
     }
   #endif
   }
@@ -74,10 +72,8 @@ op_dot::direct_dot_generic(const uword n_elem, const eT* const A, const eT* cons
   
   typedef typename get_pod_type<eT>::result T;
   
-  typedef typename conditional_promote_type<is_real<T>::value, T, float>::result acc_T;
-  
-  acc_T val_real = acc_T(0);
-  acc_T val_imag = acc_T(0);
+  T val_real = T(0);
+  T val_imag = T(0);
   
   for(uword i=0; i<n_elem; ++i)
     {
@@ -90,11 +86,11 @@ op_dot::direct_dot_generic(const uword n_elem, const eT* const A, const eT* cons
     const T c = Y.real();
     const T d = Y.imag();
     
-    val_real += acc_T(a*c) - acc_T(b*d);
-    val_imag += acc_T(a*d) + acc_T(b*c);
+    val_real += (a*c) - (b*d);
+    val_imag += (a*d) + (b*c);
     }
   
-  return std::complex<T>( T(val_real), T(val_imag) );
+  return std::complex<T>(val_real, val_imag);
   }
 
 
@@ -333,8 +329,6 @@ op_dot::apply_proxy_linear(const Proxy<T1>& PA, const Proxy<T2>& PB)
   
   typedef typename T1::elem_type eT;
   
-  typedef typename conditional_promote_type<is_real<eT>::value, eT, float>::result acc_eT;
-  
   typedef typename Proxy<T1>::ea_type ea_type1;
   typedef typename Proxy<T2>::ea_type ea_type2;
   
@@ -343,23 +337,23 @@ op_dot::apply_proxy_linear(const Proxy<T1>& PA, const Proxy<T2>& PB)
   ea_type1 A = PA.get_ea();
   ea_type2 B = PB.get_ea();
   
-  acc_eT val1 = acc_eT(0);
-  acc_eT val2 = acc_eT(0);
+  eT val1 = eT(0);
+  eT val2 = eT(0);
   
   uword i,j;
   
   for(i=0, j=1; j<N; i+=2, j+=2)
     {
-    val1 += acc_eT( A[i] * B[i] );
-    val2 += acc_eT( A[j] * B[j] );
+    val1 += (A[i] * B[i]);
+    val2 += (A[j] * B[j]);
     }
   
   if(i < N)
     {
-    val1 += acc_eT( A[i] * B[i] );
+    val1 += (A[i] * B[i]);
     }
   
-  return eT( val1 + val2 );
+  return (val1 + val2);
   }
 
 
@@ -374,8 +368,6 @@ op_dot::apply_proxy_linear(const Proxy<T1>& PA, const Proxy<T2>& PB)
   typedef typename T1::elem_type            eT;
   typedef typename get_pod_type<eT>::result  T;
   
-  typedef typename conditional_promote_type<is_real<T>::value, T, float>::result acc_T;
-  
   typedef typename Proxy<T1>::ea_type ea_type1;
   typedef typename Proxy<T2>::ea_type ea_type2;
   
@@ -384,8 +376,8 @@ op_dot::apply_proxy_linear(const Proxy<T1>& PA, const Proxy<T2>& PB)
   ea_type1 A = PA.get_ea();
   ea_type2 B = PB.get_ea();
   
-  acc_T val_real = acc_T(0);
-  acc_T val_imag = acc_T(0);
+  T val_real = T(0);
+  T val_imag = T(0);
   
   for(uword i=0; i<N; ++i)
     {
@@ -398,11 +390,11 @@ op_dot::apply_proxy_linear(const Proxy<T1>& PA, const Proxy<T2>& PB)
     const T c = yy.real();
     const T d = yy.imag();
     
-    val_real += acc_T(a*c) - acc_T(b*d);
-    val_imag += acc_T(a*d) + acc_T(b*c);
+    val_real += (a*c) - (b*d);
+    val_imag += (a*d) + (b*c);
     }
   
-  return std::complex<T>( T(val_real), T(val_imag) );
+  return std::complex<T>(val_real, val_imag);
   }
 
 
@@ -420,10 +412,7 @@ op_norm_dot::apply(const T1& X, const T2& Y)
   arma_debug_sigprint();
   
   typedef typename T1::elem_type eT;
-  
-  typedef typename conditional_promote_type<is_real_or_cx<eT>::value, eT, float>::result acc_eT;
-  
-  typedef typename get_pod_type<acc_eT>::result acc_T;
+  typedef typename T1::pod_type   T;
   
   const quasi_unwrap<T1> tmp1(X);
   const quasi_unwrap<T2> tmp2(Y);
@@ -433,9 +422,9 @@ op_norm_dot::apply(const T1& X, const T2& Y)
   
   arma_conform_check( (A.n_elem != B.n_elem), "norm_dot(): objects must have the same number of elements" );
   
-  const acc_T denom = acc_T( arma::norm(A,2) * arma::norm(B,2) );
+  const T denom = arma::norm(A,2) * arma::norm(B,2);
   
-  return (denom != acc_T(0)) ? eT( acc_eT(op_dot::apply(A,B)) / denom ) : eT(0);
+  return (denom != T(0)) ? eT(op_dot::apply(A,B) / denom) : eT(0);
   }
 
 
@@ -454,10 +443,8 @@ op_cdot::direct_cdot_generic(const uword n_elem, const eT* const A, const eT* co
   
   typedef typename get_pod_type<eT>::result T;
   
-  typedef typename conditional_promote_type<is_real<T>::value, T, float>::result acc_T;
-  
-  acc_T val_real = acc_T(0);
-  acc_T val_imag = acc_T(0);
+  T val_real = T(0);
+  T val_imag = T(0);
   
   for(uword i=0; i<n_elem; ++i)
     {
@@ -470,11 +457,11 @@ op_cdot::direct_cdot_generic(const uword n_elem, const eT* const A, const eT* co
     const T c = Y.real();
     const T d = Y.imag();
     
-    val_real += acc_T(a*c) + acc_T(b*d);
-    val_imag += acc_T(a*d) - acc_T(b*c);
+    val_real += (a*c) + (b*d);
+    val_imag += (a*d) - (b*c);
     }
   
-  return std::complex<T>( T(val_real), T(val_imag) );
+  return std::complex<T>(val_real, val_imag);
   }
 
 
@@ -585,8 +572,6 @@ op_cdot::apply_proxy(const T1& X, const T2& Y)
   typedef typename T1::elem_type            eT;
   typedef typename get_pod_type<eT>::result  T;
   
-  typedef typename conditional_promote_type<is_real<T>::value, T, float>::result acc_T;
-  
   typedef typename Proxy<T1>::ea_type ea_type1;
   typedef typename Proxy<T2>::ea_type ea_type2;
   
@@ -604,8 +589,8 @@ op_cdot::apply_proxy(const T1& X, const T2& Y)
     ea_type1 A = PA.get_ea();
     ea_type2 B = PB.get_ea();
     
-    acc_T val_real = acc_T(0);
-    acc_T val_imag = acc_T(0);
+    T val_real = T(0);
+    T val_imag = T(0);
     
     for(uword i=0; i<N; ++i)
       {
@@ -618,11 +603,11 @@ op_cdot::apply_proxy(const T1& X, const T2& Y)
       const T c = BB.real();
       const T d = BB.imag();
       
-      val_real += acc_T(a*c) + acc_T(b*d);
-      val_imag += acc_T(a*d) - acc_T(b*c);
+      val_real += (a*c) + (b*d);
+      val_imag += (a*d) - (b*c);
       }
     
-    return std::complex<T>( T(val_real), T(val_imag) );
+    return std::complex<T>(val_real, val_imag);
     }
   else
     {
