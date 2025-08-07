@@ -18611,9 +18611,9 @@ Support for <code>fp16</code> element types is automatically enabled if <b>both<
 <li>hardware support for FP16 is detected
 <ul>
 <li>use <code>-march=native</code> when compiling with gcc or clang; this enables use of all available instructions on your CPU
-<li>rudimentary FP16 hardware support is present on x86-64 CPUs with the F16C instruction set extensions</li>
+<li>native FP16 arithmetic is present on ARM CPUs with the <i>+fp16</i> feature; typically found on ARMv8.2-A+ devices</li>
 <li>native FP16 arithmetic is present on x86-64 CPUs with the AVX512-FP16 instruction set extensions</li>
-<li>native FP16 arithmetic is present on ARM CPUs with the <code>+fp16</code> feature; typically found on ARMv8.2-A+ devices</li>
+<li>rudimentary FP16 hardware support is present on x86-64 CPUs with the F16C instruction set extensions<br>(note: F16C instructions are slower than native FP16 arithmetic and are primarily for reducing memory use via <code>fp16</code> elements)</li>
 </ul>
 </li>
 <br>
@@ -18630,21 +18630,10 @@ define <a href="#config_hpp_arma_force_use_fp16"><code>ARMA_FORCE_USE_FP16</code
 <li>
 <b>Caveats:</b>
 <ul>
-<li>
-care must be taken when using the <code>fp16</code> element type; it has a range of only &pm;65&thinsp;x&thinsp;10<sup>3</sup>
-</li>
-<li>
-software emulated <code>fp16</code> element type can be slow
-</li>
-<li>
-support for <code>fp16</code> elements in this version is preliminary
-</li>
-<li>
-matrices with <code>fp16</code> elements cannot be used with functions that require LAPACK (eg. matrix decompositions such as SVD are not available)
-</li>
-<li>
-fp16 is <b>not</b> the same as bfloat16
-</li>
+<li>the <code>fp16</code> element type has considerably lower precision and range (&pm;65&thinsp;x&thinsp;10<sup>3</sup>) than the standard <code>float</code> element type</li>
+<li>software emulated <code>fp16</code> element type can be slow</li>
+<li>fp16 is <b>not</b> the same as bfloat16</li>
+<li>matrices with <code>fp16</code> elements cannot be used with functions that require LAPACK<br>(eg. matrix decompositions such as SVD are not available)</li>
 </ul>
 </li>
 <br>
