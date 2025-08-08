@@ -20,8 +20,9 @@
 
 #if defined(ARMA_HAVE_FP16)
   #define TEST_FLOAT_TYPES double, float, fp16
+  #define TEST_CX_FLOAT_TYPES cx_double, cx_float, cx_fp16
 #else
   #define TEST_FLOAT_TYPES double, float
+  #define TEST_CX_FLOAT_TYPES cx_double, cx_float
 #endif
 
-#define TEST_CX_FLOAT_TYPES cx_double, cx_float
