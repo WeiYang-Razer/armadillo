@@ -44,6 +44,13 @@ wall_clock::tic()
   {
   arma_debug_sigprint();
   
+  if(is_frozen)
+    {
+    is_frozen = false;
+    
+    frozen_span = std::chrono::duration<double>::zero();
+    }
+  
   is_started = true;
   
   tic_point = std::chrono::steady_clock::now();
