@@ -115,11 +115,11 @@ wall_clock::unfreeze()
   
   if(is_frozen)
     {
+    is_frozen = false;
+    
     const duration_type chrono_span = std::chrono::duration_cast< duration_type >(thaw_point - freeze_point);
     
     frozen_span += chrono_span;
-    
-    is_frozen = false;
     }
   }
 
