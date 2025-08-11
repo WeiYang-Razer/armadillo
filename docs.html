@@ -18285,7 +18285,7 @@ An instance of the class has the following member functions:
       <td style="vertical-align: top;">&nbsp;<br>
       </td>
       <td style="vertical-align: top;">
-      start (and unfreeze) the timer
+      reset and start the timer
       </td>
     </tr>
     <tr>
@@ -20675,6 +20675,7 @@ List of additions and changes for each version:
 <li>(under development)</li>
 <li>C++14 is now the minimum required C++ standard</li>
 <li>added preliminary support for matrices with <a href="#fp16_type">half-precision fp16</a> element type</li>
+<li>added <code>.freeze()</code> and <code>.unfreeze()</code> member functions to <a href="#wall_clock">wall_clock</a></li>
 <li>added workarounds to <a href="#svd">svd()</a> and <a href="#eig_sym">eig_sym()</a> to address limitations of default LAPACK that uses 32 bit integers</li>
 <li>...</li>
 </ul>
