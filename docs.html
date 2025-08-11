@@ -18273,7 +18273,7 @@ Simple timer class for measuring the number of elapsed seconds
 </li>
 <br>
 <li>
-An instance of the class has two member functions:
+An instance of the class has the following member functions:
 <br>
 <br>
 <table style="text-align: left;" border="0" cellpadding="2" cellspacing="2">
@@ -18285,7 +18285,7 @@ An instance of the class has two member functions:
       <td style="vertical-align: top;">&nbsp;<br>
       </td>
       <td style="vertical-align: top;">
-      start the timer
+      start (and unfreeze) the timer
       </td>
     </tr>
     <tr>
@@ -18295,7 +18295,28 @@ An instance of the class has two member functions:
       <td style="vertical-align: top;">&nbsp;<br>
       </td>
       <td style="vertical-align: top;">
-      return the number of seconds since the last call to <code>.tic()</code>
+      return the number of seconds since the last call to <code>.tic()</code>,
+      with the returned number of seconds reduced by any freeze/unfreeze durations
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+      <b><code>.freeze()</code></b>
+      </td>
+      <td style="vertical-align: top;">&nbsp;<br>
+      </td>
+      <td style="vertical-align: top;">
+      freeze the timer
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+      <b><code>.unfreeze()</code></b>
+      </td>
+      <td style="vertical-align: top;">&nbsp;<br>
+      </td>
+      <td style="vertical-align: top;">
+      unfreeze the timer
       </td>
     </tr>
   </tbody>
