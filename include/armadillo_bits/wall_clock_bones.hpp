@@ -31,8 +31,8 @@ class wall_clock
                    inline void   tic();  //!< start the timer
   arma_warn_unused inline double toc();  //!< return the number of seconds since the last call to tic()
   
-  inline void freeze();  //!< freeze the timer
-  inline void warm();    //!<   warm the timer
+  inline void   freeze();  //!<   freeze the timer
+  inline void unfreeze();  //!< unfreeze the timer
   
   private:
   

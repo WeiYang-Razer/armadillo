@@ -65,7 +65,7 @@ wall_clock::toc()
   
   if(is_frozen)
     {
-    // treat toc_point as equivalent to warm_point
+    // treat toc_point as equivalent to thaw_point
     
     const duration_type chrono_span = std::chrono::duration_cast< duration_type >(toc_point - freeze_point);
     
@@ -98,17 +98,17 @@ wall_clock::freeze()
 
 inline
 void
-wall_clock::warm()
+wall_clock::unfreeze()
   {
   arma_debug_sigprint();
   
   typedef std::chrono::duration<double> duration_type;
   
-  const std::chrono::steady_clock::time_point warm_point = std::chrono::steady_clock::now();
+  const std::chrono::steady_clock::time_point thaw_point = std::chrono::steady_clock::now();
   
   if(is_frozen)
     {
-    const duration_type chrono_span = std::chrono::duration_cast< duration_type >(warm_point - freeze_point);
+    const duration_type chrono_span = std::chrono::duration_cast< duration_type >(thaw_point - freeze_point);
     
     frozen_span += chrono_span;
     
