@@ -21,10 +21,8 @@
 
 
 //! class for saving and loading matrices and fields - INTERNAL USE ONLY!
-class diskio
+struct diskio
   {
-  public:
-  
   [[deprecated]] inline static file_type guess_file_type(std::istream& f);
   
   
