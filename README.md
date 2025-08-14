@@ -378,7 +378,7 @@ that are not properly handled by `auto`.
 
 Armadillo can use OpenMP to automatically speed up computationally
 expensive element-wise functions such as exp(), log(), cos(), etc.
-This requires a C++ compiler with OpenMP 3.1+ support.
+This requires a C++ compiler with OpenMP 4.0+ support.
 
 For GCC and Clang compilers, use the following option to enable OpenMP:
 `-fopenmp`
