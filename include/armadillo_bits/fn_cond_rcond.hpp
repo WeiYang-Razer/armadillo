@@ -29,7 +29,15 @@ cond(const Base<typename T1::elem_type, T1>& X)
   {
   arma_debug_sigprint();
   
-  return op_cond::apply(X.get_ref());
+  typedef typename T1::pod_type T;
+  
+  T out = T(0);
+  
+  const bool status = op_cond::apply(out, X.get_ref());
+  
+  if(status == false)  { arma_stop_runtime_error("cond(): failed"); return Datum<T>::nan; }
+  
+  return out;
   }
 
 
