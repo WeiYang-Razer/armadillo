@@ -8933,11 +8933,13 @@ See also:
 </tbody>
 </table>
 <ul>
-<li>Calculate the condition number of matrix <i>X</i>, defined as the ratio of the largest singular value to the smallest</li>
+<li>
+Calculate the condition number of matrix <i>X</i>, defined as the ratio of the largest singular value to the smallest
 <ul>
 <li>form 1: return the condition number</li>
 <li>form 2: store the calculated condition number in <i>c</i> and return a bool indicating success</li>
 </ul>
+</li>
 <br>
 <li>Matrix <i>X</i> is well-conditioned when the condition number is close to 1</li>
 <br>
@@ -8963,7 +8965,7 @@ mat A(5, 5, fill::randu);
 double c1 = cond(A);         // form 1
 
 double c2;
-bool success = cond(c2, A); " // form 2
+bool success = cond(c2, A);  // form 2
 </pre>
 </ul>
 </li>
@@ -11166,11 +11168,13 @@ See also:
 </tbody>
 </table>
 <ul>
-<li>Calculate the rank of matrix <i>X</i>, based on singular value decomposition</li>
+<li>
+Calculate the rank of matrix <i>X</i>, based on singular value decomposition
 <ul>
 <li>form 1: return the rank</li>
 <li>form 2: store the calculated rank in <i>r</i> and return a bool indicating success</li>
 </ul>
+</li>
 <br>
 <li>Any singular values less than <i>tolerance</i> are treated as zero</li>
 <br>
