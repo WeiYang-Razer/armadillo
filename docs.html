@@ -8926,17 +8926,33 @@ See also:
 
 <div class="pagebreak"></div><div class="noprint"><hr class="greyline"><br></div>
 <a name="cond"></a>
-<b>cond( A )</b>
+<table>
+<tbody>
+<tr><td><b>c = cond( X )</b></td><td>&nbsp;&nbsp;&nbsp;</td><td>(form&nbsp;1)</td></tr>
+<tr><td><b>cond( c, X )</b></td><td>&nbsp;&nbsp;&nbsp;</td><td>(form&nbsp;2)</td></tr>
+</tbody>
+</table>
 <ul>
-<li>Return the condition number of matrix <i>A</i> (the ratio of the largest singular value to the smallest)</li>
+<li>Calculate the condition number of matrix <i>X</i>, defined as the ratio of the largest singular value to the smallest</li>
+<ul>
+<li>form 1: return the condition number</li>
+<li>form 2: store the calculated condition number in <i>c</i> and return a bool indicating success</li>
+</ul>
 <br>
-<li>Matrix <i>A</i> is well-conditioned when the condition number is close to 1</li>
+<li>Matrix <i>X</i> is well-conditioned when the condition number is close to 1</li>
 <br>
-<li>Matrix <i>A</i> is ill-conditioned (poorly conditioned) when the condition number is large</li>
+<li>Matrix <i>X</i> is ill-conditioned (poorly conditioned) when the condition number is large</li>
 <br>
 <li>The computation is based on singular value decomposition</li>
 <br>
-<li><b>Caveat:</b> calculating the approximate reciprocal condition number via <a href="#rcond">rcond()</a> is considerably more efficient</li>
+<li>If the calculation fails:
+<ul>
+<li><i>c = cond(X)</i> throws a <i>std::runtime_error</i> exception</li>
+<li><i>cond(c,X)</i> returns a bool set to <i>false</i> (exception is not thrown)</li>
+</ul>
+</li>
+<br>
+<li><b>Caveat:</b> calculating the approximate reciprocal condition number via <a href="#rcond">rcond()</a> is faster</li>
 <br>
 <li>
 Examples:
@@ -8944,7 +8960,10 @@ Examples:
 <pre>
 mat A(5, 5, fill::randu);
 
-double c = cond(A);
+double c1 = cond(A);         // form 1
+
+double c2;
+bool success = cond(c2, A); " // form 2
 </pre>
 </ul>
 </li>
@@ -11148,10 +11167,10 @@ See also:
 </table>
 <ul>
 <li>Calculate the rank of matrix <i>X</i>, based on singular value decomposition</li>
-<br>
+<ul>
 <li>form 1: return the rank</li>
-<br>
 <li>form 2: store the calculated rank in <i>r</i> and return a bool indicating success</li>
+</ul>
 <br>
 <li>Any singular values less than <i>tolerance</i> are treated as zero</li>
 <br>
@@ -11192,7 +11211,7 @@ bool success = rank(r2,  A);  // form 2
 <li>
 See also:
 <ul>
-<li><a href="#rcond">rcond()</a></li>
+<li><a href="#cond">cond()</a></li>
 <li><a href="#svd">svd()</a></li>
 <li><a href="#orth">orth()</a></li>
 <li><a href="#constants">datum::eps</a></li>
