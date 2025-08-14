@@ -43,6 +43,26 @@ cond(const Base<typename T1::elem_type, T1>& X)
 
 
 template<typename T1>
+inline
+typename enable_if2< is_blas_type<typename T1::elem_type>::value, bool >::result
+cond(typename T1::pod_type& out, const Base<typename T1::elem_type, T1>& X)
+  {
+  arma_debug_sigprint();
+  
+  typedef typename T1::pod_type T;
+  
+  out = T(0);
+  
+  return op_cond::apply(out, X.get_ref());
+  }
+
+
+
+//
+
+
+
+template<typename T1>
 arma_warn_unused
 inline
 typename enable_if2<is_blas_type<typename T1::elem_type>::value, typename T1::pod_type>::result
