@@ -18615,7 +18615,7 @@ cx_double val = X(2,3);
 <b>fp16</b>, <b>cx_fp16</b>
 <ul>
 <li>
-Convenience short forms (typedefs) for IEEE half-precision floating point element types:
+Convenience short forms (typedefs) for IEEE 16-bit half-precision floating point element types:
 <br>
 <br>
 <table style="text-align: left;" border="0" cellpadding="2" cellspacing="2">
@@ -18643,7 +18643,7 @@ Convenience short forms (typedefs) for IEEE half-precision floating point elemen
 </li>
 <br>
 <li>
-Support for <code>fp16</code> element types is automatically enabled if <b>both</b> of the following conditions are satisfied:
+Support for <i>fp16</i> element types is automatically enabled if <b>both</b> of the following conditions are satisfied:
 <br>
 <br>
 <ul>
@@ -18652,32 +18652,35 @@ Support for <code>fp16</code> element types is automatically enabled if <b>both<
 <li>use <code>-std=c++23</code> when compiling with gcc or clang</li>
 </ul>
 <br>
-<li>hardware support for FP16 is detected
+<li>hardware support for <i>fp16</i> arithmetic is detected
 <ul>
 <li>use <code>-march=native</code> when compiling with gcc or clang; this enables use of all available instructions on your CPU
-<li>native FP16 arithmetic is present on ARM CPUs with the <i>+fp16</i> feature; typically found on ARMv8.2-A+ devices</li>
-<li>native FP16 arithmetic is present on x86-64 CPUs with the AVX512-FP16 instruction set extensions</li>
-<li>rudimentary FP16 hardware support is present on x86-64 CPUs with the F16C instruction set extensions<br>(note: F16C instructions are slower than native FP16 arithmetic and are primarily for reducing memory use via <code>fp16</code> elements)</li>
+<li>native <i>fp16</i> arithmetic is present on ARM CPUs with the <i>+fp16</i> feature; typically found on ARMv8.2-A+ devices</li>
+<li>native <i>fp16</i> arithmetic is present on x86-64 CPUs with the AVX512-FP16 instruction set extensions</li>
+<li>
+rudimentary <i>fp16</i> hardware support is present on x86-64 CPUs with the F16C instruction set extensions
+<br>(note: F16C instructions are slower than native <i>fp16</i> arithmetic and are primarily for reducing memory use via <i>fp16</i> elements)
+</li>
 </ul>
 </li>
 <br>
 </ul>
 <li>
-If no compiler or hardware support is detected, support for <code>fp16</code> element types is <b>not</b> automatically enabled
+If no compiler or hardware support is detected, support for <i>fp16</i> element types is <b>not</b> automatically enableds
 </li>
 <br>
 <li>
-To force the use of (possibly software emulated) <code>fp16</code> element types, 
+To force the use of (possibly software emulated) <i>fp16</i> element types, 
 define <a href="#config_hpp_arma_force_use_fp16"><code>ARMA_FORCE_USE_FP16</code></a> before including the armadillo header
 </li>
 <br>
 <li>
 <b>Caveats:</b>
 <ul>
-<li>the <code>fp16</code> element type has considerably lower precision and range (&pm;65&thinsp;x&thinsp;10<sup>3</sup>) than the standard <code>float</code> element type</li>
-<li>software emulated <code>fp16</code> element type can be slow</li>
-<li>fp16 is <b>not</b> the same as bfloat16</li>
-<li>matrices with <code>fp16</code> elements cannot be used with functions that require LAPACK<br>(eg. matrix decompositions such as SVD are not available)</li>
+<li>the <i>fp16</i> element type has considerably lower precision and range (&pm;65&thinsp;x&thinsp;10<sup>3</sup>) than the standard <i>float</i> element type</li>
+<li>software emulated <i>fp16</i> element type can be slow</li>
+<li><i>fp16</i> is <b>not</b> the same as <i>bfloat16</i></li>
+<li>matrices with <i>fp16</i> elements cannot be used with functions that require LAPACK<br>(eg. matrix decompositions such as SVD are not available)</li>
 </ul>
 </li>
 <br>
@@ -20390,9 +20393,9 @@ This can also be enabled by adding <code>#define&nbsp;ARMA_64BIT_WORD</code> bef
       &nbsp;
     </td>
     <td style="vertical-align: top;">
-    Force the use of <a href="#fp16_type"><code>fp16</code></a> and <a href="#fp16_type"><code>cx_fp16</code></a> element types even if hardware supported is not detected.
-    Note that C++23 is also required for <code>fp16</code> and <code>cx_fp16</code>.
-    Support for fp16 element types is automatically enabled if hardware and compiler support is present.
+    Force the use of <a href="#fp16_type"><code>fp16</code></a> and <a href="#fp16_type"><code>cx_fp16</code></a> half-precision floating point element types even if hardware supported is not detected.
+    Note that C++23 is also required.
+    Support is automatically enabled if hardware and compiler support is present.
     </td>
   </tr>
   <tr>
@@ -20415,7 +20418,7 @@ This can also be enabled by adding <code>#define&nbsp;ARMA_64BIT_WORD</code> bef
       &nbsp;
     </td>
     <td style="vertical-align: top;">
-    Disable use of <a href="#fp16_type"><code>fp16</code></a> and <a href="#fp16_type"><code>cx_fp16</code></a> element types.
+    Disable use of <a href="#fp16_type"><code>fp16</code></a> and <a href="#fp16_type"><code>cx_fp16</code></a> half-precision floating point element types
     </td>
   </tr>
   <tr>
