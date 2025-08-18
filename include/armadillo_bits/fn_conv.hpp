@@ -40,9 +40,7 @@ conv(const T1& A, const T2& B, const char* shape = "full")
   
   arma_conform_check( ((sig != 'f') && (sig != 's') && (sig != 'v')), "conv(): unsupported value of 'shape' parameter" );
   
-  const uword mode = (sig == 'f') ? uword(0) :
-                     (sig == 's') ? uword(1) :
-                                    uword(2);
+  const uword mode = (sig == 'v') ? uword(2) : ((sig == 's') ? uword(1) : uword(0));
   
   return Glue<T1, T2, glue_conv>(A, B, mode);
   }
@@ -66,9 +64,7 @@ conv2(const T1& A, const T2& B, const char* shape = "full")
   
   arma_conform_check( ((sig != 'f') && (sig != 's') && (sig != 'v')), "conv2(): unsupported value of 'shape' parameter" );
   
-  const uword mode = (sig == 'f') ? uword(0) :
-                     (sig == 's') ? uword(1) :
-                                    uword(2);
+  const uword mode = (sig == 'v') ? uword(2) : ((sig == 's') ? uword(1) : uword(0));
   
   return Glue<T1, T2, glue_conv2>(A, B, mode);
   }
