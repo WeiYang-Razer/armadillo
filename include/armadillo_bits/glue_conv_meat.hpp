@@ -233,11 +233,11 @@ glue_conv::apply(Mat<typename T1::elem_type>& out, const Glue<T1,T2,glue_conv>& 
     
     glue_conv::apply(tmp, A, B, A_is_col);
     
-    // TODO: handle corner case where size(B) > size(A)
-    // TODO: use .n_elem instead of size to handle mixed vector orientations
-    const SizeMat out_size = arma::size(A) - arma::size(B) + 1;
+    const uword out_len = (A.n_elem >= B.n_elem) ? uword(A.n_elem - B.n_elem + 1) : uword(0);
     
-    if( (tmp.is_empty() == false) && (A.is_empty() == false) && (B.is_empty() == false) )
+    const SizeMat out_size = (A_is_col) ? SizeMat(out_len, 1) : SizeMat(1, out_len);
+    
+    if( (out_len > 0) && (tmp.is_empty() == false) && (A.is_empty() == false) && (B.is_empty() == false) )
       {
       out = (A_is_col) ? tmp(B.n_elem - 1, 0, out_size) : tmp(0, B.n_elem - 1, out_size);
       }
@@ -402,10 +402,12 @@ glue_conv2::apply(Mat<typename T1::elem_type>& out, const Glue<T1,T2,glue_conv2>
     
     glue_conv2::apply(tmp, A, B);
     
-    // TODO: handle corner case where size(B) > size(A)
-    const SizeMat out_size = arma::size(A) - arma::size(B) + 1;
-
-    if( (tmp.is_empty() == false) && (A.is_empty() == false) && (B.is_empty() == false) )
+    const uword out_n_rows = (A.n_rows >= B.n_rows) ? uword(A.n_rows - B.n_rows + 1) : uword(0);
+    const uword out_n_cols = (A.n_cols >= B.n_cols) ? uword(A.n_cols - B.n_cols + 1) : uword(0);
+    
+    const SizeMat out_size = SizeMat(out_n_rows, out_n_cols);
+    
+    if( (out_n_rows > 0) && (out_n_cols > 0) && (tmp.is_empty() == false) && (A.is_empty() == false) && (B.is_empty() == false) )
       {
       out = tmp(B.n_rows - 1, B.n_cols - 1, out_size);
       }
