@@ -45,10 +45,7 @@ glue_conv::apply(Mat<eT>& out, const Mat<eT>& A, const Mat<eT>& B, const bool A_
   const eT*   h_mem =  h.memptr();
         eT*  hh_mem = hh.memptr();
   
-  for(uword i=0; i < h_n_elem; ++i)
-    {
-    hh_mem[h_n_elem_m1-i] = h_mem[i];
-    }
+  for(uword i=0; i < h_n_elem; ++i)  { hh_mem[h_n_elem_m1-i] = h_mem[i]; }
   
   
   Col<eT> xx( (x_n_elem + 2*h_n_elem_m1), arma_zeros_indicator() );  // zero padded version of x
@@ -236,6 +233,8 @@ glue_conv::apply(Mat<typename T1::elem_type>& out, const Glue<T1,T2,glue_conv>& 
     
     glue_conv::apply(tmp, A, B, A_is_col);
     
+    // TODO: handle corner case where size(B) > size(A)
+    // TODO: use .n_elem instead of size to handle mixed vector orientations
     const SizeMat out_size = arma::size(A) - arma::size(B) + 1;
     
     if( (tmp.is_empty() == false) && (A.is_empty() == false) && (B.is_empty() == false) )
@@ -403,6 +402,7 @@ glue_conv2::apply(Mat<typename T1::elem_type>& out, const Glue<T1,T2,glue_conv2>
     
     glue_conv2::apply(tmp, A, B);
     
+    // TODO: handle corner case where size(B) > size(A)
     const SizeMat out_size = arma::size(A) - arma::size(B) + 1;
 
     if( (tmp.is_empty() == false) && (A.is_empty() == false) && (B.is_empty() == false) )
