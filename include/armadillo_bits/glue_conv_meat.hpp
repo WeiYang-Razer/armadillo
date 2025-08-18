@@ -234,7 +234,7 @@ glue_conv::apply(Mat<typename T1::elem_type>& out, const Glue<T1,T2,glue_conv>& 
     {
     Mat<eT> tmp;
     
-    glue_conv2::apply(tmp, A, B, A_is_col);
+    glue_conv::apply(tmp, A, B, A_is_col);
     
     const SizeMat out_size = arma::size(A) - arma::size(B) + 1;
     
