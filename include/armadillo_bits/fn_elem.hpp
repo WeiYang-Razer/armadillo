@@ -1209,8 +1209,21 @@ eps(const T1& X)
 template<typename eT>
 arma_warn_unused
 inline
-typename arma_real_or_cx_only<eT>::result
+typename arma_real_only<eT>::result
 eps(const eT& x)
+  {
+  arma_debug_sigprint();
+  
+  return op_eps::direct_eps(x);
+  }
+
+
+
+template<typename T>
+arma_warn_unused
+inline
+typename arma_real_only<T>::result
+eps(const std::complex<T>& x)
   {
   arma_debug_sigprint();
   
