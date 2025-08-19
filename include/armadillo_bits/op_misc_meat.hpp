@@ -109,6 +109,10 @@ op_real::apply( Cube<typename T1::pod_type>& out, const mtOpCube<typename T1::po
 
 
 
+//
+
+
+
 template<typename T1>
 inline
 void
@@ -204,6 +208,10 @@ op_imag::apply( Cube<typename T1::pod_type>& out, const mtOpCube<typename T1::po
       }
     }
   }
+
+
+
+//
 
 
 
@@ -321,6 +329,10 @@ op_abs::apply( Cube<typename T1::pod_type>& out, const mtOpCube<typename T1::pod
 
 
 
+//
+
+
+
 template<typename T1>
 inline
 void
@@ -411,6 +423,10 @@ op_arg::apply( Cube<typename T1::pod_type>& out, const mtOpCube<typename T1::pod
 
 
 
+//
+
+
+
 template<typename eT, typename T1>
 inline
 void
@@ -441,6 +457,75 @@ op_replace::apply(Cube<eT>& out, const mtOpCube<eT,T1,op_replace>& in)
   out = in.m;
   
   out.replace(old_val, new_val);
+  }
+
+
+
+//
+
+
+
+template<typename eT>
+inline
+typename get_pod_type<eT>::result
+op_eps::direct_eps(const eT& x)
+  {
+  typedef typename get_pod_type<eT>::result T;
+  
+  const T xx = std::abs(x);
+  
+  const T yy = std::nextafter(xx, std::numeric_limits<T>::infinity());
+  
+  return (yy - xx);
+  }
+
+
+
+template<typename T1>
+inline
+void
+op_eps::apply(Mat<typename T1::pod_type>& out, const mtOp<typename T1::pod_type, T1, op_eps>& in)
+  {
+  arma_debug_sigprint();
+  
+  typedef typename T1::pod_type T;
+  
+  const quasi_unwrap<T1> U(in.m);
+  
+  if(U.is_alias(out))
+    {
+    Mat<T> tmp;
+    
+    op_eps::apply_noalias(tmp, U.M);
+    
+    out.steal_mem(tmp);
+    }
+  else
+    {
+    op_eps::apply_noalias(out, U.M);
+    }
+  }
+
+
+
+template<typename T, typename eT>
+inline
+void
+op_eps::apply_noalias(Mat<T>& out, const Mat<eT>& X)
+  {
+  arma_debug_sigprint();
+  
+  out.set_size(X.n_rows, X.n_cols);
+  
+         T* out_mem = out.memptr();
+  const eT*   X_mem =   X.memptr();
+  
+  const uword n_elem = X.n_elem;
+  
+  for(uword i=0; i<n_elem; ++i)
+    {
+    out_mem[i] = op_eps::direct_eps( X_mem[i] );
+    }
   }
 
 

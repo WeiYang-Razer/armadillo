@@ -79,4 +79,18 @@ struct op_replace
 
 
 
+struct op_eps
+  : public traits_op_passthru
+  {
+  template<typename eT> inline static typename get_pod_type<eT>::result direct_eps(const eT& x);
+  
+  template<typename T1>
+  inline static void apply(Mat<typename T1::pod_type>& out, const mtOp<typename T1::pod_type, T1, op_eps>& in);
+  
+  template<typename T, typename eT>
+  inline static void apply_noalias(Mat<T>& out, const Mat<eT>& X);
+  };
+
+
+
 //! @}
