@@ -530,4 +530,53 @@ op_eps::apply_noalias(Mat<T>& out, const Mat<eT>& X)
 
 
 
+template<typename T1>
+inline
+void
+op_eps::apply(Cube<typename T1::pod_type>& out, const mtOpCube<typename T1::pod_type, T1, op_eps>& in)
+  {
+  arma_debug_sigprint();
+  
+  typedef typename T1::pod_type T;
+  
+  const unwrap_cube<T1> U(in.m);
+  
+  if(U.is_alias(out))
+    {
+    Cube<T> tmp;
+    
+    op_eps::apply_noalias(tmp, U.M);
+    
+    out.steal_mem(tmp);
+    }
+  else
+    {
+    op_eps::apply_noalias(out, U.M);
+    }
+  }
+
+
+
+template<typename T, typename eT>
+inline
+void
+op_eps::apply_noalias(Cube<T>& out, const Cube<eT>& X)
+  {
+  arma_debug_sigprint();
+  
+  out.set_size(X.n_rows, X.n_cols, X.n_slices);
+  
+         T* out_mem = out.memptr();
+  const eT*   X_mem =   X.memptr();
+  
+  const uword n_elem = X.n_elem;
+  
+  for(uword i=0; i<n_elem; ++i)
+    {
+    out_mem[i] = op_eps::direct_eps( X_mem[i] );
+    }
+  }
+
+
+
 //! @}

@@ -1206,6 +1206,19 @@ eps(const T1& X)
 
 
 
+template<typename T1>
+arma_warn_unused
+inline
+typename enable_if2< (is_arma_cube_type<T1>::value && is_real_or_cx<typename T1::elem_type>::value), const mtOpCube<typename T1::pod_type, T1, op_eps> >::result
+eps(const T1& X)
+  {
+  arma_debug_sigprint();
+  
+  return mtOpCube<typename T1::pod_type, T1, op_eps>(X);
+  }
+
+
+
 template<typename eT>
 arma_warn_unused
 inline

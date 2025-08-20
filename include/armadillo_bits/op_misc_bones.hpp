@@ -84,11 +84,21 @@ struct op_eps
   {
   template<typename eT> inline static typename get_pod_type<eT>::result direct_eps(const eT& x);
   
+  //
+  
   template<typename T1>
   inline static void apply(Mat<typename T1::pod_type>& out, const mtOp<typename T1::pod_type, T1, op_eps>& in);
   
   template<typename T, typename eT>
   inline static void apply_noalias(Mat<T>& out, const Mat<eT>& X);
+  
+  //
+  
+  template<typename T1>
+  inline static void apply(Cube<typename T1::pod_type>& out, const mtOpCube<typename T1::pod_type, T1, op_eps>& in);
+  
+  template<typename T, typename eT>
+  inline static void apply_noalias(Cube<T>& out, const Cube<eT>& X);
   };
 
 
