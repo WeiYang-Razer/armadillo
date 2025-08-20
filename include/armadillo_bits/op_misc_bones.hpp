@@ -90,8 +90,10 @@ struct op_eps
   inline static void apply(Mat<typename T1::pod_type>& out, const mtOp<typename T1::pod_type, T1, op_eps>& in);
   
   template<typename T, typename eT>
-  inline static void apply_noalias(Mat<T>& out, const Mat<eT>& X);
+  inline static void apply_mat_noalias(Mat<T>& out, const Mat<eT>& X);
   
+  template<typename T, typename T1>
+  inline static void apply_proxy_noalias(Mat<T>& out, const Proxy<T1>& P);
   //
   
   template<typename T1>

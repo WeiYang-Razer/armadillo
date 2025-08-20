@@ -490,19 +490,39 @@ op_eps::apply(Mat<typename T1::pod_type>& out, const mtOp<typename T1::pod_type,
   
   typedef typename T1::pod_type T;
   
-  const quasi_unwrap<T1> U(in.m);
-  
-  if(U.is_alias(out))
+  if(Proxy<T1>::use_at || is_Mat<T1>::value || is_subview_col<T1>::value || is_Mat<typename Proxy<T1>::stored_type>::value || (arma_config::openmp && Proxy<T1>::use_mp))
     {
-    Mat<T> tmp;
+    const quasi_unwrap<T1> U(in.m);
     
-    op_eps::apply_noalias(tmp, U.M);
-    
-    out.steal_mem(tmp);
+    if(U.is_alias(out))
+      {
+      Mat<T> tmp;
+      
+      op_eps::apply_mat_noalias(tmp, U.M);
+      
+      out.steal_mem(tmp);
+      }
+    else
+      {
+      op_eps::apply_mat_noalias(out, U.M);
+      }
     }
   else
     {
-    op_eps::apply_noalias(out, U.M);
+    const Proxy<T1> P(in.m);
+    
+    if(P.is_alias(out))
+      {
+      Mat<T> tmp;
+      
+      op_eps::apply_proxy_noalias(tmp, P);
+      
+      out.steal_mem(tmp);
+      }
+    else
+      {
+      op_eps::apply_proxy_noalias(out, P);
+      }
     }
   }
 
@@ -511,7 +531,7 @@ op_eps::apply(Mat<typename T1::pod_type>& out, const mtOp<typename T1::pod_type,
 template<typename T, typename eT>
 inline
 void
-op_eps::apply_noalias(Mat<T>& out, const Mat<eT>& X)
+op_eps::apply_mat_noalias(Mat<T>& out, const Mat<eT>& X)
   {
   arma_debug_sigprint();
   
@@ -525,6 +545,29 @@ op_eps::apply_noalias(Mat<T>& out, const Mat<eT>& X)
   for(uword i=0; i<n_elem; ++i)
     {
     out_mem[i] = op_eps::direct_eps( X_mem[i] );
+    }
+  }
+
+
+
+template<typename T, typename T1>
+inline
+void
+op_eps::apply_proxy_noalias(Mat<T>& out, const Proxy<T1>& P)
+  {
+  arma_debug_sigprint();
+  
+  out.set_size(P.get_n_rows(), P.get_n_cols());
+  
+  T* out_mem = out.memptr();
+  
+  typename Proxy<T1>::ea_type Pea = P.get_ea();
+  
+  const uword n_elem = P.get_n_elem();
+  
+  for(uword i=0; i<n_elem; ++i)
+    {
+    out_mem[i] = op_eps::direct_eps( Pea[i] );
     }
   }
 
