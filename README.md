@@ -30,10 +30,11 @@ Copyright 2017-2025 Data61 / CSIRO
 8.  [Windows: Compiling and Linking](#8-windows-compiling-and-linking)
 
 9.  [Support for OpenBLAS and Intel MKL](#9-support-for-openblas-and-intel-mkl)
-10. [Caveat on use of C++11 auto Keyword](#10-caveat-on-use-of-c11-auto-keyword)
-11. [Support for OpenMP](#11-support-for-openmp)
+10. [Support for OpenMP](#10-support-for-openmp)
 
-12. [Documentation of Functions and Classes](#12-documentation-of-functions-and-classes)
+11. [Documentation of Functions and Classes](#11-documentation-of-functions-and-classes)
+12. [Caveat on use of C++11 auto Keyword](#12-caveat-on-use-of-c11-auto-keyword)
+
 13. [API Stability and Version Policy](#13-api-stability-and-version-policy)
 14. [Bug Reports and Frequently Asked Questions](#14-bug-reports-and-frequently-asked-questions)
 
@@ -365,16 +366,7 @@ Comment out the line containing:
 
 ---
 
-### 10: Caveat on use of C++11 auto Keyword
-
-Use of the C++11 `auto` keyword is not recommended with Armadillo objects and expressions.
-
-Armadillo has a template meta-programming framework which creates short-lived temporaries
-that are not properly handled by `auto`.
-
----
-
-### 11: Support for OpenMP
+### 10: Support for OpenMP
 
 Armadillo can use OpenMP to automatically speed up computationally
 expensive element-wise functions such as exp(), log(), cos(), etc.
@@ -385,13 +377,22 @@ For GCC and Clang compilers, use the following option to enable OpenMP:
 
 ---
 
-### 12: Documentation of Functions and Classes
+### 11: Documentation of Functions and Classes
 
 The documentation of Armadillo functions and classes is available at:  
 https://arma.sourceforge.net/docs.html
 
 The documentation is also in the `docs.html` file distributed with Armadillo.
 Use a web browser to view it.
+
+---
+
+### 12: Caveat on use of C++11 auto Keyword
+
+Use of the C++11 `auto` keyword is not recommended with Armadillo objects and expressions.
+
+Armadillo has a template meta-programming framework which creates short-lived temporaries
+that are not properly handled by `auto`.
 
 ---
 
