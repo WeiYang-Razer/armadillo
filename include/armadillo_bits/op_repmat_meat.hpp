@@ -136,6 +136,8 @@ op_repcube::apply_noalias(Cube<eT>& out, const Cube<eT>& X, const uword copies_p
   
   if(out.is_empty())  { return; }
   
+  // TODO: this is a rudimentary implementation
+  
   const SizeCube X_size = SizeCube(X.n_rows, X.n_cols, X.n_slices);
   
   for(uword s = 0; s < out.n_slices; s += X.n_slices)
