@@ -62,18 +62,24 @@ op_dot::direct_dot_generic(const uword n_elem, const eT* const A, const eT* cons
 
 
 
-//! generic version for non-complex values with forced optimisation under GCC
+//! generic version for non-complex values with forced SIMD optimisation under OpenMP
 template<typename eT>
-#if defined(ARMA_REAL_GCC) && !defined(ARMA_DONT_FORCE_OPTIMISE_DOT)
-__attribute__((optimize("O3", "fast-math")))
-#endif
 inline
 typename arma_not_cx<eT>::result
 op_dot::direct_dot_generic_force_optimise(const uword n_elem, const eT* const A, const eT* const B)
   {
   arma_debug_sigprint();
   
-  #if defined(__FAST_MATH__)
+  #if defined(ARMA_USE_OPENMP)
+    {
+    eT val = eT(0);
+    
+    #pragma omp simd
+    for(uword i=0; i < n_elem; ++i)  { val += (A[i] * B[i]); }
+    
+    return val;
+    }
+  #elif defined(__FAST_MATH__)
     {
     eT val = eT(0);
     
