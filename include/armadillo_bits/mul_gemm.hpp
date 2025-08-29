@@ -147,7 +147,9 @@ struct gemm_emul_large_mp
     else
     if( (do_trans_A == true) && (do_trans_B == false) )
       {
-      #pragma omp parallel for
+      const int n_threads = mp_thread_limit::get();
+      
+      #pragma omp parallel for schedule(static) num_threads(n_threads)
       for(uword col_A=0; col_A < A_n_cols; ++col_A)
         {
         // col_A is interpreted as row_A when storing the results in matrix C
@@ -176,20 +178,26 @@ struct gemm_emul_large_mp
     else
     if( (do_trans_A == true) && (do_trans_B == true) )
       {
-      // mat B_tmp = trans(B);
-      // dgemm_arma<true, false,  use_alpha, use_beta>::apply(C, A, B_tmp, alpha, beta);
+      // using trans(A)*trans(B) = trans(B*A) equivalency; assuming no hermitian transpose
       
+      const uword n_threads = uword(mp_thread_limit::get());
       
-      // By using the trans(A)*trans(B) = trans(B*A) equivalency,
-      // transpose operations are not needed
+      Mat<eT> tmp(B_n_cols, n_threads, arma_nozeros_indicator());
       
-      arma_aligned podarray<eT> tmp(B.n_cols);
+      podarray<eT*> tmp_colptr_podarray(n_threads, arma_nozeros_indicator());
       
-      #pragma omp parallel for firstprivate(tmp)
+      eT** tmp_colptr = tmp_colptr_podarray.memptr(); 
+      
+      for(uword i=0; i<n_threads; ++i)  { tmp_colptr[i] = tmp.colptr(i); }
+      
+      #pragma omp parallel for schedule(static) num_threads(int(n_threads))
       for(uword row_B=0; row_B < B_n_rows; ++row_B)
         {
-        tmp.copy_row(B, row_B);
-        eT* B_rowdata = tmp.memptr();
+        const uword thread_id = uword(omp_get_thread_num());
+        
+        eT* B_rowdata = tmp_colptr[thread_id];
+        
+        gemm_emul_large_mp_helper::copy_row(B_rowdata, B, row_B);
         
         for(uword col_A=0; col_A < A_n_cols; ++col_A)
           {
