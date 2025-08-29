@@ -59,9 +59,11 @@ struct gemm_emul_tinysq
 
 
 
+#if defined(ARMA_USE_OPENMP)
 //! emulation of gemm(), for non-complex matrices only, as it assumes only simple transposes (ie. doesn't do hermitian transposes)
+//! parallelised version
 template<const bool do_trans_A=false, const bool do_trans_B=false, const bool use_alpha=false, const bool use_beta=false>
-struct gemm_emul_large
+struct gemm_emul_large_mp
   {
   template<typename eT, typename TA, typename TB>
   arma_hot
@@ -78,7 +80,7 @@ struct gemm_emul_large
     )
     {
     arma_debug_sigprint();
-
+    
     const uword A_n_rows = A.n_rows;
     const uword A_n_cols = A.n_cols;
     
@@ -89,9 +91,7 @@ struct gemm_emul_large
       {
       arma_aligned podarray<eT> tmp(A_n_cols);
       
-      #if defined(ARMA_USE_OPENMP)
       #pragma omp parallel for firstprivate(tmp)
-      #endif
       for(uword row_A=0; row_A < A_n_rows; ++row_A)
         {
         tmp.copy_row(A, row_A);
@@ -111,9 +111,129 @@ struct gemm_emul_large
     else
     if( (do_trans_A == true) && (do_trans_B == false) )
       {
-      #if defined(ARMA_USE_OPENMP)
       #pragma omp parallel for
-      #endif
+      for(uword col_A=0; col_A < A_n_cols; ++col_A)
+        {
+        // col_A is interpreted as row_A when storing the results in matrix C
+        
+        const eT* A_coldata = A.colptr(col_A);
+        
+        for(uword col_B=0; col_B < B_n_cols; ++col_B)
+          {
+          const eT acc = op_dot::direct_dot(B_n_rows, A_coldata, B.colptr(col_B));
+          
+               if( (use_alpha == false) && (use_beta == false) )  { C.at(col_A,col_B) =       acc;                          }
+          else if( (use_alpha == true ) && (use_beta == false) )  { C.at(col_A,col_B) = alpha*acc;                          }
+          else if( (use_alpha == false) && (use_beta == true ) )  { C.at(col_A,col_B) =       acc + beta*C.at(col_A,col_B); }
+          else if( (use_alpha == true ) && (use_beta == true ) )  { C.at(col_A,col_B) = alpha*acc + beta*C.at(col_A,col_B); }
+          }
+        }
+      }
+    else
+    if( (do_trans_A == false) && (do_trans_B == true) )
+      {
+      Mat<eT> BB;
+      op_strans::apply_mat_noalias(BB, B);
+      
+      gemm_emul_large_mp<false, false, use_alpha, use_beta>::apply(C, A, BB, alpha, beta);
+      }
+    else
+    if( (do_trans_A == true) && (do_trans_B == true) )
+      {
+      // mat B_tmp = trans(B);
+      // dgemm_arma<true, false,  use_alpha, use_beta>::apply(C, A, B_tmp, alpha, beta);
+      
+      
+      // By using the trans(A)*trans(B) = trans(B*A) equivalency,
+      // transpose operations are not needed
+      
+      arma_aligned podarray<eT> tmp(B.n_cols);
+      
+      #pragma omp parallel for firstprivate(tmp)
+      for(uword row_B=0; row_B < B_n_rows; ++row_B)
+        {
+        tmp.copy_row(B, row_B);
+        eT* B_rowdata = tmp.memptr();
+        
+        for(uword col_A=0; col_A < A_n_cols; ++col_A)
+          {
+          const eT acc = op_dot::direct_dot(A_n_rows, B_rowdata, A.colptr(col_A));
+          
+               if( (use_alpha == false) && (use_beta == false) )  { C.at(col_A,row_B) =       acc;                          }
+          else if( (use_alpha == true ) && (use_beta == false) )  { C.at(col_A,row_B) = alpha*acc;                          }
+          else if( (use_alpha == false) && (use_beta == true ) )  { C.at(col_A,row_B) =       acc + beta*C.at(col_A,row_B); }
+          else if( (use_alpha == true ) && (use_beta == true ) )  { C.at(col_A,row_B) = alpha*acc + beta*C.at(col_A,row_B); }
+          }
+        }
+      }
+    }
+  
+  };
+#endif
+
+
+
+//! emulation of gemm(), for non-complex matrices only, as it assumes only simple transposes (ie. doesn't do hermitian transposes)
+template<const bool do_trans_A=false, const bool do_trans_B=false, const bool use_alpha=false, const bool use_beta=false>
+struct gemm_emul_large
+  {
+  template<typename eT, typename TA, typename TB>
+  arma_hot
+  inline
+  static
+  void
+  apply
+    (
+          Mat<eT>& C,
+    const TA&      A,
+    const TB&      B,
+    const eT       alpha = eT(1),
+    const eT       beta  = eT(0)
+    )
+    {
+    arma_debug_sigprint();
+    
+    const uword A_n_rows = A.n_rows;
+    const uword A_n_cols = A.n_cols;
+    
+    const uword B_n_rows = B.n_rows;
+    const uword B_n_cols = B.n_cols;
+    
+    #if defined(ARMA_USE_OPENMP)
+    if( (mp_thread_limit::in_parallel() == false) && (A_n_rows >= 2) && (A_n_cols >= 2) && (B_n_rows >= 2) && (B_n_cols >= 2) )
+      {
+      // TODO: the above limits on matrix sizes are place holders;
+      // TODO: need take into account transposes when determining if it's worth using the parallelised version
+      gemm_emul_large_mp<do_trans_A, do_trans_B, use_alpha, use_beta>::apply(C,A,B,alpha,beta);
+      
+      return;
+      }
+    #endif
+    
+    if( (do_trans_A == false) && (do_trans_B == false) )
+      {
+      arma_aligned podarray<eT> tmp(A_n_cols);
+      
+      eT* A_rowdata = tmp.memptr();
+      
+      for(uword row_A=0; row_A < A_n_rows; ++row_A)
+        {
+        tmp.copy_row(A, row_A);
+        
+        for(uword col_B=0; col_B < B_n_cols; ++col_B)
+          {
+          const eT acc = op_dot::direct_dot(B_n_rows, A_rowdata, B.colptr(col_B));
+          
+               if( (use_alpha == false) && (use_beta == false) )  { C.at(row_A,col_B) =       acc;                          }
+          else if( (use_alpha == true ) && (use_beta == false) )  { C.at(row_A,col_B) = alpha*acc;                          }
+          else if( (use_alpha == false) && (use_beta == true ) )  { C.at(row_A,col_B) =       acc + beta*C.at(row_A,col_B); }
+          else if( (use_alpha == true ) && (use_beta == true ) )  { C.at(row_A,col_B) = alpha*acc + beta*C.at(row_A,col_B); }
+          }
+        }
+      }
+    else
+    if( (do_trans_A == true) && (do_trans_B == false) )
+      {
       for(uword col_A=0; col_A < A_n_cols; ++col_A)
         {
         // col_A is interpreted as row_A when storing the results in matrix C
@@ -150,14 +270,11 @@ struct gemm_emul_large
       // transpose operations are not needed
       
       arma_aligned podarray<eT> tmp(B.n_cols);
+      eT* B_rowdata = tmp.memptr();
       
-      #if defined(ARMA_USE_OPENMP)
-      #pragma omp parallel for firstprivate(tmp)
-      #endif
       for(uword row_B=0; row_B < B_n_rows; ++row_B)
         {
         tmp.copy_row(B, row_B);
-        eT* B_rowdata = tmp.memptr();
         
         for(uword col_A=0; col_A < A_n_cols; ++col_A)
           {
