@@ -59,6 +59,31 @@ struct gemm_emul_tinysq
 
 
 
+struct gemm_emul_large_mp_helper
+  {
+  template<typename eT>
+  arma_hot
+  inline
+  static
+  void
+  copy_row(eT* out_mem, const Mat<eT>& in, const uword row)
+    {
+    const uword n_rows = in.n_rows;
+    const uword n_cols = in.n_cols;
+    
+    const eT* in_mem_row = in.memptr() + row;
+    
+    for(uword i=0; i < n_cols; ++i)
+      {
+      out_mem[i] = (*in_mem_row);
+      
+      in_mem_row += n_rows;
+      }
+    }
+  };
+
+
+
 #if defined(ARMA_USE_OPENMP)
 //! emulation of gemm(), for non-complex matrices only, as it assumes only simple transposes (ie. doesn't do hermitian transposes)
 //! parallelised version
@@ -89,13 +114,24 @@ struct gemm_emul_large_mp
     
     if( (do_trans_A == false) && (do_trans_B == false) )
       {
-      arma_aligned podarray<eT> tmp(A_n_cols);
+      const uword n_threads = uword(mp_thread_limit::get());
       
-      #pragma omp parallel for firstprivate(tmp)
+      Mat<eT> tmp(A_n_cols, n_threads, arma_nozeros_indicator());
+      
+      podarray<eT*> tmp_colptr_podarray(n_threads, arma_nozeros_indicator());
+      
+      eT** tmp_colptr = tmp_colptr_podarray.memptr(); 
+      
+      for(uword i=0; i<n_threads; ++i)  { tmp_colptr[i] = tmp.colptr(i); }
+      
+      #pragma omp parallel for schedule(static) num_threads(int(n_threads))
       for(uword row_A=0; row_A < A_n_rows; ++row_A)
         {
-        tmp.copy_row(A, row_A);
-        eT* A_rowdata = tmp.memptr();
+        const uword thread_id = uword(omp_get_thread_num());
+        
+        eT* A_rowdata = tmp_colptr[thread_id];
+        
+        gemm_emul_large_mp_helper::copy_row(A_rowdata, A, row_A);
         
         for(uword col_B=0; col_B < B_n_cols; ++col_B)
           {
