@@ -116,20 +116,16 @@ struct gemm_emul_large_mp
       {
       const uword n_threads = uword(mp_thread_limit::get());
       
-      Mat<eT> tmp(A_n_cols, n_threads, arma_nozeros_indicator());
+      podarray<eT> tmp(A_n_cols * n_threads, arma_nozeros_indicator());
       
-      podarray<eT*> tmp_colptr_podarray(n_threads, arma_nozeros_indicator());
-      
-      eT** tmp_colptr = tmp_colptr_podarray.memptr(); 
-      
-      for(uword i=0; i<n_threads; ++i)  { tmp_colptr[i] = tmp.colptr(i); }
+      eT* tmp_mem = tmp.memptr();
       
       #pragma omp parallel for schedule(static) num_threads(int(n_threads))
       for(uword row_A=0; row_A < A_n_rows; ++row_A)
         {
         const uword thread_id = uword(omp_get_thread_num());
         
-        eT* A_rowdata = tmp_colptr[thread_id];
+        eT* A_rowdata = tmp_mem + (A_n_cols * thread_id);
         
         gemm_emul_large_mp_helper::copy_row(A_rowdata, A, row_A);
         
@@ -182,20 +178,16 @@ struct gemm_emul_large_mp
       
       const uword n_threads = uword(mp_thread_limit::get());
       
-      Mat<eT> tmp(B_n_cols, n_threads, arma_nozeros_indicator());
+      podarray<eT> tmp(B_n_cols * n_threads, arma_nozeros_indicator());
       
-      podarray<eT*> tmp_colptr_podarray(n_threads, arma_nozeros_indicator());
-      
-      eT** tmp_colptr = tmp_colptr_podarray.memptr(); 
-      
-      for(uword i=0; i<n_threads; ++i)  { tmp_colptr[i] = tmp.colptr(i); }
+      eT* tmp_mem = tmp.memptr();
       
       #pragma omp parallel for schedule(static) num_threads(int(n_threads))
       for(uword row_B=0; row_B < B_n_rows; ++row_B)
         {
         const uword thread_id = uword(omp_get_thread_num());
         
-        eT* B_rowdata = tmp_colptr[thread_id];
+        eT* B_rowdata = tmp_mem + (B_n_cols * thread_id);
         
         gemm_emul_large_mp_helper::copy_row(B_rowdata, B, row_B);
         
