@@ -236,13 +236,17 @@ struct gemm_emul_large
     const uword B_n_cols = B.n_cols;
     
     #if defined(ARMA_USE_OPENMP)
-    if( (mp_thread_limit::in_parallel() == false) && (A_n_rows >= 2) && (A_n_cols >= 2) && (B_n_rows >= 2) && (B_n_cols >= 2) )
       {
-      // TODO: the above limits on matrix sizes are place holders;
-      // TODO: need take into account transposes when determining if it's worth using the parallelised version
-      gemm_emul_large_mp<do_trans_A, do_trans_B, use_alpha, use_beta>::apply(C,A,B,alpha,beta);
+      constexpr uword threshold = uword(30);
       
-      return;
+      if( (A_n_rows >= threshold) && (A_n_cols >= threshold) && (B_n_rows >= threshold) && (B_n_cols >= threshold) && (mp_thread_limit::in_parallel() == false) )
+        {
+        // TODO: the above limits on matrix sizes are place holders;
+        // TODO: need take into account transposes when determining if it's worth using the parallelised version
+        gemm_emul_large_mp<do_trans_A, do_trans_B, use_alpha, use_beta>::apply(C,A,B,alpha,beta);
+        
+        return;
+        }
       }
     #endif
     
