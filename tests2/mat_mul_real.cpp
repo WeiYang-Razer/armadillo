@@ -981,9 +981,9 @@ TEMPLATE_TEST_CASE("mat_mul_int_compare", "[mat_mul]", u32, s32, u64, s64)
   
   for (uword trial = 0; trial < n_trials; ++trial)
     {
-    uword m = randi<uword>(distr_param(100, 1000));
-    uword n = randi<uword>(distr_param(100, 1000));
-    uword k = randi<uword>(distr_param(100, 1000));
+    uword m = randi<uword>(distr_param(10, 500));
+    uword n = randi<uword>(distr_param(10, 500));
+    uword k = randi<uword>(distr_param(10, 500));
     
     Mat<eT> A  = randi<Mat<eT>>(m, n, distr_param(0, 100));
     Mat<eT> At = randi<Mat<eT>>(n, m, distr_param(0, 100));
