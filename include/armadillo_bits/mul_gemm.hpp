@@ -241,8 +241,6 @@ struct gemm_emul_large
       
       if( (A_n_rows >= threshold) && (A_n_cols >= threshold) && (B_n_rows >= threshold) && (B_n_cols >= threshold) && (mp_thread_limit::in_parallel() == false) )
         {
-        // TODO: the above limits on matrix sizes are place holders;
-        // TODO: need take into account transposes when determining if it's worth using the parallelised version
         gemm_emul_large_mp<do_trans_A, do_trans_B, use_alpha, use_beta>::apply(C,A,B,alpha,beta);
         
         return;
