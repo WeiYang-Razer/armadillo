@@ -237,6 +237,8 @@ struct gemm_emul_large
     
     #if defined(ARMA_USE_OPENMP)
       {
+      // TODO: replace with more sophisticated threshold mechanism
+      
       constexpr uword threshold = uword(30);
       
       if( (A_n_rows >= threshold) && (A_n_cols >= threshold) && (B_n_rows >= threshold) && (B_n_cols >= threshold) && (mp_thread_limit::in_parallel() == false) )
