@@ -926,4 +926,44 @@ op_accu_cube::apply(const CubeToMatOp<T1, op_omit_cube>& in)
 
 
 
+template<typename eT>
+inline
+eT
+op_accu_cube::apply(const subview_cube<eT>& sv)
+  {
+  arma_debug_sigprint();  
+  
+  if(sv.n_elem == 0)  { return eT(0); }
+  
+  const uword sv_nr = sv.n_rows;
+  const uword sv_nc = sv.n_cols;
+  const uword sv_ns = sv.n_slices;
+  
+  eT acc = eT(0);
+  
+  if( (sv_nr == 1)  && (sv_nc == 1) && (sv.aux_slice1 == 0) )
+    {
+    const uword sv_m_n_elem_slice = sv.m.n_elem_slice;
+    
+    const eT* sv_m_ptr = &( sv.m.at(sv.aux_row1, sv.aux_col1, 0) );
+    
+    for(uword s=0; s < sv_ns; ++s)
+      {
+      acc += (*sv_m_ptr);  sv_m_ptr += sv_m_n_elem_slice;
+      }
+    }
+  else
+    {
+    for(uword s=0; s < sv_ns; ++s)
+    for(uword c=0; c < sv_nc; ++c)
+      {
+      acc += arrayops::accumulate(sv.slice_colptr(s,c), sv_nr);
+      }
+    }
+  
+  return acc;
+  }
+
+
+
 //! @}
