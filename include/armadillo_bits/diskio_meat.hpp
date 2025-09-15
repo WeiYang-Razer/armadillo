@@ -688,7 +688,32 @@ diskio::prepare_stream(std::ostream& f)
   
   return cell_width;
   }
+
+
+
+template<typename eT>
+inline
+constexpr
+eT
+diskio::real_as_int_upper_limit()
+  {
+  constexpr eT eT_int_accuracy_upper_limit = (is_fp16<eT>::value) ? eT(0x800) : ( (is_float<eT>::value) ? eT(0x1000000) : eT(0x20000000000000) );
   
+  return (std::min)( eT(std::numeric_limits<int>::max()), eT_int_accuracy_upper_limit );
+  }
+
+
+
+template<typename eT>
+inline
+constexpr
+eT
+diskio::real_as_int_lower_limit()
+  {
+  constexpr eT eT_int_accuracy_lower_limit = -( (is_fp16<eT>::value) ? eT(0x800) : ( (is_float<eT>::value) ? eT(0x1000000) : eT(0x20000000000000) ) );
+  
+  return (std::max)( eT(std::numeric_limits<int>::lowest()), eT_int_accuracy_lower_limit );
+  }
 
 
 
@@ -935,11 +960,8 @@ diskio::save_csv_ascii(const Mat<eT>& x, std::ostream& f, const char separator)
   uword x_n_rows = x.n_rows;
   uword x_n_cols = x.n_cols;
   
-  const eT eT_int_accuracy_upper_limit = (is_fp16<eT>::value) ? eT(0x800) : ( (is_float<eT>::value) ? eT(0x1000000) : eT(0x20000000000000) );
-  const eT eT_int_accuracy_lower_limit = -eT_int_accuracy_upper_limit;
-  
-  const eT eT_int_lowest = (std::max)( eT(std::numeric_limits<int>::lowest()), eT_int_accuracy_lower_limit );
-  const eT eT_int_max    = (std::min)( eT(std::numeric_limits<int>::max()),    eT_int_accuracy_upper_limit );
+  constexpr eT eT_int_lowest = diskio::real_as_int_lower_limit<eT>();
+  constexpr eT eT_int_max    = diskio::real_as_int_upper_limit<eT>();
   
   for(uword row=0; row < x_n_rows; ++row)
     {
@@ -980,11 +1002,8 @@ diskio::save_csv_ascii(const Mat< std::complex<T> >& x, std::ostream& f, const c
   
   diskio::prepare_stream<eT>(f);
   
-  const T T_int_accuracy_upper_limit = (is_fp16<T>::value) ? T(0x800) : ( (is_float<T>::value) ? T(0x1000000) : T(0x20000000000000) );
-  const T T_int_accuracy_lower_limit = -T_int_accuracy_upper_limit;
-  
-  const T T_int_lowest = (std::max)( T(std::numeric_limits<int>::lowest()), T_int_accuracy_lower_limit );
-  const T T_int_max    = (std::min)( T(std::numeric_limits<int>::max()),    T_int_accuracy_upper_limit );
+  constexpr T T_int_lowest = diskio::real_as_int_lower_limit<T>();
+  constexpr T T_int_max    = diskio::real_as_int_upper_limit<T>();
   
   uword x_n_rows = x.n_rows;
   uword x_n_cols = x.n_cols;
@@ -1067,13 +1086,9 @@ diskio::save_coord_ascii(const Mat<eT>& x, std::ostream& f)
   
   diskio::prepare_stream<eT>(f);
   
-  const eT eT_zero = eT(0);
-  
-  const eT eT_int_accuracy_upper_limit = (is_fp16<eT>::value) ? eT(0x800) : ( (is_float<eT>::value) ? eT(0x1000000) : eT(0x20000000000000) );
-  const eT eT_int_accuracy_lower_limit = -eT_int_accuracy_upper_limit;
-  
-  const eT eT_int_lowest = (std::max)( eT(std::numeric_limits<int>::lowest()), eT_int_accuracy_lower_limit );
-  const eT eT_int_max    = (std::min)( eT(std::numeric_limits<int>::max()),    eT_int_accuracy_upper_limit );
+  constexpr eT eT_zero       = eT(0);
+  constexpr eT eT_int_lowest = diskio::real_as_int_lower_limit<eT>();
+  constexpr eT eT_int_max    = diskio::real_as_int_upper_limit<eT>();
   
   for(uword col=0; col < x.n_cols; ++col)
   for(uword row=0; row < x.n_rows; ++row)
@@ -1126,13 +1141,9 @@ diskio::save_coord_ascii(const Mat< std::complex<T> >& x, std::ostream& f)
   
   diskio::prepare_stream<eT>(f);
   
-  const eT eT_zero = eT(0);
-  
-  const T T_int_accuracy_upper_limit = (is_fp16<T>::value) ? T(0x800) : ( (is_float<T>::value) ? T(0x1000000) : T(0x20000000000000) );
-  const T T_int_accuracy_lower_limit = -T_int_accuracy_upper_limit;
-  
-  const T T_int_lowest = (std::max)( T(std::numeric_limits<int>::lowest()), T_int_accuracy_lower_limit );
-  const T T_int_max    = (std::min)( T(std::numeric_limits<int>::max()),    T_int_accuracy_upper_limit );
+  constexpr eT eT_zero       = eT(0);
+  constexpr  T  T_int_lowest = diskio::real_as_int_lower_limit<T>();
+  constexpr  T  T_int_max    = diskio::real_as_int_upper_limit<T>();
   
   for(uword col=0; col < x.n_cols; ++col)
   for(uword row=0; row < x.n_rows; ++row)
@@ -2980,13 +2991,9 @@ diskio::save_csv_ascii(const SpMat<eT>& x, std::ostream& f, const char separator
   uword x_n_rows = x.n_rows;
   uword x_n_cols = x.n_cols;
   
-  const eT eT_zero = eT(0);
-  
-  const eT eT_int_accuracy_upper_limit = (is_fp16<eT>::value) ? eT(0x800) : ( (is_float<eT>::value) ? eT(0x1000000) : eT(0x20000000000000) );
-  const eT eT_int_accuracy_lower_limit = -eT_int_accuracy_upper_limit;
-  
-  const eT eT_int_lowest = (std::max)( eT(std::numeric_limits<int>::lowest()), eT_int_accuracy_lower_limit );
-  const eT eT_int_max    = (std::min)( eT(std::numeric_limits<int>::max()),    eT_int_accuracy_upper_limit );
+  constexpr eT eT_zero       = eT(0);
+  constexpr eT eT_int_lowest = diskio::real_as_int_lower_limit<eT>();
+  constexpr eT eT_int_max    = diskio::real_as_int_upper_limit<eT>();
   
   for(uword row=0; row < x_n_rows; ++row)
     {
@@ -3082,11 +3089,8 @@ diskio::save_coord_ascii(const SpMat<eT>& x, std::ostream& f)
   
   diskio::prepare_stream<eT>(f);
   
-  const eT eT_int_accuracy_upper_limit = (is_fp16<eT>::value) ? eT(0x800) : ( (is_float<eT>::value) ? eT(0x1000000) : eT(0x20000000000000) );
-  const eT eT_int_accuracy_lower_limit = -eT_int_accuracy_upper_limit;
-  
-  const eT eT_int_lowest = (std::max)( eT(std::numeric_limits<int>::lowest()), eT_int_accuracy_lower_limit );
-  const eT eT_int_max    = (std::min)( eT(std::numeric_limits<int>::max()),    eT_int_accuracy_upper_limit );
+  constexpr eT eT_int_lowest = diskio::real_as_int_lower_limit<eT>();
+  constexpr eT eT_int_max    = diskio::real_as_int_upper_limit<eT>();
   
   typename SpMat<eT>::const_iterator iter     = x.begin();
   typename SpMat<eT>::const_iterator iter_end = x.end();
@@ -3141,11 +3145,8 @@ diskio::save_coord_ascii(const SpMat< std::complex<T> >& x, std::ostream& f)
   
   diskio::prepare_stream<eT>(f);
   
-  const T T_int_accuracy_upper_limit = (is_fp16<T>::value) ? T(0x800) : ( (is_float<T>::value) ? T(0x1000000) : T(0x20000000000000) );
-  const T T_int_accuracy_lower_limit = -T_int_accuracy_upper_limit;
-  
-  const T T_int_lowest = (std::max)( T(std::numeric_limits<int>::lowest()), T_int_accuracy_lower_limit );
-  const T T_int_max    = (std::min)( T(std::numeric_limits<int>::max()),    T_int_accuracy_upper_limit );
+  constexpr T T_int_lowest = diskio::real_as_int_lower_limit<T>();
+  constexpr T T_int_max    = diskio::real_as_int_upper_limit<T>();
   
   typename SpMat<eT>::const_iterator iter     = x.begin();
   typename SpMat<eT>::const_iterator iter_end = x.end();
