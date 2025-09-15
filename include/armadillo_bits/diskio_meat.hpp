@@ -935,8 +935,11 @@ diskio::save_csv_ascii(const Mat<eT>& x, std::ostream& f, const char separator)
   uword x_n_rows = x.n_rows;
   uword x_n_cols = x.n_cols;
   
-  const eT eT_int_lowest = eT(std::numeric_limits<int>::lowest());
-  const eT eT_int_max    = eT(std::numeric_limits<int>::max());
+  const eT eT_as_int_accuracy_upper_limit = (is_fp16<eT>::value) ? eT(0x800) : ( (is_float<eT>::value) ? eT(0x1000000) : eT(0x20000000000000) );
+  const eT eT_as_int_accuracy_lower_limit = -eT_as_int_accuracy_upper_limit;
+  
+  const eT eT_as_int_max = (std::min)( eT(std::numeric_limits<int>::max()),    eT_as_int_accuracy_upper_limit );
+  const eT eT_as_int_min = (std::max)( eT(std::numeric_limits<int>::lowest()), eT_as_int_accuracy_lower_limit );
   
   for(uword row=0; row < x_n_rows; ++row)
     {
@@ -944,7 +947,7 @@ diskio::save_csv_ascii(const Mat<eT>& x, std::ostream& f, const char separator)
       {
       const eT val = x.at(row,col);
       
-      const bool is_real_int = (is_real<eT>::yes) && arma_isfinite(val) && (val > eT_int_lowest) && (val < eT_int_max) && (eT(int(val)) == val);
+      const bool is_real_int = (is_real<eT>::yes) && arma_isfinite(val) && (val > eT_as_int_min) && (val < eT_as_int_max) && (eT(int(val)) == val);
       
       (is_real_int) ? arma_ostream::raw_print_elem(f, int(val)) : arma_ostream::raw_print_elem(f, val);
       
@@ -977,8 +980,11 @@ diskio::save_csv_ascii(const Mat< std::complex<T> >& x, std::ostream& f, const c
   
   diskio::prepare_stream<eT>(f);
   
-  const T T_int_lowest = T(std::numeric_limits<int>::lowest());
-  const T T_int_max    = T(std::numeric_limits<int>::max());
+  const T T_as_int_accuracy_upper_limit = (is_fp16<T>::value) ? T(0x800) : ( (is_float<T>::value) ? T(0x1000000) : T(0x20000000000000) );
+  const T T_as_int_accuracy_lower_limit = -T_as_int_accuracy_upper_limit;
+  
+  const T T_as_int_max = (std::min)( eT(std::numeric_limits<int>::max()),    T_as_int_accuracy_upper_limit );
+  const T T_as_int_min = (std::max)( eT(std::numeric_limits<int>::lowest()), T_as_int_accuracy_lower_limit );
   
   uword x_n_rows = x.n_rows;
   uword x_n_cols = x.n_cols;
@@ -994,8 +1000,8 @@ diskio::save_csv_ascii(const Mat< std::complex<T> >& x, std::ostream& f, const c
       const T    abs_i = (val_i < T(0)) ? T(-val_i) : T(val_i);
       const char sgn_i = (val_i < T(0)) ? char('-') : char('+');
       
-      const bool val_r_is_real_int = (is_real<T>::yes) && arma_isfinite(val_r) && (val_r > T_int_lowest) && (val_r < T_int_max) && (T(int(val_r)) == val_r);
-      const bool abs_i_is_real_int = (is_real<T>::yes) && arma_isfinite(abs_i)                           && (abs_i < T_int_max) && (T(int(abs_i)) == abs_i);
+      const bool val_r_is_real_int = (is_real<T>::yes) && arma_isfinite(val_r) && (val_r > T_as_int_min) && (val_r < T_as_int_max) && (T(int(val_r)) == val_r);
+      const bool abs_i_is_real_int = (is_real<T>::yes) && arma_isfinite(abs_i)                           && (abs_i < T_as_int_max) && (T(int(abs_i)) == abs_i);
       
       (val_r_is_real_int) ? arma_ostream::raw_print_elem(f, int(val_r)) : arma_ostream::raw_print_elem(f, val_r);
       
