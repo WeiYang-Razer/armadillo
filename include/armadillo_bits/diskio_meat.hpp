@@ -960,8 +960,8 @@ diskio::save_csv_ascii(const Mat<eT>& x, std::ostream& f, const char separator)
   uword x_n_rows = x.n_rows;
   uword x_n_cols = x.n_cols;
   
-  constexpr eT eT_int_lowest = diskio::real_as_int_lower_limit<eT>();
-  constexpr eT eT_int_max    = diskio::real_as_int_upper_limit<eT>();
+  constexpr eT eT_int_lower = diskio::real_as_int_lower_limit<eT>();
+  constexpr eT eT_int_upper = diskio::real_as_int_upper_limit<eT>();
   
   for(uword row=0; row < x_n_rows; ++row)
     {
@@ -969,7 +969,7 @@ diskio::save_csv_ascii(const Mat<eT>& x, std::ostream& f, const char separator)
       {
       const eT val = x.at(row,col);
       
-      const bool is_real_int = (is_real<eT>::yes) && arma_isfinite(val) && (val > eT_int_lowest) && (val < eT_int_max) && (eT(int(val)) == val);
+      const bool is_real_int = (is_real<eT>::yes) && arma_isfinite(val) && (val > eT_int_lower) && (val < eT_int_upper) && (eT(int(val)) == val);
       
       (is_real_int) ? arma_ostream::raw_print_elem(f, int(val)) : arma_ostream::raw_print_elem(f, val);
       
@@ -1002,8 +1002,8 @@ diskio::save_csv_ascii(const Mat< std::complex<T> >& x, std::ostream& f, const c
   
   diskio::prepare_stream<eT>(f);
   
-  constexpr T T_int_lowest = diskio::real_as_int_lower_limit<T>();
-  constexpr T T_int_max    = diskio::real_as_int_upper_limit<T>();
+  constexpr T T_int_lower = diskio::real_as_int_lower_limit<T>();
+  constexpr T T_int_upper = diskio::real_as_int_upper_limit<T>();
   
   uword x_n_rows = x.n_rows;
   uword x_n_cols = x.n_cols;
@@ -1019,8 +1019,8 @@ diskio::save_csv_ascii(const Mat< std::complex<T> >& x, std::ostream& f, const c
       const T    abs_i = (val_i < T(0)) ? T(-val_i) : T(val_i);
       const char sgn_i = (val_i < T(0)) ? char('-') : char('+');
       
-      const bool val_r_is_real_int = (is_real<T>::yes) && arma_isfinite(val_r) && (val_r > T_int_lowest) && (val_r < T_int_max) && (T(int(val_r)) == val_r);
-      const bool abs_i_is_real_int = (is_real<T>::yes) && arma_isfinite(abs_i)                           && (abs_i < T_int_max) && (T(int(abs_i)) == abs_i);
+      const bool val_r_is_real_int = (is_real<T>::yes) && arma_isfinite(val_r) && (val_r > T_int_lower) && (val_r < T_int_upper) && (T(int(val_r)) == val_r);
+      const bool abs_i_is_real_int = (is_real<T>::yes) && arma_isfinite(abs_i)                          && (abs_i < T_int_upper) && (T(int(abs_i)) == abs_i);
       
       (val_r_is_real_int) ? arma_ostream::raw_print_elem(f, int(val_r)) : arma_ostream::raw_print_elem(f, val_r);
       
@@ -1086,9 +1086,9 @@ diskio::save_coord_ascii(const Mat<eT>& x, std::ostream& f)
   
   diskio::prepare_stream<eT>(f);
   
-  constexpr eT eT_zero       = eT(0);
-  constexpr eT eT_int_lowest = diskio::real_as_int_lower_limit<eT>();
-  constexpr eT eT_int_max    = diskio::real_as_int_upper_limit<eT>();
+  constexpr eT eT_zero      = eT(0);
+  constexpr eT eT_int_lower = diskio::real_as_int_lower_limit<eT>();
+  constexpr eT eT_int_upper = diskio::real_as_int_upper_limit<eT>();
   
   for(uword col=0; col < x.n_cols; ++col)
   for(uword row=0; row < x.n_rows; ++row)
@@ -1100,7 +1100,7 @@ diskio::save_coord_ascii(const Mat<eT>& x, std::ostream& f)
     f << row;  f.put(' ');
     f << col;  f.put(' ');
     
-    const bool is_real_int = (is_real<eT>::yes) && arma_isfinite(val) && (val > eT_int_lowest) && (val < eT_int_max) && (eT(int(val)) == val);
+    const bool is_real_int = (is_real<eT>::yes) && arma_isfinite(val) && (val > eT_int_lower) && (val < eT_int_upper) && (eT(int(val)) == val);
     
     (is_real_int) ? arma_ostream::raw_print_elem(f, int(val)) : arma_ostream::raw_print_elem(f, val);
     
@@ -1141,9 +1141,9 @@ diskio::save_coord_ascii(const Mat< std::complex<T> >& x, std::ostream& f)
   
   diskio::prepare_stream<eT>(f);
   
-  constexpr eT eT_zero       = eT(0);
-  constexpr  T  T_int_lowest = diskio::real_as_int_lower_limit<T>();
-  constexpr  T  T_int_max    = diskio::real_as_int_upper_limit<T>();
+  constexpr eT eT_zero      = eT(0);
+  constexpr  T  T_int_lower = diskio::real_as_int_lower_limit<T>();
+  constexpr  T  T_int_upper = diskio::real_as_int_upper_limit<T>();
   
   for(uword col=0; col < x.n_cols; ++col)
   for(uword row=0; row < x.n_rows; ++row)
@@ -1158,8 +1158,8 @@ diskio::save_coord_ascii(const Mat< std::complex<T> >& x, std::ostream& f)
     const T val_r = std::real(val);
     const T val_i = std::imag(val);
     
-    const bool val_r_is_real_int = (is_real<T>::yes) && arma_isfinite(val_r) && (val_r > T_int_lowest) && (val_r < T_int_max) && (T(int(val_r)) == val_r);
-    const bool val_i_is_real_int = (is_real<T>::yes) && arma_isfinite(val_i) && (val_i > T_int_lowest) && (val_i < T_int_max) && (T(int(val_i)) == val_i);
+    const bool val_r_is_real_int = (is_real<T>::yes) && arma_isfinite(val_r) && (val_r > T_int_lower) && (val_r < T_int_upper) && (T(int(val_r)) == val_r);
+    const bool val_i_is_real_int = (is_real<T>::yes) && arma_isfinite(val_i) && (val_i > T_int_lower) && (val_i < T_int_upper) && (T(int(val_i)) == val_i);
     
     (val_r_is_real_int) ? arma_ostream::raw_print_elem(f, int(val_r)) : arma_ostream::raw_print_elem(f, val_r);
     
@@ -2991,9 +2991,9 @@ diskio::save_csv_ascii(const SpMat<eT>& x, std::ostream& f, const char separator
   uword x_n_rows = x.n_rows;
   uword x_n_cols = x.n_cols;
   
-  constexpr eT eT_zero       = eT(0);
-  constexpr eT eT_int_lowest = diskio::real_as_int_lower_limit<eT>();
-  constexpr eT eT_int_max    = diskio::real_as_int_upper_limit<eT>();
+  constexpr eT eT_zero      = eT(0);
+  constexpr eT eT_int_lower = diskio::real_as_int_lower_limit<eT>();
+  constexpr eT eT_int_upper = diskio::real_as_int_upper_limit<eT>();
   
   for(uword row=0; row < x_n_rows; ++row)
     {
@@ -3007,7 +3007,7 @@ diskio::save_csv_ascii(const SpMat<eT>& x, std::ostream& f, const char separator
         }
       else
         {
-        const bool is_real_int = (is_real<eT>::yes) && arma_isfinite(val) && (val > eT_int_lowest) && (val < eT_int_max) && (eT(int(val)) == val);
+        const bool is_real_int = (is_real<eT>::yes) && arma_isfinite(val) && (val > eT_int_lower) && (val < eT_int_upper) && (eT(int(val)) == val);
         
         (is_real_int) ? arma_ostream::raw_print_elem(f, int(val)) : arma_ostream::raw_print_elem(f, val);
         }
@@ -3089,8 +3089,8 @@ diskio::save_coord_ascii(const SpMat<eT>& x, std::ostream& f)
   
   diskio::prepare_stream<eT>(f);
   
-  constexpr eT eT_int_lowest = diskio::real_as_int_lower_limit<eT>();
-  constexpr eT eT_int_max    = diskio::real_as_int_upper_limit<eT>();
+  constexpr eT eT_int_lower = diskio::real_as_int_lower_limit<eT>();
+  constexpr eT eT_int_upper = diskio::real_as_int_upper_limit<eT>();
   
   typename SpMat<eT>::const_iterator iter     = x.begin();
   typename SpMat<eT>::const_iterator iter_end = x.end();
@@ -3102,7 +3102,7 @@ diskio::save_coord_ascii(const SpMat<eT>& x, std::ostream& f)
     
     const eT val = (*iter);
     
-    const bool is_real_int = (is_real<eT>::yes) && arma_isfinite(val) && (val > eT_int_lowest) && (val < eT_int_max) && (eT(int(val)) == val);
+    const bool is_real_int = (is_real<eT>::yes) && arma_isfinite(val) && (val > eT_int_lower) && (val < eT_int_upper) && (eT(int(val)) == val);
     
     (is_real_int) ? arma_ostream::raw_print_elem(f, int(val)) : arma_ostream::raw_print_elem(f, val);
     
@@ -3145,8 +3145,8 @@ diskio::save_coord_ascii(const SpMat< std::complex<T> >& x, std::ostream& f)
   
   diskio::prepare_stream<eT>(f);
   
-  constexpr T T_int_lowest = diskio::real_as_int_lower_limit<T>();
-  constexpr T T_int_max    = diskio::real_as_int_upper_limit<T>();
+  constexpr T T_int_lower = diskio::real_as_int_lower_limit<T>();
+  constexpr T T_int_upper = diskio::real_as_int_upper_limit<T>();
   
   typename SpMat<eT>::const_iterator iter     = x.begin();
   typename SpMat<eT>::const_iterator iter_end = x.end();
@@ -3161,8 +3161,8 @@ diskio::save_coord_ascii(const SpMat< std::complex<T> >& x, std::ostream& f)
     const T val_r = std::real(val);
     const T val_i = std::imag(val);
     
-    const bool val_r_is_real_int = (is_real<T>::yes) && arma_isfinite(val_r) && (val_r > T_int_lowest) && (val_r < T_int_max) && (T(int(val_r)) == val_r);
-    const bool val_i_is_real_int = (is_real<T>::yes) && arma_isfinite(val_i) && (val_i > T_int_lowest) && (val_i < T_int_max) && (T(int(val_i)) == val_i);
+    const bool val_r_is_real_int = (is_real<T>::yes) && arma_isfinite(val_r) && (val_r > T_int_lower) && (val_r < T_int_upper) && (T(int(val_r)) == val_r);
+    const bool val_i_is_real_int = (is_real<T>::yes) && arma_isfinite(val_i) && (val_i > T_int_lower) && (val_i < T_int_upper) && (T(int(val_i)) == val_i);
     
     (val_r_is_real_int) ? arma_ostream::raw_print_elem(f, int(val_r)) : arma_ostream::raw_print_elem(f, val_r);
     
