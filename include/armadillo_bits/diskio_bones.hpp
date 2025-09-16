@@ -63,8 +63,8 @@ struct diskio
   
   template<typename eT> inline static std::streamsize prepare_stream(std::ostream& f);
   
-  template<typename eT> inline static constexpr eT real_as_int_upper_limit();
   template<typename eT> inline static constexpr eT real_as_int_lower_limit();
+  template<typename eT> inline static constexpr eT real_as_int_upper_limit();
   
   
   //

@@ -695,11 +695,11 @@ template<typename eT>
 inline
 constexpr
 eT
-diskio::real_as_int_upper_limit()
+diskio::real_as_int_lower_limit()
   {
-  constexpr eT eT_int_accuracy_upper_limit = (is_fp16<eT>::value) ? eT(0x800) : ( (is_float<eT>::value) ? eT(0x1000000) : eT(0x20000000000000) );
+  constexpr eT eT_int_accuracy_lower_limit = -( (is_fp16<eT>::value) ? eT(0x800) : ( (is_float<eT>::value) ? eT(0x1000000) : eT(0x20000000000000) ) );
   
-  return (std::min)( eT(std::numeric_limits<int>::max()), eT_int_accuracy_upper_limit );
+  return (std::max)( eT(std::numeric_limits<int>::lowest()), eT_int_accuracy_lower_limit );
   }
 
 
@@ -708,11 +708,11 @@ template<typename eT>
 inline
 constexpr
 eT
-diskio::real_as_int_lower_limit()
+diskio::real_as_int_upper_limit()
   {
-  constexpr eT eT_int_accuracy_lower_limit = -( (is_fp16<eT>::value) ? eT(0x800) : ( (is_float<eT>::value) ? eT(0x1000000) : eT(0x20000000000000) ) );
+  constexpr eT eT_int_accuracy_upper_limit = (is_fp16<eT>::value) ? eT(0x800) : ( (is_float<eT>::value) ? eT(0x1000000) : eT(0x20000000000000) );
   
-  return (std::max)( eT(std::numeric_limits<int>::lowest()), eT_int_accuracy_lower_limit );
+  return (std::min)( eT(std::numeric_limits<int>::max()), eT_int_accuracy_upper_limit );
   }
 
 
