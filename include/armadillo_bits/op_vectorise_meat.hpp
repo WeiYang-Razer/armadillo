@@ -80,7 +80,7 @@ op_vectorise_col::apply_direct(Mat<typename T1::elem_type>& out, const T1& expr)
       }
     }
   else
-  if((is_Mat<typename Proxy<T1>::stored_type>::value) || (arma_config::openmp && Proxy<T1>::use_mp))
+  if( (quasi_unwrap<T1>::has_orig_mem) || (is_Mat<typename Proxy<T1>::stored_type>::value) || (arma_config::openmp && Proxy<T1>::use_mp) )
     {
     const quasi_unwrap<T1> U(expr);
     
