@@ -114,7 +114,7 @@ op_accu_mat::apply(const T1& X)
   {
   arma_debug_sigprint();
   
-  if( (is_Mat<T1>::value) || (is_subview_col<T1>::value) || (is_Mat<typename Proxy<T1>::stored_type>::value) || (arma_config::openmp && Proxy<T1>::use_mp) )
+  if( (quasi_unwrap<T1>::has_orig_mem) || (is_Mat<typename Proxy<T1>::stored_type>::value) || (arma_config::openmp && Proxy<T1>::use_mp) )
     {
     const quasi_unwrap<T1> U(X);
     
