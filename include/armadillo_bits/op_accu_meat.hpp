@@ -121,6 +121,20 @@ op_accu_mat::apply(const T1& X)
     return arrayops::accumulate(U.M.memptr(), U.M.n_elem);
     }
   
+  if(is_subview_row<T1>::value)
+    {
+    typedef typename T1::elem_type eT;
+    
+    const subview_row<eT>& sv = reinterpret_cast< const subview_row<eT>& >(X);
+    
+    if(sv.m.n_rows == 1)
+      {
+      const eT* sv_mem = &(sv.m.at(sv.aux_col1));
+      
+      return arrayops::accumulate(sv_mem, sv.n_elem);
+      }
+    }
+  
   const Proxy<T1> P(X);
   
   return (Proxy<T1>::use_at) ? op_accu_mat::apply_proxy_at(P) : op_accu_mat::apply_proxy_linear(P);
