@@ -702,16 +702,6 @@ For convenience, the following matrix typedefs are defined:
       <code>Mat&lt;<a href="#uword">sword</a>&gt;</code>
       </td>
     </tr>
-  </tbody>
-</table>
-</li>
-<br>
-<li>
-If supported by compiler and hardware, additional typedefs for matrices with half-precision element types are defined as: 
-<br>
-<br>
-<table style="text-align: left;" border="0" cellpadding="2" cellspacing="2">
-  <tbody>
     <tr>
       <td style="vertical-align: top; text-align: right;">
       <code>hmat</code>
@@ -721,6 +711,9 @@ If supported by compiler and hardware, additional typedefs for matrices with hal
       </td>
       <td style="vertical-align: top;">
       <code>Mat&lt;<a href="#fp16_type">fp16</a>&gt;</code>
+      </td>
+      <td style="vertical-align: top;">
+      (only available if supported by compiler and hardware)
       </td>
     </tr>
     <tr>
@@ -732,6 +725,9 @@ If supported by compiler and hardware, additional typedefs for matrices with hal
       </td>
       <td style="vertical-align: top;">
       <code>Mat&lt;<a href="#fp16_type">cx_fp16</a>&gt;</code>
+      </td>
+      <td style="vertical-align: top;">
+      (only available if supported by compiler and hardware)
       </td>
     </tr>
   </tbody>
@@ -1096,20 +1092,6 @@ For convenience, the following column vector typedefs are defined:
       <code>Col&lt;<a href="#uword">sword</a>&gt;</code>
       </td>
     </tr>
-  </tbody>
-</table>
-</li>
-<br>
-<li>
-The <b><i>vec</i></b> and <b><i>colvec</i></b> types have the <b>same meaning</b> and are used <b>interchangeably</b>
-</li>
-<br>
-<li>
-If supported by compiler and hardware, additional typedefs for column vectors with half-precision element types are defined as: 
-<br>
-<br>
-<table style="text-align: left;" border="0" cellpadding="2" cellspacing="2">
-  <tbody>
     <tr>
       <td style="vertical-align: top; text-align: right;">
       <code>hvec</code>
@@ -1125,6 +1107,9 @@ If supported by compiler and hardware, additional typedefs for column vectors wi
       </td>
       <td style="vertical-align: top;">
       <code>Col&lt;<a href="#fp16_type">fp16</a>&gt;</code>
+      </td>
+      <td style="vertical-align: top;">
+      (only available if supported by compiler and hardware)
       </td>
     </tr>
     <tr>
@@ -1143,9 +1128,16 @@ If supported by compiler and hardware, additional typedefs for column vectors wi
       <td style="vertical-align: top;">
       <code>Col&lt;<a href="#fp16_type">cx_fp16</a>&gt;</code>
       </td>
+      <td style="vertical-align: top;">
+      (only available if supported by compiler and hardware)
+      </td>
     </tr>
   </tbody>
 </table>
+</li>
+<br>
+<li>
+The <b><i>vec</i></b> and <b><i>colvec</i></b> types have the <b>same meaning</b> and are used <b>interchangeably</b>
 </li>
 <br>
 <li>
@@ -1387,16 +1379,6 @@ For convenience, the following row vector typedefs are defined:
       <code>Row&lt;<a href="#uword">sword</a>&gt;</code>
       </td>
     </tr>
-  </tbody>
-</table>
-</li>
-<br>
-<li>
-If supported by compiler and hardware, additional typedefs for row vectors with half-precision element types are defined as: 
-<br>
-<br>
-<table style="text-align: left;" border="0" cellpadding="2" cellspacing="2">
-  <tbody>
     <tr>
       <td style="vertical-align: top; text-align: right;">
       <code>hrowvec</code>
@@ -1406,6 +1388,9 @@ If supported by compiler and hardware, additional typedefs for row vectors with 
       </td>
       <td style="vertical-align: top;">
       <code>Row&lt;<a href="#fp16_type">fp16</a>&gt;</code>
+      </td>
+      <td style="vertical-align: top;">
+      (only available if supported by compiler and hardware)
       </td>
     </tr>
     <tr>
@@ -1417,6 +1402,9 @@ If supported by compiler and hardware, additional typedefs for row vectors with 
       </td>
       <td style="vertical-align: top;">
       <code>Row&lt;<a href="#fp16_type">cx_fp16</a>&gt;</code>
+      </td>
+      <td style="vertical-align: top;">
+      (only available if supported by compiler and hardware)
       </td>
     </tr>
   </tbody>
@@ -1673,16 +1661,6 @@ For convenience, the following cube typedefs are defined:
       <code>Cube&lt;<a href="#uword">sword</a>&gt;</code>
       </td>
     </tr>
-  </tbody>
-</table>
-</li>
-<br>
-<li>
-If supported by compiler and hardware, additional typedefs for cubes with half-precision element types are defined as: 
-<br>
-<br>
-<table style="text-align: left;" border="0" cellpadding="2" cellspacing="2">
-  <tbody>
     <tr>
       <td style="vertical-align: top; text-align: right;">
       <code>hcube</code>
@@ -1692,6 +1670,9 @@ If supported by compiler and hardware, additional typedefs for cubes with half-p
       </td>
       <td style="vertical-align: top;">
       <code>Cube&lt;<a href="#fp16_type">fp16</a>&gt;</code>
+      </td>
+      <td style="vertical-align: top;">
+      (only available if supported by compiler and hardware)
       </td>
     </tr>
     <tr>
@@ -1703,6 +1684,9 @@ If supported by compiler and hardware, additional typedefs for cubes with half-p
       </td>
       <td style="vertical-align: top;">
       <code>Cube&lt;<a href="#fp16_type">cx_fp16</a>&gt;</code>
+      </td>
+      <td style="vertical-align: top;">
+      (only available if supported by compiler and hardware)
       </td>
     </tr>
   </tbody>
@@ -2050,17 +2034,6 @@ For convenience, the following sparse matrix typedefs are defined:
       <code>SpMat&lt;<a href="#uword">sword</a>&gt;</code>
       </td>
     </tr>
-  </tbody>
-</table>
-</ul>
-</li>
-<br>
-<li>
-If supported by compiler and hardware, additional typedefs for sparse matrices with half-precision element types are defined as: 
-<br>
-<br>
-<table style="text-align: left;" border="0" cellpadding="2" cellspacing="2">
-  <tbody>
     <tr>
       <td style="vertical-align: top; text-align: right;">
       <code>sp_hmat</code>
@@ -2070,6 +2043,9 @@ If supported by compiler and hardware, additional typedefs for sparse matrices w
       </td>
       <td style="vertical-align: top;">
       <code>SpMat&lt;<a href="#fp16_type">fp16</a>&gt;</code>
+      </td>
+      <td style="vertical-align: top;">
+      (only available if supported by compiler and hardware)
       </td>
     </tr>
     <tr>
@@ -2082,9 +2058,13 @@ If supported by compiler and hardware, additional typedefs for sparse matrices w
       <td style="vertical-align: top;">
       <code>SpMat&lt;<a href="#fp16_type">cx_fp16</a>&gt;</code>
       </td>
+      <td style="vertical-align: top;">
+      (only available if supported by compiler and hardware)
+      </td>
     </tr>
   </tbody>
 </table>
+</ul>
 </li>
 <br>
 <li>
