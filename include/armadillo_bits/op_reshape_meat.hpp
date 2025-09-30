@@ -49,7 +49,7 @@ op_reshape::apply(Mat<typename T1::elem_type>& out, const Op<T1,op_reshape>& in)
       }
     }
   else
-  if((is_Mat<typename Proxy<T1>::stored_type>::value) || (arma_config::openmp && Proxy<T1>::use_mp))
+  if( (quasi_unwrap<T1>::has_orig_mem) || (is_Mat<typename Proxy<T1>::stored_type>::value) || (arma_config::openmp && Proxy<T1>::use_mp) )
     {
     const quasi_unwrap<T1> U(in.m);
     
