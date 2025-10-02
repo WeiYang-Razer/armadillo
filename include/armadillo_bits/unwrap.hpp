@@ -389,7 +389,7 @@ struct quasi_unwrap< subview_row<eT> >
     }
   
   const subview_row<eT>& sv;
-  const Mat<eT>          M;
+  const Row<eT>          M;
   
   static constexpr bool is_const     = true;
   static constexpr bool has_subview  = true;
