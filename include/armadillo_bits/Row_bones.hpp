@@ -73,8 +73,6 @@ class Row : public Mat<eT>
   inline Row& operator=(const eT val);
   inline Row& operator=(const Row& X);
   
-  
-  
   template<typename T1> inline             Row(const Base<eT,T1>& X);
   template<typename T1> inline Row&  operator=(const Base<eT,T1>& X);
   
