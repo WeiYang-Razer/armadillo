@@ -38,8 +38,7 @@ Copyright 2017-2025 Data61 / CSIRO
 13. [API Stability and Version Policy](#13-api-stability-and-version-policy)
 14. [Bug Reports and Frequently Asked Questions](#14-bug-reports-and-frequently-asked-questions)
 
-15. [MEX Interface to Octave/Matlab](#15-mex-interface-to-octavematlab)
-16. [Related Software Using Armadillo](#16-related-software-using-armadillo)
+15. [Related Software Using Armadillo](#15-related-software-using-armadillo)
 
 ---
 
@@ -452,14 +451,7 @@ https://arma.sourceforge.net/faq.html
 
 ---
 
-### 15: MEX Interface to Octave/Matlab
-
-The `mex_interface` folder contains examples of how to interface
-Octave/Matlab with C++ code that uses Armadillo matrices.
-
----
-
-### 16: Related Software Using Armadillo
+### 15: Related Software Using Armadillo
 
 * MLPACK: extensive library of machine learning algorithms  
   https://mlpack.org
