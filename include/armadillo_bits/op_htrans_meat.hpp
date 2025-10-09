@@ -385,18 +385,7 @@ op_htrans::apply(Mat_noalias<typename T1::elem_type>& out, const Op<T1,op_htrans
   arma_debug_sigprint();
   arma_ignore(junk);
   
-  if((is_Mat<typename Proxy<T1>::stored_type>::value) || (arma_config::openmp && Proxy<T1>::use_mp))
-    {
-    const quasi_unwrap<T1> U(in.m);
-    
-    op_strans::apply_mat_noalias(out, U.M);
-    }
-  else
-    {
-    const Proxy<T1> P(in.m);
-    
-    op_strans::apply_proxy(out, P);
-    }
+  op_strans::apply_direct(out, in.m);
   }
 
 
