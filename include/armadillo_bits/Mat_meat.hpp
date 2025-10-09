@@ -5869,7 +5869,7 @@ Mat<eT>::Mat(const Glue<T1, T2, glue_type>& X)
   arma_type_check(( is_same_type< eT, typename T1::elem_type >::no ));
   arma_type_check(( is_same_type< eT, typename T2::elem_type >::no ));
   
-  glue_type::apply(*this, X);
+  glue_type::apply(static_cast< Mat_noalias<eT>& >(*this), X);
   }
 
 
