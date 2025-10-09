@@ -438,8 +438,6 @@ op_strans::apply_direct(Mat_noalias<typename T1::elem_type>& out, const T1& X)
   {
   arma_debug_sigprint();
   
-  typedef typename T1::elem_type eT;
-  
   if((is_Mat<typename Proxy<T1>::stored_type>::value) || (is_subview_col<T1>::value) || (arma_config::openmp && Proxy<T1>::use_mp))
     {
     const quasi_unwrap<T1> U(X);
