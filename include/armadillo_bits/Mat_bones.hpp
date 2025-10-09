@@ -958,4 +958,8 @@ class Mat_aux
 
 
 
+template<typename eT> class Mat_noalias : public Mat<eT> {};
+
+
+
 //! @}

@@ -31,6 +31,8 @@ template<typename eT> class Row;
 template<typename eT> class Cube;
 template<typename oT> class field;
 
+template<typename eT> class Mat_noalias;
+
 template<typename eT>               struct xvec_htrans;
 template<typename eT, bool do_conj> struct xtrans_mat;
 
