@@ -1666,7 +1666,7 @@ SpMat<eT>::SpMat(const SpOp<T1, spop_type>& X)
   
   arma_type_check(( is_same_type< eT, typename T1::elem_type >::no ));
   
-  spop_type::apply(*this, X);
+  spop_type::apply(static_cast< SpMat_noalias<eT>& >(*this), X);
   
   sync_csc();          // in case apply() used element accessors
   invalidate_cache();  // in case apply() modified the CSC representation

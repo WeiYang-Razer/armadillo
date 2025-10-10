@@ -5069,8 +5069,6 @@ Mat<eT>::Mat(const Op<T1, op_type>& X)
   
   arma_type_check(( is_same_type< eT, typename T1::elem_type >::no ));
   
-  // op_type::apply(*this, X);
-  
   op_type::apply(static_cast< Mat_noalias<eT>& >(*this), X);
   }
 
