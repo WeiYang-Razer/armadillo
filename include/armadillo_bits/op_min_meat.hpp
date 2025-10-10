@@ -59,8 +59,6 @@ op_min::apply(Mat_noalias<typename T1::elem_type>& out, const Op<T1,op_min>& in)
   {
   arma_debug_sigprint();
   
-  typedef typename T1::elem_type eT;
-  
   const uword dim = in.aux_uword_a;
   
   arma_conform_check( (dim > 1), "min(): parameter 'dim' must be 0 or 1" );
