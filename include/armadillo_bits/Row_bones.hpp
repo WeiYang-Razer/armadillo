@@ -156,6 +156,11 @@ class Row : public Mat<eT>
   arma_warn_unused arma_inline const eT& at(const uword in_row, const uword in_col) const;
   
   
+  inline constexpr bool is_vec()    const { return true;  }
+  inline constexpr bool is_rowvec() const { return true;  }
+  inline constexpr bool is_colvec() const { return false; }
+  
+  
   typedef       eT*       row_iterator;
   typedef const eT* const_row_iterator;
   
