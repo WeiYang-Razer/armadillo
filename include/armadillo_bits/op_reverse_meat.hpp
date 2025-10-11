@@ -40,8 +40,8 @@ op_reverse::apply(Mat<typename T1::elem_type>& out, const Op<T1,op_reverse>& in)
     
     if(&out == &(U.M))
       {
-      if(dim == 0)  { op_flipud::apply_mat_inplace(out, U.M); return; }
-      if(dim == 1)  { op_fliplr::apply_mat_inplace(out, U.M); return; }
+      if(dim == 0)  { op_flipud::apply_mat_inplace(out); return; }
+      if(dim == 1)  { op_fliplr::apply_mat_inplace(out); return; }
       }
     
     // fallthrough if operation is not in-place
@@ -107,11 +107,11 @@ op_reverse_vec::apply(Mat<typename T1::elem_type>& out, const Op<T1,op_reverse_v
       {
       if((T1::is_xvec) ? bool(U.M.is_rowvec()) : bool(T1::is_row))
         {
-        op_fliplr::apply_mat_inplace(out, U.M);
+        op_fliplr::apply_mat_inplace(out);
         }
       else
         {
-        op_flipud::apply_mat_inplace(out, U.M);
+        op_flipud::apply_mat_inplace(out);
         }
       
       return;

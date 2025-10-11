@@ -34,7 +34,7 @@ op_flipud::apply(Mat<typename T1::elem_type>& out, const Op<T1,op_flipud>& in)
     {
     const unwrap<T1> U(in.m);
     
-    if(&out == &(U.M))  { op_flipud::apply_mat_inplace(out, U.M); return; }
+    if(&out == &(U.M))  { op_flipud::apply_mat_inplace(out); return; }
     
     // fallthrough if operation is not inplace
     }
@@ -74,7 +74,7 @@ op_flipud::apply(Mat_noalias<typename T1::elem_type>& out, const Op<T1,op_flipud
 template<typename eT>
 inline
 void
-op_flipud::apply_mat_inplace(Mat<eT>& out, const Mat<eT>& X)
+op_flipud::apply_mat_inplace(Mat<eT>& X)
   {
   arma_debug_sigprint();
   
@@ -87,22 +87,22 @@ op_flipud::apply_mat_inplace(Mat<eT>& out, const Mat<eT>& X)
   
   if(X_n_cols == 1)
     {
-    eT* out_mem = out.memptr();
+    eT* X_mem = X.memptr();
     
     for(uword row=0; row < N; ++row)
       {
-      std::swap(out_mem[X_n_rows_m1 - row], out_mem[row]);
+      std::swap(X_mem[X_n_rows_m1 - row], X_mem[row]);
       }
     }
   else
     {
     for(uword col=0; col < X_n_cols; ++col)
       {
-      eT* out_colmem = out.colptr(col);
+      eT* X_colmem = X.colptr(col);
       
       for(uword row=0; row < N; ++row)
         {
-        std::swap(out_colmem[X_n_rows_m1 - row], out_colmem[row]);
+        std::swap(X_colmem[X_n_rows_m1 - row], X_colmem[row]);
         }
       }
     }
@@ -168,7 +168,7 @@ op_fliplr::apply(Mat<typename T1::elem_type>& out, const Op<T1,op_fliplr>& in)
     {
     const unwrap<T1> U(in.m);
     
-    if(&out == &(U.M))  { op_fliplr::apply_mat_inplace(out, U.M); return; }
+    if(&out == &(U.M))  { op_fliplr::apply_mat_inplace(out); return; }
     
     // fallthrough if operation is not inplace
     }
@@ -208,7 +208,7 @@ op_fliplr::apply(Mat_noalias<typename T1::elem_type>& out, const Op<T1,op_fliplr
 template<typename eT>
 inline
 void
-op_fliplr::apply_mat_inplace(Mat<eT>& out, const Mat<eT>& X)
+op_fliplr::apply_mat_inplace(Mat<eT>& X)
   {
   arma_debug_sigprint();
   
@@ -221,18 +221,18 @@ op_fliplr::apply_mat_inplace(Mat<eT>& out, const Mat<eT>& X)
   
   if(X_n_rows == 1)
     {
-    eT* out_mem = out.memptr();
+    eT* X_mem = X.memptr();
     
     for(uword col=0; col < N; ++col)
       {
-      std::swap(out_mem[X_n_cols_m1 - col], out_mem[col]);
+      std::swap(X_mem[X_n_cols_m1 - col], X_mem[col]);
       }
     }
   else
     {
     for(uword col=0; col < N; ++col)
       {
-      out.swap_cols(X_n_cols_m1 - col, col);
+      X.swap_cols(X_n_cols_m1 - col, col);
       }
     }
   }
