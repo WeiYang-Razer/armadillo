@@ -105,7 +105,7 @@ op_reverse_vec::apply(Mat<typename T1::elem_type>& out, const Op<T1,op_reverse_v
     
     if(&out == &(U.M))
       {
-      if((T1::is_xvec) ? bool(U.M.is_rowvec()) : bool(T1::is_row))
+      if( (T1::is_row) || U.M.is_rowvec() )
         {
         op_fliplr::apply_mat_inplace(out);
         }
@@ -126,7 +126,7 @@ op_reverse_vec::apply(Mat<typename T1::elem_type>& out, const Op<T1,op_reverse_v
     {
     Mat<eT> tmp;
     
-    if((T1::is_xvec) ? bool(U.M.is_rowvec()) : bool(T1::is_row))
+    if( (T1::is_row) || U.M.is_rowvec() )
       {
       op_fliplr::apply_mat_noalias(tmp, U.M);
       }
@@ -139,7 +139,7 @@ op_reverse_vec::apply(Mat<typename T1::elem_type>& out, const Op<T1,op_reverse_v
     }
   else
     {
-    if((T1::is_xvec) ? bool(U.M.is_rowvec()) : bool(T1::is_row))
+    if( (T1::is_row) || U.M.is_rowvec() )
       {
       op_fliplr::apply_mat_noalias(out, U.M);
       }
@@ -161,7 +161,7 @@ op_reverse_vec::apply(Mat_noalias<typename T1::elem_type>& out, const Op<T1,op_r
   
   const quasi_unwrap<T1> U(in.m);
   
-  if((T1::is_xvec) ? bool(U.M.is_rowvec()) : bool(T1::is_row))
+  if( (T1::is_row) || U.M.is_rowvec() )
     {
     op_fliplr::apply_mat_noalias(out, U.M);
     }
