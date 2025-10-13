@@ -190,6 +190,31 @@ op_diff::apply(Mat<typename T1::elem_type>& out, const Op<T1,op_diff>& in)
 template<typename T1>
 inline
 void
+op_diff::apply(Mat_noalias<typename T1::elem_type>& out, const Op<T1,op_diff>& in)
+  {
+  arma_debug_sigprint();
+  
+  const uword k   = in.aux_uword_a;
+  const uword dim = in.aux_uword_b;
+  
+  arma_conform_check( (dim > 1), "diff(): parameter 'dim' must be 0 or 1" );
+  
+  if(k == 0)  { out = in.m; return; }
+  
+  const quasi_unwrap<T1> U(in.m);
+  
+  op_diff::apply_noalias(out, U.M, k, dim);
+  }
+
+
+
+//
+
+
+
+template<typename T1>
+inline
+void
 op_diff_vec::apply(Mat<typename T1::elem_type>& out, const Op<T1,op_diff_vec>& in)
   {
   arma_debug_sigprint();
@@ -221,4 +246,3 @@ op_diff_vec::apply(Mat<typename T1::elem_type>& out, const Op<T1,op_diff_vec>& i
 
 
 //! @}
-
