@@ -5673,7 +5673,7 @@ Mat<eT>::Mat(const mtOp<eT, T1, op_type>& X, const arma_vec_indicator&, const uh
   {
   arma_debug_sigprint_this(this);
   
-  op_type::apply(*this, X);
+  op_type::apply(static_cast< Mat_noalias<eT>& >(*this), X);
   }
 
 
@@ -5692,7 +5692,7 @@ Mat<eT>::Mat(const mtOp<eT, T1, op_type>& X)
   {
   arma_debug_sigprint_this(this);
   
-  op_type::apply(*this, X);
+  op_type::apply(static_cast< Mat_noalias<eT>& >(*this), X);
   }
 
 
@@ -6619,7 +6619,7 @@ Mat<eT>::Mat(const mtGlue<eT, T1, T2, glue_type>& X, const arma_vec_indicator&, 
   {
   arma_debug_sigprint_this(this);
   
-  glue_type::apply(*this, X);
+  glue_type::apply(static_cast< Mat_noalias<eT>& >(*this), X);
   }
 
 
@@ -6638,7 +6638,7 @@ Mat<eT>::Mat(const mtGlue<eT, T1, T2, glue_type>& X)
   {
   arma_debug_sigprint_this(this);
   
-  glue_type::apply(*this, X);
+  glue_type::apply(static_cast< Mat_noalias<eT>& >(*this), X);
   }
 
 
