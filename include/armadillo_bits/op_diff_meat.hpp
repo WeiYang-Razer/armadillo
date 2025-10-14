@@ -241,4 +241,24 @@ op_diff_vec::apply(Mat<typename T1::elem_type>& out, const Op<T1,op_diff_vec>& i
 
 
 
+template<typename T1>
+inline
+void
+op_diff_vec::apply(Mat_noalias<typename T1::elem_type>& out, const Op<T1,op_diff_vec>& in)
+  {
+  arma_debug_sigprint();
+  
+  typedef typename T1::elem_type eT;
+  
+  const uword k = in.aux_uword_a;
+  
+  const quasi_unwrap<T1> U(in.m);
+  
+  const uword dim = (T1::is_xvec) ? uword(U.M.is_rowvec() ? 1 : 0) : uword((T1::is_row) ? 1 : 0);
+  
+  op_diff::apply_noalias(out, U.M, k, dim);
+  }
+
+
+
 //! @}

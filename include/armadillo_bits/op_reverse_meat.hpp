@@ -152,4 +152,27 @@ op_reverse_vec::apply(Mat<typename T1::elem_type>& out, const Op<T1,op_reverse_v
 
 
 
+template<typename T1>
+inline
+void
+op_reverse_vec::apply(Mat_noalias<typename T1::elem_type>& out, const Op<T1,op_reverse_vec>& in)
+  {
+  arma_debug_sigprint();
+  
+  typedef typename T1::elem_type eT;
+  
+  const quasi_unwrap<T1> U(in.m);
+  
+  if((T1::is_xvec) ? bool(U.M.is_rowvec()) : bool(T1::is_row))
+    {
+    op_fliplr::apply_mat_noalias(out, U.M);
+    }
+  else
+    {
+    op_flipud::apply_mat_noalias(out, U.M);
+    }
+  }
+
+
+
 //! @}
