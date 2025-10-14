@@ -159,8 +159,6 @@ op_reverse_vec::apply(Mat_noalias<typename T1::elem_type>& out, const Op<T1,op_r
   {
   arma_debug_sigprint();
   
-  typedef typename T1::elem_type eT;
-  
   const quasi_unwrap<T1> U(in.m);
   
   if((T1::is_xvec) ? bool(U.M.is_rowvec()) : bool(T1::is_row))

@@ -129,8 +129,6 @@ op_trimat::apply(Mat_noalias<typename T1::elem_type>& out, const Op<T1,op_trimat
   {
   arma_debug_sigprint();
   
-  typedef typename T1::elem_type eT;
-  
   const bool upper = (in.aux_uword_a == 0);
   
   if( (is_Mat<T1>::value) || (is_Mat<typename Proxy<T1>::stored_type>::value) || (arma_config::openmp && Proxy<T1>::use_mp) )

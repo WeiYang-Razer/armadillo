@@ -61,8 +61,6 @@ op_circshift_vec::apply(Mat_noalias<typename T1::elem_type>& out, const Op<T1,op
   {
   arma_debug_sigprint();
   
-  typedef typename T1::elem_type eT;
-  
   const quasi_unwrap<T1> U(in.m);
   
   const uword len = in.aux_uword_a;

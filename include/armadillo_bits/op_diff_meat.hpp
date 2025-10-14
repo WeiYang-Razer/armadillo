@@ -248,8 +248,6 @@ op_diff_vec::apply(Mat_noalias<typename T1::elem_type>& out, const Op<T1,op_diff
   {
   arma_debug_sigprint();
   
-  typedef typename T1::elem_type eT;
-  
   const uword k = in.aux_uword_a;
   
   const quasi_unwrap<T1> U(in.m);
