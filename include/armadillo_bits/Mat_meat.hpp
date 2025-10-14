@@ -893,7 +893,7 @@ Mat<eT>::Mat(const Mat<eT>& in_mat, const arma_vec_indicator&, const uhword in_v
   {
   arma_debug_sigprint(arma_str::format("this: %x; in_mat: %x") % this % &in_mat);
   
-  init_cold();
+  init_warm(in_mat.n_rows, in_mat.n_cols);
   
   arrayops::copy( memptr(), in_mat.mem, in_mat.n_elem );
   }
