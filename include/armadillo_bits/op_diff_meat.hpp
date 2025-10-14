@@ -27,6 +27,8 @@ op_diff::apply_noalias(Mat<eT>& out, const Mat<eT>& X, const uword k, const uwor
   {
   arma_debug_sigprint();
   
+  if(k == 0)  { out = X; return; }
+  
   uword n_rows = X.n_rows;
   uword n_cols = X.n_cols;
   
@@ -167,8 +169,6 @@ op_diff::apply(Mat<typename T1::elem_type>& out, const Op<T1,op_diff>& in)
   
   arma_conform_check( (dim > 1), "diff(): parameter 'dim' must be 0 or 1" );
   
-  if(k == 0)  { out = in.m; return; }
-  
   const quasi_unwrap<T1> U(in.m);
   
   if(U.is_alias(out))
@@ -199,8 +199,6 @@ op_diff::apply(Mat_noalias<typename T1::elem_type>& out, const Op<T1,op_diff>& i
   
   arma_conform_check( (dim > 1), "diff(): parameter 'dim' must be 0 or 1" );
   
-  if(k == 0)  { out = in.m; return; }
-  
   const quasi_unwrap<T1> U(in.m);
   
   op_diff::apply_noalias(out, U.M, k, dim);
@@ -222,8 +220,6 @@ op_diff_vec::apply(Mat<typename T1::elem_type>& out, const Op<T1,op_diff_vec>& i
   typedef typename T1::elem_type eT;
   
   const uword k = in.aux_uword_a;
-  
-  if(k == 0)  { out = in.m; return; }
   
   const quasi_unwrap<T1> U(in.m);
   
