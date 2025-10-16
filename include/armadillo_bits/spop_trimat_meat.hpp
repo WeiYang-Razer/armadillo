@@ -148,8 +148,6 @@ spop_trimat::apply(SpMat_noalias<typename T1::elem_type>& out, const SpOp<T1,spo
   {
   arma_debug_sigprint();
   
-  typedef typename T1::elem_type eT;
-  
   const SpProxy<T1> P(in.m);
   
   arma_conform_check( (P.get_n_rows() != P.get_n_cols()), "trimatu()/trimatl(): given matrix must be square sized" );
