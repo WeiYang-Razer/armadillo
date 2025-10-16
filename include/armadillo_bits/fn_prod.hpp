@@ -20,13 +20,6 @@
 //! @{
 
 
-//! \brief
-//! Delayed product of elements of a matrix along a specified dimension (either rows or columns).
-//! The result is stored in a dense matrix that has either one column or one row.
-//! For dim = 0, find the sum of each column (ie. traverse across rows)
-//! For dim = 1, find the sum of each row (ie. traverse across columns)
-//! The default is dim = 0.
-//! NOTE: this function works differently than in Matlab/Octave.
 
 template<typename T1>
 arma_warn_unused
