@@ -637,7 +637,7 @@ op_accu_mat::apply(const subview_row<eT>& X)
   {
   arma_debug_sigprint();  
   
-  if(X.n_elem == 0}  { return eT(0); }
+  if(X.n_elem == 0)  { return eT(0); }
   
   if(X.m.n_rows == 1)
     {
