@@ -612,8 +612,8 @@ Row<eT>::Row
 
 template<typename eT>
 inline
-Row<eT>::Row(const subview<eT>& X, const bool use_colmem)
-  : Mat<eT>(X, use_colmem)
+Row<eT>::Row(const subview<eT>& X, const bool use_direct_mem)
+  : Mat<eT>(X, use_direct_mem)
   {
   arma_debug_sigprint();
   }
