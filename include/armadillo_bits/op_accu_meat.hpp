@@ -642,11 +642,23 @@ op_accu_mat::apply(const subview_row<eT>& X)
   
   const eT* row_mem = &(X.m.at(X.aux_row1,X.aux_col1));
   
-  eT val = eT(0);
+  eT val1 = eT(0);
+  eT val2 = eT(0);
   
-  for(uword i=0; i < X_n_cols; ++i)  { val += (*row_mem); row_mem += X_m_n_rows; }
+  uword j;
   
-  return val;
+  for(j=1; j < X_n_cols; j+=2)
+    {
+    val1 += (*row_mem); row_mem += X_m_n_rows;
+    val2 += (*row_mem); row_mem += X_m_n_rows;
+    }
+  
+  if((j-1) < X_n_cols)
+    {
+    val1 += (*row_mem); row_mem += X_m_n_rows;
+    }
+  
+  return val1 + val2;
   }
 
 
