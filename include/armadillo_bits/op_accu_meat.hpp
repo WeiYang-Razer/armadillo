@@ -637,38 +637,18 @@ op_accu_mat::apply(const subview_row<eT>& X)
   {
   arma_debug_sigprint();  
   
-  if(X.n_elem == 0)  { return eT(0); }
+  const uword X_m_n_rows = X.m.n_rows;
+  const uword X_n_cols   = X.n_cols;
   
-  if(X.m.n_rows == 1)
-    {
-    const eT* sv_mem = &(X.m.at(X.aux_col1));
-    
-    return arrayops::accumulate(sv_mem, X.n_elem);
-    }
+  const eT* row_mem = &(X.m.at(X.aux_row1,X.aux_col1));
   
-  const Mat<eT>& m = X.m;
+  if(X_m_n_rows == 1)  { return arrayops::accumulate(row_mem, X_n_cols); }
   
-  const uword X_n_cols = X.n_cols;
+  eT val = eT(0);
   
-  const uword row_offset = X.aux_row1;
-  const uword col_offset = X.aux_col1;
+  for(uword i=0; i < X_n_cols; ++i)  { val += (*row_mem); row_mem += X_m_n_rows; }
   
-  eT val1 = eT(0);
-  eT val2 = eT(0);
-  
-  uword i,j;
-  for(i=0, j=1; j < X_n_cols; i+=2, j+=2)
-    {
-    val1 += m.at(row_offset, col_offset + i);
-    val2 += m.at(row_offset, col_offset + j);
-    }
-  
-  if(i < X_n_cols)
-    {
-    val1 += m.at(row_offset, col_offset + i);
-    }
-  
-  return val1 + val2;
+  return val;
   }
 
 
