@@ -642,8 +642,6 @@ op_accu_mat::apply(const subview_row<eT>& X)
   
   const eT* row_mem = &(X.m.at(X.aux_row1,X.aux_col1));
   
-  if(X_m_n_rows == 1)  { return arrayops::accumulate(row_mem, X_n_cols); }
-  
   eT val = eT(0);
   
   for(uword i=0; i < X_n_cols; ++i)  { val += (*row_mem); row_mem += X_m_n_rows; }
