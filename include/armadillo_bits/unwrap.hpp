@@ -1428,7 +1428,7 @@ struct partial_unwrap< subview_cols<eT> >
 template<typename eT>
 struct partial_unwrap< subview_row<eT> >
   {
-  typedef Mat<eT> stored_type;
+  typedef Row<eT> stored_type;
   
   inline
   partial_unwrap(const subview_row<eT>& A)
@@ -1445,10 +1445,10 @@ struct partial_unwrap< subview_row<eT> >
   
   static constexpr bool do_trans = false;
   static constexpr bool do_times = false;
-  static constexpr bool is_fast  = true;
+  static constexpr bool is_fast  = false;  // can't determine at compile time that memory is reused
   
   const subview_row<eT>& sv;
-  const Mat<eT>          M;
+  const Row<eT>          M;
   };
 
 
