@@ -655,7 +655,7 @@ op_accu_mat::apply(const subview_row<eT>& X)
   
   if((j-1) < X_n_cols)
     {
-    val1 += (*row_mem); row_mem += X_m_n_rows;
+    val1 += (*row_mem);
     }
   
   return val1 + val2;
