@@ -611,16 +611,6 @@ Row<eT>::Row
 
 
 template<typename eT>
-inline
-Row<eT>::Row(const subview<eT>& X, const bool use_direct_mem)
-  : Mat<eT>(X, use_direct_mem)
-  {
-  arma_debug_sigprint();
-  }
-
-
-
-template<typename eT>
 template<typename T1>
 inline
 Row<eT>::Row(const BaseCube<eT,T1>& X)

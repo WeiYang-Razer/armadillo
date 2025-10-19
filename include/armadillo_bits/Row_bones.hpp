@@ -85,8 +85,6 @@ class Row : public Mat<eT>
   template<typename T1, typename T2>
   inline explicit Row(const Base<pod_type,T1>& A, const Base<pod_type,T2>& B);
   
-  inline explicit Row(const subview<eT>& X, const bool use_direct_mem);  // only to be used by quasi_unwrap and partial_unwrap
-  
   template<typename T1> inline            Row(const BaseCube<eT,T1>& X);
   template<typename T1> inline Row& operator=(const BaseCube<eT,T1>& X);
   

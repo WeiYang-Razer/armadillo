@@ -382,21 +382,19 @@ struct quasi_unwrap< subview_row<eT> >
   {
   inline
   quasi_unwrap(const subview_row<eT>& A)
-    : sv( A                    )
-    , M ( A, (A.m.n_rows == 1) )
+    : M(A)
     {
     arma_debug_sigprint();
     }
   
-  const subview_row<eT>& sv;
-  const Row<eT>          M;
+  Row<eT> M;
   
-  static constexpr bool is_const     = true;
-  static constexpr bool has_subview  = true;
-  static constexpr bool has_orig_mem = false;  // NOTE: set to false as this is the general case; original memory is only used when the subview is a contiguous chunk
+  static constexpr bool is_const     = false;
+  static constexpr bool has_subview  = false;
+  static constexpr bool has_orig_mem = false;
   
   template<typename eT2>
-  arma_inline bool is_alias(const Mat<eT2>& X) const { return (is_same_type<eT,eT2>::yes) && ((sv.m.n_rows == 1) ? (void_ptr(&X) == void_ptr(&(sv.m))) : false); }
+  constexpr bool is_alias(const Mat<eT2>&) const { return false; }
   };
 
 
@@ -1432,8 +1430,7 @@ struct partial_unwrap< subview_row<eT> >
   
   inline
   partial_unwrap(const subview_row<eT>& A)
-    : sv( A                    )
-    , M ( A, (A.m.n_rows == 1) )
+    : M(A)
     {
     arma_debug_sigprint();
     }
@@ -1441,14 +1438,13 @@ struct partial_unwrap< subview_row<eT> >
   constexpr eT get_val() const { return eT(1); }
   
   template<typename eT2>
-  arma_inline bool is_alias(const Mat<eT2>& X) const { return (is_same_type<eT,eT2>::yes) && ((sv.m.n_rows == 1) ? (void_ptr(&X) == void_ptr(&(sv.m))) : false); }
+  constexpr bool is_alias(const Mat<eT2>&) const { return false; }
   
   static constexpr bool do_trans = false;
   static constexpr bool do_times = false;
-  static constexpr bool is_fast  = false;  // can't determine at compile time that memory is reused
+  static constexpr bool is_fast  = false;
   
-  const subview_row<eT>& sv;
-  const Row<eT>          M;
+  const Row<eT> M;
   };
 
 
