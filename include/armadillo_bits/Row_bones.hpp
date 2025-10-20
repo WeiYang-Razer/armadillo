@@ -169,6 +169,9 @@ class Row : public Mat<eT>
   inline const_row_iterator end_row  (const uword row_num) const;
   
   
+  inline explicit Row(const subview<eT>& X, const bool reuse_mem);  // only to be used by the partial_unwrap class
+  
+  
   template<uword fixed_n_elem> class fixed;
   
   
