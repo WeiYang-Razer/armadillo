@@ -7117,58 +7117,58 @@ A.brief_print("A:");
 <br>
 <br>
 <ul>
-                  <table style="text-align: left; width: 100%;" border="0" cellpadding="2" cellspacing="2">
-                    <tbody>
-                      <tr>
-                        <td style="vertical-align: top;"><b>auto_detect</b></td>
-                        <td style="vertical-align: top;"><br>
-                        </td>
-                        <td style="vertical-align: top;">
+<table style="text-align: left; width: 100%;" border="0" cellpadding="2" cellspacing="2">
+<tbody>
+<tr>
+<td style="vertical-align: top;"><b>auto_detect</b></td>
+<td style="vertical-align: top;"><br>
+</td>
+<td style="vertical-align: top;">
 Used only by <i>.load()</i> only: attempt to automatically detect the file type as one of the formats described below;
 <br>[&nbsp;default operation for <i>.load()</i>&nbsp;]<br><br>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td style="vertical-align: top;"><b>arma_binary</b><br></td>
-                        <td style="vertical-align: top;"><br>
-                        </td>
-                        <td style="vertical-align: top;">
+</td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><b>arma_binary</b><br></td>
+<td style="vertical-align: top;"><br>
+</td>
+<td style="vertical-align: top;">
 Numerical data stored in machine dependent binary format, with a simple header to speed up loading.
 The header indicates the type and size of matrix/cube.
 <br>[&nbsp;default operation for <i>.save()</i>&nbsp;]
 <br>
 <br>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td style="vertical-align: top;"><b>arma_ascii</b></td>
-                        <td style="vertical-align: top;"><br>
-                        </td>
-                        <td style="vertical-align: top;">
+</td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><b>arma_ascii</b></td>
+<td style="vertical-align: top;"><br>
+</td>
+<td style="vertical-align: top;">
 Numerical data stored in human readable text format, with a simple header to speed up loading.
 The header indicates the type and size of matrix/cube.
 <br>
 <br>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td style="vertical-align: top;"><b>raw_binary</b></td>
-                        <td style="vertical-align: top;"><br>
-                        </td>
-                        <td style="vertical-align: top;">
+</td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><b>raw_binary</b></td>
+<td style="vertical-align: top;"><br>
+</td>
+<td style="vertical-align: top;">
 Numerical data stored in machine dependent raw binary format, without a header.
 Matrices are loaded to have one column,
 while cubes are loaded to have one slice with one column.
 The <a href="#reshape_member">.reshape()</a> function can be used to alter the size of the loaded matrix/cube without losing data.
 <br>
 <br>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td style="vertical-align: top;"><b>raw_ascii</b></td>
-                        <td style="vertical-align: top;"><br>
-                        </td>
-                        <td style="vertical-align: top;">
+</td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><b>raw_ascii</b></td>
+<td style="vertical-align: top;"><br>
+</td>
+<td style="vertical-align: top;">
 Numerical data stored in raw ASCII format, without a header.
 The numbers are separated by whitespace.
 The number of columns must be the same in each row.
@@ -7177,26 +7177,26 @@ Data which was saved in Matlab/Octave using the <i>-ascii</i> option can be read
 Complex numbers are stored in standard C++ notation, which is a tuple surrounded by brackets: eg. (1.23,4.56) indicates 1.24&thinsp;+&thinsp;4.56i.
 <br>
 <br>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td style="vertical-align: top;"><b>csv_ascii</b></td>
-                        <td style="vertical-align: top;"><br>
-                        </td>
-                        <td style="vertical-align: top;">
+</td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><b>csv_ascii</b></td>
+<td style="vertical-align: top;"><br>
+</td>
+<td style="vertical-align: top;">
 Numerical data stored in comma separated value (CSV) text format, <b>without</b> a header.
 To save/load <b>with</b> a header, use the <b>csv_name(</b>filename,header<b>)</b> specification instead (more details below).
 Handles complex numbers stored in the compound form of 1.24+4.56i.
 Applicable to <i>Mat</i> and <i>SpMat</i>.
 <br>
 <br>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td style="vertical-align: top;"><b>coord_ascii</b></td>
-                        <td style="vertical-align: top;"><br>
-                        </td>
-                        <td style="vertical-align: top;">
+</td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><b>coord_ascii</b></td>
+<td style="vertical-align: top;"><br>
+</td>
+<td style="vertical-align: top;">
 Numerical data stored as a text file in coordinate list format, without a header.
 Only non-zero values are stored.
 <br>
@@ -7207,39 +7207,39 @@ For real matrices, each line contains information in the following format:&nbsp;
 <br><b>Caveat:</b> not supported by <i>auto_detect</i>.
 <br>
 <br>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td style="vertical-align: top;"><b>pgm_binary</b></td>
-                        <td style="vertical-align: top;"><br>
-                        </td>
-                        <td style="vertical-align: top;">
+</td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><b>pgm_binary</b></td>
+<td style="vertical-align: top;"><br>
+</td>
+<td style="vertical-align: top;">
 Image data stored in Portable Gray Map (PGM) format.
 Applicable to <i>Mat</i> only.
 Saving <i>int</i>, <i>float</i> or <i>double</i> matrices is a lossy operation, as each element is copied and converted to an 8 bit representation.
 As such the matrix should have values in the [0,255] interval, otherwise the resulting image may not display correctly.
 <br>
 <br>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td style="vertical-align: top;"><b>ppm_binary</b></td>
-                        <td style="vertical-align: top;"><br>
-                        </td>
-                        <td style="vertical-align: top;">
+</td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><b>ppm_binary</b></td>
+<td style="vertical-align: top;"><br>
+</td>
+<td style="vertical-align: top;">
 Image data stored in Portable Pixel Map (PPM) format.
 Applicable to <i>Cube</i> only.
 Saving <i>int</i>, <i>float</i> or <i>double</i> matrices is a lossy operation, as each element is copied and converted to an 8 bit representation.
 As such the cube/field should have values in the [0,255] interval, otherwise the resulting image may not display correctly.
 <br>
 <br>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td style="vertical-align: top;"><b>hdf5_binary</b></td>
-                        <td style="vertical-align: top;"><br>
-                        </td>
-                        <td style="vertical-align: top;">
+</td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><b>hdf5_binary</b></td>
+<td style="vertical-align: top;"><br>
+</td>
+<td style="vertical-align: top;">
 Numerical data stored in portable <a href="https://en.wikipedia.org/wiki/Hierarchical_Data_Format">HDF5</a> binary format.
 <ul>
 <li>
@@ -7255,10 +7255,10 @@ for loading, the order of operations is:
 to explicitly control the dataset name, specify it via the <b>hdf5_name()</b> argument (more details below)
 </li>
 </ul>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
+</td>
+</tr>
+</tbody>
+</table>
 </ul>
 </li>
 <br>
@@ -7428,26 +7428,26 @@ Other than storing string fields as text files, the following file formats are s
 <br>
 <br>
 <ul>
-                  <table style="text-align: left; width: 100%;" border="0" cellpadding="2" cellspacing="2">
-                    <tbody>
-                      <tr>
-                        <td style="vertical-align: top;"><b>auto_detect</b></td>
-                        <td style="vertical-align: top;"><br>
-                        </td>
-                        <td style="vertical-align: top;">
+<table style="text-align: left; width: 100%;" border="0" cellpadding="2" cellspacing="2">
+<tbody>
+<tr>
+<td style="vertical-align: top;"><b>auto_detect</b></td>
+<td style="vertical-align: top;"><br>
+</td>
+<td style="vertical-align: top;">
 <br>
 <li>
 <i>.load()</i>: attempt to automatically detect the field format type as one of the formats described below;
 this is the default operation
 </li>
 <br>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td style="vertical-align: top;"><b>arma_binary</b></td>
-                        <td style="vertical-align: top;"><br>
-                        </td>
-                        <td style="vertical-align: top;">
+</td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><b>arma_binary</b></td>
+<td style="vertical-align: top;"><br>
+</td>
+<td style="vertical-align: top;">
 <br>
 <li>
 objects are stored in machine dependent binary format
@@ -7458,13 +7458,13 @@ default type for fields of type <i>Mat</i>, <i>Col</i>, <i>Row</i> or <i>Cube</i
 only applicable to fields of type <i>Mat</i>, <i>Col</i>, <i>Row</i> or <i>Cube</i>
 </li>
 <br>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td style="vertical-align: top;"><b>ppm_binary</b></td>
-                        <td style="vertical-align: top;"><br>
-                        </td>
-                        <td style="vertical-align: top;">
+</td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><b>ppm_binary</b></td>
+<td style="vertical-align: top;"><br>
+</td>
+<td style="vertical-align: top;">
 <br>
 <li>
 image data stored in Portable Pixmap Map (PPM) format
@@ -7483,11 +7483,10 @@ it is assumed that the red, green and blue components are stored in the first, s
 saving <i>int</i>, <i>float</i> or <i>double</i> matrices is a lossy operation,
 as each matrix element is copied and converted to an 8 bit representation
 </li>
-
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
+</td>
+</tr>
+</tbody>
+</table>
 </ul>
 </li>
 <br>
