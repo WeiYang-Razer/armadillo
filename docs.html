@@ -778,7 +778,7 @@ which is one of:
 <ul>
 <table>
 <tbody>
-<tr><td><code>fill::zeros</code></td><td>&nbsp;&mapsto;&nbsp;</td><td>set all elements to 0 &nbsp; (default in Armadillo &gt;= 10.5)</td></tr>
+<tr><td><code>fill::zeros</code></td><td>&nbsp;&mapsto;&nbsp;</td><td>set all elements to 0</td></tr>
 <tr><td><code>fill::ones</code></td><td>&nbsp;&mapsto;&nbsp;</td><td>set all elements to 1</td></tr>
 <tr><td><code>fill::eye</code></td><td>&nbsp;&mapsto;&nbsp;</td><td>set the elements on the main diagonal to 1 and off-diagonal elements to 0</td></tr>
 <tr><td><code>fill::randu</code></td><td>&nbsp;&mapsto;&nbsp;</td><td>set all elements to random values from a uniform distribution in the [0,1] interval</td></tr>
@@ -790,13 +790,7 @@ which is one of:
 </ul>
 </li>
 <br>
-<li>
-<b>Caveat:</b>
-<ul>
-<li>in Armadillo &gt;= 10.5, the default initialisation is <code>fill::zeros</code></li>
-<li>in Armadillo &lt;= 10.4, the default initialisation is <code>fill::none</code></li>
-</ul>
-</li>
+<li>Default element initialisation is <code>fill::zeros</code> (since Armadillo 10.5)</li>
 <br>
 <li>
 For the <i>mat(string)</i> constructor, the format is elements separated by spaces, and rows denoted by semicolons;
@@ -1722,7 +1716,7 @@ which is one of:
 <ul>
 <table>
 <tbody>
-<tr><td><code>fill::zeros</code></td><td>&nbsp;&mapsto;&nbsp;</td><td>set all elements to 0 &nbsp; (default in Armadillo &gt;= 10.5)</td></tr>
+<tr><td><code>fill::zeros</code></td><td>&nbsp;&mapsto;&nbsp;</td><td>set all elements to 0</td></tr>
 <tr><td><code>fill::ones</code></td><td>&nbsp;&mapsto;&nbsp;</td><td>set all elements to 1</td></tr>
 <tr><td><code>fill::randu</code></td><td>&nbsp;&mapsto;&nbsp;</td><td>set all elements to random values from a uniform distribution in the [0,1] interval</td></tr>
 <tr><td><code>fill::randn</code></td><td>&nbsp;&mapsto;&nbsp;</td><td>set all elements to random values from a normal/Gaussian distribution with zero mean and unit variance</td></tr>
@@ -1733,13 +1727,7 @@ which is one of:
 </ul>
 </li>
 <br>
-<li>
-<b>Caveat:</b>
-<ul>
-<li>in Armadillo &gt;= 10.5, the default initialisation is <code>fill::zeros</code></li>
-<li>in Armadillo &lt;= 10.4, the default initialisation is <code>fill::none</code></li>
-</ul>
-</li>
+<li>Default element initialisation is <code>fill::zeros</code> (since Armadillo 10.5)</li>
 <br>
 <li>
 Each instance of <i>cube</i> automatically allocates and releases internal memory.
