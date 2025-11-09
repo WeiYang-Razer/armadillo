@@ -271,10 +271,10 @@ arma_rng::set_seed(const arma_rng::seed_type val)
         {
         const int n_threads = omp_get_max_threads();
         
-        #pragma omp parallel for schedule(static) num_threads(n_threads)
+        #pragma omp parallel for ordered schedule(static) num_threads(n_threads)
         for(int t=0; t < n_threads; ++t)
           {
-          #pragma omp critical (arma_set_seed)
+          #pragma omp ordered
             {
             arma_rng::get_producer().seed(val + arma_rng::seed_type(omp_get_thread_num()));
             }
