@@ -26,8 +26,8 @@
 #undef  ARMA_USE_THREAD_LOCAL
 #define ARMA_USE_THREAD_LOCAL
 
-#undef  ARMA_USE_UNIQUE_THREAD_RNG_SEED
-#define ARMA_USE_UNIQUE_THREAD_RNG_SEED
+#undef  ARMA_USE_THREAD_UNIQUE_RNG_SEED
+#define ARMA_USE_THREAD_UNIQUE_RNG_SEED
 
 #if (defined(ARMA_RNG_ALT) || defined(ARMA_DONT_USE_CXX11_RNG))
   #undef ARMA_USE_CXX11_RNG
@@ -37,8 +37,8 @@
   #undef ARMA_USE_THREAD_LOCAL
 #endif
 
-#if defined(ARMA_DONT_USE_UNIQUE_THREAD_RNG_SEED)
-  #undef ARMA_USE_UNIQUE_THREAD_RNG_SEED
+#if defined(ARMA_DONT_USE_THREAD_UNIQUE_RNG_SEED)
+  #undef ARMA_USE_THREAD_UNIQUE_RNG_SEED
 #endif
 
 
@@ -138,7 +138,7 @@ arma_rng::get_producer()
     
     // thread-safe RNG
     
-    #if defined(ARMA_USE_UNIQUE_THREAD_RNG_SEED)
+    #if defined(ARMA_USE_THREAD_UNIQUE_RNG_SEED)
       
       // each thread has unique starting seed
       
@@ -255,15 +255,15 @@ arma_rng::set_seed(const arma_rng::seed_type val)
       {
       arma_rng::lock_producer();
       
-      #if defined(ARMA_USE_UNIQUE_THREAD_RNG_SEED)
-        constexpr bool unique_thread_rng_seed = true;
+      #if defined(ARMA_USE_THREAD_UNIQUE_RNG_SEED)
+        constexpr bool thread_unique_rng_seed = true;
       #else
-        constexpr bool unique_thread_rng_seed = false;
+        constexpr bool thread_unique_rng_seed = false;
       #endif
       
       // if we're already in a parallel region, assume the user is setting the seed for each thread
       
-      if( (unique_thread_rng_seed == false) || bool(omp_in_parallel()) )
+      if( (thread_unique_rng_seed == false) || bool(omp_in_parallel()) )
         {
         arma_rng::get_producer().seed(val);
         }
