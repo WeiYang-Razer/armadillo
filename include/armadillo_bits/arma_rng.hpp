@@ -269,7 +269,7 @@ arma_rng::set_seed(const arma_rng::seed_type val)
         }
       else
         {
-        const int n_threads = omp_get_max_threads();
+        const int n_threads = int( (std::max)( int(1), int(omp_get_max_threads()) ) );
         
         #pragma omp parallel for ordered schedule(static) num_threads(n_threads)
         for(int t=0; t < n_threads; ++t)
