@@ -7580,10 +7580,27 @@ Mat<eT>::resize(const uword new_n_elem)
   {
   arma_debug_sigprint();
   
-  const uword new_n_rows = (vec_state == 2) ? uword(1         ) : uword(new_n_elem);
-  const uword new_n_cols = (vec_state == 2) ? uword(new_n_elem) : uword(1         );
+  if( (new_n_elem <= arma_config::mat_prealloc) && (n_elem <= arma_config::mat_prealloc) && (n_elem > 0) && (n_alloc == 0) && (mem_state == 0) )
+    {
+    // optimise for small vectors that fit within pre-allocated memory
+    
+    eT* t_mem = (*this).memptr();   // the (n_elem > 0) check above ensures that (*this).memptr() is a valid pointer
+    
+    for(uword i = n_elem; i < new_n_elem; ++i)  { t_mem[i] = eT(0); }
+    
+    access::rw(n_rows) = (vec_state == 2) ? uword(1         ) : uword(new_n_elem);
+    access::rw(n_cols) = (vec_state == 2) ? uword(new_n_elem) : uword(1         );
+    access::rw(n_elem) = new_n_elem;
+    }
+  else
+    {
+    const uword new_n_rows = (vec_state == 2) ? uword(1         ) : uword(new_n_elem);
+    const uword new_n_cols = (vec_state == 2) ? uword(new_n_elem) : uword(1         );
+    
+    (*this).resize(new_n_rows, new_n_cols);
+    }
   
-  return (*this).resize(new_n_rows, new_n_cols);
+  return (*this);
   }
 
 
