@@ -312,15 +312,10 @@ Mat<eT>::init_cold()
     const char* error_message = "Mat::init(): requested size is too large; suggest to enable ARMA_64BIT_WORD";
   #endif
   
-  arma_conform_check
-    (
-      (
-      ( (n_rows > ARMA_MAX_UHWORD) || (n_cols > ARMA_MAX_UHWORD) )
-        ? ( (double(n_rows) * double(n_cols)) > double(ARMA_MAX_UWORD) )
-        : false
-      ),
-    error_message
-    );
+  if( (n_rows > ARMA_MAX_UHWORD) || (n_cols > ARMA_MAX_UHWORD) )
+    {
+    arma_conform_check( ( (double(n_rows) * double(n_cols)) > double(ARMA_MAX_UWORD) ), error_message );
+    }
   
   if(n_elem <= arma_config::mat_prealloc)
     {
