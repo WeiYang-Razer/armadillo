@@ -7574,14 +7574,10 @@ Mat<eT>::resize(const uword new_n_elem)
     {
     if( (new_n_elem <= arma_config::mat_prealloc) && (n_elem <= arma_config::mat_prealloc) && (n_elem > 0) )
       {
-      eT* t_mem = (*this).memptr();   // the (n_elem > 0) check above ensures that (*this).memptr() is a valid pointer
-      
-      for(uword i = n_elem; i < new_n_elem; ++i)  { t_mem[i] = eT(0); }
-      
       reuse_mem = true;
       }
     else
-    if( (new_n_elem <= n_elem) && (new_n_elem > arma_config::mat_prealloc) && (n_elem > arma_config::mat_prealloc) )
+    if( (new_n_elem > arma_config::mat_prealloc) && (n_elem > arma_config::mat_prealloc) && (new_n_elem <= n_alloc) )
       {
       reuse_mem = true;
       }
@@ -7589,6 +7585,15 @@ Mat<eT>::resize(const uword new_n_elem)
     if(reuse_mem)
       {
       arma_debug_print("Mat::resize(): reusing memory");
+      
+      if(new_n_elem > n_elem)
+        {
+        arma_debug_print("Mat::resize(): zeroing memory");
+        
+        eT* t_mem = (*this).memptr();   // the (n_elem > 0) check above ensures that (*this).memptr() is a valid pointer
+        
+        for(uword ii = n_elem; ii < new_n_elem; ++ii)  { t_mem[ii] = eT(0); }
+        }
       
       access::rw(n_rows) = (vec_state == 2) ? uword(1         ) : uword(new_n_elem);
       access::rw(n_cols) = (vec_state == 2) ? uword(new_n_elem) : uword(1         );
