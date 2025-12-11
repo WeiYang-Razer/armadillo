@@ -7573,19 +7573,35 @@ Mat<eT>::resize(const uword new_n_elem)
   {
   arma_debug_sigprint();
   
-  if( (new_n_elem <= arma_config::mat_prealloc) && (n_elem <= arma_config::mat_prealloc) && (n_elem > 0) && (n_alloc == 0) && (mem_state == 0) )
+  bool reuse_mem = false;
+  
+  if( is_vec() && (mem_state == 0) )
     {
-    // optimise for small vectors that fit within pre-allocated memory
+    if( (new_n_elem <= arma_config::mat_prealloc) && (n_elem <= arma_config::mat_prealloc) && (n_elem > 0) )
+      {
+      eT* t_mem = (*this).memptr();   // the (n_elem > 0) check above ensures that (*this).memptr() is a valid pointer
+      
+      for(uword i = n_elem; i < new_n_elem; ++i)  { t_mem[i] = eT(0); }
+      
+      reuse_mem = true;
+      }
+    else
+    if( (new_n_elem <= n_elem) && (new_n_elem > arma_config::mat_prealloc) && (n_elem > arma_config::mat_prealloc) )
+      {
+      reuse_mem = true;
+      }
     
-    eT* t_mem = (*this).memptr();   // the (n_elem > 0) check above ensures that (*this).memptr() is a valid pointer
-    
-    for(uword i = n_elem; i < new_n_elem; ++i)  { t_mem[i] = eT(0); }
-    
-    access::rw(n_rows) = (vec_state == 2) ? uword(1         ) : uword(new_n_elem);
-    access::rw(n_cols) = (vec_state == 2) ? uword(new_n_elem) : uword(1         );
-    access::rw(n_elem) = new_n_elem;
+    if(reuse_mem)
+      {
+      arma_debug_print("Mat::resize(): reusing memory");
+      
+      access::rw(n_rows) = (vec_state == 2) ? uword(1         ) : uword(new_n_elem);
+      access::rw(n_cols) = (vec_state == 2) ? uword(new_n_elem) : uword(1         );
+      access::rw(n_elem) = new_n_elem;
+      }
     }
-  else
+  
+  if(reuse_mem == false)
     {
     const uword new_n_rows = (vec_state == 2) ? uword(1         ) : uword(new_n_elem);
     const uword new_n_cols = (vec_state == 2) ? uword(new_n_elem) : uword(1         );
