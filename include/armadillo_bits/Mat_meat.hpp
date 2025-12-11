@@ -383,17 +383,10 @@ Mat<eT>::init_warm(uword in_n_rows, uword in_n_cols)
     const char* error_message_4 = "Mat::init(): requested size is too large; suggest to enable ARMA_64BIT_WORD";
   #endif
   
-  arma_conform_set_error
-    (
-    err_state,
-    err_msg,
-      (
-      ( (in_n_rows > ARMA_MAX_UHWORD) || (in_n_cols > ARMA_MAX_UHWORD) )
-        ? ( (double(in_n_rows) * double(in_n_cols)) > double(ARMA_MAX_UWORD) )
-        : false
-      ),
-    error_message_4
-    );
+  if( (in_n_rows > ARMA_MAX_UHWORD) || (in_n_cols > ARMA_MAX_UHWORD) )
+    {
+    arma_conform_set_error( err_state, err_msg, ( (double(in_n_rows) * double(in_n_cols)) > double(ARMA_MAX_UWORD) ), error_message_4 );
+    }
   
   arma_conform_check(err_state, err_msg);
   
