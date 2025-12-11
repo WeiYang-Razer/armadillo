@@ -7568,40 +7568,32 @@ Mat<eT>::resize(const uword new_n_elem)
   {
   arma_debug_sigprint();
   
-  bool reuse_mem = false;
+  const bool reuse_mem = 
+    ( is_vec() && (mem_state == 0) )
+    &&
+    (
+         ( (new_n_elem <= arma_config::mat_prealloc) && (n_elem <= arma_config::mat_prealloc) && (    n_elem >  0      ) )
+      || ( (new_n_elem >  arma_config::mat_prealloc) && (n_elem >  arma_config::mat_prealloc) && (new_n_elem <= n_alloc) )
+    );
   
-  if( is_vec() && (mem_state == 0) )
+  if(reuse_mem)
     {
-    if( (new_n_elem <= arma_config::mat_prealloc) && (n_elem <= arma_config::mat_prealloc) && (n_elem > 0) )
+    arma_debug_print("Mat::resize(): reusing memory");
+    
+    if(new_n_elem > n_elem)
       {
-      reuse_mem = true;
-      }
-    else
-    if( (new_n_elem > arma_config::mat_prealloc) && (n_elem > arma_config::mat_prealloc) && (new_n_elem <= n_alloc) )
-      {
-      reuse_mem = true;
+      arma_debug_print("Mat::resize(): zeroing memory");
+      
+      eT* t_mem = (*this).memptr();   // the (n_elem > 0) check above ensures that (*this).memptr() is a valid pointer
+      
+      for(uword ii = n_elem; ii < new_n_elem; ++ii)  { t_mem[ii] = eT(0); }
       }
     
-    if(reuse_mem)
-      {
-      arma_debug_print("Mat::resize(): reusing memory");
-      
-      if(new_n_elem > n_elem)
-        {
-        arma_debug_print("Mat::resize(): zeroing memory");
-        
-        eT* t_mem = (*this).memptr();   // the (n_elem > 0) check above ensures that (*this).memptr() is a valid pointer
-        
-        for(uword ii = n_elem; ii < new_n_elem; ++ii)  { t_mem[ii] = eT(0); }
-        }
-      
-      access::rw(n_rows) = (vec_state == 2) ? uword(1         ) : uword(new_n_elem);
-      access::rw(n_cols) = (vec_state == 2) ? uword(new_n_elem) : uword(1         );
-      access::rw(n_elem) = new_n_elem;
-      }
+    access::rw(n_rows) = (vec_state == 2) ? uword(1         ) : uword(new_n_elem);
+    access::rw(n_cols) = (vec_state == 2) ? uword(new_n_elem) : uword(1         );
+    access::rw(n_elem) = new_n_elem;
     }
-  
-  if(reuse_mem == false)
+  else
     {
     const uword new_n_rows = (vec_state == 2) ? uword(1         ) : uword(new_n_elem);
     const uword new_n_cols = (vec_state == 2) ? uword(new_n_elem) : uword(1         );
