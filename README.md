@@ -38,7 +38,8 @@ Copyright 2017-2025 Data61 / CSIRO
 13. [API Stability and Version Policy](#13-api-stability-and-version-policy)
 14. [Bug Reports and Frequently Asked Questions](#14-bug-reports-and-frequently-asked-questions)
 
-15. [Related Software Using Armadillo](#15-related-software-using-armadillo)
+15. [Prohibition on Use of Large Language Models (LLMs)](#15-prohibition-on-use-of-large-language-models-llms)
+16. [Related Software Using Armadillo](#16-related-software-using-armadillo)
 
 ---
 
@@ -390,8 +391,8 @@ Use a web browser to view it.
 
 Use of the C++11 `auto` keyword is not recommended with Armadillo objects and expressions.
 
-Armadillo has a template meta-programming framework which creates short-lived temporaries
-that are not properly handled by `auto`.
+Armadillo has a template meta-programming framework which creates short-lived
+temporary objects that are not properly handled by `auto`.
 
 ---
 
@@ -451,7 +452,16 @@ https://arma.sourceforge.net/faq.html
 
 ---
 
-### 15: Related Software Using Armadillo
+### 15: Prohibition on Use of Large Language Models (LLMs)
+
+The Armadillo codebase has been developed entirely without the use of LLMs.
+We do not accept any code which has been created (directly or indirectly)
+with the aid of LLMs. This is due to issues with code provenance and low quality
+of LLM generated code.
+
+---
+
+### 16: Related Software Using Armadillo
 
 * MLPACK: extensive library of machine learning algorithms  
   https://mlpack.org
