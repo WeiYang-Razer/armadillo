@@ -52,7 +52,7 @@ Cube<eT>::Cube()
   , n_elem(0)
   , n_alloc(0)
   , mem_state(0)
-  , mem()
+  , mem(nullptr)
   {
   arma_debug_sigprint_this(this);
   }
