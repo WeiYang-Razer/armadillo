@@ -934,7 +934,7 @@ Cube<eT>::Cube
   , n_elem(0)
   , n_alloc(0)
   , mem_state(0)
-  , mem()
+  , mem(nullptr)
   {
   arma_debug_sigprint_this(this);
   
@@ -1064,7 +1064,7 @@ Cube<eT>::Cube(const subview_cube_slices<eT,T1>& X)
   , n_elem(0)
   , n_alloc(0)
   , mem_state(0)
-  , mem()
+  , mem(nullptr)
   {
   arma_debug_sigprint_this(this);
   
@@ -2751,7 +2751,7 @@ Cube<eT>::Cube(const OpCube<T1, op_type>& X)
   , n_elem(0)
   , n_alloc(0)
   , mem_state(0)
-  , mem()
+  , mem(nullptr)
   {
   arma_debug_sigprint_this(this);
 
@@ -3048,7 +3048,7 @@ Cube<eT>::Cube(const mtOpCube<eT, T1, op_type>& X)
   , n_elem(0)
   , n_alloc(0)
   , mem_state(0)
-  , mem()
+  , mem(nullptr)
   {
   arma_debug_sigprint_this(this);
   
@@ -3144,7 +3144,7 @@ Cube<eT>::Cube(const GlueCube<T1, T2, glue_type>& X)
   , n_elem(0)
   , n_alloc(0)
   , mem_state(0)
-  , mem()
+  , mem(nullptr)
   {
   arma_debug_sigprint_this(this);
   
@@ -3401,7 +3401,7 @@ Cube<eT>::Cube(const mtGlueCube<eT, T1, T2, glue_type>& X)
   , n_elem(0)
   , n_alloc(0)
   , mem_state(0)
-  , mem()
+  , mem(nullptr)
   {
   arma_debug_sigprint_this(this);
   

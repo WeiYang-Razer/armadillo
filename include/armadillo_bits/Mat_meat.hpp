@@ -255,7 +255,7 @@ Mat<eT>::Mat(const arma_vec_indicator&, const uhword in_vec_state)
   , n_alloc(0)
   , vec_state(in_vec_state)
   , mem_state(0)
-  , mem()
+  , mem(nullptr)
   {
   arma_debug_sigprint_this(this);
   }
@@ -456,7 +456,7 @@ Mat<eT>::Mat(const char* text)
   , n_alloc(0)
   , vec_state(0)
   , mem_state(0)
-  , mem()
+  , mem(nullptr)
   {
   arma_debug_sigprint_this(this);
   
@@ -490,7 +490,7 @@ Mat<eT>::Mat(const std::string& text)
   , n_alloc(0)
   , vec_state(0)
   , mem_state(0)
-  , mem()
+  , mem(nullptr)
   {
   arma_debug_sigprint_this(this);
   
@@ -678,7 +678,7 @@ Mat<eT>::Mat(const std::initializer_list<eT>& list)
   , n_alloc(0)
   , vec_state(0)
   , mem_state(0)
-  , mem()
+  , mem(nullptr)
   {
   arma_debug_sigprint_this(this);
   
@@ -710,7 +710,7 @@ Mat<eT>::Mat(const std::initializer_list< std::initializer_list<eT> >& list)
   , n_alloc(0)
   , vec_state(0)
   , mem_state(0)
-  , mem()
+  , mem(nullptr)
   {
   arma_debug_sigprint_this(this);
   
@@ -877,7 +877,7 @@ Mat<eT>::Mat(const Mat<eT>& in_mat, const arma_vec_indicator&, const uhword in_v
   , n_alloc(0)
   , vec_state(in_vec_state)
   , mem_state(0)
-  , mem()
+  , mem(nullptr)
   {
   arma_debug_sigprint(arma_str::format("this: %x; in_mat: %x") % this % &in_mat);
   
@@ -1512,7 +1512,7 @@ Mat<eT>::Mat(const BaseCube<eT,T1>& X, const arma_vec_indicator&, const uhword i
   , n_alloc(0)
   , vec_state(in_vec_state)
   , mem_state(0)
-  , mem()
+  , mem(nullptr)
   {
   arma_debug_sigprint_this(this);
   
@@ -1531,7 +1531,7 @@ Mat<eT>::Mat(const BaseCube<eT,T1>& X)
   , n_alloc(0)
   , vec_state(0)
   , mem_state(0)
-  , mem()
+  , mem(nullptr)
   {
   arma_debug_sigprint_this(this);
   
@@ -1978,7 +1978,7 @@ Mat<eT>::Mat(const Base<typename Mat<eT>::pod_type,T1>& A, const Base<typename M
   , n_alloc(0)
   , vec_state(in_vec_state)
   , mem_state(0)
-  , mem()
+  , mem(nullptr)
   {
   arma_debug_sigprint_this(this);
   
@@ -1998,7 +1998,7 @@ Mat<eT>::Mat(const Base<typename Mat<eT>::pod_type,T1>& A, const Base<typename M
   , n_alloc(0)
   , vec_state(0)
   , mem_state(0)
-  , mem()
+  , mem(nullptr)
   {
   arma_debug_sigprint_this(this);
   
@@ -2043,7 +2043,7 @@ Mat<eT>::Mat(const subview<eT>& X, const arma_vec_indicator&, const uhword in_ve
   , n_alloc(0)
   , vec_state(in_vec_state)
   , mem_state(0)
-  , mem()
+  , mem(nullptr)
   {
   arma_debug_sigprint_this(this);
   
@@ -2266,7 +2266,7 @@ Mat<eT>::Mat(const subview_cube<eT>& x, const arma_vec_indicator&, const uhword 
   , n_alloc(0)
   , vec_state(in_vec_state)
   , mem_state(0)
-  , mem()
+  , mem(nullptr)
   {
   arma_debug_sigprint_this(this);
   
@@ -2285,7 +2285,7 @@ Mat<eT>::Mat(const subview_cube<eT>& x)
   , n_alloc(0)
   , vec_state(0)
   , mem_state(0)
-  , mem()
+  , mem(nullptr)
   {
   arma_debug_sigprint_this(this);
   
@@ -2395,7 +2395,7 @@ Mat<eT>::Mat(const diagview<eT>& X, const arma_vec_indicator&, const uhword in_v
   , n_alloc(0)
   , vec_state(in_vec_state)
   , mem_state(0)
-  , mem()
+  , mem(nullptr)
   {
   arma_debug_sigprint_this(this);
   
@@ -2540,7 +2540,7 @@ Mat<eT>::Mat(const subview_elem1<eT,T1>& X, const arma_vec_indicator&, const uhw
   , n_alloc(0)
   , vec_state(in_vec_state)
   , mem_state(0)
-  , mem()
+  , mem(nullptr)
   {
   arma_debug_sigprint_this(this);
   
@@ -2559,7 +2559,7 @@ Mat<eT>::Mat(const subview_elem1<eT,T1>& X)
   , n_alloc(0)
   , vec_state(0)
   , mem_state(0)
-  , mem()
+  , mem(nullptr)
   {
   arma_debug_sigprint_this(this);
   
@@ -2668,7 +2668,7 @@ Mat<eT>::Mat(const subview_elem2<eT,T1,T2>& X, const arma_vec_indicator&, const 
   , n_alloc(0)
   , vec_state(in_vec_state)
   , mem_state(0)
-  , mem()
+  , mem(nullptr)
   {
   arma_debug_sigprint_this(this);
   
@@ -2687,7 +2687,7 @@ Mat<eT>::Mat(const subview_elem2<eT,T1,T2>& X)
   , n_alloc(0)
   , vec_state(0)
   , mem_state(0)
-  , mem()
+  , mem(nullptr)
   {
   arma_debug_sigprint_this(this);
   
@@ -2796,7 +2796,7 @@ Mat<eT>::Mat(const SpBase<eT, T1>& m, const arma_vec_indicator&, const uhword in
   , n_alloc(0)
   , vec_state(in_vec_state)
   , mem_state(0)
-  , mem()
+  , mem(nullptr)
   {
   arma_debug_sigprint_this(this);
   
@@ -2815,7 +2815,7 @@ Mat<eT>::Mat(const SpBase<eT, T1>& m)
   , n_alloc(0)
   , vec_state(0)
   , mem_state(0)
-  , mem()
+  , mem(nullptr)
   {
   arma_debug_sigprint_this(this);
   
@@ -2999,7 +2999,7 @@ Mat<eT>::Mat(const SpSubview<eT>& X, const arma_vec_indicator&, const uhword in_
   , n_alloc(0)
   , vec_state(in_vec_state)
   , mem_state(0)
-  , mem()
+  , mem(nullptr)
   {
   arma_debug_sigprint_this(this);
   
@@ -3017,7 +3017,7 @@ Mat<eT>::Mat(const SpSubview<eT>& X)
   , n_alloc(0)
   , vec_state(0)
   , mem_state(0)
-  , mem()
+  , mem(nullptr)
   {
   arma_debug_sigprint_this(this);
   
@@ -3200,7 +3200,7 @@ Mat<eT>::Mat(const spdiagview<eT>& X, const arma_vec_indicator&, const uhword in
   , n_alloc(0)
   , vec_state(in_vec_state)
   , mem_state(0)
-  , mem()
+  , mem(nullptr)
   {
   arma_debug_sigprint_this(this);
   
@@ -5128,7 +5128,7 @@ Mat<eT>::Mat(const Gen<T1, gen_type>& X, const arma_vec_indicator&, const uhword
   , n_alloc(0)
   , vec_state(in_vec_state)
   , mem_state(0)
-  , mem()
+  , mem(nullptr)
   {
   arma_debug_sigprint_this(this);
   
@@ -5278,7 +5278,7 @@ Mat<eT>::Mat(const Op<T1, op_type>& X, const arma_vec_indicator&, const uhword i
   , n_alloc(0)
   , vec_state(in_vec_state)
   , mem_state(0)
-  , mem()
+  , mem(nullptr)
   {
   arma_debug_sigprint_this(this);
   
@@ -5300,7 +5300,7 @@ Mat<eT>::Mat(const Op<T1, op_type>& X)
   , n_alloc(0)
   , vec_state(0)
   , mem_state(0)
-  , mem()
+  , mem(nullptr)
   {
   arma_debug_sigprint_this(this);
   
@@ -5429,7 +5429,7 @@ Mat<eT>::Mat(const eOp<T1, eop_type>& X, const arma_vec_indicator&, const uhword
   , n_alloc(0)
   , vec_state(in_vec_state)
   , mem_state(0)
-  , mem()
+  , mem(nullptr)
   {
   arma_debug_sigprint_this(this);
   
@@ -5657,7 +5657,7 @@ Mat<eT>::Mat(const mtOp<eT, T1, op_type>& X, const arma_vec_indicator&, const uh
   , n_alloc(0)
   , vec_state(in_vec_state)
   , mem_state(0)
-  , mem()
+  , mem(nullptr)
   {
   arma_debug_sigprint_this(this);
   
@@ -5676,7 +5676,7 @@ Mat<eT>::Mat(const mtOp<eT, T1, op_type>& X)
   , n_alloc(0)
   , vec_state(0)
   , mem_state(0)
-  , mem()
+  , mem(nullptr)
   {
   arma_debug_sigprint_this(this);
   
@@ -5785,7 +5785,7 @@ Mat<eT>::Mat(const CubeToMatOp<T1, op_type>& X, const arma_vec_indicator&, const
   , n_alloc(0)
   , vec_state(in_vec_state)
   , mem_state(0)
-  , mem()
+  , mem(nullptr)
   {
   arma_debug_sigprint_this(this);
   
@@ -5806,7 +5806,7 @@ Mat<eT>::Mat(const CubeToMatOp<T1, op_type>& X)
   , n_alloc(0)
   , vec_state(0)
   , mem_state(0)
-  , mem()
+  , mem(nullptr)
   {
   arma_debug_sigprint_this(this);
   
@@ -5929,7 +5929,7 @@ Mat<eT>::Mat(const SpToDOp<T1, op_type>& X, const arma_vec_indicator&, const uhw
   , n_alloc(0)
   , vec_state(in_vec_state)
   , mem_state(0)
-  , mem()
+  , mem(nullptr)
   {
   arma_debug_sigprint_this(this);
   
@@ -5950,7 +5950,7 @@ Mat<eT>::Mat(const SpToDOp<T1, op_type>& X)
   , n_alloc(0)
   , vec_state(0)
   , mem_state(0)
-  , mem()
+  , mem(nullptr)
   {
   arma_debug_sigprint_this(this);
   
@@ -6079,7 +6079,7 @@ Mat<eT>::Mat(const mtSpReduceOp<eT, T1, op_type>& X, const arma_vec_indicator&, 
   , n_alloc(0)
   , vec_state(in_vec_state)
   , mem_state(0)
-  , mem()
+  , mem(nullptr)
   {
   arma_debug_sigprint_this(this);
   
@@ -6098,7 +6098,7 @@ Mat<eT>::Mat(const mtSpReduceOp<eT, T1, op_type>& X)
   , n_alloc(0)
   , vec_state(0)
   , mem_state(0)
-  , mem()
+  , mem(nullptr)
   {
   arma_debug_sigprint_this(this);
   
@@ -6207,7 +6207,7 @@ Mat<eT>::Mat(const Glue<T1, T2, glue_type>& X, const arma_vec_indicator&, const 
   , n_alloc(0)
   , vec_state(in_vec_state)
   , mem_state(0)
-  , mem()
+  , mem(nullptr)
   {
   arma_debug_sigprint_this(this);
   
@@ -6230,7 +6230,7 @@ Mat<eT>::Mat(const Glue<T1, T2, glue_type>& X)
   , n_alloc(0)
   , vec_state(0)
   , mem_state(0)
-  , mem()
+  , mem(nullptr)
   {
   arma_debug_sigprint_this(this);
   
@@ -6396,7 +6396,7 @@ Mat<eT>::Mat(const eGlue<T1, T2, eglue_type>& X, const arma_vec_indicator&, cons
   , n_alloc(0)
   , vec_state(in_vec_state)
   , mem_state(0)
-  , mem()
+  , mem(nullptr)
   {
   arma_debug_sigprint_this(this);
   
@@ -6603,7 +6603,7 @@ Mat<eT>::Mat(const mtGlue<eT, T1, T2, glue_type>& X, const arma_vec_indicator&, 
   , n_alloc(0)
   , vec_state(in_vec_state)
   , mem_state(0)
-  , mem()
+  , mem(nullptr)
   {
   arma_debug_sigprint_this(this);
   
@@ -6622,7 +6622,7 @@ Mat<eT>::Mat(const mtGlue<eT, T1, T2, glue_type>& X)
   , n_alloc(0)
   , vec_state(0)
   , mem_state(0)
-  , mem()
+  , mem(nullptr)
   {
   arma_debug_sigprint_this(this);
   
@@ -6733,7 +6733,7 @@ Mat<eT>::Mat(const SpToDGlue<T1, T2, glue_type>& X, const arma_vec_indicator&, c
   , n_alloc(0)
   , vec_state(in_vec_state)
   , mem_state(0)
-  , mem()
+  , mem(nullptr)
   {
   arma_debug_sigprint_this(this);
   
@@ -6755,7 +6755,7 @@ Mat<eT>::Mat(const SpToDGlue<T1, T2, glue_type>& X)
   , n_alloc(0)
   , vec_state(0)
   , mem_state(0)
-  , mem()
+  , mem(nullptr)
   {
   arma_debug_sigprint_this(this);
   
