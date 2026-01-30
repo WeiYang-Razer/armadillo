@@ -2941,6 +2941,7 @@ C.eye();
 <li>See also:
 <ul>
 <li><a href="#ones_member">.ones()</a></li>
+<li><a href="#fill">.fill()</a></li>
 <li><a href="#diag">.diag()</a></li>
 <li><a href="#diagmat">diagmat()</a></li>
 <li><a href="#diagvec">diagvec()</a></li>
@@ -3099,7 +3100,7 @@ See also:
 Member function of <i>Mat</i>, <i>Col</i>, <i>Row</i>, <i>Cube</i>, <i>field</i>
 </li>
 <br>
-<li>Sets the elements to a specified value</li>
+<li>Sets all elements to a specified value</li>
 <br>
 <li>The type of value must match the type of elements used by the container object (eg. for <i>mat</i> the type is <i>double</i>)
 </li>
@@ -3110,17 +3111,28 @@ Examples:
 <pre>
 mat A(5, 6);
 
-A.fill(123.0);   // or:  mat A(5, 6, fill::value(123.0));
+A.fill(123.0);
 </pre>
 </ul>
 </li>
 <br>
 <li>
-<b>Note:</b> to set all elements to zero during matrix construction, use the following more compact form:
+<b>Notes:</b>
+<ul>
+<li>
+To initialise all elements during matrix construction, it is more efficient to use the following forms:
 <ul>
 <pre>
 mat A(5, 6, fill::zeros);
+mat B(5, 6, fill::ones);
+mat C(5, 6, fill::eye);
+mat D(5, 6, fill::value(123.0));
 </pre>
+</ul>
+</li>
+<li>If the initialisation form is not specified, <i>fill::zeros</i> is used by default (since Armadillo 10.5)</li>
+<br>
+<li>See <a href="#Mat">matrix constructors</a> for more details</li>
 </ul>
 </li>
 <br>
@@ -3128,11 +3140,13 @@ mat A(5, 6, fill::zeros);
 See also:
 <ul>
 <li><a href="#imbue">.imbue()</a></li>
-<li><a href="#ones_member">.ones()</a></li>
 <li><a href="#zeros_member">.zeros()</a></li>
+<li><a href="#ones_member">.ones()</a></li>
+<li><a href="#eye_member">.eye()</a></li>
 <li><a href="#randu_randn_member">.randu() &amp; .randn()</a></li>
 <li><a href="#replace">.replace()</a></li>
 <li><a href="#constants">constants (pi, nan, inf, ...)</a></li>
+<li><a href="#Mat">matrix constructors</a></li>
 </ul>
 </li>
 <br>
