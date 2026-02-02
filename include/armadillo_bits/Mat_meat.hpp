@@ -7926,6 +7926,10 @@ Mat<eT>::fill(const fill::fill_class<fill_type>&)
   if(is_same_type<fill_type, fill::fill_randu>::yes)  { (*this).randu(); }
   if(is_same_type<fill_type, fill::fill_randn>::yes)  { (*this).randn(); }
   
+  if(is_same_type<fill_type, fill::fill_nan    >::yes)  { (*this).fill( priv::Datum_helper::nan    <eT>() ); }
+  if(is_same_type<fill_type, fill::fill_pos_inf>::yes)  { (*this).fill( priv::Datum_helper::pos_inf<eT>() ); }
+  if(is_same_type<fill_type, fill::fill_neg_inf>::yes)  { (*this).fill( priv::Datum_helper::neg_inf<eT>() ); }
+  
   return *this;
   }
 
@@ -10099,6 +10103,10 @@ Mat<eT>::fixed<fixed_n_rows, fixed_n_cols>::fixed(const fill::fill_class<fill_ty
   if(is_same_type<fill_type, fill::fill_eye  >::yes)  { Mat<eT>::eye();   }
   if(is_same_type<fill_type, fill::fill_randu>::yes)  { Mat<eT>::randu(); }
   if(is_same_type<fill_type, fill::fill_randn>::yes)  { Mat<eT>::randn(); }
+  
+  if(is_same_type<fill_type, fill::fill_nan    >::yes)  { (*this).fill( priv::Datum_helper::nan    <eT>() ); }
+  if(is_same_type<fill_type, fill::fill_pos_inf>::yes)  { (*this).fill( priv::Datum_helper::pos_inf<eT>() ); }
+  if(is_same_type<fill_type, fill::fill_neg_inf>::yes)  { (*this).fill( priv::Datum_helper::neg_inf<eT>() ); }
   }
 
 

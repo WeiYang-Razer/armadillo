@@ -172,7 +172,7 @@ Cube<eT>::Cube(const SizeCube& s, const arma_initmode_indicator<do_zeros>&)
 template<typename eT>
 template<typename fill_type>
 inline
-Cube<eT>::Cube(const uword in_n_rows, const uword in_n_cols, const uword in_n_slices, const fill::fill_class<fill_type>&)
+Cube<eT>::Cube(const uword in_n_rows, const uword in_n_cols, const uword in_n_slices, const fill::fill_class<fill_type>& f)
   : n_rows(in_n_rows)
   , n_cols(in_n_cols)
   , n_elem_slice(in_n_rows*in_n_cols)
@@ -186,12 +186,7 @@ Cube<eT>::Cube(const uword in_n_rows, const uword in_n_cols, const uword in_n_sl
   
   init_cold();
   
-  if(is_same_type<fill_type, fill::fill_zeros>::yes)  { (*this).zeros(); }
-  if(is_same_type<fill_type, fill::fill_ones >::yes)  { (*this).ones();  }
-  if(is_same_type<fill_type, fill::fill_randu>::yes)  { (*this).randu(); }
-  if(is_same_type<fill_type, fill::fill_randn>::yes)  { (*this).randn(); }
-  
-  arma_static_check( (is_same_type<fill_type, fill::fill_eye>::yes), "Cube::Cube(): unsupported fill type" );
+  (*this).fill(f);
   }
 
 
@@ -199,7 +194,7 @@ Cube<eT>::Cube(const uword in_n_rows, const uword in_n_cols, const uword in_n_sl
 template<typename eT>
 template<typename fill_type>
 inline
-Cube<eT>::Cube(const SizeCube& s, const fill::fill_class<fill_type>&)
+Cube<eT>::Cube(const SizeCube& s, const fill::fill_class<fill_type>& f)
   : n_rows(s.n_rows)
   , n_cols(s.n_cols)
   , n_elem_slice(s.n_rows*s.n_cols)
@@ -213,12 +208,7 @@ Cube<eT>::Cube(const SizeCube& s, const fill::fill_class<fill_type>&)
   
   init_cold();
   
-  if(is_same_type<fill_type, fill::fill_zeros>::yes)  { (*this).zeros(); }
-  if(is_same_type<fill_type, fill::fill_ones >::yes)  { (*this).ones();  }
-  if(is_same_type<fill_type, fill::fill_randu>::yes)  { (*this).randu(); }
-  if(is_same_type<fill_type, fill::fill_randn>::yes)  { (*this).randn(); }
-  
-  arma_static_check( (is_same_type<fill_type, fill::fill_eye>::yes), "Cube::Cube(): unsupported fill type" );
+  (*this).fill(f);
   }
 
 
@@ -4228,6 +4218,30 @@ Cube<eT>::fill(const eT val)
 
 
 template<typename eT>
+template<typename fill_type>
+inline
+Cube<eT>&
+Cube<eT>::fill(const fill::fill_class<fill_type>&)
+  {
+  arma_debug_sigprint();
+  
+  arma_static_check( (is_same_type<fill_type, fill::fill_eye>::yes), "Cube::fill(): unsupported fill type" );
+  
+  if(is_same_type<fill_type, fill::fill_zeros>::yes)  { (*this).zeros(); }
+  if(is_same_type<fill_type, fill::fill_ones >::yes)  { (*this).ones();  }
+  if(is_same_type<fill_type, fill::fill_randu>::yes)  { (*this).randu(); }
+  if(is_same_type<fill_type, fill::fill_randn>::yes)  { (*this).randn(); }
+  
+  if(is_same_type<fill_type, fill::fill_nan    >::yes)  { (*this).fill( priv::Datum_helper::nan    <eT>() ); }
+  if(is_same_type<fill_type, fill::fill_pos_inf>::yes)  { (*this).fill( priv::Datum_helper::pos_inf<eT>() ); }
+  if(is_same_type<fill_type, fill::fill_neg_inf>::yes)  { (*this).fill( priv::Datum_helper::neg_inf<eT>() ); }
+  
+  return *this;
+  }
+
+
+
+template<typename eT>
 inline
 Cube<eT>&
 Cube<eT>::zeros()
@@ -5458,18 +5472,13 @@ template<typename eT>
 template<uword fixed_n_rows, uword fixed_n_cols, uword fixed_n_slices>
 template<typename fill_type>
 inline
-Cube<eT>::fixed<fixed_n_rows, fixed_n_cols, fixed_n_slices>::fixed(const fill::fill_class<fill_type>&)
+Cube<eT>::fixed<fixed_n_rows, fixed_n_cols, fixed_n_slices>::fixed(const fill::fill_class<fill_type>& f)
   {
   arma_debug_sigprint_this(this);
   
   mem_setup();
   
-  if(is_same_type<fill_type, fill::fill_zeros>::yes)  { Cube<eT>::zeros(); }
-  if(is_same_type<fill_type, fill::fill_ones >::yes)  { Cube<eT>::ones();  }
-  if(is_same_type<fill_type, fill::fill_randu>::yes)  { Cube<eT>::randu(); }
-  if(is_same_type<fill_type, fill::fill_randn>::yes)  { Cube<eT>::randn(); }
-  
-  arma_static_check( (is_same_type<fill_type, fill::fill_eye>::yes), "Cube::fixed::fixed(): unsupported fill type" );
+  (*this).fill(f);
   }
 
 
