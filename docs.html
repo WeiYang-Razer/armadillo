@@ -761,6 +761,8 @@ Functions which use LAPACK (generally matrix decompositions) are only valid for 
 <a name="constructors_mat"></a>
 <li>
 Constructors:
+<br>
+<br>
 <ul>
 <table>
 <tbody>
@@ -785,16 +787,21 @@ Constructors:
 <li>
 Matrix elements can be explicitly initialised during construction by specifying <i>fill_form</i>,
 which is one of:
+<br>
+<br>
 <ul>
 <table>
 <tbody>
+<tr><td><code>fill::none</code></td><td>&nbsp;&mapsto;&nbsp;</td><td>do not initialise the elements &nbsp; (matrix may have garbage values)</td></tr>
 <tr><td><code>fill::zeros</code></td><td>&nbsp;&mapsto;&nbsp;</td><td>set all elements to 0</td></tr>
 <tr><td><code>fill::ones</code></td><td>&nbsp;&mapsto;&nbsp;</td><td>set all elements to 1</td></tr>
-<tr><td><code>fill::eye</code></td><td>&nbsp;&mapsto;&nbsp;</td><td>set the elements on the main diagonal to 1 and off-diagonal elements to 0</td></tr>
-<tr><td><code>fill::randu</code></td><td>&nbsp;&mapsto;&nbsp;</td><td>set all elements to random values from a uniform distribution in the [0,1] interval</td></tr>
-<tr><td><code>fill::randn</code></td><td>&nbsp;&mapsto;&nbsp;</td><td>set all elements to random values from a normal/Gaussian distribution with zero mean and unit variance</td></tr>
-<tr><td><code>fill::value(scalar)</code></td><td>&nbsp;&mapsto;&nbsp;</td><td>set all elements to specified scalar</td></tr>
-<tr><td><code>fill::none</code></td><td>&nbsp;&mapsto;&nbsp;</td><td>do not initialise the elements &nbsp; (matrix may have garbage values)</td></tr>
+<!-- <tr><td><code>fill::nan</code></td><td>&nbsp;&mapsto;&nbsp;</td><td>set all elements to NaN</td></tr> -->
+<!-- <tr><td><code>fill::pos_inf</code></td><td>&nbsp;&mapsto;&nbsp;</td><td>set all elements to +infinity</td></tr> -->
+<!-- <tr><td><code>fill::neg_inf</code></td><td>&nbsp;&mapsto;&nbsp;</td><td>set all elements to -infinity</td></tr> -->
+<tr><td><code>fill::value(scalar)</code></td><td>&nbsp;&mapsto;&nbsp;</td><td>set all elements to the specified scalar</td></tr>
+<tr><td><code>fill::eye</code></td><td>&nbsp;&mapsto;&nbsp;</td><td>set elements on the main diagonal to 1 and off-diagonal elements to 0</td></tr>
+<tr><td><code>fill::randu</code></td><td>&nbsp;&mapsto;&nbsp;</td><td>set elements to random values from a uniform distribution in the [0,1] interval</td></tr>
+<tr><td><code>fill::randn</code></td><td>&nbsp;&mapsto;&nbsp;</td><td>set elements to random values from a normal/Gaussian distribution with mean&thinsp;=&thinsp;0 and variance&thinsp;=&thinsp;1</td></tr>
 </tbody>
 </table>
 </ul>
@@ -1155,6 +1162,8 @@ main exceptions are functions which require square matrices
 <br>
 <li>
 Constructors:
+<br>
+<br>
 <ul>
 <table>
 <tbody>
@@ -1427,6 +1436,8 @@ main exceptions are functions which require square matrices
 <br>
 <li>
 Constructors:
+<br>
+<br>
 <ul>
 <table>
 <tbody>
@@ -1705,6 +1716,8 @@ it is possible to use other types instead, eg. <i>fcube</i>
 <a name="constructors_cube"></a>
 <li>
 Constructors:
+<br>
+<br>
 <ul>
 <table>
 <tbody>
@@ -1723,15 +1736,20 @@ Constructors:
 <li>
 Cube elements can be explicitly initialised during construction by specifying <i>fill_form</i>,
 which is one of:
+<br>
+<br>
 <ul>
 <table>
 <tbody>
+<tr><td><code>fill::none</code></td><td>&nbsp;&mapsto;&nbsp;</td><td>do not initialise the elements &nbsp; (cube may have garbage values)</td></tr>
 <tr><td><code>fill::zeros</code></td><td>&nbsp;&mapsto;&nbsp;</td><td>set all elements to 0</td></tr>
 <tr><td><code>fill::ones</code></td><td>&nbsp;&mapsto;&nbsp;</td><td>set all elements to 1</td></tr>
-<tr><td><code>fill::randu</code></td><td>&nbsp;&mapsto;&nbsp;</td><td>set all elements to random values from a uniform distribution in the [0,1] interval</td></tr>
-<tr><td><code>fill::randn</code></td><td>&nbsp;&mapsto;&nbsp;</td><td>set all elements to random values from a normal/Gaussian distribution with zero mean and unit variance</td></tr>
-<tr><td><code>fill::value(scalar)</code></td><td>&nbsp;&mapsto;&nbsp;</td><td>set all elements to specified scalar</td></tr>
-<tr><td><code>fill::none</code></td><td>&nbsp;&mapsto;&nbsp;</td><td>do not initialise the elements &nbsp; (cube may have garbage values)</td></tr>
+<!-- <tr><td><code>fill::nan</code></td><td>&nbsp;&mapsto;&nbsp;</td><td>set all elements to NaN</td></tr> -->
+<!-- <tr><td><code>fill::pos_inf</code></td><td>&nbsp;&mapsto;&nbsp;</td><td>set all elements to +infinity</td></tr> -->
+<!-- <tr><td><code>fill::neg_inf</code></td><td>&nbsp;&mapsto;&nbsp;</td><td>set all elements to -infinity</td></tr> -->
+<tr><td><code>fill::value(scalar)</code></td><td>&nbsp;&mapsto;&nbsp;</td><td>set all elements to the specified scalar</td></tr>
+<tr><td><code>fill::randu</code></td><td>&nbsp;&mapsto;&nbsp;</td><td>set elements to random values from a uniform distribution in the [0,1] interval</td></tr>
+<tr><td><code>fill::randn</code></td><td>&nbsp;&mapsto;&nbsp;</td><td>set elements to random values from a normal/Gaussian distribution with mean&thinsp;=&thinsp;0 and variance&thinsp;=&thinsp;1</td></tr>
 </tbody>
 </table>
 </ul>
@@ -1873,6 +1891,8 @@ Each element can have an arbitrary size (eg. in a field of matrices, each matrix
 <br>
 <li>
 Constructors, where <i>object_type</i> is another class, eg. <i>vec</i>, <i>mat</i>, <i>std::string</i>, etc:
+<br>
+<br>
 <ul>
 <table>
 <tbody>
@@ -1899,6 +1919,7 @@ mat A = randn(2,3);
 mat B = randn(4,5);
 
 field&lt;mat&gt; F(2,1);
+
 F(0,0) = A;
 F(1,0) = B; 
 
@@ -2073,6 +2094,8 @@ it is possible to use other types instead, eg. <i>sp_fmat</i>
 <a name="constructors_sp_mat"></a>
 <li>
 Constructors:
+<br>
+<br>
 <ul>
 <table>
 <tbody>
@@ -2110,6 +2133,8 @@ for small matrices use the <a href="#Mat">Mat</a> class, even if most of the ele
 <li>
 <a name="batch_constructors_sp_mat"></a>
 Batch insertion constructors:
+<br>
+<br>
 <ul>
 <li>form&nbsp;1: <code>sp_mat(<i>locations</i>, <i>values</i>, <i>sort_locations&thinsp;=&thinsp;true</i>)</code></li>
 <li>form&nbsp;2: <code>sp_mat(<i>locations</i>, <i>values</i>, <i>n_rows</i>, <i>n_cols</i>, <i>sort_locations&thinsp;=&thinsp;true</i>, <i>check_for_zeros&thinsp;=&thinsp;true</i>)</code></li>
@@ -2163,6 +2188,8 @@ If <i>check_for_zeros</i> is set to <i>false</i>, the <i>values</i> vector is as
 <br>
 <li>
 The following subset of operations &amp; functions is available for sparse matrices:
+<br>
+<br>
 <ul>
 <li>fundamental arithmetic <a href="#operators">operations</a> (such as addition and multiplication)</li>
 <li><a href="#submat">submatrix views</a>: most contiguous forms and the non-contiguous form of <i>X.cols(vector_of_column_indices)</i></li>
