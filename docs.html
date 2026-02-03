@@ -793,7 +793,7 @@ which is one of:
 <table>
 <tbody>
 <tr><td><code>fill::none</code></td><td>&nbsp;&mapsto;&nbsp;</td><td>do not initialise the elements &nbsp; (matrix may have garbage values)</td></tr>
-<tr><td><code>fill::zeros</code></td><td>&nbsp;&mapsto;&nbsp;</td><td>set all elements to 0</td></tr>
+<tr><td><code>fill::zeros</code></td><td>&nbsp;&mapsto;&nbsp;</td><td>set all elements to 0 &nbsp; (default operation)</td></tr>
 <tr><td><code>fill::ones</code></td><td>&nbsp;&mapsto;&nbsp;</td><td>set all elements to 1</td></tr>
 <!-- <tr><td><code>fill::nan</code></td><td>&nbsp;&mapsto;&nbsp;</td><td>set all elements to NaN</td></tr> -->
 <!-- <tr><td><code>fill::pos_inf</code></td><td>&nbsp;&mapsto;&nbsp;</td><td>set all elements to +infinity</td></tr> -->
@@ -807,7 +807,7 @@ which is one of:
 </ul>
 </li>
 <br>
-<li>Default element initialisation is <code>fill::zeros</code> (since Armadillo 10.5)</li>
+<li>If <i>fill_form</i> is not specified, <i>fill::zeros</i> is used by default (since Armadillo 10.5)</li>
 <br>
 <li>
 For the <i>mat(string)</i> constructor, the format is elements separated by spaces, and rows denoted by semicolons;
@@ -1742,7 +1742,7 @@ which is one of:
 <table>
 <tbody>
 <tr><td><code>fill::none</code></td><td>&nbsp;&mapsto;&nbsp;</td><td>do not initialise the elements &nbsp; (cube may have garbage values)</td></tr>
-<tr><td><code>fill::zeros</code></td><td>&nbsp;&mapsto;&nbsp;</td><td>set all elements to 0</td></tr>
+<tr><td><code>fill::zeros</code></td><td>&nbsp;&mapsto;&nbsp;</td><td>set all elements to 0 &nbsp; (default operation)</td></tr>
 <tr><td><code>fill::ones</code></td><td>&nbsp;&mapsto;&nbsp;</td><td>set all elements to 1</td></tr>
 <!-- <tr><td><code>fill::nan</code></td><td>&nbsp;&mapsto;&nbsp;</td><td>set all elements to NaN</td></tr> -->
 <!-- <tr><td><code>fill::pos_inf</code></td><td>&nbsp;&mapsto;&nbsp;</td><td>set all elements to +infinity</td></tr> -->
@@ -1755,7 +1755,7 @@ which is one of:
 </ul>
 </li>
 <br>
-<li>Default element initialisation is <code>fill::zeros</code> (since Armadillo 10.5)</li>
+<li>If <i>fill_form</i> is not specified, <i>fill::zeros</i> is used by default (since Armadillo 10.5)</li>
 <br>
 <li>
 Each instance of <i>cube</i> automatically allocates and releases internal memory.
@@ -3145,22 +3145,18 @@ A.fill(123.0);
 </li>
 <br>
 <li>
-<b>Notes:</b>
+<b>Caveats:</b>
 <ul>
-<li>
-To initialise all elements during matrix construction, it is more efficient to use the following forms:
+<li>To initialise all elements during matrix construction, it is more efficient to use a <i><a href="#Mat">fill_form</a></i>:
 <ul>
 <pre>
 mat A(5, 6, fill::zeros);
 mat B(5, 6, fill::ones);
-mat C(5, 6, fill::eye);
-mat D(5, 6, fill::value(123.0));
+mat C(5, 6, fill::value(123.0));
 </pre>
 </ul>
 </li>
-<li>If the initialisation form is not specified, <i>fill::zeros</i> is used by default (since Armadillo 10.5)</li>
-<br>
-<li>See <a href="#Mat">matrix constructors</a> for more details</li>
+<li>If <i>fill_form</i> is not specified, <i>fill::zeros</i> is used by default (since Armadillo 10.5)</li>
 </ul>
 </li>
 <br>
