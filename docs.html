@@ -4118,8 +4118,8 @@ Instances of <i>span(a,b)</i> can be replaced by:
 </li>
 <br>
 <li>
-An individual slice, accessed via <i>.slice()</i>, is an instance of the <i>Mat</i> class
-(a reference to a matrix is provided)
+A single slice, accessed via <i>.slice(slice_number)</i>, is an instance of the <i>Mat</i> class (a reference to a matrix is provided);
+<br>see also <i>.<a href="#col_row_as_mat">col_as_mat()</a></i> and <i>.<a href="#col_row_as_mat">row_as_mat()</a></i>
 </li>
 <br>
 <li>
@@ -5905,9 +5905,11 @@ Examples:
 <pre>
 cube Q(5, 4, 3, fill::randu);
 
-mat A = Q.col_as_mat(2);  // size of A: 5x3
+mat A = Q.slice(2);       // size of A: 5x4
 
-mat B = Q.row_as_mat(2);  // size of B: 3x4
+mat B = Q.col_as_mat(2);  // size of B: 5x3
+
+mat C = Q.row_as_mat(2);  // size of C: 3x4
 </pre>
 </ul>
 </li>
