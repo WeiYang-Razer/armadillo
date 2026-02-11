@@ -5852,6 +5852,7 @@ Examples:
 <ul>
 <pre>
 mat X(4, 5, fill::randu);
+
 vec v = X.as_col();
 </pre>
 </ul>
@@ -18476,7 +18477,7 @@ An instance of the class has the following member functions:
       </td>
       <td style="vertical-align: top;">
       return the number of seconds since the last call to <code>.tic()</code>,
-      with the returned number of seconds reduced by any freeze/unfreeze durations
+      with the number of seconds reduced by any freeze/unfreeze durations
       </td>
     </tr>
     <tr>
