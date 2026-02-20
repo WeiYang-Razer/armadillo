@@ -1590,64 +1590,66 @@ subview<eT>::extract(Mat<eT>& out, const subview<eT>& in)
   // NOTE: we're assuming that the matrix has already been set to the correct size and there is no aliasing;
   // size setting and alias checking is done by either the Mat constructor or operator=()
   
-  const uword n_rows = in.n_rows;  // number of rows in the subview
-  const uword n_cols = in.n_cols;  // number of columns in the subview
-  
   arma_debug_print(arma_str::format("out.n_rows: %u; out.n_cols: %u; in.m.n_rows: %u; in.m.n_cols: %u") % out.n_rows % out.n_cols % in.m.n_rows % in.m.n_cols );
   
+  const uword n_rows = in.n_rows;
+  const uword n_cols = in.n_cols;
   
-  if(in.is_vec())
+  if( (n_rows == 0) || (n_cols == 0) )  { return; }
+  
+  if(n_cols == 1)
     {
-    if(n_cols == 1)   // a column vector
-      {
-      arma_debug_print("subview::extract(): copying col");
-      
-      // in.colptr(0) is the first column of the subview, taking into account any row offset
-      arrayops::copy( out.memptr(), in.colptr(0), n_rows );
-      }
-    else
-    if(n_rows == 1)   // a row vector
-      {
-      arma_debug_print("subview::extract(): copying row)");
-      
-      eT* out_mem = out.memptr();
-      
-      const uword X_n_rows = in.m.n_rows;
-      
-      const eT* Xptr = &(in.m.at(in.aux_row1,in.aux_col1));
-      
-      uword j;
-      
-      for(j=1; j < n_cols; j+=2)
-        {
-        const eT tmp1 = (*Xptr);  Xptr += X_n_rows;
-        const eT tmp2 = (*Xptr);  Xptr += X_n_rows;
-        
-        (*out_mem) = tmp1;  out_mem++;
-        (*out_mem) = tmp2;  out_mem++;
-        }
-      
-      if((j-1) < n_cols)
-        {
-        (*out_mem) = (*Xptr);
-        }
-      }
-    }
-  else   // general submatrix
-    {
-    arma_debug_print("subview::extract(): general submatrix");
+    arma_debug_print("subview::extract(): copying col");
     
-    if( (in.aux_row1 == 0) && (n_rows == in.m.n_rows) )
+    // in.colptr(0) is the first column of the subview, taking into account any row offset
+    arrayops::copy( out.memptr(), in.colptr(0), n_rows );
+    
+    return;
+    }
+  
+  if(n_rows == 1)
+    {
+    arma_debug_print("subview::extract(): copying row");
+    
+    eT* out_mem = out.memptr();
+    
+    const uword X_n_rows = in.m.n_rows;
+    
+    const eT* Xptr = &(in.m.at(in.aux_row1,in.aux_col1));
+    
+    uword j;
+    
+    for(j=1; j < n_cols; j+=2)
       {
-      arrayops::copy( out.memptr(), in.colptr(0), in.n_elem );
+      const eT tmp1 = (*Xptr);  Xptr += X_n_rows;
+      const eT tmp2 = (*Xptr);  Xptr += X_n_rows;
+      
+      (*out_mem) = tmp1;  out_mem++;
+      (*out_mem) = tmp2;  out_mem++;
       }
-    else
+    
+    if((j-1) < n_cols)
       {
-      for(uword col=0; col < n_cols; ++col)
-        {
-        arrayops::copy( out.colptr(col), in.colptr(col), n_rows );
-        }
+      (*out_mem) = (*Xptr);
       }
+    
+    return;
+    }
+  
+  if( (in.aux_row1 == 0) && (n_rows == in.m.n_rows) )
+    {
+    arma_debug_print("subview::extract(): contiguous submatrix");
+    
+    arrayops::copy( out.memptr(), in.colptr(0), in.n_elem );
+    
+    return;
+    }
+    
+  arma_debug_print("subview::extract(): general submatrix");
+  
+  for(uword col=0; col < n_cols; ++col)
+    {
+    arrayops::copy( out.colptr(col), in.colptr(col), n_rows );
     }
   }
 
