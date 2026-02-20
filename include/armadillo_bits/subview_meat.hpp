@@ -1426,6 +1426,26 @@ subview<eT>::colptr(const uword in_col) const
 
 
 template<typename eT>
+arma_inline
+eT*
+subview<eT>::startptr()
+  {
+  return (m.mem == nullptr) ? nullptr : ( & access::rw((const_cast< Mat<eT>& >(m)).mem[ aux_col1*m.n_rows + aux_row1 ]) );
+  }
+
+
+
+template<typename eT>
+arma_inline
+const eT*
+subview<eT>::startptr() const
+  {
+  return (m.mem == nullptr) ? nullptr : ( & m.mem[ aux_col1*m.n_rows + aux_row1 ] );
+  }
+
+
+
+template<typename eT>
 template<typename eT2>
 inline
 bool
@@ -3266,7 +3286,7 @@ template<typename eT>
 inline
 subview_col<eT>::subview_col(const Mat<eT>& in_m, const uword in_col)
   : subview<eT>(in_m, 0, in_col, in_m.n_rows, 1)
-  , colmem(subview<eT>::colptr(0)) 
+  , colmem(subview<eT>::startptr()) 
   {
   arma_debug_sigprint();
   }
@@ -3277,7 +3297,7 @@ template<typename eT>
 inline
 subview_col<eT>::subview_col(const Mat<eT>& in_m, const uword in_col, const uword in_row1, const uword in_n_rows)
   : subview<eT>(in_m, in_row1, in_col, in_n_rows, 1)
-  , colmem(subview<eT>::colptr(0)) 
+  , colmem(subview<eT>::startptr()) 
   {
   arma_debug_sigprint();
   }
@@ -4270,7 +4290,7 @@ template<typename eT>
 inline
 subview_row<eT>::subview_row(const Mat<eT>& in_m, const uword in_row)
   : subview<eT>(in_m, in_row, 0, 1, in_m.n_cols)
-  , rowmem(subview<eT>::colptr(0))
+  , rowmem(subview<eT>::startptr())
   {
   arma_debug_sigprint();
   }
@@ -4281,7 +4301,7 @@ template<typename eT>
 inline
 subview_row<eT>::subview_row(const Mat<eT>& in_m, const uword in_row, const uword in_col1, const uword in_n_cols)
   : subview<eT>(in_m, in_row, in_col1, 1, in_n_cols)
-  , rowmem(subview<eT>::colptr(0))
+  , rowmem(subview<eT>::startptr())
   {
   arma_debug_sigprint();
   }
