@@ -1704,21 +1704,24 @@ void
 subview_cube<eT>::extract(Cube<eT>& out, const subview_cube<eT>& in)
   {
   arma_debug_sigprint();
-
+  
   // NOTE: we're assuming that the cube has already been set to the correct size and there is no aliasing;
   // size setting and alias checking is done by either the Cube constructor or operator=()
   
-  const uword n_rows   = in.n_rows;
-  const uword n_cols   = in.n_cols;
-  const uword n_slices = in.n_slices;
+  const uword n_rows       = in.n_rows;
+  const uword n_cols       = in.n_cols;
+  const uword n_slices     = in.n_slices;
+  const uword n_elem_slice = in.n_elem_slice;
   
   arma_debug_print(arma_str::format("out.n_rows: %u; out.n_cols: %u; out.n_slices: %u; in.m.n_rows: %u; in.m.n_cols: %u; in.m.n_slices: %u") % out.n_rows % out.n_cols % out.n_slices % in.m.n_rows % in.m.n_cols % in.m.n_slices);
+  
+  if(n_elem_slice == 0)  { return; }
   
   if( (in.aux_row1 == 0) && (n_rows == in.m.n_rows) )
     {
     for(uword s=0; s < n_slices; ++s)
       {
-      arrayops::copy( out.slice_colptr(s,0), in.slice_colptr(s,0), in.n_elem_slice );
+      arrayops::copy( out.slice_colptr(s,0), in.slice_colptr(s,0), n_elem_slice );
       }
     
     return;
