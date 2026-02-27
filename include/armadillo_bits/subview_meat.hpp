@@ -95,6 +95,8 @@ subview<eT>::inplace_op(const eT val)
   const uword s_n_rows = s.n_rows;
   const uword s_n_cols = s.n_cols;
   
+  if( (s_n_rows == 0) || (s_n_cols == 0) )  { return; }
+  
   if(s_n_rows == 1)
     {
     Mat<eT>& A = const_cast< Mat<eT>& >(s.m);
@@ -150,6 +152,8 @@ subview<eT>::inplace_op(const Base<eT,T1>& in, const char* identifier)
   const uword s_n_cols = s.n_cols;
   
   arma_conform_assert_same_size(s, P, identifier);
+  
+  if( (s_n_rows == 0) || (s_n_cols == 0) )  { return; }
   
   const bool use_mp      = arma_config::openmp && Proxy<T1>::use_mp && mp_gate<eT>::eval(s.n_elem);
   const bool has_overlap = P.has_overlap(s);
@@ -348,8 +352,10 @@ subview<eT>::inplace_op(const subview<eT>& x, const char* identifier)
   
   arma_conform_assert_same_size(s, x, identifier);
   
-  const uword s_n_cols = s.n_cols;
   const uword s_n_rows = s.n_rows;
+  const uword s_n_cols = s.n_cols;
+  
+  if( (s_n_rows == 0) || (s_n_cols == 0) )  { return; }
   
   if(s_n_rows == 1)
     {
