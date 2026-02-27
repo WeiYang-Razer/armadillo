@@ -1694,6 +1694,8 @@ subview<eT>::plus_inplace(Mat<eT>& out, const subview<eT>& in)
   const uword n_rows = in.n_rows;
   const uword n_cols = in.n_cols;
   
+  if( (n_rows == 0) || (n_cols == 0) )  { return; }
+  
   if(n_rows == 1)
     {
     eT* out_mem = out.memptr();
@@ -1741,6 +1743,8 @@ subview<eT>::minus_inplace(Mat<eT>& out, const subview<eT>& in)
   
   const uword n_rows = in.n_rows;
   const uword n_cols = in.n_cols;
+  
+  if( (n_rows == 0) || (n_cols == 0) )  { return; }
   
   if(n_rows == 1)
     {
@@ -1790,6 +1794,8 @@ subview<eT>::schur_inplace(Mat<eT>& out, const subview<eT>& in)
   const uword n_rows = in.n_rows;
   const uword n_cols = in.n_cols;
   
+  if( (n_rows == 0) || (n_cols == 0) )  { return; }
+  
   if(n_rows == 1)
     {
     eT* out_mem = out.memptr();
@@ -1837,6 +1843,8 @@ subview<eT>::div_inplace(Mat<eT>& out, const subview<eT>& in)
   
   const uword n_rows = in.n_rows;
   const uword n_cols = in.n_cols;
+  
+  if( (n_rows == 0) || (n_cols == 0) )  { return; }
   
   if(n_rows == 1)
     {
