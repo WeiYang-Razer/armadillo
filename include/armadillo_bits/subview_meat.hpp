@@ -1074,8 +1074,10 @@ subview<eT>::fill(const eT val)
   
   subview<eT>& s = *this;
   
-  const uword s_n_cols = s.n_cols;
   const uword s_n_rows = s.n_rows;
+  const uword s_n_cols = s.n_cols;
+  
+  if( (s_n_rows == 0) || (s_n_cols == 0) )  { return; }
   
   if(s_n_rows == 1)
     {
@@ -1163,6 +1165,8 @@ subview<eT>::randu()
   const uword s_n_rows = s.n_rows;
   const uword s_n_cols = s.n_cols;
   
+  if( (s_n_rows == 0) || (s_n_cols == 0) )  { return; }
+  
   if(s_n_rows == 1)
     {
     podarray<eT> tmp(s_n_cols);
@@ -1202,6 +1206,8 @@ subview<eT>::randn()
   
   const uword s_n_rows = s.n_rows;
   const uword s_n_cols = s.n_cols;
+  
+  if( (s_n_rows == 0) || (s_n_cols == 0) )  { return; }
   
   if(s_n_rows == 1)
     {
@@ -1509,9 +1515,12 @@ subview<eT>::is_finite() const
   const uword local_n_rows = n_rows;
   const uword local_n_cols = n_cols;
   
-  for(uword ii=0; ii<local_n_cols; ++ii)
+  if( (local_n_rows != 0) && (local_n_cols != 0) )
     {
-    if(arrayops::is_finite(colptr(ii), local_n_rows) == false)  { return false; }
+    for(uword ii=0; ii<local_n_cols; ++ii)
+      {
+      if(arrayops::is_finite(colptr(ii), local_n_rows) == false)  { return false; }
+      }
     }
   
   return true;
@@ -1529,9 +1538,12 @@ subview<eT>::is_zero(const typename get_pod_type<eT>::result tol) const
   const uword local_n_rows = n_rows;
   const uword local_n_cols = n_cols;
   
-  for(uword ii=0; ii<local_n_cols; ++ii)
+  if( (local_n_rows != 0) && (local_n_cols != 0) )
     {
-    if(arrayops::is_zero(colptr(ii), local_n_rows, tol) == false)  { return false; }
+    for(uword ii=0; ii<local_n_cols; ++ii)
+      {
+      if(arrayops::is_zero(colptr(ii), local_n_rows, tol) == false)  { return false; }
+      }
     }
   
   return true;
@@ -1551,9 +1563,12 @@ subview<eT>::has_inf() const
   const uword local_n_rows = n_rows;
   const uword local_n_cols = n_cols;
   
-  for(uword ii=0; ii<local_n_cols; ++ii)
+  if( (local_n_rows != 0) && (local_n_cols != 0) )
     {
-    if(arrayops::has_inf(colptr(ii), local_n_rows))  { return true; }
+    for(uword ii=0; ii<local_n_cols; ++ii)
+      {
+      if(arrayops::has_inf(colptr(ii), local_n_rows))  { return true; }
+      }
     }
   
   return false;
@@ -1573,9 +1588,12 @@ subview<eT>::has_nan() const
   const uword local_n_rows = n_rows;
   const uword local_n_cols = n_cols;
   
-  for(uword ii=0; ii<local_n_cols; ++ii)
+  if( (local_n_rows != 0) && (local_n_cols != 0) )
     {
-    if(arrayops::has_nan(colptr(ii), local_n_rows))  { return true; }
+    for(uword ii=0; ii<local_n_cols; ++ii)
+      {
+      if(arrayops::has_nan(colptr(ii), local_n_rows))  { return true; }
+      }
     }
   
   return false;
@@ -1595,9 +1613,12 @@ subview<eT>::has_nonfinite() const
   const uword local_n_rows = n_rows;
   const uword local_n_cols = n_cols;
   
-  for(uword ii=0; ii<local_n_cols; ++ii)
+  if( (local_n_rows != 0) && (local_n_cols != 0) )
     {
-    if(arrayops::is_finite(colptr(ii), local_n_rows) == false)  { return true; }
+    for(uword ii=0; ii<local_n_cols; ++ii)
+      {
+      if(arrayops::is_finite(colptr(ii), local_n_rows) == false)  { return true; }
+      }
     }
   
   return false;
@@ -2413,9 +2434,14 @@ subview<eT>::each_col(const std::function< void(Col<eT>&) >& F)
   {
   arma_debug_sigprint();
   
-  for(uword ii=0; ii < n_cols; ++ii)
+  const uword local_n_rows = n_rows;
+  const uword local_n_cols = n_cols;
+  
+  if( (local_n_rows == 0) || (local_n_cols == 0) )  { return; }
+  
+  for(uword ii=0; ii < local_n_cols; ++ii)
     {
-    Col<eT> tmp(colptr(ii), n_rows, false, true);
+    Col<eT> tmp(colptr(ii), local_n_rows, false, true);
     F(tmp);
     }
   }
@@ -2429,9 +2455,14 @@ subview<eT>::each_col(const std::function< void(const Col<eT>&) >& F) const
   {
   arma_debug_sigprint();
   
-  for(uword ii=0; ii < n_cols; ++ii)
+  const uword local_n_rows = n_rows;
+  const uword local_n_cols = n_cols;
+  
+  if( (local_n_rows == 0) || (local_n_cols == 0) )  { return; }
+  
+  for(uword ii=0; ii < local_n_cols; ++ii)
     {
-    const Col<eT> tmp(colptr(ii), n_rows, false, true);
+    const Col<eT> tmp(colptr(ii), local_n_rows, false, true);
     F(tmp);
     }
   }
@@ -2446,20 +2477,25 @@ subview<eT>::each_row(const std::function< void(Row<eT>&) >& F)
   {
   arma_debug_sigprint();
   
-  podarray<eT> array1(n_cols);
-  podarray<eT> array2(n_cols);
+  const uword local_n_rows = n_rows;
+  const uword local_n_cols = n_cols;
   
-  Row<eT> tmp1( array1.memptr(), n_cols, false, true );
-  Row<eT> tmp2( array2.memptr(), n_cols, false, true );
+  if( (local_n_rows == 0) || (local_n_cols == 0) )  { return; }
+  
+  podarray<eT> array1(local_n_cols);
+  podarray<eT> array2(local_n_cols);
+  
+  Row<eT> tmp1( array1.memptr(), local_n_cols, false, true );
+  Row<eT> tmp2( array2.memptr(), local_n_cols, false, true );
   
   eT* tmp1_mem = tmp1.memptr();
   eT* tmp2_mem = tmp2.memptr();
   
   uword ii, jj;
   
-  for(ii=0, jj=1; jj < n_rows; ii+=2, jj+=2)
+  for(ii=0, jj=1; jj < local_n_rows; ii+=2, jj+=2)
     {
-    for(uword col_id = 0; col_id < n_cols; ++col_id)
+    for(uword col_id = 0; col_id < local_n_cols; ++col_id)
       {
       const eT* col_mem = colptr(col_id);
       
@@ -2470,7 +2506,7 @@ subview<eT>::each_row(const std::function< void(Row<eT>&) >& F)
     F(tmp1);
     F(tmp2);
     
-    for(uword col_id = 0; col_id < n_cols; ++col_id)
+    for(uword col_id = 0; col_id < local_n_cols; ++col_id)
       {
       eT* col_mem = colptr(col_id);
       
@@ -2479,7 +2515,7 @@ subview<eT>::each_row(const std::function< void(Row<eT>&) >& F)
       }
     }
   
-  if(ii < n_rows)
+  if(ii < local_n_rows)
     {
     tmp1 = (*this).row(ii);
     
@@ -2498,20 +2534,25 @@ subview<eT>::each_row(const std::function< void(const Row<eT>&) >& F) const
   {
   arma_debug_sigprint();
   
-  podarray<eT> array1(n_cols);
-  podarray<eT> array2(n_cols);
+  const uword local_n_rows = n_rows;
+  const uword local_n_cols = n_cols;
   
-  Row<eT> tmp1( array1.memptr(), n_cols, false, true );
-  Row<eT> tmp2( array2.memptr(), n_cols, false, true );
+  if( (local_n_rows == 0) || (local_n_cols == 0) )  { return; }
+  
+  podarray<eT> array1(local_n_cols);
+  podarray<eT> array2(local_n_cols);
+  
+  Row<eT> tmp1( array1.memptr(), local_n_cols, false, true );
+  Row<eT> tmp2( array2.memptr(), local_n_cols, false, true );
   
   eT* tmp1_mem = tmp1.memptr();
   eT* tmp2_mem = tmp2.memptr();
   
   uword ii, jj;
   
-  for(ii=0, jj=1; jj < n_rows; ii+=2, jj+=2)
+  for(ii=0, jj=1; jj < local_n_rows; ii+=2, jj+=2)
     {
-    for(uword col_id = 0; col_id < n_cols; ++col_id)
+    for(uword col_id = 0; col_id < local_n_cols; ++col_id)
       {
       const eT* col_mem = colptr(col_id);
       
@@ -2523,7 +2564,7 @@ subview<eT>::each_row(const std::function< void(const Row<eT>&) >& F) const
     F(tmp2);
     }
   
-  if(ii < n_rows)
+  if(ii < local_n_rows)
     {
     tmp1 = (*this).row(ii);
     
