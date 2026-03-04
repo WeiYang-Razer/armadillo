@@ -974,8 +974,10 @@ subview<eT>::replace(const eT old_val, const eT new_val)
   
   subview<eT>& s = *this;
   
-  const uword s_n_cols = s.n_cols;
   const uword s_n_rows = s.n_rows;
+  const uword s_n_cols = s.n_cols;
+  
+  if( (s_n_rows == 0) || (s_n_cols == 0) )  { return; }
   
   if(s_n_rows == 1)
     {
@@ -1024,8 +1026,10 @@ subview<eT>::clean(const typename get_pod_type<eT>::result threshold)
   
   subview<eT>& s = *this;
   
-  const uword s_n_cols = s.n_cols;
   const uword s_n_rows = s.n_rows;
+  const uword s_n_cols = s.n_cols;
+  
+  if( (s_n_rows == 0) || (s_n_cols == 0) )  { return; }
   
   for(uword ucol=0; ucol < s_n_cols; ++ucol)
     {
@@ -1054,8 +1058,10 @@ subview<eT>::clamp(const eT min_val, const eT max_val)
   
   subview<eT>& s = *this;
   
-  const uword s_n_cols = s.n_cols;
   const uword s_n_rows = s.n_rows;
+  const uword s_n_cols = s.n_cols;
+  
+  if( (s_n_rows == 0) || (s_n_cols == 0) )  { return; }
   
   for(uword ucol=0; ucol < s_n_cols; ++ucol)
     {
