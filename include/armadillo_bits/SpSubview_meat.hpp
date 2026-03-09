@@ -604,7 +604,7 @@ SpSubview<eT>::operator%=(const SpBase<eT, T1>& x)
     {
     const SpProxy<T1> P(x.get_ref());
     
-    arma_conform_assert_same_size(n_rows, n_cols, P.get_n_rows(), P.get_n_cols(), "insertion into sparse submatrix");
+    arma_conform_assert_same_size(n_rows, n_cols, P.get_n_rows(), P.get_n_cols(), "element-wise multiplication");
     
     return *this;
     }
