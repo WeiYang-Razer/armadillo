@@ -44,6 +44,8 @@ SpSubview<eT>::SpSubview(const SpMat<eT>& in_m, const uword in_row1, const uword
   
   m.sync_csc();
   
+  if(m.n_nonzero == 0)  { return; }   // (*this).n_nonzero already set to zero
+  
   // count the number of non-zeros in the subview
   uword count = 0;
   
@@ -369,6 +371,8 @@ SpSubview<eT>::operator%=(const Base<eT, T1>& x)
   
   arma_conform_assert_same_size(sv.n_rows, sv.n_cols, B.n_rows, B.n_cols, "element-wise multiplication");
   
+  if((n_elem == 0) || (n_nonzero == 0))  { return *this; }
+  
   SpMat<eT>& sv_m = access::rw(sv.m);
   
   sv_m.sync_csc();
@@ -595,6 +599,8 @@ const SpSubview<eT>&
 SpSubview<eT>::operator%=(const SpBase<eT, T1>& x)
   {
   arma_debug_sigprint();
+  
+  if((n_elem == 0) || (n_nonzero == 0))  { return *this; }
   
   // TODO: implement dedicated machinery
   return (*this).operator=( (*this) % x.get_ref() );
