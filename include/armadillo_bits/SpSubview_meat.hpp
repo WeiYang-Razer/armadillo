@@ -600,7 +600,14 @@ SpSubview<eT>::operator%=(const SpBase<eT, T1>& x)
   {
   arma_debug_sigprint();
   
-  if((n_elem == 0) || (n_nonzero == 0))  { return *this; }
+  if((n_elem == 0) || (n_nonzero == 0))
+    {
+    const SpProxy<T1> P(x.get_ref());
+    
+    arma_conform_assert_same_size(n_rows, n_cols, P.get_n_rows(), P.get_n_cols(), "insertion into sparse submatrix");
+    
+    return *this;
+    }
   
   // TODO: implement dedicated machinery
   return (*this).operator=( (*this) % x.get_ref() );
