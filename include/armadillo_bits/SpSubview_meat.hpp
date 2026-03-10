@@ -323,6 +323,15 @@ SpSubview<eT>::operator+=(const Base<eT, T1>& x)
   {
   arma_debug_sigprint();
   
+  if(n_nonzero == 0)
+    {
+    const quasi_unwrap<T1> U(x.get_ref());
+    
+    arma_conform_assert_same_size(n_rows, n_cols, U.M.n_rows, U.M.n_cols, "addition");
+    
+    return (*this).operator=(U.M);
+    }
+  
   return (*this).operator=( (*this) + x.get_ref() );
   }
 
