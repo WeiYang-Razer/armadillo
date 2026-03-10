@@ -2876,6 +2876,8 @@ Mat<eT>::operator+=(const SpBase<eT, T1>& m)
   
   arma_conform_assert_same_size(n_rows, n_cols, p.get_n_rows(), p.get_n_cols(), "addition");
   
+  if(p.get_n_nonzero() == 0)  { return *this; }
+  
   typename SpProxy<T1>::const_iterator_type it     = p.begin();
   typename SpProxy<T1>::const_iterator_type it_end = p.end();
   
@@ -2898,6 +2900,8 @@ Mat<eT>::operator-=(const SpBase<eT, T1>& m)
   
   arma_conform_assert_same_size(n_rows, n_cols, p.get_n_rows(), p.get_n_cols(), "subtraction");
   
+  if(p.get_n_nonzero() == 0)  { return *this; }
+  
   typename SpProxy<T1>::const_iterator_type it     = p.begin();
   typename SpProxy<T1>::const_iterator_type it_end = p.end();
   
@@ -2916,9 +2920,9 @@ Mat<eT>::operator*=(const SpBase<eT, T1>& m)
   {
   arma_debug_sigprint();
   
-  Mat<eT> z = (*this) * m.get_ref();
+  Mat<eT> tmp = (*this) * m.get_ref();
   
-  steal_mem(z);
+  steal_mem(tmp);
   
   return *this;
   }
