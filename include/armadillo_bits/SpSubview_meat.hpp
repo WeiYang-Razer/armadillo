@@ -129,6 +129,8 @@ SpSubview<eT>::operator+=(const eT val)
   
   tmp.fill(val);
   
+  if(n_nonzero == 0)  { return (*this).operator=(tmp); }
+  
   return (*this).operator=( (*this) + tmp );
   }
 
@@ -558,6 +560,15 @@ const SpSubview<eT>&
 SpSubview<eT>::operator+=(const SpBase<eT, T1>& x)
   {
   arma_debug_sigprint();
+  
+  if((n_elem == 0) || (n_nonzero == 0))
+    {
+    const unwrap_spmat<T1> U(x.get_ref());
+    
+    arma_conform_assert_same_size(n_rows, n_cols, U.M.n_rows, U.M.n_cols, "addition");
+    
+    return (*this).operator_equ_common(U.M);
+    }
   
   // TODO: implement dedicated machinery
   return (*this).operator=( (*this) + x.get_ref() );
