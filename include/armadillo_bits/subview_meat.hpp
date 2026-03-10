@@ -612,6 +612,8 @@ subview<eT>::operator=(const SpBase<eT, T1>& x)
   // Clear the subview.
   zeros();
   
+  if(p.get_n_nonzero() == 0)  { return; }
+  
   // Iterate through the sparse subview and set the nonzero values appropriately.
   typename SpProxy<T1>::const_iterator_type cit     = p.begin();
   typename SpProxy<T1>::const_iterator_type cit_end = p.end();
@@ -637,6 +639,8 @@ subview<eT>::operator+=(const SpBase<eT, T1>& x)
   
   arma_conform_assert_same_size(n_rows, n_cols, p.get_n_rows(), p.get_n_cols(), "addition");
   
+  if(p.get_n_nonzero() == 0)  { return; }
+  
   // Iterate through the sparse subview and add its values.
   typename SpProxy<T1>::const_iterator_type cit     = p.begin();
   typename SpProxy<T1>::const_iterator_type cit_end = p.end();
@@ -661,6 +665,8 @@ subview<eT>::operator-=(const SpBase<eT, T1>& x)
   const SpProxy<T1> p(x.get_ref());
   
   arma_conform_assert_same_size(n_rows, n_cols, p.get_n_rows(), p.get_n_cols(), "subtraction");
+  
+  if(p.get_n_nonzero() == 0)  { return; }
   
   // Iterate through the sparse subview and subtract its values.
   typename SpProxy<T1>::const_iterator_type cit     = p.begin();
@@ -731,13 +737,12 @@ subview<eT>::operator/=(const SpBase<eT, T1>& x)
   {
   arma_debug_sigprint();
   
+  // NOTE: use of this function is not advised; it is implemented only for completeness
+  
   const SpProxy<T1> p(x.get_ref());
   
   arma_conform_assert_same_size(n_rows, n_cols, p.get_n_rows(), p.get_n_cols(), "element-wise division");
   
-  // This is probably going to fill your subview with a bunch of NaNs,
-  // so I'm not going to bother to implement it fast.
-  // You can have slow NaNs.  They're fine too.
   for(uword c = 0; c < n_cols; ++c)
   for(uword r = 0; r < n_rows; ++r)
     {
