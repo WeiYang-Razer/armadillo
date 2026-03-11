@@ -614,7 +614,6 @@ subview<eT>::operator=(const SpBase<eT, T1>& x)
   
   if(p.get_n_nonzero() == 0)  { return; }
   
-  // Iterate through the sparse subview and set the nonzero values appropriately.
   typename SpProxy<T1>::const_iterator_type cit     = p.begin();
   typename SpProxy<T1>::const_iterator_type cit_end = p.end();
   
@@ -641,7 +640,6 @@ subview<eT>::operator+=(const SpBase<eT, T1>& x)
   
   if(p.get_n_nonzero() == 0)  { return; }
   
-  // Iterate through the sparse subview and add its values.
   typename SpProxy<T1>::const_iterator_type cit     = p.begin();
   typename SpProxy<T1>::const_iterator_type cit_end = p.end();
   
@@ -668,7 +666,6 @@ subview<eT>::operator-=(const SpBase<eT, T1>& x)
   
   if(p.get_n_nonzero() == 0)  { return; }
   
-  // Iterate through the sparse subview and subtract its values.
   typename SpProxy<T1>::const_iterator_type cit     = p.begin();
   typename SpProxy<T1>::const_iterator_type cit_end = p.end();
   
