@@ -4377,6 +4377,8 @@ Mat<eT>::each_col(const std::function< void(Col<eT>&) >& F)
   {
   arma_debug_sigprint();
   
+  if( (n_rows == 0) || (n_cols == 0) )  { return *this; }
+  
   for(uword ii=0; ii < n_cols; ++ii)
     {
     Col<eT> tmp(colptr(ii), n_rows, false, true);
@@ -4394,6 +4396,8 @@ const Mat<eT>&
 Mat<eT>::each_col(const std::function< void(const Col<eT>&) >& F) const
   {
   arma_debug_sigprint();
+  
+  if( (n_rows == 0) || (n_cols == 0) )  { return *this; }
   
   for(uword ii=0; ii < n_cols; ++ii)
     {
@@ -4413,6 +4417,8 @@ Mat<eT>&
 Mat<eT>::each_row(const std::function< void(Row<eT>&) >& F)
   {
   arma_debug_sigprint();
+  
+  if( (n_rows == 0) || (n_cols == 0) )  { return *this; }
   
   podarray<eT> array1(n_cols);
   podarray<eT> array2(n_cols);
@@ -4467,6 +4473,8 @@ const Mat<eT>&
 Mat<eT>::each_row(const std::function< void(const Row<eT>&) >& F) const
   {
   arma_debug_sigprint();
+  
+  if( (n_rows == 0) || (n_cols == 0) )  { return *this; }
   
   podarray<eT> array1(n_cols);
   podarray<eT> array2(n_cols);
