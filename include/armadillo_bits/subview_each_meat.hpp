@@ -686,32 +686,35 @@ subview_each1_aux::operator_plus
   
   const eT* A_mem = A.memptr();
   
-  if(mode == 0) // each column
+  if( (p_n_rows != 0) && (p_n_cols != 0) )
     {
-    for(uword i=0; i < p_n_cols; ++i)
+    if(mode == 0) // each column
       {
-      const eT*   p_mem =   p.colptr(i);
-            eT* out_mem = out.colptr(i);
-      
-      for(uword row=0; row < p_n_rows; ++row)
+      for(uword i=0; i < p_n_cols; ++i)
         {
-        out_mem[row] = p_mem[row] + A_mem[row];
+        const eT*   p_mem =   p.colptr(i);
+              eT* out_mem = out.colptr(i);
+        
+        for(uword row=0; row < p_n_rows; ++row)
+          {
+          out_mem[row] = p_mem[row] + A_mem[row];
+          }
         }
       }
-    }
-  
-  if(mode == 1) // each row
-    {
-    for(uword i=0; i < p_n_cols; ++i)
+    
+    if(mode == 1) // each row
       {
-      const eT*   p_mem =   p.colptr(i);
-            eT* out_mem = out.colptr(i);
-      
-      const eT A_val = A_mem[i];
-      
-      for(uword row=0; row < p_n_rows; ++row)
+      for(uword i=0; i < p_n_cols; ++i)
         {
-        out_mem[row] = p_mem[row] + A_val;
+        const eT*   p_mem =   p.colptr(i);
+              eT* out_mem = out.colptr(i);
+        
+        const eT A_val = A_mem[i];
+        
+        for(uword row=0; row < p_n_rows; ++row)
+          {
+          out_mem[row] = p_mem[row] + A_val;
+          }
         }
       }
     }
@@ -748,32 +751,35 @@ subview_each1_aux::operator_minus
   
   const eT* A_mem = A.memptr();
   
-  if(mode == 0) // each column
+  if( (p_n_rows != 0) && (p_n_cols != 0) )
     {
-    for(uword i=0; i < p_n_cols; ++i)
+    if(mode == 0) // each column
       {
-      const eT*   p_mem =   p.colptr(i);
-            eT* out_mem = out.colptr(i);
-      
-      for(uword row=0; row < p_n_rows; ++row)
+      for(uword i=0; i < p_n_cols; ++i)
         {
-        out_mem[row] = p_mem[row] - A_mem[row];
+        const eT*   p_mem =   p.colptr(i);
+              eT* out_mem = out.colptr(i);
+        
+        for(uword row=0; row < p_n_rows; ++row)
+          {
+          out_mem[row] = p_mem[row] - A_mem[row];
+          }
         }
       }
-    }
-  
-  if(mode == 1) // each row
-    {
-    for(uword i=0; i < p_n_cols; ++i)
+    
+    if(mode == 1) // each row
       {
-      const eT*   p_mem =   p.colptr(i);
-            eT* out_mem = out.colptr(i);
-      
-      const eT A_val = A_mem[i];
-      
-      for(uword row=0; row < p_n_rows; ++row)
+      for(uword i=0; i < p_n_cols; ++i)
         {
-        out_mem[row] = p_mem[row] - A_val;
+        const eT*   p_mem =   p.colptr(i);
+              eT* out_mem = out.colptr(i);
+        
+        const eT A_val = A_mem[i];
+        
+        for(uword row=0; row < p_n_rows; ++row)
+          {
+          out_mem[row] = p_mem[row] - A_val;
+          }
         }
       }
     }
@@ -810,32 +816,35 @@ subview_each1_aux::operator_minus
   
   const eT* A_mem = A.memptr();
   
-  if(mode == 0) // each column
+  if( (p_n_rows != 0) && (p_n_cols != 0) )
     {
-    for(uword i=0; i < p_n_cols; ++i)
+    if(mode == 0) // each column
       {
-      const eT*   p_mem =   p.colptr(i);
-            eT* out_mem = out.colptr(i);
-      
-      for(uword row=0; row < p_n_rows; ++row)
+      for(uword i=0; i < p_n_cols; ++i)
         {
-        out_mem[row] = A_mem[row] - p_mem[row];
+        const eT*   p_mem =   p.colptr(i);
+              eT* out_mem = out.colptr(i);
+        
+        for(uword row=0; row < p_n_rows; ++row)
+          {
+          out_mem[row] = A_mem[row] - p_mem[row];
+          }
         }
       }
-    }
-  
-  if(mode == 1) // each row
-    {
-    for(uword i=0; i < p_n_cols; ++i)
+    
+    if(mode == 1) // each row
       {
-      const eT*   p_mem =   p.colptr(i);
-            eT* out_mem = out.colptr(i);
-      
-      const eT A_val = A_mem[i];
-      
-      for(uword row=0; row < p_n_rows; ++row)
+      for(uword i=0; i < p_n_cols; ++i)
         {
-        out_mem[row] = A_val - p_mem[row];
+        const eT*   p_mem =   p.colptr(i);
+              eT* out_mem = out.colptr(i);
+        
+        const eT A_val = A_mem[i];
+        
+        for(uword row=0; row < p_n_rows; ++row)
+          {
+          out_mem[row] = A_val - p_mem[row];
+          }
         }
       }
     }
@@ -872,32 +881,35 @@ subview_each1_aux::operator_schur
   
   const eT* A_mem = A.memptr();
   
-  if(mode == 0) // each column
+  if( (p_n_rows != 0) && (p_n_cols != 0) )
     {
-    for(uword i=0; i < p_n_cols; ++i)
+    if(mode == 0) // each column
       {
-      const eT*   p_mem =   p.colptr(i);
-            eT* out_mem = out.colptr(i);
-      
-      for(uword row=0; row < p_n_rows; ++row)
+      for(uword i=0; i < p_n_cols; ++i)
         {
-        out_mem[row] = p_mem[row] * A_mem[row];
+        const eT*   p_mem =   p.colptr(i);
+              eT* out_mem = out.colptr(i);
+        
+        for(uword row=0; row < p_n_rows; ++row)
+          {
+          out_mem[row] = p_mem[row] * A_mem[row];
+          }
         }
       }
-    }
-  
-  if(mode == 1) // each row
-    {
-    for(uword i=0; i < p_n_cols; ++i)
+    
+    if(mode == 1) // each row
       {
-      const eT*   p_mem =   p.colptr(i);
-            eT* out_mem = out.colptr(i);
-      
-      const eT A_val = A_mem[i];
-      
-      for(uword row=0; row < p_n_rows; ++row)
+      for(uword i=0; i < p_n_cols; ++i)
         {
-        out_mem[row] = p_mem[row] * A_val;
+        const eT*   p_mem =   p.colptr(i);
+              eT* out_mem = out.colptr(i);
+        
+        const eT A_val = A_mem[i];
+        
+        for(uword row=0; row < p_n_rows; ++row)
+          {
+          out_mem[row] = p_mem[row] * A_val;
+          }
         }
       }
     }
@@ -934,32 +946,35 @@ subview_each1_aux::operator_div
   
   const eT* A_mem = A.memptr();
   
-  if(mode == 0) // each column
+  if( (p_n_rows != 0) && (p_n_cols != 0) )
     {
-    for(uword i=0; i < p_n_cols; ++i)
+    if(mode == 0) // each column
       {
-      const eT*   p_mem =   p.colptr(i);
-            eT* out_mem = out.colptr(i);
-      
-      for(uword row=0; row < p_n_rows; ++row)
+      for(uword i=0; i < p_n_cols; ++i)
         {
-        out_mem[row] = p_mem[row] / A_mem[row];
+        const eT*   p_mem =   p.colptr(i);
+              eT* out_mem = out.colptr(i);
+        
+        for(uword row=0; row < p_n_rows; ++row)
+          {
+          out_mem[row] = p_mem[row] / A_mem[row];
+          }
         }
       }
-    }
-  
-  if(mode == 1) // each row
-    {
-    for(uword i=0; i < p_n_cols; ++i)
+    
+    if(mode == 1) // each row
       {
-      const eT*   p_mem =   p.colptr(i);
-            eT* out_mem = out.colptr(i);
-      
-      const eT A_val = A_mem[i];
-      
-      for(uword row=0; row < p_n_rows; ++row)
+      for(uword i=0; i < p_n_cols; ++i)
         {
-        out_mem[row] = p_mem[row] / A_val;
+        const eT*   p_mem =   p.colptr(i);
+              eT* out_mem = out.colptr(i);
+        
+        const eT A_val = A_mem[i];
+        
+        for(uword row=0; row < p_n_rows; ++row)
+          {
+          out_mem[row] = p_mem[row] / A_val;
+          }
         }
       }
     }
@@ -996,32 +1011,35 @@ subview_each1_aux::operator_div
   
   const eT* A_mem = A.memptr();
   
-  if(mode == 0) // each column
+  if( (p_n_rows != 0) && (p_n_cols != 0) )
     {
-    for(uword i=0; i < p_n_cols; ++i)
+    if(mode == 0) // each column
       {
-      const eT*   p_mem =   p.colptr(i);
-            eT* out_mem = out.colptr(i);
-      
-      for(uword row=0; row < p_n_rows; ++row)
+      for(uword i=0; i < p_n_cols; ++i)
         {
-        out_mem[row] = A_mem[row] / p_mem[row];
+        const eT*   p_mem =   p.colptr(i);
+              eT* out_mem = out.colptr(i);
+        
+        for(uword row=0; row < p_n_rows; ++row)
+          {
+          out_mem[row] = A_mem[row] / p_mem[row];
+          }
         }
       }
-    }
-  
-  if(mode == 1) // each row
-    {
-    for(uword i=0; i < p_n_cols; ++i)
+    
+    if(mode == 1) // each row
       {
-      const eT*   p_mem =   p.colptr(i);
-            eT* out_mem = out.colptr(i);
-      
-      const eT A_val = A_mem[i];
-      
-      for(uword row=0; row < p_n_rows; ++row)
+      for(uword i=0; i < p_n_cols; ++i)
         {
-        out_mem[row] = A_val / p_mem[row];
+        const eT*   p_mem =   p.colptr(i);
+              eT* out_mem = out.colptr(i);
+        
+        const eT A_val = A_mem[i];
+        
+        for(uword row=0; row < p_n_rows; ++row)
+          {
+          out_mem[row] = A_val / p_mem[row];
+          }
         }
       }
     }
@@ -1077,6 +1095,8 @@ subview_each2_aux::operator_plus
       const uword col = indices_mem[i];
       
       arma_conform_check_bounds( (col >= p_n_cols), "each_col(): index out of bounds" );
+      
+      if(p_n_rows == 0)  { continue; }
       
       arrayops::inplace_plus( out.colptr(col), A_mem, p_n_rows );
       }
@@ -1140,6 +1160,8 @@ subview_each2_aux::operator_minus
       
       arma_conform_check_bounds( (col >= p_n_cols), "each_col(): index out of bounds" );
       
+      if(p_n_rows == 0)  { continue; }
+      
       arrayops::inplace_minus( out.colptr(col), A_mem, p_n_rows );
       }
     }
@@ -1201,6 +1223,8 @@ subview_each2_aux::operator_minus
       const uword col = indices_mem[i];
       
       arma_conform_check_bounds( (col >= p_n_cols), "each_col(): index out of bounds" );
+      
+      if(p_n_rows == 0)  { continue; }
       
       const eT*   p_mem =   p.colptr(col);
             eT* out_mem = out.colptr(col);
@@ -1270,6 +1294,8 @@ subview_each2_aux::operator_schur
       
       arma_conform_check_bounds( (col >= p_n_cols), "each_col(): index out of bounds" );
       
+      if(p_n_rows == 0)  { continue; }
+      
       arrayops::inplace_mul( out.colptr(col), A_mem, p_n_rows );
       }
     }
@@ -1332,6 +1358,8 @@ subview_each2_aux::operator_div
       
       arma_conform_check_bounds( (col >= p_n_cols), "each_col(): index out of bounds" );
       
+      if(p_n_rows == 0)  { continue; }
+      
       arrayops::inplace_div( out.colptr(col), A_mem, p_n_rows );
       }
     }
@@ -1393,6 +1421,8 @@ subview_each2_aux::operator_div
       const uword col = indices_mem[i];
       
       arma_conform_check_bounds( (col >= p_n_cols), "each_col(): index out of bounds" );
+      
+      if(p_n_rows == 0)  { continue; }
       
       const eT*   p_mem =   p.colptr(col);
             eT* out_mem = out.colptr(col);
