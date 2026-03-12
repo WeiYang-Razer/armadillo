@@ -1973,6 +1973,8 @@ Cube<eT>::each_slice(const std::function< void(Mat<eT>&) >& F)
   {
   arma_debug_sigprint();
   
+  if( (n_rows == 0) || (n_cols == 0) )  { return *this; }
+  
   for(uword slice_id=0; slice_id < n_slices; ++slice_id)
     {
     Mat<eT> tmp('j', slice_memptr(slice_id), n_rows, n_cols);
@@ -1991,6 +1993,8 @@ const Cube<eT>&
 Cube<eT>::each_slice(const std::function< void(const Mat<eT>&) >& F) const
   {
   arma_debug_sigprint();
+  
+  if( (n_rows == 0) || (n_cols == 0) )  { return *this; }
   
   for(uword slice_id=0; slice_id < n_slices; ++slice_id)
     {
@@ -2015,6 +2019,8 @@ Cube<eT>::each_slice(const std::function< void(Mat<eT>&) >& F, const bool use_mp
     {
     return (*this).each_slice(F);
     }
+  
+  if( (n_rows == 0) || (n_cols == 0) )  { return *this; }
   
   #if defined(ARMA_USE_OPENMP)
     {
@@ -2047,6 +2053,8 @@ Cube<eT>::each_slice(const std::function< void(const Mat<eT>&) >& F, const bool 
     {
     return (*this).each_slice(F);
     }
+  
+  if( (n_rows == 0) || (n_cols == 0) )  { return *this; }
   
   #if defined(ARMA_USE_OPENMP)
     {
