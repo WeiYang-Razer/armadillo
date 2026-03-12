@@ -4377,8 +4377,6 @@ Mat<eT>::each_col(const std::function< void(Col<eT>&) >& F)
   {
   arma_debug_sigprint();
   
-  if(n_rows == 0)  { return *this; }
-  
   for(uword ii=0; ii < n_cols; ++ii)
     {
     Col<eT> tmp(colptr(ii), n_rows, false, true);
@@ -4396,8 +4394,6 @@ const Mat<eT>&
 Mat<eT>::each_col(const std::function< void(const Col<eT>&) >& F) const
   {
   arma_debug_sigprint();
-  
-  if(n_rows == 0)  { return *this; }
   
   for(uword ii=0; ii < n_cols; ++ii)
     {
@@ -4417,8 +4413,6 @@ Mat<eT>&
 Mat<eT>::each_row(const std::function< void(Row<eT>&) >& F)
   {
   arma_debug_sigprint();
-  
-  if( (n_rows == 0) || (n_cols == 0) )  { return *this; }
   
   podarray<eT> array1(n_cols);
   podarray<eT> array2(n_cols);
@@ -4473,8 +4467,6 @@ const Mat<eT>&
 Mat<eT>::each_row(const std::function< void(const Row<eT>&) >& F) const
   {
   arma_debug_sigprint();
-  
-  if( (n_rows == 0) || (n_cols == 0) )  { return *this; }
   
   podarray<eT> array1(n_cols);
   podarray<eT> array2(n_cols);
@@ -7487,7 +7479,7 @@ arma_inline
 eT*
 Mat<eT>::colptr(const uword in_col)
   {
-  return & access::rw(mem[in_col*n_rows]);
+  return access::rwp( mem + (in_col*n_rows) );
   }
 
 
@@ -7498,7 +7490,7 @@ arma_inline
 const eT*
 Mat<eT>::colptr(const uword in_col) const
   {
-  return & mem[in_col*n_rows];
+  return mem + (in_col*n_rows);
   }
 
 
@@ -10553,7 +10545,7 @@ Mat<eT>::fixed<fixed_n_rows, fixed_n_cols>::colptr(const uword in_col)
   {
   eT* mem_actual = (use_extra) ? mem_local_extra : mem_local;
   
-  return & access::rw(mem_actual[in_col*fixed_n_rows]);
+  return access::rwp( mem_actual + (in_col*fixed_n_rows) );
   }
 
 
@@ -10566,7 +10558,7 @@ Mat<eT>::fixed<fixed_n_rows, fixed_n_cols>::colptr(const uword in_col) const
   {
   const eT* mem_actual = (use_extra) ? mem_local_extra : mem_local;
   
-  return & mem_actual[in_col*fixed_n_rows];
+  return mem_actual + (in_col*fixed_n_rows);
   }
 
 

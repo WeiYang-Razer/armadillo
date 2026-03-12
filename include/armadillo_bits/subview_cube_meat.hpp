@@ -1125,8 +1125,6 @@ subview_cube<eT>::each_slice(const std::function< void(Mat<eT>&) >& F)
   {
   arma_debug_sigprint();
   
-  if( (n_rows == 0) || (n_cols == 0) )  { return; }
-  
   Mat<eT> tmp1(n_rows, n_cols, arma_nozeros_indicator());
   Mat<eT> tmp2('j', tmp1.memptr(), n_rows, n_cols);
   
@@ -1154,8 +1152,6 @@ void
 subview_cube<eT>::each_slice(const std::function< void(const Mat<eT>&) >& F) const
   {
   arma_debug_sigprint();
-  
-  if( (n_rows == 0) || (n_cols == 0) )  { return; }
   
         Mat<eT> tmp1(n_rows, n_cols, arma_nozeros_indicator());
   const Mat<eT> tmp2('j', tmp1.memptr(), n_rows, n_cols);
@@ -1653,7 +1649,7 @@ arma_inline
 eT*
 subview_cube<eT>::slice_colptr(const uword in_slice, const uword in_col)
   {
-  return & access::rw((const_cast< Cube<eT>& >(m)).mem[  (in_slice + aux_slice1)*m.n_elem_slice + (in_col + aux_col1)*m.n_rows + aux_row1  ]);
+  return access::rwp( m.mem + ( (in_slice + aux_slice1)*m.n_elem_slice + (in_col + aux_col1)*m.n_rows + aux_row1 ) );
   }
 
 
@@ -1663,7 +1659,7 @@ arma_inline
 const eT*
 subview_cube<eT>::slice_colptr(const uword in_slice, const uword in_col) const
   {
-  return & m.mem[ (in_slice + aux_slice1)*m.n_elem_slice + (in_col + aux_col1)*m.n_rows + aux_row1 ];
+  return m.mem + ( (in_slice + aux_slice1)*m.n_elem_slice + (in_col + aux_col1)*m.n_rows + aux_row1 );
   }
 
 

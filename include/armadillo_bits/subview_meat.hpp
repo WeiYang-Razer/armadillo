@@ -1430,7 +1430,7 @@ arma_inline
 eT*
 subview<eT>::colptr(const uword in_col)
   {
-  return & access::rw((const_cast< Mat<eT>& >(m)).mem[ (in_col + aux_col1)*m.n_rows + aux_row1 ]);
+  return access::rwp( m.mem + ((in_col + aux_col1)*m.n_rows + aux_row1) );
   }
 
 
@@ -1440,7 +1440,7 @@ arma_inline
 const eT*
 subview<eT>::colptr(const uword in_col) const
   {
-  return & m.mem[ (in_col + aux_col1)*m.n_rows + aux_row1 ];
+  return m.mem + ((in_col + aux_col1)*m.n_rows + aux_row1);
   }
 
 
@@ -1450,7 +1450,7 @@ arma_inline
 eT*
 subview<eT>::startptr()
   {
-  return (m.mem == nullptr) ? nullptr : ( & access::rw((const_cast< Mat<eT>& >(m)).mem[ aux_col1*m.n_rows + aux_row1 ]) );
+  return (m.mem == nullptr) ? nullptr : ( access::rwp( m.mem + (aux_col1*m.n_rows + aux_row1) ) );
   }
 
 
@@ -1460,7 +1460,7 @@ arma_inline
 const eT*
 subview<eT>::startptr() const
   {
-  return (m.mem == nullptr) ? nullptr : ( & m.mem[ aux_col1*m.n_rows + aux_row1 ] );
+  return (m.mem == nullptr) ? nullptr : ( m.mem + (aux_col1*m.n_rows + aux_row1) );
   }
 
 
@@ -2445,8 +2445,6 @@ subview<eT>::each_col(const std::function< void(Col<eT>&) >& F)
   const uword local_n_rows = n_rows;
   const uword local_n_cols = n_cols;
   
-  if(local_n_rows == 0)  { return; }
-  
   for(uword ii=0; ii < local_n_cols; ++ii)
     {
     Col<eT> tmp(colptr(ii), local_n_rows, false, true);
@@ -2465,8 +2463,6 @@ subview<eT>::each_col(const std::function< void(const Col<eT>&) >& F) const
   
   const uword local_n_rows = n_rows;
   const uword local_n_cols = n_cols;
-  
-  if(local_n_rows == 0)  { return; }
   
   for(uword ii=0; ii < local_n_cols; ++ii)
     {
@@ -2487,8 +2483,6 @@ subview<eT>::each_row(const std::function< void(Row<eT>&) >& F)
   
   const uword local_n_rows = n_rows;
   const uword local_n_cols = n_cols;
-  
-  if( (local_n_rows == 0) || (local_n_cols == 0) )  { return; }
   
   podarray<eT> array1(local_n_cols);
   podarray<eT> array2(local_n_cols);
@@ -2544,8 +2538,6 @@ subview<eT>::each_row(const std::function< void(const Row<eT>&) >& F) const
   
   const uword local_n_rows = n_rows;
   const uword local_n_cols = n_cols;
-  
-  if( (local_n_rows == 0) || (local_n_cols == 0) )  { return; }
   
   podarray<eT> array1(local_n_cols);
   podarray<eT> array2(local_n_cols);
