@@ -926,6 +926,8 @@ subview_cube_each2_aux::operator_minus
     
     arma_conform_check_bounds( (slice >= p_n_slices), "each_slice(): index out of bounds" );
     
+    if( (p_n_rows == 0) || (p_n_cols == 0) )  { continue; }
+    
           Mat<eT> out_slice(              out.slice_memptr(slice),  p_n_rows, p_n_cols, false, true);
     const Mat<eT>   p_slice(const_cast<eT*>(p.slice_memptr(slice)), p_n_rows, p_n_cols, false, true);
     
@@ -1066,6 +1068,8 @@ subview_cube_each2_aux::operator_div
     const uword slice = indices_mem[i];
     
     arma_conform_check_bounds( (slice >= p_n_slices), "each_slice(): index out of bounds" );
+    
+    if( (p_n_rows == 0) || (p_n_cols == 0) )  { continue; }
     
           Mat<eT> out_slice(              out.slice_memptr(slice),  p_n_rows, p_n_cols, false, true);
     const Mat<eT>   p_slice(const_cast<eT*>(p.slice_memptr(slice)), p_n_rows, p_n_cols, false, true);
