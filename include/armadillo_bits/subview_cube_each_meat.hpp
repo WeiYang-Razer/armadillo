@@ -744,14 +744,26 @@ subview_cube_each1_aux::operator_times
   const unwrap<T2>   tmp(Y.get_ref());
   const Mat<eT>& M = tmp.M;
   
+  if(arma_config::check_conform)
+    {
+    if(C.n_cols != M.n_rows)  { arma_stop_logic_error("each_slice(): incompatible sizes for matrix multiplication"); }
+    }
+  
   Cube<eT> out(C.n_rows, M.n_cols, C.n_slices, arma_nozeros_indicator());
   
-  for(uword i=0; i < C.n_slices; ++i)
+  if( (C.n_elem == 0) || (M.n_elem == 0) )
     {
-          Mat<eT> out_slice(              out.slice_memptr(i),  C.n_rows, M.n_cols, false, true);
-    const Mat<eT>   C_slice(const_cast<eT*>(C.slice_memptr(i)), C.n_rows, C.n_cols, false, true);
-    
-    out_slice = C_slice * M;
+    out.zeros();
+    }
+  else
+    {
+    for(uword i=0; i < C.n_slices; ++i)
+      {
+            Mat<eT> out_slice(              out.slice_memptr(i),  C.n_rows, M.n_cols, false, true);
+      const Mat<eT>   C_slice(const_cast<eT*>(C.slice_memptr(i)), C.n_rows, C.n_cols, false, true);
+      
+      out_slice = C_slice * M;
+      }
     }
   
   return out;
@@ -775,14 +787,26 @@ subview_cube_each1_aux::operator_times
   
   const Cube<eT>& C = Y.P;
   
+  if(arma_config::check_conform)
+    {
+    if(M.n_cols != C.n_rows)  { arma_stop_logic_error("each_slice(): incompatible sizes for matrix multiplication"); }
+    }
+  
   Cube<eT> out(M.n_rows, C.n_cols, C.n_slices, arma_nozeros_indicator());
   
-  for(uword i=0; i < C.n_slices; ++i)
+  if( (M.n_elem == 0) || (C.n_elem == 0) )
     {
-          Mat<eT> out_slice(              out.slice_memptr(i),  M.n_rows, C.n_cols, false, true);
-    const Mat<eT>   C_slice(const_cast<eT*>(C.slice_memptr(i)), C.n_rows, C.n_cols, false, true);
-    
-    out_slice = M * C_slice;
+    out.zeros();
+    }
+  else
+    {
+    for(uword i=0; i < C.n_slices; ++i)
+      {
+            Mat<eT> out_slice(              out.slice_memptr(i),  M.n_rows, C.n_cols, false, true);
+      const Mat<eT>   C_slice(const_cast<eT*>(C.slice_memptr(i)), C.n_rows, C.n_cols, false, true);
+      
+      out_slice = M * C_slice;
+      }
     }
   
   return out;
