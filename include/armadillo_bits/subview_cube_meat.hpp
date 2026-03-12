@@ -117,7 +117,7 @@ subview_cube<eT>::inplace_op(const eT val)
   const uword t_n_cols   = t.n_cols;
   const uword t_n_slices = t.n_slices;
   
-  if( (t_n_rows == 0) || (t_n_cols == 0) || (t_n_slices == 0) )  { return; }
+  if( (t_n_rows == 0) || (t_n_cols == 0) )  { return; }
   
   for(uword s=0; s < t_n_slices; ++s)
   for(uword c=0; c < t_n_cols;   ++c)
@@ -262,7 +262,7 @@ subview_cube<eT>::inplace_op(const subview_cube<eT>& x, const char* identifier)
   const uword t_n_cols   = t.n_cols;
   const uword t_n_slices = t.n_slices;
   
-  if( (t_n_rows == 0) || (t_n_cols == 0) || (t_n_slices == 0) )  { return; }
+  if( (t_n_rows == 0) || (t_n_cols == 0) )  { return; }
   
   for(uword s=0; s < t_n_slices; ++s)
   for(uword c=0; c < t_n_cols;   ++c)
@@ -1184,7 +1184,7 @@ subview_cube<eT>::replace(const eT old_val, const eT new_val)
   const uword local_n_cols   = n_cols;
   const uword local_n_slices = n_slices;
   
-  if( (local_n_rows == 0) || (local_n_cols == 0) || (local_n_slices == 0) )  { return; }
+  if( (local_n_rows == 0) || (local_n_cols == 0) )  { return; }
   
   for(uword slice = 0; slice < local_n_slices; ++slice)
     {
@@ -1208,7 +1208,7 @@ subview_cube<eT>::clean(const typename get_pod_type<eT>::result threshold)
   const uword local_n_cols   = n_cols;
   const uword local_n_slices = n_slices;
   
-  if( (local_n_rows == 0) || (local_n_cols == 0) || (local_n_slices == 0) )  { return; }
+  if( (local_n_rows == 0) || (local_n_cols == 0) )  { return; }
   
   for(uword slice = 0; slice < local_n_slices; ++slice)
     {
@@ -1242,7 +1242,7 @@ subview_cube<eT>::clamp(const eT min_val, const eT max_val)
   const uword local_n_cols   = n_cols;
   const uword local_n_slices = n_slices;
   
-  if( (local_n_rows == 0) || (local_n_cols == 0) || (local_n_slices == 0) )  { return; }
+  if( (local_n_rows == 0) || (local_n_cols == 0) )  { return; }
   
   for(uword slice = 0; slice < local_n_slices; ++slice)
     {
@@ -1266,7 +1266,7 @@ subview_cube<eT>::fill(const eT val)
   const uword local_n_cols   = n_cols;
   const uword local_n_slices = n_slices;
   
-  if( (local_n_rows == 0) || (local_n_cols == 0) || (local_n_slices == 0) )  { return; }
+  if( (local_n_rows == 0) || (local_n_cols == 0) )  { return; }
   
   for(uword slice = 0; slice < local_n_slices; ++slice)
     {
@@ -1290,7 +1290,7 @@ subview_cube<eT>::zeros()
   const uword local_n_cols   = n_cols;
   const uword local_n_slices = n_slices;
   
-  if( (local_n_rows == 0) || (local_n_cols == 0) || (local_n_slices == 0) )  { return; }
+  if( (local_n_rows == 0) || (local_n_cols == 0) )  { return; }
   
   for(uword slice = 0; slice < local_n_slices; ++slice)
     {
@@ -1326,7 +1326,7 @@ subview_cube<eT>::randu()
   const uword local_n_cols   = n_cols;
   const uword local_n_slices = n_slices;
   
-  if( (local_n_rows == 0) || (local_n_cols == 0) || (local_n_slices == 0) )  { return; }
+  if( (local_n_rows == 0) || (local_n_cols == 0) )  { return; }
   
   for(uword slice = 0; slice < local_n_slices; ++slice)
     {
@@ -1350,7 +1350,7 @@ subview_cube<eT>::randn()
   const uword local_n_cols   = n_cols;
   const uword local_n_slices = n_slices;
   
-  if( (local_n_rows == 0) || (local_n_cols == 0) || (local_n_slices == 0) )  { return; }
+  if( (local_n_rows == 0) || (local_n_cols == 0) )  { return; }
   
   for(uword slice = 0; slice < local_n_slices; ++slice)
     {
@@ -1376,7 +1376,7 @@ subview_cube<eT>::is_finite() const
   const uword local_n_cols   = n_cols;
   const uword local_n_slices = n_slices;
   
-  if( (local_n_rows != 0) && (local_n_cols != 0) && (local_n_slices != 0) )
+  if( (local_n_rows != 0) && (local_n_cols != 0) )
     {
     for(uword slice = 0; slice < local_n_slices; ++slice)
       {
@@ -1403,7 +1403,7 @@ subview_cube<eT>::is_zero(const typename get_pod_type<eT>::result tol) const
   const uword local_n_cols   = n_cols;
   const uword local_n_slices = n_slices;
   
-  if( (local_n_rows != 0) && (local_n_cols != 0) && (local_n_slices != 0) )
+  if( (local_n_rows != 0) && (local_n_cols != 0) )
     {
     for(uword slice = 0; slice < local_n_slices; ++slice)
       {
@@ -1432,7 +1432,7 @@ subview_cube<eT>::has_inf() const
   const uword local_n_cols   = n_cols;
   const uword local_n_slices = n_slices;
   
-  if( (local_n_rows != 0) && (local_n_cols != 0) && (local_n_slices != 0) )
+  if( (local_n_rows != 0) && (local_n_cols != 0) )
     {
     for(uword slice = 0; slice < local_n_slices; ++slice)
       {
@@ -1461,7 +1461,7 @@ subview_cube<eT>::has_nan() const
   const uword local_n_cols   = n_cols;
   const uword local_n_slices = n_slices;
   
-  if( (local_n_rows != 0) && (local_n_cols != 0) && (local_n_slices != 0) )
+  if( (local_n_rows != 0) && (local_n_cols != 0) )
     {
     for(uword slice = 0; slice < local_n_slices; ++slice)
       {
@@ -1490,7 +1490,7 @@ subview_cube<eT>::has_nonfinite() const
   const uword local_n_cols   = n_cols;
   const uword local_n_slices = n_slices;
   
-  if( (local_n_rows != 0) && (local_n_cols != 0) && (local_n_slices != 0) )
+  if( (local_n_rows != 0) && (local_n_cols != 0) )
     {
     for(uword slice = 0; slice < local_n_slices; ++slice)
       {
@@ -1753,7 +1753,7 @@ subview_cube<eT>::extract(Cube<eT>& out, const subview_cube<eT>& in)
   
   arma_debug_print(arma_str::format("out.n_rows: %u; out.n_cols: %u; out.n_slices: %u; in.m.n_rows: %u; in.m.n_cols: %u; in.m.n_slices: %u") % out.n_rows % out.n_cols % out.n_slices % in.m.n_rows % in.m.n_cols % in.m.n_slices);
   
-  if( (n_rows == 0) || (n_cols == 0) || (n_slices == 0) )  { return; }
+  if( (n_rows == 0) || (n_cols == 0) )  { return; }
   
   if( (in.aux_row1 == 0) && (n_rows == in.m.n_rows) )
     {
@@ -1788,7 +1788,7 @@ subview_cube<eT>::plus_inplace(Cube<eT>& out, const subview_cube<eT>& in)
   const uword n_cols   = out.n_cols;
   const uword n_slices = out.n_slices;
   
-  if( (n_rows == 0) || (n_cols == 0) || (n_slices == 0) )  { return; }
+  if( (n_rows == 0) || (n_cols == 0) )  { return; }
   
   for(uword slice = 0; slice<n_slices; ++slice)
     {
@@ -1815,7 +1815,7 @@ subview_cube<eT>::minus_inplace(Cube<eT>& out, const subview_cube<eT>& in)
   const uword n_cols   = out.n_cols;
   const uword n_slices = out.n_slices;
   
-  if( (n_rows == 0) || (n_cols == 0) || (n_slices == 0) )  { return; }
+  if( (n_rows == 0) || (n_cols == 0) )  { return; }
   
   for(uword slice = 0; slice<n_slices; ++slice)
     {
@@ -1842,7 +1842,7 @@ subview_cube<eT>::schur_inplace(Cube<eT>& out, const subview_cube<eT>& in)
   const uword n_cols   = out.n_cols;
   const uword n_slices = out.n_slices;
   
-  if( (n_rows == 0) || (n_cols == 0) || (n_slices == 0) )  { return; }
+  if( (n_rows == 0) || (n_cols == 0) )  { return; }
   
   for(uword slice = 0; slice<n_slices; ++slice)
     {
@@ -1869,7 +1869,7 @@ subview_cube<eT>::div_inplace(Cube<eT>& out, const subview_cube<eT>& in)
   const uword n_cols   = out.n_cols;
   const uword n_slices = out.n_slices;
   
-  if( (n_rows == 0) || (n_cols == 0) || (n_slices == 0) )  { return; }
+  if( (n_rows == 0) || (n_cols == 0) )  { return; }
   
   for(uword slice = 0; slice<n_slices; ++slice)
     {
