@@ -1125,6 +1125,8 @@ subview_cube<eT>::each_slice(const std::function< void(Mat<eT>&) >& F)
   {
   arma_debug_sigprint();
   
+  if( (n_rows == 0) || (n_cols == 0) )  { return; }
+  
   Mat<eT> tmp1(n_rows, n_cols, arma_nozeros_indicator());
   Mat<eT> tmp2('j', tmp1.memptr(), n_rows, n_cols);
   
@@ -1152,6 +1154,8 @@ void
 subview_cube<eT>::each_slice(const std::function< void(const Mat<eT>&) >& F) const
   {
   arma_debug_sigprint();
+  
+  if( (n_rows == 0) || (n_cols == 0) )  { return; }
   
         Mat<eT> tmp1(n_rows, n_cols, arma_nozeros_indicator());
   const Mat<eT> tmp2('j', tmp1.memptr(), n_rows, n_cols);
