@@ -1031,7 +1031,7 @@ subview<eT>::clean(const typename get_pod_type<eT>::result threshold)
   const uword s_n_rows = s.n_rows;
   const uword s_n_cols = s.n_cols;
   
-  if( (s_n_rows == 0) || (s_n_cols == 0) )  { return; }
+  if(s_n_rows == 0)  { return; }
   
   for(uword ucol=0; ucol < s_n_cols; ++ucol)
     {
@@ -1063,7 +1063,7 @@ subview<eT>::clamp(const eT min_val, const eT max_val)
   const uword s_n_rows = s.n_rows;
   const uword s_n_cols = s.n_cols;
   
-  if( (s_n_rows == 0) || (s_n_cols == 0) )  { return; }
+  if(s_n_rows == 0)  { return; }
   
   for(uword ucol=0; ucol < s_n_cols; ++ucol)
     {
@@ -1523,7 +1523,7 @@ subview<eT>::is_finite() const
   const uword local_n_rows = n_rows;
   const uword local_n_cols = n_cols;
   
-  if( (local_n_rows != 0) && (local_n_cols != 0) )
+  if(local_n_rows != 0)
     {
     for(uword ii=0; ii<local_n_cols; ++ii)
       {
@@ -1546,7 +1546,7 @@ subview<eT>::is_zero(const typename get_pod_type<eT>::result tol) const
   const uword local_n_rows = n_rows;
   const uword local_n_cols = n_cols;
   
-  if( (local_n_rows != 0) && (local_n_cols != 0) )
+  if(local_n_rows != 0)
     {
     for(uword ii=0; ii<local_n_cols; ++ii)
       {
@@ -1571,7 +1571,7 @@ subview<eT>::has_inf() const
   const uword local_n_rows = n_rows;
   const uword local_n_cols = n_cols;
   
-  if( (local_n_rows != 0) && (local_n_cols != 0) )
+  if(local_n_rows != 0)
     {
     for(uword ii=0; ii<local_n_cols; ++ii)
       {
@@ -1596,7 +1596,7 @@ subview<eT>::has_nan() const
   const uword local_n_rows = n_rows;
   const uword local_n_cols = n_cols;
   
-  if( (local_n_rows != 0) && (local_n_cols != 0) )
+  if(local_n_rows != 0)
     {
     for(uword ii=0; ii<local_n_cols; ++ii)
       {
@@ -1621,7 +1621,7 @@ subview<eT>::has_nonfinite() const
   const uword local_n_rows = n_rows;
   const uword local_n_cols = n_cols;
   
-  if( (local_n_rows != 0) && (local_n_cols != 0) )
+  if(local_n_rows != 0)
     {
     for(uword ii=0; ii<local_n_cols; ++ii)
       {
@@ -2445,7 +2445,7 @@ subview<eT>::each_col(const std::function< void(Col<eT>&) >& F)
   const uword local_n_rows = n_rows;
   const uword local_n_cols = n_cols;
   
-  if( (local_n_rows == 0) || (local_n_cols == 0) )  { return; }
+  if(local_n_rows == 0)  { return; }
   
   for(uword ii=0; ii < local_n_cols; ++ii)
     {
@@ -2466,7 +2466,7 @@ subview<eT>::each_col(const std::function< void(const Col<eT>&) >& F) const
   const uword local_n_rows = n_rows;
   const uword local_n_cols = n_cols;
   
-  if( (local_n_rows == 0) || (local_n_cols == 0) )  { return; }
+  if(local_n_rows == 0)  { return; }
   
   for(uword ii=0; ii < local_n_cols; ++ii)
     {
