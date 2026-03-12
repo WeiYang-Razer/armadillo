@@ -4377,7 +4377,7 @@ Mat<eT>::each_col(const std::function< void(Col<eT>&) >& F)
   {
   arma_debug_sigprint();
   
-  if( (n_rows == 0) || (n_cols == 0) )  { return *this; }
+  if(n_rows == 0)  { return *this; }
   
   for(uword ii=0; ii < n_cols; ++ii)
     {
@@ -4397,7 +4397,7 @@ Mat<eT>::each_col(const std::function< void(const Col<eT>&) >& F) const
   {
   arma_debug_sigprint();
   
-  if( (n_rows == 0) || (n_cols == 0) )  { return *this; }
+  if(n_rows == 0)  { return *this; }
   
   for(uword ii=0; ii < n_cols; ++ii)
     {
