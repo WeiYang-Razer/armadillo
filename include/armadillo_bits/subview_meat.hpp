@@ -1485,7 +1485,7 @@ arma_inline
 eT*
 subview<eT>::startptr()
   {
-  return (m.mem == nullptr) ? nullptr : ( access::rwp( m.mem + (aux_col1*m.n_rows + aux_row1) ) );
+  return access::rwp( m.mem + (aux_col1*m.n_rows + aux_row1) );
   }
 
 
@@ -1495,7 +1495,7 @@ arma_inline
 const eT*
 subview<eT>::startptr() const
   {
-  return (m.mem == nullptr) ? nullptr : ( m.mem + (aux_col1*m.n_rows + aux_row1) );
+  return m.mem + (aux_col1*m.n_rows + aux_row1);
   }
 
 
