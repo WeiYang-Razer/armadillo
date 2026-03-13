@@ -1125,7 +1125,42 @@ subview<eT>::zeros()
   {
   arma_debug_sigprint();
   
-  (*this).fill(eT(0));
+  subview<eT>& s = *this;
+  
+  const uword s_n_rows = s.n_rows;
+  const uword s_n_cols = s.n_cols;
+  
+  if( (s_n_rows == 0) || (s_n_cols == 0) )  { return; }
+  
+  if(s_n_rows == 1)
+    {
+    Mat<eT>& A = const_cast< Mat<eT>& >(s.m);
+    
+    const uword A_n_rows = A.n_rows;
+    
+    eT* Aptr = &(A.at(s.aux_row1,s.aux_col1));
+    
+    constexpr eT eT_zero = eT(0);
+    
+    for(uword ii=0; ii < s_n_cols; ++ii)
+      {
+      (*Aptr) = eT_zero;  Aptr += A_n_rows;
+      }
+    }
+  else
+    {
+    if( (s.aux_row1 == 0) && (s_n_rows == s.m.n_rows) )
+      {
+      arrayops::fill_zeros( s.colptr(0), s.n_elem );
+      }
+    else
+      {
+      for(uword ucol=0; ucol < s_n_cols; ++ucol)
+        {
+        arrayops::fill_zeros( s.colptr(ucol), s_n_rows );
+        }
+      }
+    }
   }
 
 
