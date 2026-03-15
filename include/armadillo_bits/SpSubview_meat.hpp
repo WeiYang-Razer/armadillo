@@ -681,6 +681,8 @@ SpSubview<eT>::for_each(functor F)
   m.sync_csc();
   m.invalidate_cache();
   
+  if(n_nonzero == 0)  { return; }
+  
   const uword lstart_row = aux_row1;
   const uword lend_row   = aux_row1 + n_rows;
   
@@ -737,6 +739,8 @@ SpSubview<eT>::for_each(functor F) const
   
   m.sync_csc();
   
+  if(n_nonzero == 0)  { return; }
+  
   const uword lstart_row = aux_row1;
   const uword lend_row   = aux_row1 + n_rows;
   
@@ -775,6 +779,8 @@ SpSubview<eT>::transform(functor F)
   
   m.sync_csc();
   m.invalidate_cache();
+  
+  if(n_nonzero == 0)  { return; }
   
   const uword lstart_row = aux_row1;
   const uword lend_row   = aux_row1 + n_rows;
@@ -845,6 +851,8 @@ SpSubview<eT>::replace(const eT old_val, const eT new_val)
   
   m.sync_csc();
   m.invalidate_cache();
+  
+  if(n_nonzero == 0)  { return; }
   
   const uword lstart_row = aux_row1;
   const uword lend_row   = aux_row1 + n_rows;
