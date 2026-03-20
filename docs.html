@@ -3955,6 +3955,10 @@ Instances of <i>span(start,end)</i> can be replaced by <i>span::all</i> to indic
 </li>
 <br>
 <li>
+To distinguish <i>span(start,end)</i> from <i>std::span</i>, use the <i>arma::</i> prefix, ie. <i>arma::span(start,end)</i>
+</li>
+<br>
+<li>
 For functions requiring one or more vector of indices,
 eg. <i>X.submat(vector_of_row_indices,&nbsp;vector_of_column_indices)</i>,
 each vector of indices must be of type <i><a href="#Col">uvec</a></i>
