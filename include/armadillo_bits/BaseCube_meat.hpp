@@ -261,24 +261,52 @@ BaseCube<elem_type,derived>::is_zero(const typename get_pod_type<elem_type>::res
   
   const typename ProxyCube<derived>::ea_type Pea = P.get_ea();
   
-  if(is_cx<elem_type>::yes)
+  if(tol == T(0))
     {
-    for(uword i=0; i<n_elem; ++i)
+    if(is_cx<elem_type>::yes)
       {
-      const elem_type val = Pea[i];
-      
-      const T val_real = access::tmp_real(val);
-      const T val_imag = access::tmp_imag(val);
-      
-      if(eop_aux::arma_abs(val_real) > tol)  { return false; }
-      if(eop_aux::arma_abs(val_imag) > tol)  { return false; }
+      for(uword i=0; i<n_elem; ++i)
+        {
+        const elem_type val = Pea[i];
+        
+        const T val_real = access::tmp_real(val);
+        const T val_imag = access::tmp_imag(val);
+        
+        if(eop_aux::arma_abs(val_real) != T(0))  { return false; }
+        if(eop_aux::arma_abs(val_imag) != T(0))  { return false; }
+        }
+      }
+    else  // not complex
+      {
+      for(uword i=0; i<n_elem; ++i)
+        {
+        if(eop_aux::arma_abs(Pea[i]) != T(0))  { return false; }
+        }
       }
     }
-  else  // not complex
+  else  // tol is not zero
     {
-    for(uword i=0; i < n_elem; ++i)
+    if(is_cx<elem_type>::yes)
       {
-      if(eop_aux::arma_abs(Pea[i]) > tol)  { return false; }
+      for(uword i=0; i<n_elem; ++i)
+        {
+        const elem_type val = Pea[i];
+        
+        const T val_real = access::tmp_real(val);
+        const T val_imag = access::tmp_imag(val);
+        
+        if( (eop_aux::arma_abs(val_real) > tol) || arma_isnan(val_real) )  { return false; }
+        if( (eop_aux::arma_abs(val_imag) > tol) || arma_isnan(val_imag) )  { return false; }
+        }
+      }
+    else  // not complex
+      {
+      for(uword i=0; i < n_elem; ++i)
+        {
+        const elem_type val = Pea[i];
+        
+        if( (eop_aux::arma_abs(val) > tol) || arma_isnan(val) )  { return false; }
+        }
       }
     }
   

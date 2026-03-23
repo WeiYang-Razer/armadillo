@@ -1395,18 +1395,21 @@ subview_cube<eT>::is_zero(const typename get_pod_type<eT>::result tol) const
   {
   arma_debug_sigprint();
   
+  typedef typename get_pod_type<elem_type>::result T;
+  
+  arma_conform_check( (tol < T(0)), "is_zero(): parameter 'tol' must be >= 0" );
+  
   const uword local_n_rows   = n_rows;
   const uword local_n_cols   = n_cols;
   const uword local_n_slices = n_slices;
   
-  if( (local_n_rows != 0) && (local_n_cols != 0) )
+  if( (local_n_rows == 0) || (local_n_cols == 0) || (local_n_slices == 0) )  { return false; }
+  
+  for(uword slice = 0; slice < local_n_slices; ++slice)
     {
-    for(uword slice = 0; slice < local_n_slices; ++slice)
+    for(uword col = 0; col < local_n_cols; ++col)
       {
-      for(uword col = 0; col < local_n_cols; ++col)
-        {
-        if(arrayops::is_zero(slice_colptr(slice,col), local_n_rows, tol) == false)  { return false; }
-        }
+      if(arrayops::is_zero(slice_colptr(slice,col), local_n_rows, tol) == false)  { return false; }
       }
     }
   
