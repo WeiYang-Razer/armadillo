@@ -994,7 +994,9 @@ arrayops::is_zero(const eT* mem, const uword n_elem, const eT abs_limit, const t
     {
     for(uword i=0; i<n_elem; ++i)
       {
-      if(eop_aux::arma_abs(mem[i]) > abs_limit)  { return false; }
+      const eT val = mem[i];
+      
+      if( (eop_aux::arma_abs(val) > abs_limit) || arma_isnan(val) )  { return false; }
       }
     }
   
@@ -1028,8 +1030,11 @@ arrayops::is_zero(const std::complex<T>* mem, const uword n_elem, const T abs_li
       {
       const eT& val = mem[i];
       
-      if(std::abs(std::real(val)) > abs_limit)  { return false; }
-      if(std::abs(std::imag(val)) > abs_limit)  { return false; }
+      const T val_real = std::real(val);
+      const T val_imag = std::imag(val);
+      
+      if( (std::abs(val_real) > abs_limit) || arma_isnan(val_real) )  { return false; }
+      if( (std::abs(val_imag) > abs_limit) || arma_isnan(val_imag) )  { return false; }
       }
     }
   

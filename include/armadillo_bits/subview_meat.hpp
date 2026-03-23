@@ -4741,8 +4741,8 @@ subview_row<eT>::is_zero(const typename get_pod_type<eT>::result tol) const
         const T val_real = access::tmp_real(val);
         const T val_imag = access::tmp_imag(val);
         
-        if(eop_aux::arma_abs(val_real) > tol)  { return false; }
-        if(eop_aux::arma_abs(val_imag) > tol)  { return false; }
+        if( (eop_aux::arma_abs(val_real) > tol) || arma_isnan(val_real) )  { return false; }
+        if( (eop_aux::arma_abs(val_imag) > tol) || arma_isnan(val_imag) )  { return false; }
         }
       }
     else  // not complex
@@ -4751,7 +4751,7 @@ subview_row<eT>::is_zero(const typename get_pod_type<eT>::result tol) const
         {
         const eT val = (*mem_ptr);  mem_ptr += local_m_n_rows;
         
-        if(eop_aux::arma_abs(val) > tol)  { return false; }
+        if( (eop_aux::arma_abs(val) > tol) || arma_isnan(val) )  { return false; }
         }
       }
     }
