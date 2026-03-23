@@ -400,6 +400,7 @@ class subview_col : public subview<eT>
   inline void ones();
   
   arma_warn_unused inline bool is_finite() const;
+  arma_warn_unused inline bool is_zero(const pod_type tol = 0) const;
   
   arma_warn_unused inline bool has_inf() const;
   arma_warn_unused inline bool has_nan() const;
@@ -560,6 +561,7 @@ class subview_row : public subview<eT>
   inline void ones();
   
   arma_warn_unused inline bool is_finite() const;
+  arma_warn_unused inline bool is_zero(const pod_type tol = 0) const;
   
   arma_warn_unused inline bool has_inf() const;
   arma_warn_unused inline bool has_nan() const;

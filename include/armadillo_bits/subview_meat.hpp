@@ -1581,12 +1581,11 @@ subview<eT>::is_zero(const typename get_pod_type<eT>::result tol) const
   const uword local_n_rows = n_rows;
   const uword local_n_cols = n_cols;
   
-  if(local_n_rows != 0)
+  if( (local_n_rows == 0) || (local_n_cols == 0) )  { return false; }
+  
+  for(uword ii=0; ii < local_n_cols; ++ii)
     {
-    for(uword ii=0; ii<local_n_cols; ++ii)
-      {
-      if(arrayops::is_zero(colptr(ii), local_n_rows, tol) == false)  { return false; }
-      }
+    if(arrayops::is_zero(colptr(ii), local_n_rows, tol) == false)  { return false; }
     }
   
   return true;
@@ -3620,6 +3619,18 @@ subview_col<eT>::is_finite() const
 template<typename eT>
 inline
 bool
+subview_col<eT>::is_zero(const typename get_pod_type<eT>::result tol) const
+  {
+  arma_debug_sigprint();
+  
+  return arrayops::is_zero(colmem, subview<eT>::n_rows, tol);
+  }
+
+
+
+template<typename eT>
+inline
+bool
 subview_col<eT>::has_inf() const
   {
   arma_debug_sigprint();
@@ -4661,6 +4672,50 @@ subview_row<eT>::is_finite() const
     const eT val = (*mem_ptr);  mem_ptr += local_m_n_rows;
     
     if(arma_isnonfinite(val))  { return false; }
+    }
+  
+  return true;
+  }
+
+
+
+template<typename eT>
+inline
+bool
+subview_row<eT>::is_zero(const typename get_pod_type<eT>::result tol) const
+  {
+  arma_debug_sigprint();
+  
+  typedef typename get_pod_type<eT>::result T;
+  
+  const uword local_s_n_cols = subview<eT>::n_cols;
+  const uword local_m_n_rows = subview<eT>::m.n_rows;
+  
+  if(local_s_n_cols == 0)  { return false; }
+  
+  const eT* mem_ptr = rowmem;
+  
+  if(is_cx<eT>::yes)
+    {
+    for(uword ii=0; ii < local_s_n_cols; ++ii)
+      {
+      const eT& val = (*mem_ptr);  mem_ptr += local_m_n_rows;
+      
+      const T val_real = access::tmp_real(val);
+      const T val_imag = access::tmp_imag(val);
+      
+      if(eop_aux::arma_abs(val_real) > tol)  { return false; }
+      if(eop_aux::arma_abs(val_imag) > tol)  { return false; }
+      }
+    }
+  else  // not complex
+    {
+    for(uword ii=0; ii < local_s_n_cols; ++ii)
+      {
+      const eT val = (*mem_ptr);  mem_ptr += local_m_n_rows;
+      
+      if(eop_aux::arma_abs(val) > tol)  { return false; }
+      }
     }
   
   return true;
