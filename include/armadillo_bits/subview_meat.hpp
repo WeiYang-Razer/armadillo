@@ -1578,6 +1578,10 @@ subview<eT>::is_zero(const typename get_pod_type<eT>::result tol) const
   {
   arma_debug_sigprint();
   
+  typedef typename get_pod_type<eT>::result T;
+  
+  arma_conform_check( (tol < T(0)), "is_zero(): parameter 'tol' must be >= 0" );
+  
   const uword local_n_rows = n_rows;
   const uword local_n_cols = n_cols;
   
@@ -3623,6 +3627,10 @@ subview_col<eT>::is_zero(const typename get_pod_type<eT>::result tol) const
   {
   arma_debug_sigprint();
   
+  typedef typename get_pod_type<eT>::result T;
+  
+  arma_conform_check( (tol < T(0)), "is_zero(): parameter 'tol' must be >= 0" );
+  
   return arrayops::is_zero(colmem, subview<eT>::n_rows, tol);
   }
 
@@ -4688,6 +4696,8 @@ subview_row<eT>::is_zero(const typename get_pod_type<eT>::result tol) const
   
   typedef typename get_pod_type<eT>::result T;
   
+  arma_conform_check( (tol < T(0)), "is_zero(): parameter 'tol' must be >= 0" );
+  
   const uword local_s_n_cols = subview<eT>::n_cols;
   const uword local_m_n_rows = subview<eT>::m.n_rows;
   
@@ -4695,26 +4705,54 @@ subview_row<eT>::is_zero(const typename get_pod_type<eT>::result tol) const
   
   const eT* mem_ptr = rowmem;
   
-  if(is_cx<eT>::yes)
+  if(tol == T(0))
     {
-    for(uword ii=0; ii < local_s_n_cols; ++ii)
+    if(is_cx<eT>::yes)
       {
-      const eT& val = (*mem_ptr);  mem_ptr += local_m_n_rows;
-      
-      const T val_real = access::tmp_real(val);
-      const T val_imag = access::tmp_imag(val);
-      
-      if(eop_aux::arma_abs(val_real) > tol)  { return false; }
-      if(eop_aux::arma_abs(val_imag) > tol)  { return false; }
+      for(uword ii=0; ii < local_s_n_cols; ++ii)
+        {
+        const eT& val = (*mem_ptr);  mem_ptr += local_m_n_rows;
+        
+        const T val_real = access::tmp_real(val);
+        const T val_imag = access::tmp_imag(val);
+        
+        if(eop_aux::arma_abs(val_real) != T(0))  { return false; }
+        if(eop_aux::arma_abs(val_imag) != T(0))  { return false; }
+        }
+      }
+    else  // not complex
+      {
+      for(uword ii=0; ii < local_s_n_cols; ++ii)
+        {
+        const eT val = (*mem_ptr);  mem_ptr += local_m_n_rows;
+        
+        if(eop_aux::arma_abs(val) != T(0))  { return false; }
+        }
       }
     }
-  else  // not complex
+  else  // tol is not zero
     {
-    for(uword ii=0; ii < local_s_n_cols; ++ii)
+    if(is_cx<eT>::yes)
       {
-      const eT val = (*mem_ptr);  mem_ptr += local_m_n_rows;
-      
-      if(eop_aux::arma_abs(val) > tol)  { return false; }
+      for(uword ii=0; ii < local_s_n_cols; ++ii)
+        {
+        const eT& val = (*mem_ptr);  mem_ptr += local_m_n_rows;
+        
+        const T val_real = access::tmp_real(val);
+        const T val_imag = access::tmp_imag(val);
+        
+        if(eop_aux::arma_abs(val_real) > tol)  { return false; }
+        if(eop_aux::arma_abs(val_imag) > tol)  { return false; }
+        }
+      }
+    else  // not complex
+      {
+      for(uword ii=0; ii < local_s_n_cols; ++ii)
+        {
+        const eT val = (*mem_ptr);  mem_ptr += local_m_n_rows;
+        
+        if(eop_aux::arma_abs(val) > tol)  { return false; }
+        }
       }
     }
   
