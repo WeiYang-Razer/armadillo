@@ -1062,33 +1062,17 @@ subview<eT>::fill(const eT val)
   const uword s_n_rows = s.n_rows;
   const uword s_n_cols = s.n_cols;
   
-  if( (s_n_rows == 0) || (s_n_cols == 0) )  { return; }
+  if(s_n_rows == 0)  { return; }
   
-  if(s_n_rows == 1)
+  if( (s.aux_row1 == 0) && (s_n_rows == s.m.n_rows) )
     {
-    Mat<eT>& A = const_cast< Mat<eT>& >(s.m);
-    
-    const uword A_n_rows = A.n_rows;
-    
-    eT* Aptr = &(A.at(s.aux_row1,s.aux_col1));
-    
-    for(uword ii=0; ii < s_n_cols; ++ii)
-      {
-      (*Aptr) = val;  Aptr += A_n_rows;
-      }
+    arrayops::inplace_set( s.colptr(0), val, s.n_elem );
     }
   else
     {
-    if( (s.aux_row1 == 0) && (s_n_rows == s.m.n_rows) )
+    for(uword ucol=0; ucol < s_n_cols; ++ucol)
       {
-      arrayops::inplace_set( s.colptr(0), val, s.n_elem );
-      }
-    else
-      {
-      for(uword ucol=0; ucol < s_n_cols; ++ucol)
-        {
-        arrayops::inplace_set( s.colptr(ucol), val, s_n_rows );
-        }
+      arrayops::inplace_set( s.colptr(ucol), val, s_n_rows );
       }
     }
   }
@@ -1107,35 +1091,17 @@ subview<eT>::zeros()
   const uword s_n_rows = s.n_rows;
   const uword s_n_cols = s.n_cols;
   
-  if( (s_n_rows == 0) || (s_n_cols == 0) )  { return; }
+  if(s_n_rows == 0)  { return; }
   
-  if(s_n_rows == 1)
+  if( (s.aux_row1 == 0) && (s_n_rows == s.m.n_rows) )
     {
-    Mat<eT>& A = const_cast< Mat<eT>& >(s.m);
-    
-    const uword A_n_rows = A.n_rows;
-    
-    eT* Aptr = &(A.at(s.aux_row1,s.aux_col1));
-    
-    constexpr eT eT_zero = eT(0);
-    
-    for(uword ii=0; ii < s_n_cols; ++ii)
-      {
-      (*Aptr) = eT_zero;  Aptr += A_n_rows;
-      }
+    arrayops::fill_zeros( s.colptr(0), s.n_elem );
     }
   else
     {
-    if( (s.aux_row1 == 0) && (s_n_rows == s.m.n_rows) )
+    for(uword ucol=0; ucol < s_n_cols; ++ucol)
       {
-      arrayops::fill_zeros( s.colptr(0), s.n_elem );
-      }
-    else
-      {
-      for(uword ucol=0; ucol < s_n_cols; ++ucol)
-        {
-        arrayops::fill_zeros( s.colptr(ucol), s_n_rows );
-        }
+      arrayops::fill_zeros( s.colptr(ucol), s_n_rows );
       }
     }
   }
