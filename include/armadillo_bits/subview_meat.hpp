@@ -979,34 +979,11 @@ subview<eT>::replace(const eT old_val, const eT new_val)
   const uword s_n_rows = s.n_rows;
   const uword s_n_cols = s.n_cols;
   
-  if( (s_n_rows == 0) || (s_n_cols == 0) )  { return; }
+  if(s_n_rows == 0)  { return; }
   
-  if(s_n_rows == 1)
+  if( (s.aux_row1 == 0) && (s_n_rows == s.m.n_rows) )
     {
-    Mat<eT>& A = const_cast< Mat<eT>& >(s.m);
-    
-    const uword A_n_rows = A.n_rows;
-    
-    eT* Aptr = &(A.at(s.aux_row1,s.aux_col1));
-    
-    if(arma_isnan(old_val))
-      {
-      for(uword ucol=0; ucol < s_n_cols; ++ucol)
-        {
-        (*Aptr) = (arma_isnan(*Aptr)) ? new_val : (*Aptr);
-        
-        Aptr += A_n_rows;
-        }
-      }
-    else
-      {
-      for(uword ucol=0; ucol < s_n_cols; ++ucol)
-        {
-        (*Aptr) = ((*Aptr) == old_val) ? new_val : (*Aptr);
-        
-        Aptr += A_n_rows;
-        }
-      }
+    arrayops::replace(s.colptr(0), s.n_elem, old_val, new_val);
     }
   else
     {
@@ -3573,6 +3550,18 @@ subview_col<eT>::as_row() const
 template<typename eT>
 inline
 void
+subview_col<eT>::replace(const eT old_val, const eT new_val)
+  {
+  arma_debug_sigprint();
+  
+  arrayops::replace( access::rwp(colmem), subview<eT>::n_rows, old_val, new_val );
+  }
+
+
+
+template<typename eT>
+inline
+void
 subview_col<eT>::fill(const eT val)
   {
   arma_debug_sigprint();
@@ -4613,6 +4602,40 @@ const Op<subview_row<eT>,op_strans>
 subview_row<eT>::as_col() const
   {
   return Op<subview_row<eT>,op_strans>(*this);
+  }
+
+
+
+template<typename eT>
+inline
+void
+subview_row<eT>::replace(const eT old_val, const eT new_val)
+  {
+  arma_debug_sigprint();
+  
+  eT* mem_ptr = access::rwp(rowmem);
+  
+  const uword local_s_n_cols = subview<eT>::n_cols;
+  const uword local_m_n_rows = subview<eT>::m.n_rows;
+  
+  if(arma_isnan(old_val))
+    {
+    for(uword ii=0; ii < local_s_n_cols; ++ii)
+      {
+      eT& val = (*mem_ptr);  mem_ptr += local_m_n_rows;
+      
+      val = (arma_isnan(val)) ? new_val : val;
+      }
+    }
+  else
+    {
+    for(uword ii=0; ii < local_s_n_cols; ++ii)
+      {
+      eT& val = (*mem_ptr);  mem_ptr += local_m_n_rows;
+      
+      val = (val == old_val) ? new_val : val;
+      }
+    }
   }
 
 

@@ -395,6 +395,8 @@ class subview_col : public subview<eT>
   
   arma_warn_unused arma_inline const Op<subview_col<eT>,op_strans> as_row() const;
   
+  inline void replace(const eT old_val, const eT new_val);
+  
   inline void fill(const eT val);
   inline void zeros();
   inline void ones();
@@ -555,6 +557,8 @@ class subview_row : public subview<eT>
   arma_warn_unused arma_inline const Op<subview_row<eT>,op_strans> st() const;
   
   arma_warn_unused arma_inline const Op<subview_row<eT>,op_strans> as_col() const;
+  
+  inline void replace(const eT old_val, const eT new_val);
   
   inline void fill(const eT val);
   inline void zeros();
