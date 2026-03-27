@@ -376,11 +376,11 @@ diskio::gen_tmp_name(const std::string& x)
   arma_debug_sigprint();
   
   const char* charlist = "0123456789abcdefghijklmnopqrstuvwxyz";
-  const char* suffix1  = ".tmp_";
+  const char* suffix1  = ".!";
   
   constexpr std::size_t charlist_length = 36;
-  constexpr std::size_t  suffix1_length =  5;
-  constexpr std::size_t  suffix2_length =  5;
+  constexpr std::size_t  suffix1_length =  2;
+  constexpr std::size_t  suffix2_length =  6;
   
   typedef typename std::minstd_rand::result_type local_seed_type;
   
@@ -389,7 +389,7 @@ diskio::gen_tmp_name(const std::string& x)
   
   local_engine.seed( static_cast<local_seed_type>( (std::clock()) & 0xFFFF ) );
   
-  std::size_t x_length = x.length();
+  const std::size_t x_length = x.length();
   
   std::string out(x_length + suffix1_length + suffix2_length, '0');  // create string filled with char '0' (not 0)
   
@@ -401,7 +401,7 @@ diskio::gen_tmp_name(const std::string& x)
   
   local_distr(local_engine);  // ignore first random number
   
-  for(std::size_t i=0; i < suffix2_length; ++i, ++count)  { out[count] = charlist[ local_distr(local_engine) ]; }
+  for(std::size_t i=0; i < suffix2_length; ++i, ++count)  { out[count] = charlist[ local_distr(local_engine)]; }
   
   return out;
   }
