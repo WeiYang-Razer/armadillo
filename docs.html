@@ -895,6 +895,16 @@ data is copied from auxiliary memory, where <i>ptr_aux_mem</i> is a pointer to t
 </ul>
 </li>
 <br>
+<li>
+Support for the <i>std::uint8_t</i> and <i>std::int8_t</i> element types can be enabled by defining both <code>ARMA_U8_TYPE</code> and <code>ARMA_S8_TYPE</code> before including the armadillo header:
+<ul>
+<pre>
+#define ARMA_U8_TYPE std::uint8_t
+#define ARMA_S8_TYPE  std::int8_t
+#include &lt;armadillo&gt;
+</pre>
+</ul>
+</li>
 <br>
 <li>
 Examples:
