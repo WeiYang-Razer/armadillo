@@ -4694,9 +4694,9 @@ subview_row<eT>::is_zero(const typename get_pod_type<eT>::result tol) const
   
   const eT* mem_ptr = rowmem;
   
-  if(tol == T(0))
+  if(is_cx<eT>::yes)
     {
-    if(is_cx<eT>::yes)
+    if(tol == T(0))
       {
       for(uword ii=0; ii < local_s_n_cols; ++ii)
         {
@@ -4709,19 +4709,7 @@ subview_row<eT>::is_zero(const typename get_pod_type<eT>::result tol) const
         if(eop_aux::arma_abs(val_imag) != T(0))  { return false; }
         }
       }
-    else  // not complex
-      {
-      for(uword ii=0; ii < local_s_n_cols; ++ii)
-        {
-        const eT val = (*mem_ptr);  mem_ptr += local_m_n_rows;
-        
-        if(eop_aux::arma_abs(val) != T(0))  { return false; }
-        }
-      }
-    }
-  else  // tol is not zero
-    {
-    if(is_cx<eT>::yes)
+    else
       {
       for(uword ii=0; ii < local_s_n_cols; ++ii)
         {
@@ -4734,7 +4722,19 @@ subview_row<eT>::is_zero(const typename get_pod_type<eT>::result tol) const
         if( (eop_aux::arma_abs(val_imag) > tol) || arma_isnan(val_imag) )  { return false; }
         }
       }
-    else  // not complex
+    }
+  else  // not complex
+    {
+    if(tol == T(0))
+      {
+      for(uword ii=0; ii < local_s_n_cols; ++ii)
+        {
+        const eT val = (*mem_ptr);  mem_ptr += local_m_n_rows;
+        
+        if(eop_aux::arma_abs(val) != T(0))  { return false; }
+        }
+      }
+    else
       {
       for(uword ii=0; ii < local_s_n_cols; ++ii)
         {

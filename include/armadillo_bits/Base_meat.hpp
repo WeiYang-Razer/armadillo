@@ -481,11 +481,11 @@ Base<elem_type,derived>::is_zero(const typename get_pod_type<elem_type>::result 
   
   const typename Proxy<derived>::ea_type Pea = P.get_ea();
   
-  if(tol == T(0))
+  if(is_cx<elem_type>::yes)
     {
-    if(is_cx<elem_type>::yes)
+    if(tol == T(0))
       {
-      for(uword i=0; i<n_elem; ++i)
+      for(uword i=0; i < n_elem; ++i)
         {
         const elem_type val = Pea[i];
         
@@ -496,19 +496,9 @@ Base<elem_type,derived>::is_zero(const typename get_pod_type<elem_type>::result 
         if(eop_aux::arma_abs(val_imag) != T(0))  { return false; }
         }
       }
-    else  // not complex
+    else
       {
-      for(uword i=0; i<n_elem; ++i)
-        {
-        if(eop_aux::arma_abs(Pea[i]) != T(0))  { return false; }
-        }
-      }
-    }
-  else  // tol is not zero
-    {
-    if(is_cx<elem_type>::yes)
-      {
-      for(uword i=0; i<n_elem; ++i)
+      for(uword i=0; i < n_elem; ++i)
         {
         const elem_type val = Pea[i];
         
@@ -519,9 +509,21 @@ Base<elem_type,derived>::is_zero(const typename get_pod_type<elem_type>::result 
         if( (eop_aux::arma_abs(val_imag) > tol) || arma_isnan(val_imag) )  { return false; }
         }
       }
-    else  // not complex
+    }
+  else  // not complex
+    {
+    if(tol == T(0))
       {
-      for(uword i=0; i<n_elem; ++i)
+      for(uword i=0; i < n_elem; ++i)
+        {
+        const elem_type val = Pea[i];
+        
+        if(val != T(0))  { return false; }
+        }
+      }
+    else
+      {
+      for(uword i=0; i < n_elem; ++i)
         {
         const elem_type val = Pea[i];
         
