@@ -298,7 +298,7 @@ BaseCube<elem_type,derived>::is_zero(const typename get_pod_type<elem_type>::res
         {
         const elem_type val = Pea[i];
         
-        if(val != T(0))  { return false; }
+        if(val != elem_type(0))  { return false; }
         }
       }
     else
