@@ -4731,7 +4731,7 @@ subview_row<eT>::is_zero(const typename get_pod_type<eT>::result tol) const
         {
         const eT val = (*mem_ptr);  mem_ptr += local_m_n_rows;
         
-        if(eop_aux::arma_abs(val) != T(0))  { return false; }
+        if(val != eT(0))  { return false; }
         }
       }
     else
