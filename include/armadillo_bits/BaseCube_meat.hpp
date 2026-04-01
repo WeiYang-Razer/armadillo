@@ -246,7 +246,7 @@ BaseCube<elem_type,derived>::is_zero(const typename get_pod_type<elem_type>::res
   
   arma_conform_check( (tol < T(0)), "is_zero(): parameter 'tol' must be >= 0" );
   
-  if(ProxyCube<derived>::use_at || is_Cube<typename ProxyCube<derived>::stored_type>::value)
+  if(is_Cube<typename ProxyCube<derived>::stored_type>::value || ProxyCube<derived>::use_at)
     {
     const unwrap_cube<derived> U( (*this).get_ref() );
     

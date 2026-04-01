@@ -466,7 +466,7 @@ Base<elem_type,derived>::is_zero(const typename get_pod_type<elem_type>::result 
   
   arma_conform_check( (tol < T(0)), "is_zero(): parameter 'tol' must be >= 0" );
   
-  if(Proxy<derived>::use_at || is_Mat<typename Proxy<derived>::stored_type>::value)
+  if( (quasi_unwrap<derived>::has_orig_mem) || (is_Mat<typename Proxy<derived>::stored_type>::value) || (Proxy<derived>::use_at) )
     {
     const quasi_unwrap<derived> U( (*this).get_ref() );
     
