@@ -565,10 +565,8 @@ SpBase<elem_type,derived>::is_zero(const typename get_pod_type<elem_type>::resul
     {
     while(it != it_end)
       {
-      const elem_type val = (*it);
-      
       // convoluted formulation to handle NaNs
-      if( (eop_aux::arma_abs(val) <= tol) == false )  { return false; }
+      if( (eop_aux::arma_abs(*it) <= tol) == false )  { return false; }
       
       ++it;
       }
