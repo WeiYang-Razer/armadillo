@@ -554,8 +554,9 @@ SpBase<elem_type,derived>::is_zero(const typename get_pod_type<elem_type>::resul
       const T val_real = access::tmp_real(val);
       const T val_imag = access::tmp_imag(val);
       
-      if( (eop_aux::arma_abs(val_real) > tol) || arma_isnan(val_real) )  { return false; }
-      if( (eop_aux::arma_abs(val_imag) > tol) || arma_isnan(val_imag) )  { return false; }
+      // convoluted formulation to handle NaNs
+      if( (eop_aux::arma_abs(val_real) <= tol) == false )  { return false; }
+      if( (eop_aux::arma_abs(val_imag) <= tol) == false )  { return false; }
       
       ++it;
       }
@@ -566,7 +567,8 @@ SpBase<elem_type,derived>::is_zero(const typename get_pod_type<elem_type>::resul
       {
       const elem_type val = (*it);
       
-      if( (eop_aux::arma_abs(val) > tol) || arma_isnan(val) )  { return false; }
+      // convoluted formulation to handle NaNs
+      if( (eop_aux::arma_abs(val) <= tol) == false )  { return false; }
       
       ++it;
       }
