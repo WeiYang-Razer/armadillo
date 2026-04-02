@@ -1397,7 +1397,7 @@ subview_cube<eT>::is_zero(const typename get_pod_type<eT>::result tol) const
   
   typedef typename get_pod_type<elem_type>::result T;
   
-  arma_conform_check( (tol < T(0)), "is_zero(): parameter 'tol' must be >= 0" );
+  arma_conform_check( ((tol >= T(0)) == false), "is_zero(): parameter 'tol' must be >= 0" );
   
   const uword local_n_rows   = n_rows;
   const uword local_n_cols   = n_cols;

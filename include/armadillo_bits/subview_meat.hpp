@@ -1523,7 +1523,7 @@ subview<eT>::is_zero(const typename get_pod_type<eT>::result tol) const
   
   typedef typename get_pod_type<eT>::result T;
   
-  arma_conform_check( (tol < T(0)), "is_zero(): parameter 'tol' must be >= 0" );
+  arma_conform_check( ((tol >= T(0)) == false), "is_zero(): parameter 'tol' must be >= 0" );
   
   const uword local_n_rows = n_rows;
   const uword local_n_cols = n_cols;
@@ -3584,7 +3584,7 @@ subview_col<eT>::is_zero(const typename get_pod_type<eT>::result tol) const
   
   typedef typename get_pod_type<eT>::result T;
   
-  arma_conform_check( (tol < T(0)), "is_zero(): parameter 'tol' must be >= 0" );
+  arma_conform_check( ((tol >= T(0)) == false), "is_zero(): parameter 'tol' must be >= 0" );
   
   return arrayops::is_zero(colmem, subview<eT>::n_rows, tol);
   }
@@ -4685,7 +4685,7 @@ subview_row<eT>::is_zero(const typename get_pod_type<eT>::result tol) const
   
   typedef typename get_pod_type<eT>::result T;
   
-  arma_conform_check( (tol < T(0)), "is_zero(): parameter 'tol' must be >= 0" );
+  arma_conform_check( ((tol >= T(0)) == false), "is_zero(): parameter 'tol' must be >= 0" );
   
   const uword local_s_n_cols = subview<eT>::n_cols;
   const uword local_m_n_rows = subview<eT>::m.n_rows;
