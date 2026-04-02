@@ -352,7 +352,7 @@ Base<elem_type,derived>::is_symmetric(const typename get_pod_type<elem_type>::re
   
   if(tol == T(0))  { return (*this).is_symmetric(); }
   
-  arma_conform_check( (tol < T(0)), "is_symmetric(): parameter 'tol' must be >= 0" );
+  arma_conform_check( ((tol >= T(0)) == false), "is_symmetric(): parameter 'tol' must be >= 0" );
   
   const quasi_unwrap<derived> U( (*this).get_ref() );
   
@@ -435,7 +435,7 @@ Base<elem_type,derived>::is_hermitian(const typename get_pod_type<elem_type>::re
   
   if(tol == T(0))  { return (*this).is_hermitian(); }
   
-  arma_conform_check( (tol < T(0)), "is_hermitian(): parameter 'tol' must be >= 0" );
+  arma_conform_check( ((tol >= T(0)) == false), "is_hermitian(): parameter 'tol' must be >= 0" );
   
   const quasi_unwrap<derived> U( (*this).get_ref() );
   
@@ -464,7 +464,7 @@ Base<elem_type,derived>::is_zero(const typename get_pod_type<elem_type>::result 
   
   typedef typename get_pod_type<elem_type>::result T;
   
-  arma_conform_check( (tol < T(0)), "is_zero(): parameter 'tol' must be >= 0" );
+  arma_conform_check( ((tol >= T(0)) == false), "is_zero(): parameter 'tol' must be >= 0" );
   
   if( (quasi_unwrap<derived>::has_orig_mem) || (is_Mat<typename Proxy<derived>::stored_type>::value) || (Proxy<derived>::use_at) )
     {
@@ -949,7 +949,7 @@ Base_extra_yes<elem_type,derived>::is_sympd(typename get_pod_type<elem_type>::re
   
   typedef typename get_pod_type<elem_type>::result T;
   
-  arma_conform_check( (tol < T(0)), "is_sympd(): parameter 'tol' must be >= 0" );
+  arma_conform_check( ((tol >= T(0)) == false), "is_sympd(): parameter 'tol' must be >= 0" );
   
   Mat<elem_type> X = static_cast<const derived&>(*this);
   
