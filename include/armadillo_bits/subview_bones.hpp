@@ -400,6 +400,8 @@ class subview_col : public subview<eT>
   inline void fill(const eT val);
   inline void zeros();
   inline void ones();
+  inline void randu();
+  inline void randn();
   
   arma_warn_unused inline bool is_finite() const;
   arma_warn_unused inline bool is_zero(const pod_type tol = 0) const;
@@ -563,6 +565,8 @@ class subview_row : public subview<eT>
   inline void fill(const eT val);
   inline void zeros();
   inline void ones();
+  inline void randu();
+  inline void randn();
   
   arma_warn_unused inline bool is_finite() const;
   arma_warn_unused inline bool is_zero(const pod_type tol = 0) const;

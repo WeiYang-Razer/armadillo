@@ -1151,30 +1151,17 @@ subview<eT>::randu()
   const uword s_n_rows = s.n_rows;
   const uword s_n_cols = s.n_cols;
   
-  if( (s_n_rows == 0) || (s_n_cols == 0) )  { return; }
+  if(s_n_rows == 0)  { return; }
   
-  if(s_n_rows == 1)
+  if( (s.aux_row1 == 0) && (s_n_rows == s.m.n_rows) )
     {
-    podarray<eT> tmp(s_n_cols);
-    
-    eT* tmp_mem = tmp.memptr();
-    
-    arma_rng::randu<eT>::fill( tmp_mem, s_n_cols );
-    
-    for(uword ii=0; ii < s_n_cols; ++ii)  { at(0,ii) = tmp_mem[ii]; }
+    arma_rng::randu<eT>::fill( s.colptr(0), s.n_elem );
     }
   else
     {
-    if( (s.aux_row1 == 0) && (s_n_rows == s.m.n_rows) )
+    for(uword ii=0; ii < s_n_cols; ++ii)
       {
-      arma_rng::randu<eT>::fill( s.colptr(0), s.n_elem );
-      }
-    else
-      {
-      for(uword ii=0; ii < s_n_cols; ++ii)
-        {
-        arma_rng::randu<eT>::fill( s.colptr(ii), s_n_rows );
-        }
+      arma_rng::randu<eT>::fill( s.colptr(ii), s_n_rows );
       }
     }
   }
@@ -1193,30 +1180,17 @@ subview<eT>::randn()
   const uword s_n_rows = s.n_rows;
   const uword s_n_cols = s.n_cols;
   
-  if( (s_n_rows == 0) || (s_n_cols == 0) )  { return; }
+  if(s_n_rows == 0)  { return; }
   
-  if(s_n_rows == 1)
+  if( (s.aux_row1 == 0) && (s_n_rows == s.m.n_rows) )
     {
-    podarray<eT> tmp(s_n_cols);
-    
-    eT* tmp_mem = tmp.memptr();
-    
-    arma_rng::randn<eT>::fill( tmp_mem, s_n_cols );
-    
-    for(uword ii=0; ii < s_n_cols; ++ii)  { at(0,ii) = tmp_mem[ii]; }
+    arma_rng::randn<eT>::fill( s.colptr(0), s.n_elem );
     }
   else
     {
-    if( (s.aux_row1 == 0) && (s_n_rows == s.m.n_rows) )
+    for(uword ii=0; ii < s_n_cols; ++ii)
       {
-      arma_rng::randn<eT>::fill( s.colptr(0), s.n_elem );
-      }
-    else
-      {
-      for(uword ii=0; ii < s_n_cols; ++ii)
-        {
-        arma_rng::randn<eT>::fill( s.colptr(ii), s_n_rows );
-        }
+      arma_rng::randn<eT>::fill( s.colptr(ii), s_n_rows );
       }
     }
   }
@@ -3563,6 +3537,30 @@ subview_col<eT>::ones()
 
 template<typename eT>
 inline
+void
+subview_col<eT>::randu()
+  {
+  arma_debug_sigprint();
+  
+  arma_rng::randu<eT>::fill( access::rwp(colmem), subview<eT>::n_rows );
+  }
+
+
+
+template<typename eT>
+inline
+void
+subview_col<eT>::randn()
+  {
+  arma_debug_sigprint();
+  
+  arma_rng::randn<eT>::fill( access::rwp(colmem), subview<eT>::n_rows );
+  }
+
+
+
+template<typename eT>
+inline
 bool
 subview_col<eT>::is_finite() const
   {
@@ -4646,6 +4644,58 @@ subview_row<eT>::ones()
   arma_debug_sigprint();
   
   (*this).fill(eT(1));
+  }
+
+
+
+template<typename eT>
+inline
+void
+subview_row<eT>::randu()
+  {
+  arma_debug_sigprint();
+  
+  const uword local_s_n_cols = subview<eT>::n_cols;
+  const uword local_m_n_rows = subview<eT>::m.n_rows;
+  
+  podarray<eT> tmp(local_s_n_cols);
+  
+  eT* tmp_mem = tmp.memptr();
+  
+  arma_rng::randu<eT>::fill( tmp_mem, local_s_n_cols );
+  
+  eT* mem_ptr = access::rwp(rowmem);
+  
+  for(uword ii=0; ii < local_s_n_cols; ++ii)
+    {
+    (*mem_ptr) = tmp_mem[ii];  mem_ptr += local_m_n_rows;
+    }
+  }
+
+
+
+template<typename eT>
+inline
+void
+subview_row<eT>::randn()
+  {
+  arma_debug_sigprint();
+  
+  const uword local_s_n_cols = subview<eT>::n_cols;
+  const uword local_m_n_rows = subview<eT>::m.n_rows;
+  
+  podarray<eT> tmp(local_s_n_cols);
+  
+  eT* tmp_mem = tmp.memptr();
+  
+  arma_rng::randn<eT>::fill( tmp_mem, local_s_n_cols );
+  
+  eT* mem_ptr = access::rwp(rowmem);
+  
+  for(uword ii=0; ii < local_s_n_cols; ++ii)
+    {
+    (*mem_ptr) = tmp_mem[ii];  mem_ptr += local_m_n_rows;
+    }
   }
 
 
