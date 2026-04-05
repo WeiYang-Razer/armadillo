@@ -3565,7 +3565,7 @@ SpMat<eT>::is_symmetric(const typename get_pod_type<elem_type>::result tol) cons
   
   if(tol == T(0))  { return (*this).is_symmetric(); }
   
-  arma_conform_check( (tol < T(0)), "is_symmetric(): parameter 'tol' must be >= 0" );
+  arma_conform_check( ((tol >= T(0)) == false), "is_symmetric(): parameter 'tol' must be >= 0" );
   
   const SpMat<eT>& A = (*this);
   
@@ -3611,7 +3611,7 @@ SpMat<eT>::is_hermitian(const typename get_pod_type<elem_type>::result tol) cons
   
   if(tol == T(0))  { return (*this).is_hermitian(); }
   
-  arma_conform_check( (tol < T(0)), "is_hermitian(): parameter 'tol' must be >= 0" );
+  arma_conform_check( ((tol >= T(0)) == false), "is_hermitian(): parameter 'tol' must be >= 0" );
   
   const SpMat<eT>& A = (*this);
   
