@@ -1151,17 +1151,40 @@ subview<eT>::randu()
   const uword s_n_rows = s.n_rows;
   const uword s_n_cols = s.n_cols;
   
-  if(s_n_rows == 0)  { return; }
+  if( (s_n_rows == 0) || (s_n_cols == 0) )  { return; }
   
-  if( (s.aux_row1 == 0) && (s_n_rows == s.m.n_rows) )
+  if(s_n_rows == 1)
     {
-    arma_rng::randu<eT>::fill( s.colptr(0), s.n_elem );
+    // NOTE: special handling to ensure that the same sequence of numbers
+    // NOTE  is generated as per subview_row::randu()
+    
+    podarray<eT> tmp(s_n_cols);
+    
+    eT* tmp_mem = tmp.memptr();
+    
+    arma_rng::randu<eT>::fill( tmp_mem, s_n_cols );
+    
+    eT* mem_ptr = startptr();
+    
+    const uword m_n_rows = s.m.n_rows;
+    
+    for(uword ii=0; ii < s_n_cols; ++ii)
+      {
+      (*mem_ptr) = tmp_mem[ii];  mem_ptr += m_n_rows;
+      }
     }
   else
     {
-    for(uword ii=0; ii < s_n_cols; ++ii)
+    if( (s.aux_row1 == 0) && (s_n_rows == s.m.n_rows) )
       {
-      arma_rng::randu<eT>::fill( s.colptr(ii), s_n_rows );
+      arma_rng::randu<eT>::fill( s.colptr(0), s.n_elem );
+      }
+    else
+      {
+      for(uword ii=0; ii < s_n_cols; ++ii)
+        {
+        arma_rng::randu<eT>::fill( s.colptr(ii), s_n_rows );
+        }
       }
     }
   }
@@ -1180,17 +1203,40 @@ subview<eT>::randn()
   const uword s_n_rows = s.n_rows;
   const uword s_n_cols = s.n_cols;
   
-  if(s_n_rows == 0)  { return; }
+  if( (s_n_rows == 0) || (s_n_cols == 0) )  { return; }
   
-  if( (s.aux_row1 == 0) && (s_n_rows == s.m.n_rows) )
+  if(s_n_rows == 1)
     {
-    arma_rng::randn<eT>::fill( s.colptr(0), s.n_elem );
+    // NOTE: special handling to ensure that the same sequence of numbers
+    // NOTE  is generated as per subview_row::randu()
+    
+    podarray<eT> tmp(s_n_cols);
+    
+    eT* tmp_mem = tmp.memptr();
+    
+    arma_rng::randn<eT>::fill( tmp_mem, s_n_cols );
+    
+    eT* mem_ptr = startptr();
+    
+    const uword m_n_rows = s.m.n_rows;
+    
+    for(uword ii=0; ii < s_n_cols; ++ii)
+      {
+      (*mem_ptr) = tmp_mem[ii];  mem_ptr += m_n_rows;
+      }
     }
   else
     {
-    for(uword ii=0; ii < s_n_cols; ++ii)
+    if( (s.aux_row1 == 0) && (s_n_rows == s.m.n_rows) )
       {
-      arma_rng::randn<eT>::fill( s.colptr(ii), s_n_rows );
+      arma_rng::randn<eT>::fill( s.colptr(0), s.n_elem );
+      }
+    else
+      {
+      for(uword ii=0; ii < s_n_cols; ++ii)
+        {
+        arma_rng::randn<eT>::fill( s.colptr(ii), s_n_rows );
+        }
       }
     }
   }
