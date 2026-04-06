@@ -55,7 +55,7 @@ spsolve_helper
   
   const superlu_opts& opts = (settings.id == 1) ? static_cast<const superlu_opts&>(settings) : superlu_opts_default;
   
-  arma_conform_check( ( (opts.pivot_thresh < double(0)) || (opts.pivot_thresh > double(1)) ), "spsolve(): pivot_thresh must be in the [0,1] interval" );
+  arma_conform_check( ( ((opts.pivot_thresh >= double(0)) == false) || ((opts.pivot_thresh <= double(1)) == false) ), "spsolve(): pivot_thresh must be in the [0,1] interval" );
   
   if(sig == 's')  // SuperLU solver
     {

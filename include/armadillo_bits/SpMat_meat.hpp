@@ -4389,7 +4389,7 @@ SpMat<eT>::sprandu(const uword in_rows, const uword in_cols, const double densit
   {
   arma_debug_sigprint();
   
-  arma_conform_check( ( (density < double(0)) || (density > double(1)) ), "sprandu(): density must be in the [0,1] interval" );
+  arma_conform_check( ( ((density >= double(0)) == false) || ((density <= double(1)) == false) ), "sprandu(): density must be in the [0,1] interval" );
   
   const uword new_n_nonzero = uword(density * double(in_rows) * double(in_cols) + 0.5);
   
@@ -4466,7 +4466,7 @@ SpMat<eT>::sprandn(const uword in_rows, const uword in_cols, const double densit
   {
   arma_debug_sigprint();
   
-  arma_conform_check( ( (density < double(0)) || (density > double(1)) ), "sprandn(): density must be in the [0,1] interval" );
+  arma_conform_check( ( ((density >= double(0)) == false) || ((density <= double(1)) == false) ), "sprandn(): density must be in the [0,1] interval" );
   
   const uword new_n_nonzero = uword(density * double(in_rows) * double(in_cols) + 0.5);
   
