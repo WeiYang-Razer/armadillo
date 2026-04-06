@@ -115,7 +115,7 @@ spsolve_helper
   
   if( (status == true) && (rcond > T(0)) && (rcond < std::numeric_limits<T>::epsilon()) )
     {
-    arma_warn(2, "solve(): solution computed, but system is singular to working precision; rcond: ", rcond);
+    arma_warn(2, "spsolve(): solution computed, but system is singular to working precision; rcond: ", rcond);
     }
   
   return status;

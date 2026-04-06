@@ -376,11 +376,11 @@ glue_solve_gen_full::apply(Mat<eT>& actual_out, const Base<eT,T1>& A_expr, const
     
     if(rcond == T(0))
       {
-      arma_warn(2, "solve(): attempting approx solution as system is singular");
+      arma_warn(2, "solve(): system is singular; attempting approx solution");
       }
     else
       {
-      arma_warn(2, "solve(): attempting approx solution as system is singular; rcond: ", rcond);
+      arma_warn(2, "solve(): system is singular; attempting approx solution; rcond: ", rcond);
       }
     
     // TODO: conditionally recreate A: have a separate state flag which indicates whether A was previously overwritten
@@ -468,11 +468,11 @@ glue_solve_tri_default::apply(Mat<eT>& actual_out, const Base<eT,T1>& A_expr, co
     
     if(rcond == T(0))
       {
-      arma_warn(2, "solve(): attempting approx solution as system is singular");
+      arma_warn(2, "solve(): system is singular; attempting approx solution");
       }
     else
       {
-      arma_warn(2, "solve(): attempting approx solution as system is singular; rcond: ", rcond);
+      arma_warn(2, "solve(): system is singular; attempting approx solution; rcond: ", rcond);
       }
     
     Mat<eT> triA = (triu) ? trimatu(A) : trimatl(A);  // trimatu() and trimatl() return the same type
@@ -594,11 +594,11 @@ glue_solve_tri_full::apply(Mat<eT>& actual_out, const Base<eT,T1>& A_expr, const
     
     if(rcond == T(0))
       {
-      arma_warn(2, "solve(): attempting approx solution as system is singular");
+      arma_warn(2, "solve(): system is singular; attempting approx solution");
       }
     else
       {
-      arma_warn(2, "solve(): attempting approx solution as system is singular; rcond: ", rcond);
+      arma_warn(2, "solve(): system is singular; attempting approx solution; rcond: ", rcond);
       }
     
     Mat<eT> triA = (triu) ? trimatu(A) : trimatl(A);  // trimatu() and trimatl() return the same type
