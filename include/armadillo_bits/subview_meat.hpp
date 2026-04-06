@@ -1155,8 +1155,7 @@ subview<eT>::randu()
   
   if(s_n_rows == 1)
     {
-    // NOTE: special handling to ensure that the same sequence of numbers
-    // NOTE  is generated as per subview_row::randu()
+    // NOTE: special handling to ensure that the same sequence is generated as per subview_row::randu()
     
     podarray<eT> tmp(s_n_cols);
     
@@ -1207,8 +1206,7 @@ subview<eT>::randn()
   
   if(s_n_rows == 1)
     {
-    // NOTE: special handling to ensure that the same sequence of numbers
-    // NOTE  is generated as per subview_row::randu()
+    // NOTE: special handling to ensure that the same sequence is generated as per subview_row::randu()
     
     podarray<eT> tmp(s_n_cols);
     

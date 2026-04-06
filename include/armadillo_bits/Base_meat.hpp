@@ -505,7 +505,6 @@ Base<elem_type,derived>::is_zero(const typename get_pod_type<elem_type>::result 
         const T val_real = access::tmp_real(val);
         const T val_imag = access::tmp_imag(val);
         
-        // convoluted formulation to handle NaNs
         if( (eop_aux::arma_abs(val_real) <= tol) == false )  { return false; }
         if( (eop_aux::arma_abs(val_imag) <= tol) == false )  { return false; }
         }
@@ -528,7 +527,6 @@ Base<elem_type,derived>::is_zero(const typename get_pod_type<elem_type>::result 
         {
         const elem_type val = Pea[i];
         
-        // convoluted formulation to handle NaNs
         if( (eop_aux::arma_abs(val) <= tol) == false )  { return false; }
         }
       }

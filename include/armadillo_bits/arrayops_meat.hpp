@@ -994,7 +994,6 @@ arrayops::is_zero(const eT* mem, const uword n_elem, const eT abs_limit, const t
     {
     for(uword i=0; i<n_elem; ++i)
       {
-      // convoluted formulation to handle NaNs
       if( (eop_aux::arma_abs(mem[i]) <= abs_limit) == false )  { return false; }
       }
     }
@@ -1029,7 +1028,6 @@ arrayops::is_zero(const std::complex<T>* mem, const uword n_elem, const T abs_li
       {
       const eT& val = mem[i];
       
-      // convoluted formulation to handle NaNs
       if( (std::abs(std::real(val)) <= abs_limit) == false )  { return false; }
       if( (std::abs(std::imag(val)) <= abs_limit) == false )  { return false; }
       }
