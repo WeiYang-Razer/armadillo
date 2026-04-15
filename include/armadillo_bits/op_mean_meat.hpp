@@ -549,7 +549,7 @@ op_mean::mean_all(const Op<T1, op_omit>& in)
   
   eT result = eT(0);
   
-  if( (Proxy<T1>::use_at == false) && (Proxy<T1>::use_mp == false) )
+  if( (is_Mat<typename Proxy<T1>::stored_type>::value == false) && (Proxy<T1>::use_at == false) && (Proxy<T1>::use_mp == false) )
     {
     const Proxy<T1> P(in.m);
     
