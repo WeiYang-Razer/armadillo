@@ -579,8 +579,6 @@ Conrad Sanderson and Ryan Curtin.
 <tr style="background-color: #F5F5F5;"><td><a href="#example_prog">example&nbsp;program</a></td><td>&nbsp;</td><td>short example program</td></tr>
 <tr><td><a href="#config_hpp">config.hpp</a></td><td>&nbsp;</td><td>configuration options</td></tr>
 <tr><td><a href="#changelog">API&nbsp;additions</a></td><td>&nbsp;</td><td>API stability and list of API additions</td></tr>
-<!--<tr><td><a href="#log_add">log_add</a></td><td>&nbsp;</td><td>TODO</td></tr>-->
-<!--<tr><td><a href="#catching_exceptions">catching exceptions</a></td><td>&nbsp;</td><td>TODO</td></tr>-->
 </tbody>
 </table>
 </ul>
@@ -2249,10 +2247,6 @@ See also:
 <li><a href="#element_access">element access</a></li>
 <li><a href="#iterators_spmat">element iterators (sparse matrices)</a></li>
 <li><a href="#print">printing matrices</a></li>
-<!--
-<li><a href="#SpCol">SpCol class</a> (TODO: add to documentation)</li>
-<li><a href="#SpRow">SpRow class</a> (TODO: add to documentation)</li>
--->
 <li><a href="https://en.wikipedia.org/wiki/Sparse_matrix">Sparse Matrix in Wikipedia</a></li>
 <li><a href="#Mat">Mat class</a> (dense matrix)</li>
 </ul>
@@ -9787,10 +9781,6 @@ See also:
 <li><i>expmat_sym(B,A)</i> resets <i>B</i> and returns a bool set to <i>false</i> (exception is not thrown)</li>
 </ul>
 </li>
-<!--
-<br>
-<li><b>Caveat:</b> there is no explicit check whether <i>A</i> is symmetric/hermitian</li>
--->
 <br>
 <li><b>Caveat:</b> the matrix exponential operation is generally <b>not</b> the same as applying the <a href="#misc_fns">exp()</a> function to each element</li>
 <br>
@@ -10761,10 +10751,6 @@ See also:
 <li><i>logmat_sympd(B,A)</i> resets <i>B</i> and returns a bool set to <i>false</i> (exception is not thrown)</li>
 </ul>
 </li>
-<!--
-<br>
-<li><b>Caveat:</b> there is no explicit check whether <i>A</i> is symmetric/hermitian positive definite</li>
--->
 <br>
 <li><b>Caveat:</b> the matrix logarithm operation is generally <b>not</b> the same as applying the <a href="#misc_fns">log()</a> function to each element</li>
 <br>
@@ -11161,11 +11147,6 @@ See also:
 <tbody>
 <tr><td><b>pow( A, scalar )</b></td><td>&nbsp;&nbsp;&nbsp;</td><td>(form&nbsp;1)</td></tr>
 <tr><td><b>pow( A, B )</b></td><td>&nbsp;&nbsp;&nbsp;</td><td>(form&nbsp;2)</td></tr>
-<!--
-<tr><td><b>pow( M.each_col(), C )</b></td><td>&nbsp;&nbsp;&nbsp;</td><td>(form&nbsp;3)</td></tr>
-<tr><td><b>pow( M.each_row(), R )</b></td><td>&nbsp;&nbsp;&nbsp;</td><td>(form&nbsp;4)</td></tr>
-<tr><td><b>pow( Q.each_slice(), M )</b></td><td>&nbsp;&nbsp;&nbsp;</td><td>(form&nbsp;5)</td></tr>
--->
 </tbody>
 </table>
 <ul>
@@ -11175,17 +11156,6 @@ See also:
 <br>
 <li>form 2: raise each element in <i>A</i> to the power denoted by the corresponding element in <i>B</i>; sizes of <i>A</i> and <i>B</i> must be the same</li>
 <br>
-<!--
-<li>form 3: for each column vector of matrix <i>M</i>, raise each element to the power denoted by the corresponding element in column vector <i>C</i>;
-<br>the number of rows in <i>M</i> and <i>C</i> must be the same</li>
-<br>
-<li>form 4: for each row vector of matrix <i>M</i>, raise each element to the power denoted by the corresponding element in row vector <i>R</i>;
-<br>the number of columns in <i>M</i> and <i>R</i> must be the same</li>
-<br>
-<li>form 5: for each slice of cube <i>Q</i>, raise each element to the power denoted by the corresponding element in matrix <i>M</i>;
-<br>the number of rows and columns in <i>Q</i> and <i>M</i> must be the same</li>
-<br>
--->
 <li><b>Caveats</b>:
 <ul>
 <li>to raise all elements to the power 2, use <a href="#misc_fns">square()</a> instead</li>
@@ -11202,13 +11172,6 @@ mat B(5, 6, fill::randu);
 mat X = pow(A, 3.45);
 mat Y = pow(A, B);
 </pre>
-<!--
-   vec C(5, fill::randu);
-rowvec R(6, fill::randu);
-
-mat Z1 = pow(A.each_col(), C);
-mat Z2 = pow(A.each_row(), R);
--->
 </ul>
 </li>
 <br>
@@ -11217,10 +11180,6 @@ See also:
 <ul>
 <li><a href="#powmat">powmat()</a></li>
 <li><a href="#misc_fns">miscellaneous element-wise functions</a></li>
-<!--
-<li><a href="#each_colrow">.each_col() &amp; .each_row()</a></li>
-<li><a href="#each_slice">.each_slice()</a></li>
--->
 </ul>
 </li>
 <br>
@@ -12105,10 +12064,6 @@ See also:
 <li><i>sqrtmat_sympd(B,A)</i> resets <i>B</i> and returns a bool set to <i>false</i> (exception is not thrown)</li>
 </ul>
 </li>
-<!--
-<br>
-<li><b>Caveat:</b> there is no explicit check whether <i>A</i> is symmetric/hermitian positive definite</li>
--->
 <br>
 <li><b>Caveat:</b> the matrix square root operation is generally <b>not</b> the same as applying the <a href="#misc_fns">sqrt()</a> function to each element</li>
 <br>
@@ -13249,10 +13204,6 @@ the divide-and-conquer method provides slightly different results than the stand
 <li><i>eig_sym(eigval,eigvec,X)</i> resets <i>eigval</i> &amp; <i>eigvec</i> and returns a bool set to <i>false</i> (exception is not thrown)</li>
 </ul>
 </li>
-<!--
-<br>
-<li><b>Caveat:</b> there is no explicit check whether <i>X</i> is symmetric/hermitian</li>
--->
 <br>
 <li>
 Examples:
@@ -13630,10 +13581,6 @@ If <i>A</i> is not square sized, a <i>std::logic_error</i> exception is thrown
 <li><i>inv_sympd(B,rcond,A)</i> resets <i>B</i>, sets rcond to zero, and returns a bool set to <i>false</i> (exception is not thrown)</li>
 </ul>
 </li>
-<!--
-<br>
-<li><b>Caveat:</b> there is no explicit check whether <i>A</i> is symmetric/hermitian positive definite</li>
--->
 <br>
 <li>
 <b>Caveat:</b> 
@@ -15025,7 +14972,6 @@ See also:
 <ul>
 <li><a href="#spsolve_factoriser">spsolve_factoriser</a></li>
 <li><a href="#solve">solve()</a> - solve dense system of linear equations</li>
-<!-- <li><a href="http://crd-legacy.lbl.gov/~xiaoye/SuperLU/">SuperLU home page</a> -->
 <li><a href="https://portal.nersc.gov/project/sparse/superlu/">SuperLU home page</a>
 <li><a href="https://mathworld.wolfram.com/LinearSystemofEquations.html">linear system of equations in MathWorld</a></li>
 <li><a href="https://en.wikipedia.org/wiki/Linear_system_of_equations">system of linear equations in Wikipedia</a></li>
@@ -17946,7 +17892,6 @@ model.save("my_model.gmm");
     </td>
     <td style="vertical-align: top;">
       machine epsilon; approximately 2.2204e-16; difference between 1 and the next representable value
-      <!-- machine epsilon: the difference between 1 and the value least greater than 1 that is representable  (type and machine dependent) -->
     </td>
   </tr>
   <tr>
@@ -18672,33 +18617,6 @@ See also:
 <br>
 </ul>
 
-<!--
-<div class="pagebreak"></div><div class="noprint"><hr class="greyline"><br></div>
-<a name="log_add"></a>
-<b>log_add(log_a, log_b)</b>
-<ul>
-<li>
-Safe replacement for log(exp(log_a) + exp(log_b))
-</li>
-<br>
-<li>
-Usage:
-<ul>
-<li>
-<i>scalar_type</i> log_c = log_add(log_a, log_b)
-</li>
-<li>
-<i>scalar_type</i> is either <i>float</i> or <i>double</i>
-</li>
-<li>
-log_a, log_b and log_c must have the same type
-</li>
-</ul>
-</li>
-</ul>
-<br>
--->
-
 <div class="pagebreak"></div><div class="noprint"><hr class="greyline"><br></div>
 <a name="uword"></a>
 <b>uword</b>, <b>sword</b>
@@ -18874,7 +18792,6 @@ fp16 val = X(2,3);
 <li><a href="#Mat">hmat</a> matrix type
 <li><a href="#Col">hvec</a> vector type
 <li><a href="https://en.cppreference.com/w/cpp/types/floating-point.html">std::float16_t</a> in cppreference.com</li>
-<!-- <li><a href="https://en.cppreference.com/w/cpp/header/stdfloat.html">std::float16_t</a> in cppreference.com</li> -->
 <li><a href="https://en.wikipedia.org/wiki/Half-precision_floating-point_format">half-precision floating point format in Wikipedia</a></li>
 <li><a href="https://en.wikipedia.org/wiki/AVX-512">AVX-512 extensions in Wikipedia</a></li>
 <!-- <li><a href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html">gcc half-precision documentation</a></li> -->
@@ -20746,60 +20663,6 @@ See also:
 <br>
 </ul>
 
-<!--
-<div class="pagebreak"></div><div class="noprint"><hr class="greyline"><br></div>
-<a name="catching_exceptions"></a>
-<br>
-<b>how to catch std::runtime_error exceptions</b>
-<br>
-<br>
-<ul>
-<li>
-If a function such as <a href="#inv">inv()</a> fails to find a solution,
-an error message is printed and a <i>std::runtime_error</i> exception is thrown.
-If the exception is not caught, the program typically terminates.
-Below is an example of how to catch exceptions:
-<ul>
-<pre>
-#include &lt;iostream&gt;
-#include &lt;armadillo&gt;
-
-using namespace std;
-using namespace arma;
-
-int main(int argc, char** argv)
-  {
-  // create a non-invertible matrix
-  mat A(5, 5, fill::zeros);
-  
-  mat B;
-  
-  try
-    {
-    B = inv(A);
-    }
-  catch (std::runtime_error&amp; x)
-    {
-    cout &lt;&lt; "caught an exception" &lt;&lt; endl;
-    }
-  
-  return 0;
-  }
-</pre>
-</ul>
-<li>
-See also:
-<ul>
-<li><a href="#logging">logging of warnings and errors</a></li>
-<li><a href="https://cplusplus.com/doc/tutorial/exceptions/">tutorial on exceptions</a></li>
-<li><a href="https://cplusplus.com/reference/stdexcept/runtime_error/">std::runtime_error</a></li>
-</ul>
-</li>
-<br>
-</ul>
-<br>
--->
-
 <div class="pagebreak"></div><div class="noprint"><hr class="greyline"><br></div>
 <a name="api_additions"></a>
 <a name="changelog"></a>
@@ -20846,19 +20709,6 @@ and may be changed or removed without notice.
 </li>
 </ul>
 </li>
-
-<!--
-<br>
-<li>
-<a name="deprecated"></a>
-List of deprecated functionality; this functionality will be <b>removed</b> in version A.B:
-<ul>
-<li>
-...
-</li>
-</ul>
-</li>
--->
 
 <br>
 <br>
@@ -21984,6 +21834,7 @@ use <i>my_function(&nbsp;mat(A+B)&nbsp;)</i>.
 </li>
 <br>
 </ul>
+
 
 <!-- END CONTENT -->
 
