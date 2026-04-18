@@ -108,6 +108,8 @@ op_rank::apply_diag(uword& out, Mat<eT>& A, typename get_pod_type<eT>::result to
   // set tolerance to default if it hasn't been specified
   if(tol == T(0))  { tol = (std::max)(A.n_rows, A.n_cols) * max_abs_Aii * std::numeric_limits<T>::epsilon(); }
   
+  if(arma_isnan(tol))  { out = uword(0); return false; }
+  
   uword count = 0;
   
   for(uword i=0; i<N; ++i)  { count += (diag_abs_vals[i] > tol) ? uword(1) : uword(0); }
@@ -148,6 +150,8 @@ op_rank::apply_sym(uword& out, Mat<eT>& A, typename get_pod_type<eT>::result tol
   // set tolerance to default if it hasn't been specified
   if(tol == T(0))  { tol = (std::max)(A.n_rows, A.n_cols) * max_abs_v * std::numeric_limits<T>::epsilon(); }
   
+  if(arma_isnan(tol))  { out = uword(0); return false; }
+  
   uword count = 0;
   
   for(uword i=0; i < v_n_elem; ++i)  { count += (v_mem[i] > tol) ? uword(1) : uword(0); }
@@ -181,6 +185,8 @@ op_rank::apply_gen(uword& out, Mat<eT>& A, typename get_pod_type<eT>::result tol
   
   // set tolerance to default if it hasn't been specified
   if(tol == T(0))  { tol = (std::max)(A.n_rows, A.n_cols) * s_mem[0] * std::numeric_limits<T>::epsilon(); }
+  
+  if(arma_isnan(tol))  { out = uword(0); return false; }
   
   uword count = 0;
   
