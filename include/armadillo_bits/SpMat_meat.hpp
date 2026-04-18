@@ -3575,7 +3575,11 @@ SpMat<eT>::is_symmetric(const typename get_pod_type<elem_type>::result tol) cons
   
   if(norm_A == T(0))  { return true; }
   
+  if(arma_isnan(norm_A))  { return false; }
+  
   const T norm_A_Ast = as_scalar( arma::max(sum(abs(A - A.st()), 1), 0) );
+  
+  if(arma_isnan(norm_A_Ast))  { return false; }
   
   return ( (norm_A_Ast / norm_A) <= tol );
   }
@@ -3621,7 +3625,11 @@ SpMat<eT>::is_hermitian(const typename get_pod_type<elem_type>::result tol) cons
   
   if(norm_A == T(0))  { return true; }
   
+  if(arma_isnan(norm_A))  { return false; }
+  
   const T norm_A_At = as_scalar( arma::max(sum(abs(A - A.t()), 1), 0) );
+  
+  if(arma_isnan(norm_A_At))  { return false; }
   
   return ( (norm_A_At / norm_A) <= tol );
   }
