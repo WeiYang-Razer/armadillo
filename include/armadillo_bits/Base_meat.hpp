@@ -927,6 +927,8 @@ Base_extra_yes<elem_type,derived>::is_sympd() const
   // default value for tol
   const T tol = T(100) * std::numeric_limits<T>::epsilon() * norm(X, "fro");
   
+  if(arma_isnonfinite(tol))  { return false; }
+  
   if(X.is_hermitian(tol) == false)  { return false; }
   
   if(X.is_empty())  { return false; }
