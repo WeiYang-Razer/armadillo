@@ -11,3 +11,10 @@ InstallFiles/
 tmp/
 tests1/smoke_test
 tests2/main
+
+# wyvrnpm-generated — do not commit
+/build/
+/wyvrn_internal/
+/wyvrn.lock
+/CMakePresets.json
+/CMakeUserPresets.json
