@@ -1,0 +1,22 @@
+{
+  "name": "armadillo",
+  "version": "15.2.6.0",
+  "schemaVersion": 2,
+  "kind": "HeaderOnlyLib",
+  "description": "Linear algebra (MATLAB-like syntax), header-only build",
+  "dependencies": {},
+  "build": {
+    "system": "cmake",
+    "configs": [
+      "Debug",
+      "Release",
+      "RelWithDebInfo",
+      "MinSizeRel"
+    ],
+    "configure": [
+      "-DHEADER_ONLY=ON",
+      "-DBUILD_SMOKE_TEST=OFF"
+    ],
+    "installDir": "install"
+  }
+}
